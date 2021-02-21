@@ -32,7 +32,7 @@ const Category = () => {
       <CSSTransition
         in={modalOpen}
         classNames="product-modal"
-        timeout={200}
+        timeout={{ enter: 200, exit: 300 }}
         unmountOnExit
         mountOnEnter
       >

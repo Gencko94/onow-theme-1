@@ -16,7 +16,6 @@ const MobileNavIcons = () => {
       i18n.changeLanguage(lng);
     }
   };
-  console.log(language);
   return (
     <Container>
       {/* <div className="">

@@ -1,15 +1,17 @@
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 interface IProps {
   menu: {
     title: string;
     icon?: any;
+    link: string;
   };
 }
 
 const MenuItem = ({ menu }: IProps) => {
   return (
-    <Container>
+    <Container to={menu.link}>
       <IconContainer>{menu.icon}</IconContainer>
       <TitleContainer>
         <Title>{menu.title}</Title>
@@ -20,9 +22,10 @@ const MenuItem = ({ menu }: IProps) => {
 
 export default MenuItem;
 
-const Container = styled.div`
+const Container = styled(Link)`
   border-radius: 8px;
   padding: 1rem;
+  display: block;
   color: #fff;
   background-color: ${props => props.theme.mainColor};
   box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);

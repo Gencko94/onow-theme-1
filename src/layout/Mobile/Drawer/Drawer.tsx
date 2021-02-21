@@ -1,10 +1,9 @@
 import React, { Dispatch, SetStateAction } from 'react';
 import { gsap } from 'gsap';
 import styled from 'styled-components';
-import { GiStarFormation } from 'react-icons/gi';
-import { AiOutlineReload, AiOutlineUserAdd } from 'react-icons/ai';
+import { AiOutlineUserAdd } from 'react-icons/ai';
 import { BiLogIn } from 'react-icons/bi';
-import { BiReceipt } from 'react-icons/bi';
+import { MdBook } from 'react-icons/md';
 import { Link } from 'react-router-dom';
 
 interface IProps {
@@ -41,7 +40,7 @@ const Drawer = ({ setDrawerOpen }: IProps) => {
           links.children,
           {
             duration: 0.4,
-            y: 500,
+            x: 500,
             stagger: 0.1,
             opacity: 0,
             ease: 'Power4.easeOut',
@@ -63,9 +62,9 @@ const Drawer = ({ setDrawerOpen }: IProps) => {
           </LogoContainer>
         </LogoWrapper>
         <MenuContainer>
-          <MenuLink to="/">
-            <BiReceipt size={30} />
-            <StyledP>Our Menu</StyledP>
+          <MenuLink to="/booking">
+            <MdBook size={30} />
+            <StyledP>Booking</StyledP>
           </MenuLink>
           <MenuLink to="/">
             <BiLogIn size={30} />
@@ -78,6 +77,7 @@ const Drawer = ({ setDrawerOpen }: IProps) => {
         </MenuContainer>
       </TopSection>
       <LinksContainer ref={linksRef}>
+        <Linkitem to="/categories">Our Menu</Linkitem>
         <Linkitem to="/">Our Branches</Linkitem>
         <Linkitem to="/">Contact Us</Linkitem>
         <Linkitem to="/">About us</Linkitem>

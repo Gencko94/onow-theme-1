@@ -18,9 +18,15 @@ interface IProps {
 
 const MobileNavbar = ({ setDrawerOpen, drawerOpen }: IProps) => {
   const { pathname } = useLocation();
-  const isHome = useMemo(() => {
+  const shouldChange = useMemo(() => {
     console.log(pathname);
-    if (pathname === '/') return true;
+    if (
+      pathname === '/' ||
+      pathname.includes('categories') ||
+      pathname.includes('branches') ||
+      pathname.includes('booking')
+    )
+      return true;
     return false;
   }, [pathname]);
   const [changeView, setChangeView] = useState<boolean>(false);
@@ -28,7 +34,7 @@ const MobileNavbar = ({ setDrawerOpen, drawerOpen }: IProps) => {
     setDrawerOpen(!drawerOpen);
   };
   const shouldChangeColor = useCallback(() => {
-    if (!isHome) {
+    if (!shouldChange) {
       if (drawerOpen) {
         return false;
       }

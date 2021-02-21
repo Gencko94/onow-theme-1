@@ -27,7 +27,6 @@ const CategoryProduct = ({
         <NameContainer>
           <Name>{product.name}</Name>
         </NameContainer>
-        {/* <OrderButton>Order Now</OrderButton> */}
       </ContentContainer>
     </Container>
   );

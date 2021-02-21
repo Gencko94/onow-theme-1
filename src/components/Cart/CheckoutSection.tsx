@@ -99,12 +99,13 @@ const ContentWrapper = styled.div`
   padding: 0 0.5rem;
 `;
 const StickyContainer = styled.div`
-  padding: 0 0.5rem;
+  padding: 0.25rem 0.5rem;
   background-color: aliceblue;
   position: sticky;
   top: 62px;
   z-index: 3;
   align-self: flex-start;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
 `;
 const OrderModeContainer = styled.div`
   margin: 0.5rem 0;

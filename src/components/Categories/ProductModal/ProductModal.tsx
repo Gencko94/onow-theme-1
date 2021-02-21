@@ -34,7 +34,7 @@ const ProductModal = ({
     <Container>
       <HeadContainer>
         <BackButton onClick={handleClose}>
-          <BsArrowLeft size={30} />
+          <BsArrowLeft size={40} />
         </BackButton>
       </HeadContainer>
       <LazyImage
@@ -49,11 +49,12 @@ const ProductModal = ({
       <ContentContainer>
         <Price>{selectedProduct.price}</Price>
       </ContentContainer>
+      <br />
       <ContentContainer>
         <Description>{selectedProduct.description}</Description>
       </ContentContainer>
-      <hr />
       <ContentContainer>
+        <br />
         <AdditionalInstructionsTitle>
           Additional Instructions
         </AdditionalInstructionsTitle>
@@ -112,7 +113,7 @@ const Name = styled.h1`
   color: ${({ theme }) => theme.mainColor};
 `;
 const Description = styled.p`
-  font-size: 0.8rem;
+  font-size: 0.9rem;
   color: #57423f;
 `;
 const Price = styled.p`
@@ -121,9 +122,10 @@ const Price = styled.p`
   font-weight: 600;
 `;
 const AdditionalInstructionsTitle = styled.p`
-  font-size: 1rem;
+  font-size: 1.1rem;
   color: ${({ theme }) => theme.secondaryColor};
   margin-bottom: 0.5rem;
+  font-weight: 500;
 `;
 const AdditionalInstructionsText = styled.textarea`
   border-radius: 5px;

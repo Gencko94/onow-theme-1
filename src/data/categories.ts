@@ -12,7 +12,7 @@ export const categories: Category[] = [
     slug: 'steak-burgers',
   },
   {
-    image: '/images/vegan.jpg',
+    image: '/images/Vegan.jpg',
     title: 'Vegan Burgers',
     slug: 'vegan-burgers',
   },
