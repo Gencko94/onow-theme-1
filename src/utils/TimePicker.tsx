@@ -7,6 +7,7 @@ import enLocale, { Locale } from 'dayjs/locale/en-gb';
 import arLocale from 'dayjs/locale/ar';
 import { useTranslation } from 'react-i18next/';
 import { Dispatch, SetStateAction } from 'react';
+import { MaterialUiPickersDate } from '@material-ui/pickers/typings/date';
 
 interface IProps {
   selectedDate: Date | null;
@@ -19,7 +20,9 @@ const TimePicker = ({ selectedDate, setSelectedDate }: IProps) => {
     ar: arLocale,
   };
   const handleDateChange = (date: any) => {
-    setSelectedDate(date);
+    console.log(date?.hour());
+    // if(date?.hour)
+    // setSelectedDate(date);
   };
   const {
     i18n: { language },
@@ -31,6 +34,7 @@ const TimePicker = ({ selectedDate, setSelectedDate }: IProps) => {
         id="time-picker-dialog"
         value={selectedDate}
         onChange={handleDateChange}
+        invalidDateMessage="INvalid Date"
         KeyboardButtonProps={{
           'aria-label': 'change date',
         }}

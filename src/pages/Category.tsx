@@ -1,18 +1,12 @@
-import { useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { CSSTransition } from 'react-transition-group';
 import styled from 'styled-components';
 import CategoryProduct from '../components/Categories/CategoryProduct';
-import ProductModal from '../components/Categories/ProductModal/ProductModal';
 import Hero from '../components/Home/Hero/Hero';
 import { products } from '../data/products';
-import { Product } from '../interfaces/product';
 import Layout from '../layout/Layout';
 
 const Category = () => {
   const { category } = useParams<{ category: string }>();
-  const [modalOpen, setModalOpen] = useState<boolean>(false);
-  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   return (
     <Layout>
       <Hero />
@@ -20,28 +14,10 @@ const Category = () => {
         <Title>{category}</Title>
         <ProductsContainer>
           {products.map(product => (
-            <CategoryProduct
-              key={product.slug}
-              product={product}
-              setSelectedProduct={setSelectedProduct}
-              setModalOpen={setModalOpen}
-            />
+            <CategoryProduct key={product.slug} product={product} />
           ))}
         </ProductsContainer>
       </Container>
-      <CSSTransition
-        in={modalOpen}
-        classNames="product-modal"
-        timeout={{ enter: 200, exit: 300 }}
-        unmountOnExit
-        mountOnEnter
-      >
-        <ProductModal
-          selectedProduct={selectedProduct}
-          setSelectedProduct={setSelectedProduct}
-          setModalOpen={setModalOpen}
-        />
-      </CSSTransition>
     </Layout>
   );
 };

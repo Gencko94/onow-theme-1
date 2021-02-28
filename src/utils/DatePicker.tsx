@@ -31,8 +31,10 @@ const DatePicker = ({ selectedDate, setSelectedDate }: IProps) => {
         margin="dense"
         id="date-picker-dialog"
         // format="MM/dd/yyyy"
+        disablePast
         value={selectedDate}
         onChange={handleDateChange}
+        shouldDisableDate={date => date?.day() === 0 || date?.day() === 6}
         KeyboardButtonProps={{
           'aria-label': 'change date',
         }}

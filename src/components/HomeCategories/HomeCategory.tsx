@@ -25,9 +25,12 @@ export default HomeCategory;
 const Container = styled.div``;
 const ImageContainer = styled(Link)`
   display: block;
-  border-radius: 10px;
+  /* border-radius: 10px; */
   overflow: hidden;
-  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+  /* box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2); */
+  border-radius: 10px;
+  background: #e0e0e0;
+  box-shadow: 10px 10px 25px #bebebe, -10px -10px 25px #ffffff;
 `;
 const NameContainer = styled(Link)`
   box-shadow: 0 0px 10px rgba(0, 0, 0, 0.2);

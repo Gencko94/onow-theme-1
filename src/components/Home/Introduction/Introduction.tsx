@@ -18,14 +18,14 @@ const Introduction = () => {
         const tween = TweenLite.to(child, {
           opacity: 1,
           y: 0,
-          duration: 1,
-          ease: Power3.easeInOut,
+          duration: 0.9,
+          // ease: Power3.,
         });
         const tween2 = TweenLite.to(child, {
           opacity: 0,
           y: -10,
-          duration: 0.8,
-          ease: Power3.easeInOut,
+          duration: 0.6,
+          // ease: Power3.easeInOut,
         });
         tl.add(tween).add(tween2);
       });

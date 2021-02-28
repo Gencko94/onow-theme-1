@@ -1,6 +1,19 @@
+import { useContext, useState } from 'react';
 import { BiChevronRight } from 'react-icons/bi';
+import { Link, useHistory } from 'react-router-dom';
 import styled from 'styled-components';
+import { ApplicationProvider } from '../../contexts/ApplicationContext';
+import Modal from '../Modal/Modal';
 const CheckoutSection = () => {
+  const {
+    branch,
+    deliveryAddress,
+    orderMode,
+    handleOrderModeChange,
+  } = useContext(ApplicationProvider);
+
+  const [modalOpen, setModalOpen] = useState(false);
+  const history = useHistory();
   return (
     <>
       <Container>
@@ -9,7 +22,7 @@ const CheckoutSection = () => {
           <SubmitButton type="button">Submit</SubmitButton>
         </CouponContainer>
         <ContentWrapper>
-          <OrderModeContainer>
+          <MediumBlock>
             <OrderModeText>Order Mode</OrderModeText>
             <RadioContainer>
               <InputContainer>
@@ -19,50 +32,90 @@ const CheckoutSection = () => {
                   type="radio"
                   value="pickup"
                   name="mode"
+                  checked={orderMode === 'pickup'}
+                  onChange={() => {
+                    if (handleOrderModeChange) handleOrderModeChange('pickup');
+                  }}
                 />
               </InputContainer>
               <InputContainer>
                 <Label htmlFor="delivery">Delivery</Label>
                 <RadioInput
                   id="delivery"
-                  checked
+                  checked={orderMode === 'delivery'}
                   type="radio"
                   value="delivery"
+                  onChange={() => {
+                    if (handleOrderModeChange)
+                      handleOrderModeChange('delivery');
+                  }}
                   name="mode"
                 />
               </InputContainer>
             </RadioContainer>
-          </OrderModeContainer>
-          <DeliverToContainer>
-            <p>Deliver to</p>
-            <DeliveryCountryContainer type="button">
-              <Icon>
-                <BiChevronRight size={15} />
-              </Icon>
-              <DeliveryCountryText>Kuwait</DeliveryCountryText>
-            </DeliveryCountryContainer>
-          </DeliverToContainer>
+          </MediumBlock>
+          {orderMode === 'delivery' && (
+            <>
+              <SmallBlock>
+                <BlockText>Deliver to</BlockText>
+                {deliveryAddress ? (
+                  <ChangeButton onClick={() => history.push('/location')}>
+                    Change
+                  </ChangeButton>
+                ) : (
+                  <LocationPrompt to="/location">
+                    Select your Delivery location
+                  </LocationPrompt>
+                )}
+              </SmallBlock>
+              {deliveryAddress && (
+                <AddressText>{deliveryAddress.physicalAddress}</AddressText>
+              )}
+            </>
+          )}
+          {orderMode === 'pickup' && (
+            <SmallBlock>
+              <p>Branch</p>
+
+              {branch ? (
+                <FlexContainer>
+                  <BlockText>{branch?.name}</BlockText>
+                  <ChangeButton onClick={() => setModalOpen(true)}>
+                    Change
+                  </ChangeButton>
+                </FlexContainer>
+              ) : (
+                <div onClick={() => setModalOpen(true)}>Select Branch</div>
+              )}
+            </SmallBlock>
+          )}
         </ContentWrapper>
       </Container>
       <StickyContainer>
-        <OrderTotalContainer>
+        <SmallBlock>
           <p>Order Total</p>
-          <OrderTotal>2.000 KD</OrderTotal>
-        </OrderTotalContainer>
-        <DeliveryCostContainer>
+          <BlockText bold>2.000 KD</BlockText>
+        </SmallBlock>
+        <SmallBlock>
           <p>Delivery Cost</p>
-          <DeliveryCost>2.000 KD</DeliveryCost>
-        </DeliveryCostContainer>
+          <BlockText bold>2.000 KD</BlockText>
+        </SmallBlock>
         <hr />
-        <OrderSubtotalContainer>
+        <MediumBlock>
           <p>Order Subtotal</p>
           <p>2.000 KD</p>
-        </OrderSubtotalContainer>
+        </MediumBlock>
 
         <CheckoutButtonContainer>
           <CheckoutButton type="button">Checkout</CheckoutButton>
         </CheckoutButtonContainer>
       </StickyContainer>
+
+      <Modal
+        title="Pick up branch"
+        closeModal={() => setModalOpen(false)}
+        modalOpen={modalOpen}
+      />
     </>
   );
 };
@@ -107,12 +160,7 @@ const StickyContainer = styled.div`
   align-self: flex-start;
   border-bottom: 1px solid rgba(0, 0, 0, 0.1);
 `;
-const OrderModeContainer = styled.div`
-  margin: 0.5rem 0;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-`;
+
 const OrderModeText = styled.h6`
   font-size: large;
 `;
@@ -134,52 +182,23 @@ const Label = styled.label`
 const RadioInput = styled.input`
   margin: 0 0.25em;
 `;
-const DeliverToContainer = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0.25em 0;
-`;
-const DeliveryCountryContainer = styled.button`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-weight: 600;
-`;
-const DeliveryCountryText = styled.p`
-  margin: 0 0.25rem;
-`;
-const Icon = styled.span`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
 
-const OrderTotalContainer = styled.div`
+const SmallBlock = styled.div`
   padding: 0.25em 0;
   display: flex;
   justify-content: space-between;
   align-items: center;
 `;
-const OrderTotal = styled.p`
-  font-weight: 600;
-`;
-const DeliveryCostContainer = styled.div`
-  padding: 0.25em 0;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-`;
-const DeliveryCost = styled.p`
-  font-weight: 600;
-`;
-const OrderSubtotalContainer = styled.div`
+const MediumBlock = styled.div`
   padding: 0.5rem 0;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  font-weight: 700;
 `;
+const BlockText = styled.p<{ bold?: boolean }>`
+  font-weight: ${props => (props.bold ? 600 : 'regular')};
+`;
+
 const CheckoutButtonContainer = styled.div`
   padding: 0.5rem 0.25rem;
 `;
@@ -189,8 +208,35 @@ const CheckoutButton = styled.button`
   padding: 0.7em;
   font-weight: 600;
   text-transform: uppercase;
-  font-size: 0.9em;
+  font-size: 0.9rem;
   letter-spacing: 1px;
   width: 100%;
   border-radius: 5px;
+`;
+const LocationPrompt = styled(Link)`
+  font-weight: 500;
+  display: block;
+  font-size: 0.9rem;
+  text-decoration: underline;
+`;
+const FlexContainer = styled.div`
+  display: flex;
+  align-items: center;
+`;
+const ChangeButton = styled.button`
+  border-radius: 12px;
+  background-color: ${props => props.theme.mainColor};
+  color: #fff;
+  padding: 0.25rem 0.5rem;
+  font-size: 0.7rem;
+  margin: 0 0.25rem;
+`;
+
+const AddressText = styled.p`
+  text-overflow: ellipsis;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  font-size: 0.8rem;
+  /* white-space: nowrap; */
 `;

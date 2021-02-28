@@ -55,7 +55,7 @@ const Product = () => {
 
 export default Product;
 const Container = styled.div`
-  margin-top: 66px;
+  /* margin-top: 66px; */
 `;
 
 const ContentContainer = styled.div`

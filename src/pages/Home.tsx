@@ -2,7 +2,7 @@ import Layout from '../layout/Layout';
 import '../styles.css';
 import Hero from '../components/Home/Hero/Hero';
 import Introduction from '../components/Home/Introduction/Introduction';
-import MainMenu from '../components/Home/MainMenu/MainMenu';
+import OrderMode from '../components/Home/OrderMode/OrderMode';
 import styled from 'styled-components';
 import HomeCategories from '../components/HomeCategories/HomeCategories';
 function Home() {
@@ -12,7 +12,7 @@ function Home() {
 
       <Container>
         <Introduction />
-        <MainMenu />
+        <OrderMode />
         <HomeCategories />
       </Container>
     </Layout>

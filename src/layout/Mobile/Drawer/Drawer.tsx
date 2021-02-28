@@ -5,6 +5,7 @@ import { AiOutlineUserAdd } from 'react-icons/ai';
 import { BiLogIn } from 'react-icons/bi';
 import { MdBook } from 'react-icons/md';
 import { Link } from 'react-router-dom';
+import ThemeToggler from '../../../utils/ThemeToggler';
 
 interface IProps {
   setDrawerOpen: Dispatch<SetStateAction<boolean>>;
@@ -82,6 +83,10 @@ const Drawer = ({ setDrawerOpen }: IProps) => {
         <Linkitem to="/">Contact Us</Linkitem>
         <Linkitem to="/">About us</Linkitem>
         <Linkitem to="/">العربية</Linkitem>
+        <Toggler>
+          <Text>Toggle Theme</Text>
+          <ThemeToggler />
+        </Toggler>
       </LinksContainer>
     </DrawerContainer>
   );
@@ -141,6 +146,15 @@ const LinksContainer = styled.div`
 `;
 const Linkitem = styled(Link)`
   display: block;
+  font-size: 1.3rem;
+  color: ${props => props.theme.secondaryColor};
+`;
+const Toggler = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`;
+const Text = styled.p`
   font-size: 1.3rem;
   color: ${props => props.theme.secondaryColor};
 `;

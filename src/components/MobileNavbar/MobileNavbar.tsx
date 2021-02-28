@@ -63,7 +63,11 @@ const MobileNavbar = ({ setDrawerOpen, drawerOpen }: IProps) => {
   }, []);
   return (
     <>
-      <Container changeColor={shouldChangeColor}>
+      <Container
+        changeView={changeView}
+        shouldChange={shouldChange}
+        changeColor={shouldChangeColor}
+      >
         <LogoContainer to="/">
           <img src="/images/logo.png" alt="logo" />
         </LogoContainer>
@@ -76,20 +80,21 @@ const MobileNavbar = ({ setDrawerOpen, drawerOpen }: IProps) => {
 
 export default MobileNavbar;
 
-interface Props extends ThemeProps<DefaultTheme> {
+const Container = styled.div<{
   changeColor: () => boolean;
-}
-const Container = styled.div`
+  changeView: boolean;
+  shouldChange: boolean;
+}>`
   display: flex;
   align-items: center;
-  position: fixed;
+  position: ${props => (props.shouldChange ? 'fixed' : 'sticky')};
   top: 0;
   left: 0;
   width: 100%;
   padding: 0.5rem 0.5rem;
   z-index: 9;
   transition: background-color 700ms;
-  background-color: ${(props: Props) =>
+  background-color: ${props =>
     props.changeColor() ? props.theme.mainColor : 'transparent'};
 `;
 const LogoContainer = styled(Link)`

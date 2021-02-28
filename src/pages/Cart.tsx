@@ -20,7 +20,7 @@ export default Cart;
 
 const Container = styled.div`
   position: relative;
-  margin-top: 66px;
+  /* margin-top: 66px; */
 `;
 const Grid = styled.div`
   /* display: grid; */

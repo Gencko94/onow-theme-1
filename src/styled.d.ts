@@ -9,5 +9,6 @@ declare module 'styled-components' {
     breakpoints: Devices;
     mainColor: string;
     secondaryColor: string;
+    bodyColor: string;
   }
 }

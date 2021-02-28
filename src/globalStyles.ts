@@ -16,6 +16,9 @@ body {
   scroll-behavior: smooth;
   text-rendering: optimizeSpeed;
   line-height: 1.5;
+  background-color:${props => props.theme.bodyColor};
+  color:${props => props.theme.secondaryColor};
+  transition:background-color 200ms ease;
   
 }
 img {
@@ -60,6 +63,12 @@ p {
 }
 hr{
   border : 1px solid rgba(0,0,0,0.1)
+}
+button {
+  cursor: pointer;
+}
+ul {
+  list-style-type:none;
 }
 `;
 
