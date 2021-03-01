@@ -4,7 +4,11 @@ import { HiOutlineShoppingBag } from 'react-icons/hi';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
-const MobileNavIcons = () => {
+const MobileNavIcons = ({
+  shouldChangeColor,
+}: {
+  shouldChangeColor: () => boolean;
+}) => {
   const { i18n, ready } = useTranslation();
   const language = React.useMemo(() => {
     if (ready) {
@@ -30,9 +34,12 @@ const MobileNavIcons = () => {
           </LanguageButton>
         )}
       </div> */}
-      <Icon to="/cart">
-        <HiOutlineShoppingBag size={30} color="#fff" />
-      </Icon>
+      <CartIconContainer to="/cart">
+        <Icon>
+          <HiOutlineShoppingBag size={20} color="#fff" />
+        </Icon>
+        <CartTotal shouldChangeColor={shouldChangeColor}>3.000 KD</CartTotal>
+      </CartIconContainer>
     </Container>
   );
 };
@@ -44,7 +51,7 @@ const Container = styled.div`
   align-items: center;
   justify-content: center;
 `;
-const Icon = styled(Link)`
+const Icon = styled.span`
   padding: 0.25rem;
   display: flex;
   align-items: center;
@@ -53,4 +60,20 @@ const Icon = styled(Link)`
 const LanguageButton = styled.button`
   padding: 0.25rem 0.5rem;
   border-radius: 5px;
+`;
+const CartIconContainer = styled(Link)`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(0, 0, 0, 0.2);
+  border-radius: 15px;
+  padding: 0.25rem 0.5rem;
+`;
+
+const CartTotal = styled.span<{ shouldChangeColor: () => boolean }>`
+  text-align: center;
+  font-size: 0.8rem;
+  color: ${props =>
+    props.shouldChangeColor() ? '#fff' : 'rgba(255,255,255,.8)'};
+  transition: color 250ms;
 `;

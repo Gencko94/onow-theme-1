@@ -52,7 +52,6 @@ export default CartItem;
 
 const Container = styled.div`
   border-bottom: 1px solid rgba(0, 0, 0, 0.2);
-  /* padding-bottom: 1em; */
 `;
 const DetailsContainer = styled.div`
   display: grid;

@@ -109,7 +109,12 @@ const CheckoutSection = () => {
         </MediumBlock>
 
         <CheckoutButtonContainer>
-          <CheckoutButton type="button">Checkout</CheckoutButton>
+          <CheckoutButton
+            type="button"
+            onClick={() => history.push('/checkout')}
+          >
+            Checkout
+          </CheckoutButton>
         </CheckoutButtonContainer>
       </StickyContainer>
 

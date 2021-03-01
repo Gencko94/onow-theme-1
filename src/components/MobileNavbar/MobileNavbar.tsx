@@ -6,7 +6,7 @@ import {
   useMemo,
   useState,
 } from 'react';
-import styled, { DefaultTheme, ThemeProps } from 'styled-components';
+import styled from 'styled-components';
 import { useLocation } from 'react-router';
 import Hamburger from './MobileNavIcons/Hamburger';
 import MobileNavIcons from './MobileNavIcons/MobileNavIcons';
@@ -19,12 +19,12 @@ interface IProps {
 const MobileNavbar = ({ setDrawerOpen, drawerOpen }: IProps) => {
   const { pathname } = useLocation();
   const shouldChange = useMemo(() => {
-    console.log(pathname);
     if (
       pathname === '/' ||
       pathname.includes('categories') ||
       pathname.includes('branches') ||
-      pathname.includes('booking')
+      pathname.includes('booking') ||
+      pathname.includes('checkout')
     )
       return true;
     return false;
@@ -71,7 +71,7 @@ const MobileNavbar = ({ setDrawerOpen, drawerOpen }: IProps) => {
         <LogoContainer to="/">
           <img src="/images/logo.png" alt="logo" />
         </LogoContainer>
-        <MobileNavIcons />
+        <MobileNavIcons shouldChangeColor={shouldChangeColor} />
       </Container>
       <Hamburger setDrawerOpen={setDrawerOpen} drawerOpen={drawerOpen} />
     </>

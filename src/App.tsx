@@ -72,7 +72,7 @@ function App() {
               {/* <Route exact path="/cart" component={Cart} /> */}
               <Route exact path="/branches" component={Branches} />
               <Route exact path="/booking" component={Booking} />
-              <Route exact path="/checkout" component={Checkout} />
+              <Route path="/checkout" component={Checkout} />
               <Route exact path="/location" component={SelectLocation} />
               <Route exact path="/login" component={Login} />
               <Route exact path="/register" component={Register} />

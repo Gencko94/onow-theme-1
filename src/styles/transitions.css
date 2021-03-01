@@ -64,20 +64,20 @@
   transition: opacity 300ms ease-in-out;
 }
 .pages-enter {
-  /* opacity: 0; */
+  opacity: 0;
   transform: translateX(100%);
 }
 .pages-enter-active {
-  /* opacity: 1; */
+  opacity: 1;
   transform: translateX(0);
-  transition: all 250ms ease-in-out;
+  transition: all 250ms;
 }
 .pages-exit {
-  /* opacity: 1; */
-  transform: translateX(0);
+  opacity: 1;
+  /* transform: translateX(0); */
 }
 .pages-exit-active {
-  /* opacity: 0; */
-  transform: translateX(-100%);
-  transition: all 250ms ease-in-out;
+  opacity: 0;
+  /* transform: translateX(-100%); */
+  transition: all 100ms;
 }
