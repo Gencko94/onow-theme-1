@@ -100,7 +100,7 @@ const DrawerContainer = styled.div`
   left: 0;
   overflow: hidden;
   text-align: center;
-  z-index: 9;
+  z-index: 300;
   background-color: #fff;
   height: 100%;
   width: 300px;
@@ -146,7 +146,7 @@ const LinksContainer = styled.div`
 `;
 const Linkitem = styled(Link)`
   display: block;
-  font-size: 1.3rem;
+  font-size: 1.2rem;
   color: ${props => props.theme.secondaryColor};
 `;
 const Toggler = styled.div`
@@ -155,6 +155,6 @@ const Toggler = styled.div`
   align-items: center;
 `;
 const Text = styled.p`
-  font-size: 1.3rem;
+  font-size: 1.2rem;
   color: ${props => props.theme.secondaryColor};
 `;

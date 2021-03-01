@@ -85,7 +85,9 @@ const CheckoutSection = () => {
                   </ChangeButton>
                 </FlexContainer>
               ) : (
-                <div onClick={() => setModalOpen(true)}>Select Branch</div>
+                <PickupPrompt onClick={() => setModalOpen(true)}>
+                  Select Branch
+                </PickupPrompt>
               )}
             </SmallBlock>
           )}
@@ -93,17 +95,17 @@ const CheckoutSection = () => {
       </Container>
       <StickyContainer>
         <SmallBlock>
-          <p>Order Total</p>
+          <BlockText>Order Total</BlockText>
           <BlockText bold>2.000 KD</BlockText>
         </SmallBlock>
         <SmallBlock>
-          <p>Delivery Cost</p>
+          <BlockText>Delivery Cost</BlockText>
           <BlockText bold>2.000 KD</BlockText>
         </SmallBlock>
         <hr />
         <MediumBlock>
-          <p>Order Subtotal</p>
-          <p>2.000 KD</p>
+          <BlockText>Order Subtotal</BlockText>
+          <BlockText bold>2.000 KD</BlockText>
         </MediumBlock>
 
         <CheckoutButtonContainer>
@@ -216,6 +218,10 @@ const CheckoutButton = styled.button`
 const LocationPrompt = styled(Link)`
   font-weight: 500;
   display: block;
+  font-size: 0.9rem;
+  text-decoration: underline;
+`;
+const PickupPrompt = styled.button`
   font-size: 0.9rem;
   text-decoration: underline;
 `;

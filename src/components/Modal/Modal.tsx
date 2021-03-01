@@ -157,7 +157,6 @@ const Backdrop = styled.span`
 const BranchesListContainer = styled.ul`
   max-height: 140px;
   overflow-y: auto;
-  /* border-radius: 8px; */
 `;
 const BranchContainer = styled.li<{ selected: boolean }>`
   padding: 0.5rem;

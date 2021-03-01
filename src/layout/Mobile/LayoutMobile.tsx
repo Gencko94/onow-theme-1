@@ -26,6 +26,15 @@ const LayoutMobile: React.FC = ({ children }) => {
       >
         <Drawer setDrawerOpen={setDrawerOpen} />
       </CSSTransition>
+      <CSSTransition
+        in={drawerOpen}
+        classNames="backdrop"
+        unmountOnExit
+        mountOnEnter
+        timeout={300}
+      >
+        <Backdrop onClick={() => setDrawerOpen(false)} />
+      </CSSTransition>
       <ContentContainer>{children}</ContentContainer>
       <MobileFooter />
     </Wrapper>
@@ -33,3 +42,12 @@ const LayoutMobile: React.FC = ({ children }) => {
 };
 
 export default LayoutMobile;
+const Backdrop = styled.span`
+  position: fixed;
+  z-index: 100;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.3);
+`;

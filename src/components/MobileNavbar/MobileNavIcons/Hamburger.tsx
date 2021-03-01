@@ -8,7 +8,7 @@ interface IProps {
 }
 
 const HamburgerButton = styled.button`
-  z-index: 10;
+  z-index: 400;
   position: fixed;
   top: 0;
   left: 0;
@@ -32,6 +32,13 @@ const Hamburger = ({ drawerOpen, setDrawerOpen }: IProps) => {
       timeline.play();
     }
   };
+  useEffect(() => {
+    if (drawerOpen) {
+      timeline.play();
+    } else {
+      timeline.reverse();
+    }
+  }, [drawerOpen, timeline]);
   useEffect(() => {
     timeline
       .to('#ham_first-bar', { rotate: 45, y: 7, transformOrigin: 'center' }, 0)

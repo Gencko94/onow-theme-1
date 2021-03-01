@@ -211,7 +211,7 @@ const BranchesListContainer = styled.ul`
   margin-bottom: 1rem;
 `;
 const BranchContainer = styled.li<{ selected: boolean }>`
-  padding: 0.5rem;
+  padding: 0.75rem;
   background-color: ${props =>
     props.selected ? props.theme.mainColor : '#fff'};
   color: ${props => (props.selected ? '#fff' : props.theme.secondaryColor)};

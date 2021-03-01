@@ -17,7 +17,7 @@ export default LazyImage;
 
 const ImageContainer = styled.div`
   position: relative;
-  background-color: #fff;
+  background-color: #fafafa;
   padding-bottom: ${(props: { pb: string }) => props.pb};
   width: 100%;
 `;

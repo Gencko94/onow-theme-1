@@ -44,7 +44,7 @@ const Container = styled.button<{
   orderMode: OMode | undefined;
   selected: boolean;
 }>`
-  padding: 0.5rem 0.75rem;
+  padding: 0.75rem;
   display: flex;
   align-items: center;
   color: #fff;
