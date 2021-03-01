@@ -28,7 +28,7 @@ const Checkout = () => {
 
 export default Checkout;
 const Container = styled.div`
-  height: calc(100vh - 66px);
+  min-height: calc(100vh - 66px);
   position: relative;
   margin-top: 58px;
   padding: 1rem;

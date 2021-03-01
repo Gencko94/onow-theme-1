@@ -1,11 +1,15 @@
+import { useState } from 'react';
 import styled from 'styled-components';
 import { products } from '../../data/products';
 import LazyImage from '../../utils/LazyImage';
 
 const OrderItems = () => {
+  const [expand, setExpand] = useState(false);
   return (
-    <Box>
-      <Title>Order Items ({products.length})</Title>
+    <Box expand={expand}>
+      <BoxHead>
+        <Title>Order Items ({products.length})</Title>
+      </BoxHead>
       <OrderItemsContainer>
         {products.map(product => (
           <OrderItem key={product.slug}>
@@ -29,23 +33,36 @@ const OrderItems = () => {
           </OrderItem>
         ))}
       </OrderItemsContainer>
+      <ExpandButtonContainer onClick={() => setExpand(!expand)}>
+        {expand ? 'Hide' : 'Show all'}
+      </ExpandButtonContainer>
     </Box>
   );
 };
 
 export default OrderItems;
-const Box = styled.div`
-  padding: 0.5rem;
+const Box = styled.div<{ expand: boolean }>`
+  /* padding: 0.5rem; */
   background-color: #fff;
   border-radius: 12px;
   margin-bottom: 0.5rem;
   border: 1px solid rgba(0, 0, 0, 0.1);
+  max-height: ${props => (props.expand ? '1000px' : '265px')};
+  overflow: hidden;
+  transition: max-height 300ms;
+`;
+const BoxHead = styled.div`
+  padding: 0.5rem;
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  background: #fff;
 `;
 const Title = styled.h5(
   ({ theme: { breakpoints } }) => `
-
+  
   text-align: center;
-  margin-bottom: 1rem;
+  margin-bottom: .5rem;
  
   @media ${breakpoints.xs} {
      
@@ -54,9 +71,8 @@ const Title = styled.h5(
 `
 );
 const OrderItemsContainer = styled.div`
-  padding: 0.25rem;
-  max-height: 265px;
-  overflow-y: auto;
+  /* padding: 0.25rem; */
+  position: relative;
 `;
 const DetailsContainer = styled.div`
   display: grid;
@@ -103,4 +119,16 @@ const Price = styled.p`
   margin: 0 0.25rem;
   font-size: 0.8rem;
   font-weight: 600;
+`;
+
+const ExpandButtonContainer = styled.button`
+  background: rgba(221, 215, 215, 0.8);
+  z-index: 2;
+  position: sticky;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  padding: 0.5rem;
+  text-align: center;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
 `;

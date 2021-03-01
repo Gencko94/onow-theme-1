@@ -30,7 +30,7 @@ const Image = styled.img`
   left: 0;
   right: 0;
   bottom: 0;
-  z-index: 2;
+  z-index: 1;
   max-height: 100%;
   max-width: 100%;
 `;

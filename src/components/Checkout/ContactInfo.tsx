@@ -32,9 +32,7 @@ const ContactInfo = () => {
 
             <Input name="name" ref={register} />
 
-            {errors.phoneNumber && (
-              <ErrorMessage>{errors.phoneNumber.message}</ErrorMessage>
-            )}
+            {errors.name && <ErrorMessage>{errors.name.message}</ErrorMessage>}
           </InputContainer>
           <InputContainer>
             <Label>Phone Number</Label>
