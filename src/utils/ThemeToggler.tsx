@@ -9,9 +9,7 @@ const ThemeToggler = () => {
     <Toggler>
       <TogglerInput
         onChange={() => {
-          if (toggleTheme) {
-            toggleTheme();
-          }
+          toggleTheme?.();
         }}
         type="checkbox"
       />

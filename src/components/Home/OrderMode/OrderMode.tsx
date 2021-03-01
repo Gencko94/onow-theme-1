@@ -135,8 +135,8 @@ const OrderMode = () => {
                 <ButtonContainer>
                   <ConfirmButton
                     onClick={() => {
-                      if (highlightedBranch && handleBranchChange) {
-                        handleBranchChange(highlightedBranch);
+                      if (highlightedBranch) {
+                        handleBranchChange?.(highlightedBranch);
                         setShowChangeBranch(false);
                       }
                     }}

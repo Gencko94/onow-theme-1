@@ -67,11 +67,11 @@ const Drawer = ({ setDrawerOpen }: IProps) => {
             <MdBook size={30} />
             <StyledP>Booking</StyledP>
           </MenuLink>
-          <MenuLink to="/">
+          <MenuLink to="/login">
             <BiLogIn size={30} />
             <StyledP>Log in</StyledP>
           </MenuLink>
-          <MenuLink to="/">
+          <MenuLink to="/register">
             <AiOutlineUserAdd size={30} />
             <StyledP>Sign up</StyledP>
           </MenuLink>

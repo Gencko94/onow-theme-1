@@ -14,15 +14,16 @@ import { GrApple } from 'react-icons/gr';
 import { MdVisibility, MdVisibilityOff } from 'react-icons/md';
 import { useState } from 'react';
 
-const Login = () => {
+const Register = () => {
   const schema = Yup.object().shape({
     phoneNumber: Yup.string().required('Required Field').min(5),
     password: Yup.string().required('Required Field').min(5),
   });
-  const [showPassword, setShowPassword] = useState(false);
+
   const { register, handleSubmit, errors } = useForm<LoginForm>({
     resolver: yupResolver(schema),
   });
+  const [showPassword, setShowPassword] = useState(false);
   const onSubmit = (data: LoginForm) => {
     // const info = {
     //   ...data,
@@ -77,12 +78,11 @@ const Login = () => {
               )}
             </InputContainer>
 
-            <SubmitButton type="submit">Login</SubmitButton>
+            <SubmitButton type="submit">Register</SubmitButton>
           </Form>
         </FormContainer>
         <Footer>
-          <Text>Don't have an account ? Register here</Text>
-          <Text>Forgot Password ? Reset Here</Text>
+          <Text>Have an account ? Log in here</Text>
         </Footer>
         <LoginWithContainer>
           <SpanLine />
@@ -117,7 +117,7 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default Register;
 
 const Container = styled.div`
   height: 100vh;
@@ -183,24 +183,7 @@ const PhoneInput = styled.input`
   width: 100%;
   font-size: 0.9rem;
 `;
-const PasswordInputContainer = styled.div`
-  display: flex;
-  align-items: center;
-  border-radius: 5px;
-  border: 1px solid rgba(0, 0, 0, 0.1);
-`;
-const PasswordInput = styled.input`
-  padding: 0.5rem;
-  width: 100%;
-  font-size: 0.9rem;
-`;
-const ShowPassword = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-left: 1px solid rgba(0, 0, 0, 0.1);
-  padding: 0.5rem;
-`;
+
 const ErrorMessage = styled.p`
   color: #b72b2b;
   font-size: 0.8rem;
@@ -279,4 +262,22 @@ const SocialLink = styled.div<{ variant: SocialAuth }>`
   justify-content: center;
   align-items: center;
   box-shadow: 0 0 15px rgba(0, 0, 0, 0.4);
+`;
+const PasswordInputContainer = styled.div`
+  display: flex;
+  align-items: center;
+  border-radius: 5px;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+`;
+const PasswordInput = styled.input`
+  padding: 0.5rem;
+  width: 100%;
+  font-size: 0.9rem;
+`;
+const ShowPassword = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-left: 1px solid rgba(0, 0, 0, 0.1);
+  padding: 0.5rem;
 `;

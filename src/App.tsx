@@ -12,7 +12,7 @@ import ApplicationContext from './contexts/ApplicationContext';
 import { CSSTransition } from 'react-transition-group';
 import Product from './pages/Product';
 import Cart from './pages/Cart';
-import Layout from './layout/Layout';
+
 const Aboutus = React.lazy(() => import('./pages/Aboutus'));
 const Home = React.lazy(() => import('./pages/Home'));
 const Categories = React.lazy(() => import('./pages/Categories'));
@@ -23,6 +23,8 @@ const Branches = React.lazy(() => import('./pages/Branches'));
 const Booking = React.lazy(() => import('./pages/Booking'));
 const Checkout = React.lazy(() => import('./pages/Checkout'));
 const SelectLocation = React.lazy(() => import('./pages/SelectLocation'));
+const Login = React.lazy(() => import('./pages/Login'));
+const Register = React.lazy(() => import('./pages/Register'));
 const queryClient = new QueryClient();
 
 function App() {
@@ -72,6 +74,8 @@ function App() {
               <Route exact path="/booking" component={Booking} />
               <Route exact path="/checkout" component={Checkout} />
               <Route exact path="/location" component={SelectLocation} />
+              <Route exact path="/login" component={Login} />
+              <Route exact path="/register" component={Register} />
             </Router>
           </ThemeProvider>
         </ApplicationContext>
