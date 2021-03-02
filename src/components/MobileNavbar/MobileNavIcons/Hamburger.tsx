@@ -13,7 +13,7 @@ const HamburgerButton = styled.button`
   top: 0;
   left: 0;
   padding: 1rem;
-  padding-top: 1.5rem;
+  /* padding-top: 1.5rem; */
   display: flex;
   justify-content: center;
   align-items: center;

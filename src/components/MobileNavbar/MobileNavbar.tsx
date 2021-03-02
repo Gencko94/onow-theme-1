@@ -68,9 +68,9 @@ const MobileNavbar = ({ setDrawerOpen, drawerOpen }: IProps) => {
         shouldChange={shouldChange}
         changeColor={shouldChangeColor}
       >
-        <LogoContainer to="/">
+        {/* <LogoContainer to="/">
           <img src="/images/logo.png" alt="logo" />
-        </LogoContainer>
+        </LogoContainer> */}
         <MobileNavIcons shouldChangeColor={shouldChangeColor} />
       </Container>
       <Hamburger setDrawerOpen={setDrawerOpen} drawerOpen={drawerOpen} />

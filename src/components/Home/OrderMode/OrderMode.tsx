@@ -1,34 +1,22 @@
-import MenuItem from './MenuItem/MenuItem';
+import OrderModeItem from './OrderModeItem';
 import styled from 'styled-components';
 import { Link, useHistory } from 'react-router-dom';
 import { useContext, useEffect, useRef, useState } from 'react';
 import { BiMap, BiCheckCircle, BiCircle } from 'react-icons/bi';
 import { AiOutlineInfoCircle } from 'react-icons/ai';
-import {
-  ApplicationProvider,
-  OMode,
-} from '../../../contexts/ApplicationContext';
+import { ApplicationProvider } from '../../../contexts/ApplicationContext';
 import { gsap } from 'gsap';
 import { branches } from '../../../data/branches';
 import { Branch } from '../../../interfaces/branch';
-type OrderModes = {
-  title: string;
-  value: OMode;
-};
-const menus: OrderModes[] = [
-  {
-    title: 'Delivery',
-    value: 'delivery',
-  },
-  {
-    title: 'Pick up',
-    value: 'pickup',
-  },
-];
+import { orderModes } from '../../../data/orderModes';
+
 const OrderMode = () => {
-  const { orderMode, branch, handleBranchChange, deliveryAddress } = useContext(
-    ApplicationProvider
-  );
+  const {
+    selectedOrderMode,
+    branch,
+    handleBranchChange,
+    deliveryAddress,
+  } = useContext(ApplicationProvider);
   const [highlightedBranch, setHighlightedBranch] = useState<Branch | null>(
     null
   );
@@ -37,7 +25,7 @@ const OrderMode = () => {
   const history = useHistory();
 
   useEffect(() => {
-    if (orderMode === 'pickup' && showChangeBranch) {
+    if (selectedOrderMode === 'pickup' && showChangeBranch) {
       const el = pickUpRef.current;
       if (el) {
         gsap.from(el?.children, {
@@ -46,16 +34,16 @@ const OrderMode = () => {
         });
       }
     }
-  }, [orderMode, showChangeBranch]);
+  }, [selectedOrderMode, showChangeBranch]);
   return (
     <Container>
       <Title> Ordering Mode </Title>
       <GridContainer>
-        {menus.map(menu => (
-          <MenuItem menu={menu} />
+        {orderModes.map(orderMode => (
+          <OrderModeItem orderMode={orderMode} />
         ))}
       </GridContainer>
-      {orderMode === 'delivery' && (
+      {selectedOrderMode === 'delivery' && (
         <>
           {deliveryAddress ? (
             <UserLocationContainer>
@@ -79,7 +67,7 @@ const OrderMode = () => {
           )}
         </>
       )}
-      {orderMode === 'pickup' && (
+      {selectedOrderMode === 'pickup' && (
         <Pickup>
           <>
             {branch && (
@@ -176,7 +164,6 @@ const GridContainer = styled.div`
   grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
   gap: 1rem;
   margin-bottom: 1rem;
-  /* padding: 1rem 0.5rem; */
 `;
 const LocationPromptContainer = styled.div`
   padding: 0.5rem;

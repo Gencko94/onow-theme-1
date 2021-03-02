@@ -1,5 +1,5 @@
 import { useContext, useState } from 'react';
-import { BiChevronRight } from 'react-icons/bi';
+
 import { Link, useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 import { ApplicationProvider } from '../../contexts/ApplicationContext';
@@ -8,7 +8,7 @@ const CheckoutSection = () => {
   const {
     branch,
     deliveryAddress,
-    orderMode,
+    selectedOrderMode,
     handleOrderModeChange,
   } = useContext(ApplicationProvider);
 
@@ -32,7 +32,7 @@ const CheckoutSection = () => {
                   type="radio"
                   value="pickup"
                   name="mode"
-                  checked={orderMode === 'pickup'}
+                  checked={selectedOrderMode === 'pickup'}
                   onChange={() => {
                     if (handleOrderModeChange) handleOrderModeChange('pickup');
                   }}
@@ -42,7 +42,7 @@ const CheckoutSection = () => {
                 <Label htmlFor="delivery">Delivery</Label>
                 <RadioInput
                   id="delivery"
-                  checked={orderMode === 'delivery'}
+                  checked={selectedOrderMode === 'delivery'}
                   type="radio"
                   value="delivery"
                   onChange={() => {
@@ -54,7 +54,7 @@ const CheckoutSection = () => {
               </InputContainer>
             </RadioContainer>
           </MediumBlock>
-          {orderMode === 'delivery' && (
+          {selectedOrderMode === 'delivery' && (
             <>
               <SmallBlock>
                 <BlockText>Deliver to</BlockText>
@@ -73,7 +73,7 @@ const CheckoutSection = () => {
               )}
             </>
           )}
-          {orderMode === 'pickup' && (
+          {selectedOrderMode === 'pickup' && (
             <SmallBlock>
               <p>Branch</p>
 

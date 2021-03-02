@@ -3,7 +3,7 @@ import { Branch } from '../interfaces/branch';
 import { UserLocation } from '../interfaces/userLocation';
 
 interface ContextProps {
-  orderMode: OMode;
+  selectedOrderMode: OMode;
   handleOrderModeChange: (mode: OMode) => void;
   handleBranchChange: (branch: Branch) => void;
   branch: Branch | null;
@@ -12,11 +12,11 @@ interface ContextProps {
 }
 export type OMode = 'delivery' | 'pickup';
 export const ApplicationProvider = createContext<Partial<ContextProps>>({
-  orderMode: 'delivery',
+  selectedOrderMode: 'delivery',
 });
 
 const ApplicationContext: React.FC = ({ children }) => {
-  const [orderMode, setOrderMode] = useState<OMode>('delivery');
+  const [selectedOrderMode, setOrderMode] = useState<OMode>('delivery');
   const [branch, setBranch] = useState<Branch | null>(null);
   const [deliveryAddress, setDeliveryAddress] = useState<UserLocation | null>(
     null
@@ -34,7 +34,7 @@ const ApplicationContext: React.FC = ({ children }) => {
   return (
     <ApplicationProvider.Provider
       value={{
-        orderMode,
+        selectedOrderMode,
         handleOrderModeChange,
         branch,
         handleBranchChange,

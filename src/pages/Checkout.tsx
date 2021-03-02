@@ -1,7 +1,7 @@
 import { Route, Switch, useLocation, useRouteMatch } from 'react-router-dom';
 import styled from 'styled-components';
 import ContactInfo from '../components/Checkout/ContactInfo';
-import PaymentMethod from '../components/Checkout/PaymentMethod';
+import Summary from '../components/Checkout/Summary';
 import Hero from '../components/Home/Hero/Hero';
 
 import Layout from '../layout/Layout';
@@ -19,7 +19,7 @@ const Checkout = () => {
 
         <Switch location={location}>
           <Route exact path={path} component={ContactInfo} />
-          <Route exact path={`/checkout/payment`} component={PaymentMethod} />
+          <Route exact path={`/checkout/summary`} component={Summary} />
         </Switch>
       </Container>
     </Layout>
@@ -39,7 +39,7 @@ const Title = styled.h1(
   font-size: 1.875rem; 
   line-height: 2.25rem;
   text-align: center;
-  margin-bottom: 2rem;
+  margin-bottom: 1rem;
   color:#5F7999;
   @media ${breakpoints.xs} {
       font-size: 1.5rem;

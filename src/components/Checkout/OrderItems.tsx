@@ -42,13 +42,12 @@ const OrderItems = () => {
 
 export default OrderItems;
 const Box = styled.div<{ expand: boolean }>`
-  /* padding: 0.5rem; */
   background-color: #fff;
   border-radius: 12px;
   margin-bottom: 0.5rem;
   border: 1px solid rgba(0, 0, 0, 0.1);
-  max-height: ${props => (props.expand ? '1000px' : '265px')};
-  overflow: hidden;
+  max-height: ${props => (props.expand ? '700px' : '265px')};
+  overflow: ${props => (props.expand ? 'auto' : 'hidden')};
   transition: max-height 300ms;
 `;
 const BoxHead = styled.div`
@@ -62,7 +61,7 @@ const Title = styled.h5(
   ({ theme: { breakpoints } }) => `
   
   text-align: center;
-  margin-bottom: .5rem;
+ 
  
   @media ${breakpoints.xs} {
      

@@ -1,34 +1,34 @@
 import { useContext } from 'react';
-import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import { ApplicationProvider } from '../../../../contexts/ApplicationContext';
-import { OMode } from '../../../../contexts/ApplicationContext';
+import { ApplicationProvider } from '../../../contexts/ApplicationContext';
+import { OMode } from '../../../contexts/ApplicationContext';
 import { BiRadioCircleMarked, BiRadioCircle } from 'react-icons/bi';
+import { OrderMode } from '../../../interfaces/orderModes';
 interface IProps {
-  menu: {
-    title: string;
-    // icon?: any;
-    value: OMode;
-  };
+  orderMode: OrderMode;
+  small?: boolean;
 }
 
-const MenuItem = ({ menu }: IProps) => {
-  const { orderMode, handleOrderModeChange } = useContext(ApplicationProvider);
+const OrderModeItem = ({ orderMode, small }: IProps) => {
+  const { selectedOrderMode, handleOrderModeChange } = useContext(
+    ApplicationProvider
+  );
   return (
     <Container
-      orderMode={orderMode}
-      selected={orderMode === menu.value}
+      small={small}
+      orderMode={selectedOrderMode}
+      selected={selectedOrderMode === orderMode.value}
       onClick={() => {
         if (handleOrderModeChange) {
-          handleOrderModeChange(menu.value);
+          handleOrderModeChange(orderMode.value);
         }
       }}
     >
       <TitleContainer>
-        <Title>{menu.title}</Title>
+        <Title>{orderMode.title}</Title>
       </TitleContainer>
       <IconContainer>
-        {orderMode === menu.value ? (
+        {selectedOrderMode === orderMode.value ? (
           <BiRadioCircleMarked size={25} />
         ) : (
           <BiRadioCircle size={25} />
@@ -38,13 +38,14 @@ const MenuItem = ({ menu }: IProps) => {
   );
 };
 
-export default MenuItem;
+export default OrderModeItem;
 
 const Container = styled.button<{
   orderMode: OMode | undefined;
   selected: boolean;
+  small?: boolean;
 }>`
-  padding: 0.75rem;
+  padding: ${props => (props.small ? '.5rem' : '.75rem')};
   display: flex;
   align-items: center;
   color: #fff;
@@ -53,6 +54,7 @@ const Container = styled.button<{
   color: ${props => (props.selected ? '#e0e0e0' : props.theme.mainColor)};
   border-radius: 50px;
   font-weight: 500;
+  font-size: ${props => (props.small ? '.8rem' : ' .9rem')};
   box-shadow: 6px 6px 11px #bebebe, -6px -6px 11px #ffffff;
 `;
 const IconContainer = styled.span`
@@ -68,6 +70,5 @@ const TitleContainer = styled.div`
   align-items: center;
 `;
 const Title = styled.p`
-  font-size: 0.9rem;
   text-align: center;
 `;

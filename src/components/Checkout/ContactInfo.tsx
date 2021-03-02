@@ -18,7 +18,7 @@ const ContactInfo = () => {
     // const info = {
     //   ...data,
     // };
-    history.push('/checkout/payment');
+    history.push('/checkout/summary');
     console.log(data);
   };
   console.log(errors);
