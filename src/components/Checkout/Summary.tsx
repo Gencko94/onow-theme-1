@@ -6,10 +6,14 @@ import * as yup from 'yup';
 import DeliveryAddress from './DeliveryAddress';
 import OrderItems from './OrderItems';
 import { CheckoutFormInputs } from '../../interfaces/checkoutForm';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { LocationT } from '../../interfaces/LocationTypes';
 import OrderModeItem from '../Home/OrderMode/OrderModeItem';
 import { orderModes } from '../../data/orderModes';
+import { ApplicationProvider } from '../../contexts/ApplicationContext';
+import { CSSTransition, SwitchTransition } from 'react-transition-group';
+import Pickup from './Pickup';
+import { PaymentMethods } from '../../interfaces/paymentMethods';
 
 const schema = yup.object().shape({
   name: yup.string().required('Required Field').min(5),
@@ -17,15 +21,17 @@ const schema = yup.object().shape({
 });
 const Summary = () => {
   const [locationType, setLocationType] = useState<LocationT>('House');
+  const [paymentMethod, setPaymentMethod] = useState<PaymentMethods>(
+    paymentMethods[0]
+  );
   const { register, handleSubmit, errors } = useForm<CheckoutFormInputs>({
     resolver: yupResolver(schema),
   });
+  const { selectedOrderMode } = useContext(ApplicationProvider);
   const onSubmit = (data: CheckoutFormInputs) => {
-    const info = {
-      ...data,
-    };
     console.log(data);
   };
+
   return (
     <Container>
       <Subtitle>Order Mode</Subtitle>
@@ -34,21 +40,44 @@ const Summary = () => {
           <OrderModeItem small orderMode={orderMode} />
         ))}
       </GridContainer>
-      <DeliveryAddress
-        register={register}
-        errors={errors}
-        onSubmit={onSubmit}
-        handleSubmit={handleSubmit}
-        locationType={locationType}
-      />
+      <SwitchTransition mode="out-in">
+        {selectedOrderMode === 'delivery' ? (
+          <CSSTransition
+            classNames="checkout-component"
+            key="delivery"
+            timeout={250}
+          >
+            <DeliveryAddress
+              register={register}
+              errors={errors}
+              onSubmit={onSubmit}
+              handleSubmit={handleSubmit}
+              locationType={locationType}
+              setLocationType={setLocationType}
+            />
+          </CSSTransition>
+        ) : (
+          <CSSTransition
+            classNames="checkout-component"
+            key="pickup"
+            timeout={250}
+          >
+            <Pickup />
+          </CSSTransition>
+        )}
+      </SwitchTransition>
       <Box>
         <BoxHead>
           <Title>Payment</Title>
-          <Subtitle>Select you preffered payment method</Subtitle>
+          <Subtitle>Select your preffered payment method</Subtitle>
         </BoxHead>
         <PaymentMethodsContainer>
           {paymentMethods.map(method => (
-            <PaymentMethodItem key={method.name}>
+            <PaymentMethodItem
+              active={paymentMethod.name === method.name}
+              onClick={() => setPaymentMethod(method)}
+              key={method.name}
+            >
               <PaymentMethodImage src={method.photo} alt={method.name} />
               <PaymentMethodName>{method.name}</PaymentMethodName>
             </PaymentMethodItem>
@@ -68,10 +97,13 @@ const GridContainer = styled.div`
   gap: 1rem;
   margin-bottom: 1rem;
 `;
-const Container = styled.div``;
+const Container = styled.div`
+  position: relative;
+`;
 const Title = styled.h5(
   ({ theme: { breakpoints } }) => `
  
+   margin-bottom: 0.5rem;
   text-align: center;
  
  
@@ -88,6 +120,7 @@ const Subtitle = styled.p`
   text-align: center;
   font-size: 1.1rem;
   margin-bottom: 0.5rem;
+  font-weight: 500;
 `;
 const Box = styled.div`
   background-color: #fff;
@@ -101,7 +134,7 @@ const PaymentMethodsContainer = styled.div`
   gap: 0.5rem;
   padding: 0.5rem;
 `;
-const PaymentMethodItem = styled.div`
+const PaymentMethodItem = styled.div<{ active: boolean }>`
   border: 1px solid rgba(0, 0, 0, 0.1);
   border-radius: 8px;
   display: flex;
@@ -109,6 +142,8 @@ const PaymentMethodItem = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  background-color: ${props => props.active && props.theme.mainColor};
+  color: ${props => props.active && '#fff'};
 `;
 const PaymentMethodName = styled.p`
   font-size: 0.8rem;

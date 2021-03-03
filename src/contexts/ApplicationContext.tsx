@@ -1,5 +1,6 @@
 import { createContext, useState } from 'react';
 import { Branch } from '../interfaces/branch';
+import { OrderTime, OrderTimeType } from '../interfaces/orderTime';
 import { UserLocation } from '../interfaces/userLocation';
 
 interface ContextProps {
@@ -9,10 +10,15 @@ interface ContextProps {
   branch: Branch | null;
   deliveryAddress: UserLocation | null;
   addUserLocation: (location: UserLocation) => void;
+  orderTime: OrderTime;
+  handleSetOrderTime: (time: OrderTime) => void;
+  orderTimeType: OrderTimeType;
+  handleSetOrderTimeType: (type: OrderTimeType) => void;
 }
 export type OMode = 'delivery' | 'pickup';
 export const ApplicationProvider = createContext<Partial<ContextProps>>({
   selectedOrderMode: 'delivery',
+  orderTime: new Date(),
 });
 
 const ApplicationContext: React.FC = ({ children }) => {
@@ -21,6 +27,8 @@ const ApplicationContext: React.FC = ({ children }) => {
   const [deliveryAddress, setDeliveryAddress] = useState<UserLocation | null>(
     null
   );
+  const [orderTime, setOrderTime] = useState<OrderTime>(new Date());
+  const [orderTimeType, setOrderTimeType] = useState<OrderTimeType>('asap');
 
   const handleOrderModeChange = (mode: OMode) => {
     setOrderMode(mode);
@@ -31,6 +39,12 @@ const ApplicationContext: React.FC = ({ children }) => {
   const addUserLocation = (location: UserLocation) => {
     setDeliveryAddress(location);
   };
+  const handleSetOrderTime = (time: OrderTime) => {
+    setOrderTime(time);
+  };
+  const handleSetOrderTimeType = (type: OrderTimeType) => {
+    setOrderTimeType(type);
+  };
   return (
     <ApplicationProvider.Provider
       value={{
@@ -40,6 +54,10 @@ const ApplicationContext: React.FC = ({ children }) => {
         handleBranchChange,
         addUserLocation,
         deliveryAddress,
+        handleSetOrderTime,
+        orderTime,
+        handleSetOrderTimeType,
+        orderTimeType,
       }}
     >
       {children}

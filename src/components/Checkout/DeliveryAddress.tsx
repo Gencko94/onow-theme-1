@@ -1,10 +1,11 @@
-import { useContext } from 'react';
+import { Dispatch, SetStateAction, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { ApplicationProvider } from '../../contexts/ApplicationContext';
 import { locationTypes } from '../../data/locationTypes';
 import { CheckoutFormInputs } from '../../interfaces/checkoutForm';
 import { LocationT } from '../../interfaces/LocationTypes';
+import OrderTime from './OrderTime';
 
 interface IProps {
   register: any;
@@ -12,6 +13,7 @@ interface IProps {
   handleSubmit: any;
   onSubmit: (data: CheckoutFormInputs) => void;
   locationType: LocationT;
+  setLocationType: Dispatch<SetStateAction<LocationT>>;
 }
 
 const DeliveryAddress = ({
@@ -20,6 +22,7 @@ const DeliveryAddress = ({
   handleSubmit,
   onSubmit,
   locationType,
+  setLocationType,
 }: IProps) => {
   const { deliveryAddress } = useContext(ApplicationProvider);
   return (
@@ -30,7 +33,11 @@ const DeliveryAddress = ({
       </BoxHead>
       <LocationTypesContainer>
         {locationTypes.map(({ title, Icon }) => (
-          <LocationType active={locationType === title} key={title}>
+          <LocationType
+            onClick={() => setLocationType(title)}
+            active={locationType === title}
+            key={title}
+          >
             <LocationTypeIcon>
               <Icon size={20} />
             </LocationTypeIcon>
@@ -51,17 +58,38 @@ const DeliveryAddress = ({
       {deliveryAddress && (
         <AddressText>{deliveryAddress.physicalAddress}</AddressText>
       )}
+      {deliveryAddress && <OrderTime title="Delivery Time" />}
       <Form onSubmit={handleSubmit(onSubmit)}>
+        {locationType === 'House' && (
+          <InputContainer>
+            <Label>House no</Label>
+            <Input name="name" ref={register} />
+            {errors.name && <ErrorMessage>{errors.name.message}</ErrorMessage>}
+          </InputContainer>
+        )}
         <InputContainer>
-          <Label>Name</Label>
-          <Input name="name" ref={register} />
-          {errors.name && <ErrorMessage>{errors.name.message}</ErrorMessage>}
-        </InputContainer>
-        <InputContainer>
-          <Label>Phone Number</Label>
+          <Label>Avenue</Label>
           <Input name="phone" ref={register} />
           {errors.phone && <ErrorMessage>{errors.phone.message}</ErrorMessage>}
         </InputContainer>
+        {locationType === 'Office' && (
+          <InputContainer>
+            <Label>Office no</Label>
+            <Input name="phone" ref={register} />
+            {errors.phone && (
+              <ErrorMessage>{errors.phone.message}</ErrorMessage>
+            )}
+          </InputContainer>
+        )}
+        {locationType === 'Apartment' && (
+          <InputContainer>
+            <Label>Apt no</Label>
+            <Input name="phone" ref={register} />
+            {errors.phone && (
+              <ErrorMessage>{errors.phone.message}</ErrorMessage>
+            )}
+          </InputContainer>
+        )}
         <InputContainer>
           <Label>Street</Label>
           <Input name="phone" ref={register} />
@@ -107,6 +135,7 @@ const Title = styled.h5(
 const Subtitle = styled.p`
   text-align: center;
   font-size: 1rem;
+  font-weight: 600;
 `;
 const LocationTypesContainer = styled.div`
   display: grid;

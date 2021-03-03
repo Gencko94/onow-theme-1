@@ -75,6 +75,7 @@ const Map = () => {
           `https://maps.googleapis.com/maps/api/geocode/json?latlng=${marker.lat},${marker.lng}&key=${process.env.REACT_APP_GOOGLE_MAPS_API_KEY}&language=${language}`
         )
         .then(res => {
+          console.log(res.data);
           if (res.data.results.length === 0) {
             setMarkerAddress('');
             // setMarkerInfoWindowDetails(null);
@@ -82,9 +83,9 @@ const Map = () => {
             return;
           }
           if (
-            res.data.results[0].address_components[
-              res.data.results[0].address_components.length - 1
-            ].short_name !== 'KW' ||
+            res.data.results[0].address_components.find((address: any) =>
+              address.types.includes('country')
+            ).short_name !== 'KW' ||
             res.data.results.length === 0
           ) {
             setOutOfBorder(true);

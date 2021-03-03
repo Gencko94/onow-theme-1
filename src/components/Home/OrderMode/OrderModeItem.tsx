@@ -45,7 +45,7 @@ const Container = styled.button<{
   selected: boolean;
   small?: boolean;
 }>`
-  padding: ${props => (props.small ? '.5rem' : '.75rem')};
+  padding: ${props => (props.small ? '.5rem .75rem' : '.75rem')};
   display: flex;
   align-items: center;
   color: #fff;
@@ -54,7 +54,7 @@ const Container = styled.button<{
   color: ${props => (props.selected ? '#e0e0e0' : props.theme.mainColor)};
   border-radius: 50px;
   font-weight: 500;
-  font-size: ${props => (props.small ? '.8rem' : ' .9rem')};
+  font-size: ${props => (props.small ? '.9rem' : ' .9rem')};
   box-shadow: 6px 6px 11px #bebebe, -6px -6px 11px #ffffff;
 `;
 const IconContainer = styled.span`

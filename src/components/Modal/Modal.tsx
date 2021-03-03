@@ -21,6 +21,7 @@ const Modal = ({ title, closeModal, modalOpen }: ModalProps) => {
   const [highlightedBranch, setHighlightedBranch] = useState<Branch | null>(
     null
   );
+
   const { handleBranchChange } = useContext(ApplicationProvider);
   return (
     <>
@@ -34,7 +35,7 @@ const Modal = ({ title, closeModal, modalOpen }: ModalProps) => {
         <Container>
           <ModalHead>
             <CloseIcon onClick={() => closeModal()}>
-              <GrClose size={18} />
+              <GrClose size={16} />
             </CloseIcon>
             <TitleContainer>
               <Title>{title}</Title>
@@ -90,7 +91,7 @@ const Modal = ({ title, closeModal, modalOpen }: ModalProps) => {
         mountOnEnter
         timeout={300}
       >
-        <Backdrop />
+        <Backdrop onClick={() => closeModal()} />
       </CSSTransition>
     </>
   );
@@ -104,14 +105,16 @@ const Container = styled.div(
   z-index: 200;
   left: 0;
   right: 0;
-  top:0;
-  bottom:0;
-  border-radius:20px;
+  
+  top:50%;
+  transform:translateY(-50%);
+  border-radius:6px;
   margin: auto;
   background-color:#fff;
+  
   @media ${breakpoints.xs} {
       width:90%;
-      height:257px
+    
     };
   @media ${breakpoints.sm} {
       width:70%
@@ -130,19 +133,22 @@ const TitleContainer = styled.div`
   justify-content: center;
   align-items: center;
 `;
-const Title = styled.h5``;
+const Title = styled.h6`
+  font-weight: 500;
+`;
 
 const ModalHead = styled.div`
   display: flex;
   align-items: center;
-  padding: 1rem 0.75rem;
+  padding: 0.75rem 0.75rem;
   border-bottom: 1px solid rgba(0, 0, 0, 0.1);
 `;
 const ModalFooter = styled.div`
-  padding: 0.25rem 0.5rem;
+  padding: 0.5rem;
 `;
 const ModalBody = styled.div`
-  padding: 0.5rem 0;
+  /* padding:  0; */
+  padding: 0.5rem;
 `;
 
 const Backdrop = styled.span`
@@ -155,11 +161,12 @@ const Backdrop = styled.span`
   background-color: rgba(0, 0, 0, 0.3);
 `;
 const BranchesListContainer = styled.ul`
-  max-height: 140px;
-  overflow-y: auto;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
+  overflow: hidden;
 `;
 const BranchContainer = styled.li<{ selected: boolean }>`
-  padding: 0.75rem;
+  padding: 0.5rem;
   background-color: ${props =>
     props.selected ? props.theme.mainColor : '#fff'};
   color: ${props => (props.selected ? '#fff' : props.theme.secondaryColor)};
@@ -180,7 +187,7 @@ const IconContainer = styled.span`
   margin: 0 0.5rem;
 `;
 const BranchName = styled.p`
-  font-weight: 600;
+  font-weight: 500;
 `;
 const ButtonContainer = styled.div`
   display: flex;
