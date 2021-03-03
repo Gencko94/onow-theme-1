@@ -3,6 +3,7 @@ import { useContext, useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 import { ApplicationProvider } from '../../contexts/ApplicationContext';
+import DateTimePicker from '../../utils/DateTimePicker';
 import Modal from '../Modal/Modal';
 const CheckoutSection = () => {
   const {
@@ -10,6 +11,10 @@ const CheckoutSection = () => {
     deliveryAddress,
     selectedOrderMode,
     handleOrderModeChange,
+    orderTime,
+    orderTimeType,
+    handleSetOrderTimeType,
+    handleSetOrderTime,
   } = useContext(ApplicationProvider);
 
   const [modalOpen, setModalOpen] = useState(false);
@@ -54,6 +59,46 @@ const CheckoutSection = () => {
               </InputContainer>
             </RadioContainer>
           </MediumBlock>
+          <MediumBlock>
+            <OrderModeText>Order Time</OrderModeText>
+            <RadioContainer>
+              <InputContainer>
+                <Label htmlFor="asap">ASAP</Label>
+                <RadioInput
+                  id="asap"
+                  type="radio"
+                  value="asap"
+                  name="time"
+                  checked={orderTimeType === 'asap'}
+                  onChange={() => {
+                    handleSetOrderTimeType?.('asap');
+                  }}
+                />
+              </InputContainer>
+              <InputContainer>
+                <Label htmlFor="schedule">Schedule</Label>
+                <RadioInput
+                  value="schedule"
+                  id="schedule"
+                  type="radio"
+                  checked={orderTimeType === 'schedule'}
+                  onChange={() => {
+                    handleSetOrderTimeType?.('schedule');
+                  }}
+                  name="time"
+                />
+              </InputContainer>
+            </RadioContainer>
+          </MediumBlock>
+          {orderTimeType === 'schedule' && (
+            <SmallBlock>
+              <BlockText>Date & Time</BlockText>
+              <DateTimePicker
+                selectedDate={orderTime || new Date()}
+                handleSetOrderTime={handleSetOrderTime}
+              />
+            </SmallBlock>
+          )}
           {selectedOrderMode === 'delivery' && (
             <>
               <SmallBlock>
@@ -111,9 +156,15 @@ const CheckoutSection = () => {
         <CheckoutButtonContainer>
           <CheckoutButton
             type="button"
-            onClick={() => history.push('/checkout')}
+            onClick={() => {
+              if (deliveryAddress || branch) {
+                history.push('/checkout');
+              }
+            }}
           >
-            Checkout
+            {deliveryAddress || branch
+              ? 'Checkout'
+              : 'Please Select Order mode'}
           </CheckoutButton>
         </CheckoutButtonContainer>
       </StickyContainer>
@@ -162,7 +213,7 @@ const StickyContainer = styled.div`
   padding: 0.25rem 0.5rem;
   background-color: aliceblue;
   position: sticky;
-  top: 62px;
+  top: 51px;
   z-index: 3;
   align-self: flex-start;
   border-bottom: 1px solid rgba(0, 0, 0, 0.1);
@@ -197,7 +248,7 @@ const SmallBlock = styled.div`
   align-items: center;
 `;
 const MediumBlock = styled.div`
-  padding: 0.5rem 0;
+  padding: 0.25rem 0;
   display: flex;
   justify-content: space-between;
   align-items: center;

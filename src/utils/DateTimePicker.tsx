@@ -14,13 +14,17 @@ interface IProps {
   handleSetOrderTime?: (time: OrderTime) => void;
 }
 
-const DateTimePicker = ({ selectedDate, setSelectedDate }: IProps) => {
+const DateTimePicker = ({
+  selectedDate,
+  setSelectedDate,
+  handleSetOrderTime,
+}: IProps) => {
   const localeMap: { [key: string]: Locale } = {
     en: enLocale,
     ar: arLocale,
   };
   const handleDateChange = (date: any) => {
-    setSelectedDate?.(date);
+    handleSetOrderTime?.(date);
   };
   const {
     i18n: { language },
