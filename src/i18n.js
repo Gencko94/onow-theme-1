@@ -3,6 +3,8 @@ import Backend from 'i18next-http-backend';
 import LanguageDetector from 'i18next-browser-languagedetector';
 import { initReactI18next } from 'react-i18next';
 
+// import homeAR from '/public/locales/ar/home.json';
+// import homeEN from '/public/locales/en/home.json';
 i18n
   // load translation using http -> see /public/locales
   // learn more: https://github.com/i18next/i18next-http-backend
@@ -20,6 +22,15 @@ i18n
     interpolation: {
       escapeValue: false, // not needed for react as it escapes by default
     },
+    // ns: ['home'],
+    // resources: {
+    //   en: {
+    //     home: homeEN,
+    //   },
+    //   ar: {
+    //     home: homeAR,
+    //   },
+    // },
 
     react: {
       useSuspense: true,

@@ -21,12 +21,12 @@ const Container = styled.div`
   padding: 1rem;
 `;
 const Title = styled.h1(
-  ({ theme: { breakpoints } }) => `
+  ({ theme: { breakpoints, headingColor } }) => `
   font-size: 1.875rem; 
   line-height: 2.25rem;
   text-align: center;
   margin-bottom: 2rem;
-  color:#5F7999;
+  color:${headingColor};
   @media ${breakpoints.xs} {
       font-size: 1.5rem;
       line-height: 2rem;

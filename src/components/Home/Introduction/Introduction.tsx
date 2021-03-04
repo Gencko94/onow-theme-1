@@ -55,15 +55,16 @@ const Container = styled.div`
   text-align: center;
 `;
 const Title = styled.h1`
-  font-size: 1.975rem /* 18px */;
-  margin-bottom: 0.75rem; /* 12px */
-  color: ${props => props.theme.secondaryColor};
+  font-size: 1.975rem;
+  margin-bottom: 0.75rem;
+  color: ${props => props.theme.headingColor};
 `;
 const Quote = styled.q`
   font-size: 1.125rem /* 18px */;
   line-height: 1.75rem /* 28px */;
   display: block;
   margin-bottom: 0.75rem; /* 12px */
+  color: ${props => props.theme.subtitleColor};
 `;
 
 const AnimationContainer = styled.div(

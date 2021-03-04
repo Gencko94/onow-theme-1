@@ -8,7 +8,13 @@ declare module 'styled-components' {
     fontFamily: string;
     breakpoints: Devices;
     mainColor: string;
-    secondaryColor: string;
+    accentColor: string;
+    highlightColor: string;
+    highlightColorText: string;
     bodyColor: string;
+    headingColor: string;
+    subtitleColor?: string;
+    textColor: string;
+    shadow: string;
   }
 }

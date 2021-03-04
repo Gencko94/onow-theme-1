@@ -1,5 +1,7 @@
+import { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+import { ThemeContext, ThemeMode } from '../../contexts/ThemeContext';
 import { Category } from '../../interfaces/categories';
 import LazyImage from '../../utils/LazyImage';
 
@@ -8,12 +10,13 @@ interface Props {
 }
 
 const HomeCategory = ({ category }: Props) => {
+  const { mode } = useContext(ThemeContext);
   return (
     <Container>
-      <ImageContainer to={`/categories/${category.slug}`}>
+      <ImageContainer mode={mode} to={`/categories/${category.slug}`}>
         <LazyImage src={category.image} alt={category.title} pb="100%" />
       </ImageContainer>
-      <NameContainer to={`/categories/${category.slug}`}>
+      <NameContainer mode={mode} to={`/categories/${category.slug}`}>
         <CategoryName>{category.title}</CategoryName>
       </NameContainer>
     </Container>
@@ -23,18 +26,20 @@ const HomeCategory = ({ category }: Props) => {
 export default HomeCategory;
 
 const Container = styled.div``;
-const ImageContainer = styled(Link)`
+const ImageContainer = styled(Link)<{ mode?: ThemeMode }>`
   display: block;
   /* border-radius: 10px; */
   overflow: hidden;
-  /* box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2); */
+
   border-radius: 10px;
   background: #e0e0e0;
-  box-shadow: 10px 10px 25px #bebebe, -10px -10px 25px #ffffff;
+
+  box-shadow: ${props => props.mode === 'light' && props.theme.shadow};
 `;
-const NameContainer = styled(Link)`
-  box-shadow: 0 0px 10px rgba(0, 0, 0, 0.2);
-  background-color: #5f7999;
+const NameContainer = styled(Link)<{ mode?: ThemeMode }>`
+  box-shadow: ${props => props.mode === 'light' && props.theme.shadow};
+  background-color: ${props =>
+    props.mode === 'light' ? props.theme.mainColor : props.theme.accentColor};
   display: block;
   color: #eee;
   padding: 0.25rem;

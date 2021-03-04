@@ -9,8 +9,10 @@ import { gsap } from 'gsap';
 import { branches } from '../../../data/branches';
 import { Branch } from '../../../interfaces/branch';
 import { orderModes } from '../../../data/orderModes';
+import { useTranslation } from 'react-i18next';
 
 const OrderMode = () => {
+  const { t } = useTranslation<['home']>(['home']);
   const {
     selectedOrderMode,
     branch,
@@ -37,7 +39,7 @@ const OrderMode = () => {
   }, [selectedOrderMode, showChangeBranch]);
   return (
     <Container>
-      <Title> Ordering Mode </Title>
+      <Title>Order Mode</Title>
       <GridContainer>
         {orderModes.map(orderMode => (
           <OrderModeItem orderMode={orderMode} />
@@ -152,7 +154,7 @@ const Title = styled.h4`
   line-height: 2.25rem;
   font-weight: normal;
   margin-bottom: 1rem;
-  color: #5f7999;
+  color: ${props => props.theme.headingColor};
   @media ${({ theme }) => theme.breakpoints.xs} {
     font-size: 1.2rem;
     line-height: 2rem;

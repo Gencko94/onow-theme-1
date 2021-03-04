@@ -132,10 +132,10 @@ const Title = styled.h5(
   }
 `
 );
-const Subtitle = styled.p`
+const Subtitle = styled.p<{ bold?: boolean }>`
   text-align: center;
   font-size: 1rem;
-  font-weight: 600;
+  font-weight: ${props => props.bold && '600'};
 `;
 const LocationTypesContainer = styled.div`
   display: grid;
@@ -186,6 +186,7 @@ const ChangeButton = styled(Link)`
 `;
 const AddressText = styled.p`
   font-size: 0.9rem;
+  font-weight: 600;
 `;
 const Form = styled.form`
   margin-top: 0.5rem;

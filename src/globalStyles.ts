@@ -17,7 +17,7 @@ body {
   text-rendering: optimizeSpeed;
   line-height: 1.5;
   background-color:${props => props.theme.bodyColor};
-  color:${props => props.theme.secondaryColor};
+  color:${props => props.theme.textColor};
   transition:background-color 200ms ease;
   
 }
