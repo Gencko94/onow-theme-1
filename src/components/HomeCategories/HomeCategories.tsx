@@ -1,11 +1,13 @@
+import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
 import { categories } from '../../data/categories';
 import HomeCategory from './HomeCategory';
 
 const HomeCategories = () => {
+  const { t } = useTranslation();
   return (
     <Container>
-      <Title>Our Food Categories</Title>
+      <Title>{t('common:our-menu')}</Title>
       <CategoriesGrid>
         {categories.map(category => (
           <HomeCategory category={category} />

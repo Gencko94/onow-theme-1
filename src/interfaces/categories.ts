@@ -1,5 +1,8 @@
 export interface Category {
-  title: string;
+  title: {
+    [key: string]: string;
+    // ar: string;
+  };
   image: string;
   slug: string;
 }

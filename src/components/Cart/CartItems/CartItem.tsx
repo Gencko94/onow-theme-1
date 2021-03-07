@@ -1,5 +1,7 @@
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { AiOutlineMinus, AiOutlinePlus, AiFillDelete } from 'react-icons/ai';
+import { BsPlus } from 'react-icons/bs';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { Product } from '../../../interfaces/product';
@@ -8,8 +10,12 @@ import LazyImage from '../../../utils/LazyImage';
 interface Props {
   product: Product;
 }
-
+const addons = [
+  { name: 'Extra Cheese', price: '0.500 KD' },
+  { name: 'Extra Onions', price: '0.750 KD' },
+];
 const CartItem = ({ product }: Props) => {
+  const { t } = useTranslation();
   const [quantity, setQuantity] = useState<number>(1);
   const handleSubstractQuantity = () => {
     if (quantity === 1) return;
@@ -17,16 +23,34 @@ const CartItem = ({ product }: Props) => {
   };
   return (
     <Container>
-      <DetailsContainer>
-        <LazyImage src={product.image} alt={product.name} pb="100%" />
-        <Details>
-          <ProductName to="/products/cheese-burger">{product.name}</ProductName>
-          <SpecialInstructions>Extra Cheese</SpecialInstructions>
-        </Details>
-      </DetailsContainer>
-      <PricingContainer>
+      <LazyImage src={product.image} alt={product.name} pb="100%" />
+      <Details>
+        <ProductName to="/products/cheese-burger">{product.name}</ProductName>
+        <Price>{product.price}</Price>
+        {addons.map(addon => (
+          <>
+            <AddonName>{addon.name}</AddonName>
+            <AddonPrice>+{addon.price}</AddonPrice>
+          </>
+        ))}
+        {/* <SpecialInstructions>Extra Cheese</SpecialInstructions> */}
+      </Details>
+      <QuantityWrapper>
+        <QuantityContainer>
+          <QuantityButton>
+            <AiOutlineMinus size={10} />
+          </QuantityButton>
+          <QuantityText>1</QuantityText>
+          <QuantityButton>
+            <AiOutlinePlus size={10} />
+          </QuantityButton>
+        </QuantityContainer>
+        <AiFillDelete size={20} color="#b72b2b" />
+      </QuantityWrapper>
+
+      {/* <PricingContainer>
         <QuantityWrapper>
-          <QuantityText>Quantity </QuantityText>
+          <QuantityText>{t('quantity')} </QuantityText>
           <QuantityContainer>
             <QuantityButton onClick={handleSubstractQuantity}>
               <AiOutlineMinus size={20} />
@@ -43,7 +67,7 @@ const CartItem = ({ product }: Props) => {
         <RemoveButton type="button">
           <AiFillDelete size={20} />
         </RemoveButton>
-      </PricingContainer>
+      </PricingContainer> */}
     </Container>
   );
 };
@@ -52,23 +76,42 @@ export default CartItem;
 
 const Container = styled.div`
   border-bottom: 1px solid rgba(0, 0, 0, 0.2);
-`;
-const DetailsContainer = styled.div`
   display: grid;
-  grid-template-columns: 0.4fr 1fr;
-  gap: 1rem;
-  padding: 0.25rem;
+  grid-template-columns: 0.2fr 1fr 0.2fr;
+  gap: 0.25rem;
+  padding: 0.5rem 0rem;
 `;
+
 const Details = styled.div`
-  padding: 0.5rem;
+  display: grid;
+  grid-template-columns: 1fr 0.4fr;
+
+  align-self: flex-start;
 `;
 const ProductName = styled(Link)`
   display: block;
-  margin-bottom: 0.25rem;
-  font-weight: 500;
+  /* font-size: 0.9rem; */
+  /* margin-bottom: 0.25rem; */
+  color: ${props => props.theme.headingColor};
+  font-weight: ${props => props.theme.font.xbold};
+`;
+const AddonName = styled.p`
+  font-size: 0.8rem;
+  color: ${props => props.theme.subHeading};
+  font-weight: ${props => props.theme.font.semibold};
+`;
+const AddonPrice = styled.p`
+  color: ${props => props.theme.subHeading};
+  font-size: 0.8rem;
+  font-weight: ${props => props.theme.font.bold};
+`;
+const Price = styled.p`
+  font-size: 0.9rem;
+  color: ${props => props.theme.headingColor};
+  font-weight: ${props => props.theme.font.xbold};
 `;
 const SpecialInstructions = styled.p`
-  color: ${props => props.theme.secondaryColor};
+  color: ${props => props.theme.highlightColor};
 `;
 const PricingContainer = styled.div`
   padding: 0.5em;
@@ -77,16 +120,21 @@ const PricingContainer = styled.div`
 `;
 const QuantityWrapper = styled.div`
   display: flex;
-  align-items: center;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: space-between;
+  /* align-self: flex-start; */
 `;
 const QuantityText = styled.p`
   font-size: 1rem;
-  color: #57423f;
+  margin: 0 0.25rem;
+  font-weight: ${props => props.theme.font.xbold};
+  color: ${props => props.theme.subHeading};
 `;
 const QuantityContainer = styled.div`
   display: flex;
   align-items: center;
-  margin: 0 0.7rem;
+  /* margin: 0 0.7rem; */
 `;
 const Quantity = styled.p`
   margin: 0 0.7rem;
@@ -94,14 +142,16 @@ const Quantity = styled.p`
   text-align: center;
 `;
 const QuantityButton = styled.button`
-  width: 35px;
-  height: 35px;
-  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  border-radius: 5px;
+  background-color: #fff;
   border: 1px solid rgba(0, 0, 0, 0.2);
   box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.1);
-  padding: 0.5rem;
+  padding: 0.15rem;
   display: flex;
   align-items: center;
+  /* border: 1px solid #222; */
   justify-content: center;
 `;
 const PriceContainer = styled.div`

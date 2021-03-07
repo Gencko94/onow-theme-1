@@ -1,4 +1,5 @@
 import { useContext, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 import { Link, useHistory } from 'react-router-dom';
 import styled from 'styled-components';
@@ -18,14 +19,15 @@ const CheckoutSection = () => {
   } = useContext(ApplicationProvider);
 
   const [modalOpen, setModalOpen] = useState(false);
+  const { t } = useTranslation();
   const history = useHistory();
   return (
     <>
-      <Container>
-        <CouponContainer>
-          <CouponInput placeholder="Enter Code Or Coupon" />
-          <SubmitButton type="button">Submit</SubmitButton>
-        </CouponContainer>
+      <CouponContainer>
+        <CouponInput placeholder={t('enter-code-or-coupon')} />
+        <SubmitButton type="button">{t('submit')}</SubmitButton>
+      </CouponContainer>
+      {/* <Container>
         <ContentWrapper>
           <MediumBlock>
             <OrderModeText>Order Mode</OrderModeText>
@@ -137,19 +139,19 @@ const CheckoutSection = () => {
             </SmallBlock>
           )}
         </ContentWrapper>
-      </Container>
+      </Container> */}
       <StickyContainer>
         <SmallBlock>
-          <BlockText>Order Total</BlockText>
+          <BlockText>{t('order-total')}</BlockText>
           <BlockText bold>2.000 KD</BlockText>
         </SmallBlock>
         <SmallBlock>
-          <BlockText>Delivery Cost</BlockText>
+          <BlockText>{t('delivery-cost')}</BlockText>
           <BlockText bold>2.000 KD</BlockText>
         </SmallBlock>
         <hr />
         <MediumBlock>
-          <BlockText>Order Subtotal</BlockText>
+          <BlockText>{t('subtotal')}</BlockText>
           <BlockText bold>2.000 KD</BlockText>
         </MediumBlock>
 

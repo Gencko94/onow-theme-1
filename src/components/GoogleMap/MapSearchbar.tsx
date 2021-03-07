@@ -139,7 +139,7 @@ const SuggestionContainer = styled.div<{ isHighlighted: boolean }>`
   background-color: ${props =>
     props.isHighlighted ? props.theme.mainColor : '#fff'};
   color: ${props =>
-    props.isHighlighted ? '#fff' : props.theme.secondaryColor};
+    props.isHighlighted ? props.theme.highlightColor : '#fff'};
 `;
 const SuggestionTextContainer = styled.div`
   display: flex;

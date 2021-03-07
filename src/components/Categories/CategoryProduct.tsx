@@ -34,7 +34,7 @@ const ContentContainer = styled.div`
   padding: 0 0.5rem 0.5rem 0.5rem;
 `;
 const NameContainer = styled.div`
-  color: ${props => props.theme.secondaryColor};
+  color: ${props => props.theme.headingColor};
 
   height: 38px;
   border-radius: 8px;

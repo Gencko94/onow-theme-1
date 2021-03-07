@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { AiOutlineMinus, AiOutlinePlus } from 'react-icons/ai';
 import styled from 'styled-components';
 import { products } from '../data/products';
@@ -8,7 +9,7 @@ import LazyImage from '../utils/LazyImage';
 const Product = () => {
   const product = products[0];
   const [quantity, setQuantity] = useState<number>(1);
-
+  const { t } = useTranslation();
   const handleSubstractQuantity = () => {
     if (quantity === 1) return;
     setQuantity(prev => prev - 1);
@@ -29,13 +30,13 @@ const Product = () => {
         </ContentContainer>
         <ContentContainer>
           <AdditionalInstructionsTitle>
-            Additional Instructions
+            {t('additional-requests')}
           </AdditionalInstructionsTitle>
           <AdditionalInstructionsText rows={4} />
         </ContentContainer>
         <BuyingOptionsContainer>
           <QuantityWrapper>
-            <QuantityText>Quantity </QuantityText>
+            <QuantityText>{t('quantity')} </QuantityText>
             <QuantityContainer>
               <QuantityButton onClick={handleSubstractQuantity}>
                 <AiOutlineMinus size={20} />
@@ -46,7 +47,7 @@ const Product = () => {
               </QuantityButton>
             </QuantityContainer>
           </QuantityWrapper>
-          <AddButton>Add to cart</AddButton>
+          <AddButton>{t('add-to-cart')}</AddButton>
         </BuyingOptionsContainer>
       </Container>
     </Layout>
@@ -71,12 +72,12 @@ const Description = styled.p`
 `;
 const Price = styled.p`
   font-size: 1.2rem;
-  color: ${({ theme }) => theme.secondaryColor};
+  color: ${({ theme }) => theme.accentColor};
   font-weight: 600;
 `;
 const AdditionalInstructionsTitle = styled.p`
   font-size: 1rem;
-  color: ${({ theme }) => theme.secondaryColor};
+  color: ${({ theme }) => theme.accentColor};
   margin-bottom: 0.5rem;
 `;
 const AdditionalInstructionsText = styled.textarea`

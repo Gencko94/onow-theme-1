@@ -20,7 +20,7 @@ const ThemeProvider: React.FC = ({ children }) => {
   const [mode, setMode] = useState<ThemeMode>('light');
   const { i18n } = useTranslation();
   const fontFamily = useMemo(
-    () => (i18n.language === 'ar' ? 'Tajawal' : 'Poppins'),
+    () => (i18n.language === 'ar' ? 'Cairo' : 'Nunito'),
     [i18n.language]
   );
   const currentTheme = useMemo(() => {

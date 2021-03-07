@@ -12,6 +12,7 @@ import ApplicationContext from './contexts/ApplicationContext';
 import { CSSTransition } from 'react-transition-group';
 import Product from './pages/Product';
 import Cart from './pages/Cart';
+import Branch from './pages/Branch';
 
 const Aboutus = React.lazy(() => import('./pages/Aboutus'));
 const Home = React.lazy(() => import('./pages/Home'));
@@ -68,9 +69,24 @@ function App() {
                   </CSSTransition>
                 )}
               </Route>
+              <Route exact path="/branch/:branch">
+                {({ match }) => (
+                  <CSSTransition
+                    in={match !== null}
+                    classNames="pages"
+                    timeout={250}
+                    unmountOnExit
+                  >
+                    <div className="pages">
+                      <Branch />
+                    </div>
+                  </CSSTransition>
+                )}
+              </Route>
               <Route exact path="/aboutus" component={Aboutus} />
               {/* <Route exact path="/cart" component={Cart} /> */}
               <Route exact path="/branches" component={Branches} />
+
               <Route exact path="/booking" component={Booking} />
               <Route path="/checkout" component={Checkout} />
               <Route exact path="/location" component={SelectLocation} />

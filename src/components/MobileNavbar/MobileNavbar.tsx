@@ -11,6 +11,7 @@ import { useLocation } from 'react-router';
 import Hamburger from './MobileNavIcons/Hamburger';
 import MobileNavIcons from './MobileNavIcons/MobileNavIcons';
 import { Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 interface IProps {
   drawerOpen: boolean;
   setDrawerOpen: Dispatch<SetStateAction<boolean>>;
@@ -18,6 +19,7 @@ interface IProps {
 
 const MobileNavbar = ({ setDrawerOpen, drawerOpen }: IProps) => {
   const { pathname } = useLocation();
+  console.log(pathname);
   const shouldChange = useMemo(() => {
     if (
       pathname === '/' ||
@@ -30,9 +32,7 @@ const MobileNavbar = ({ setDrawerOpen, drawerOpen }: IProps) => {
     return false;
   }, [pathname]);
   const [changeView, setChangeView] = useState<boolean>(false);
-  const handleSideMenuOpen = () => {
-    setDrawerOpen(!drawerOpen);
-  };
+
   const shouldChangeColor = useCallback(() => {
     if (!shouldChange) {
       if (drawerOpen) {
@@ -61,6 +61,7 @@ const MobileNavbar = ({ setDrawerOpen, drawerOpen }: IProps) => {
       window.removeEventListener('scroll', checkScrolling);
     };
   }, []);
+
   return (
     <>
       <Container
@@ -71,6 +72,9 @@ const MobileNavbar = ({ setDrawerOpen, drawerOpen }: IProps) => {
         {/* <LogoContainer to="/">
           <img src="/images/logo.png" alt="logo" />
         </LogoContainer> */}
+        {/* <LanguageButton onClick={() => changeLanguage()}>
+          {i18n.language === 'ar' ? 'EN' : 'AR'}
+        </LanguageButton> */}
         <MobileNavIcons shouldChangeColor={shouldChangeColor} />
       </Container>
       <Hamburger setDrawerOpen={setDrawerOpen} drawerOpen={drawerOpen} />
@@ -91,11 +95,11 @@ const Container = styled.div<{
   top: 0;
   left: 0;
   width: 100%;
-  padding: 0.5rem 0.5rem;
+  padding: 0.5rem;
   z-index: 9;
   transition: background-color 700ms;
   background-color: ${props =>
-    props.changeColor() ? props.theme.mainColor : 'transparent'};
+    props.changeColor() ? props.theme.navColor : 'transparent'};
 `;
 const LogoContainer = styled(Link)`
   border-radius: 50%;

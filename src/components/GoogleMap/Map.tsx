@@ -32,7 +32,8 @@ const options: google.maps.MapOptions = {
 const Map = () => {
   const {
     i18n: { language },
-  } = useTranslation();
+    t,
+  } = useTranslation(['map']);
 
   const [marker, setMarker] = useState<MapCoordinates | null>(null);
   const [markerAddress, setMarkerAddress] = useState<string>('');
@@ -48,6 +49,7 @@ const Map = () => {
     libraries,
     language,
   });
+  //problem here when changing lng
   const mapRef = useRef<google.maps.Map<Element>>();
   const onMapLoad = useCallback((map: google.maps.Map<Element>) => {
     mapRef.current = map;
@@ -139,7 +141,7 @@ const Map = () => {
       <MapSearchbar panTo={panTo} markerAddress={markerAddress} />
       {marker && <Marker position={{ lat: marker?.lat, lng: marker?.lng }} />}
       {outOfBorder && (
-        <OutOfBorderContainer>Cannot Deliver here</OutOfBorderContainer>
+        <OutOfBorderContainer>{t('cannot-deliver-here')}</OutOfBorderContainer>
       )}
       <ConfirmationContainer>
         <MapIcon
@@ -170,7 +172,7 @@ const Map = () => {
             }
           }}
         >
-          Confirm Location
+          {t('confirm-location')}
         </ConfirmButton>
       </ConfirmationContainer>
     </GoogleMap>

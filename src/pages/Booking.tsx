@@ -119,12 +119,12 @@ const ContentContainer = styled.div`
   padding: 0.5rem 0.25rem;
 `;
 const Title = styled.h1(
-  ({ theme: { breakpoints, secondaryColor } }) => `
+  ({ theme: { breakpoints, accentColor } }) => `
   font-size: 1.875rem; 
   line-height: 2.25rem;
   text-align: center;
   margin-bottom: 2rem;
-  color:${secondaryColor};
+  color:${accentColor};
   @media ${breakpoints.xs} {
       font-size: 1.5rem;
       line-height: 2rem;
@@ -134,13 +134,13 @@ const Title = styled.h1(
 );
 const BranchTitle = styled.p`
   font-size: 1.1rem;
-  color: ${({ theme }) => theme.secondaryColor};
+  color: ${({ theme }) => theme.accentColor};
   margin-bottom: 0.5rem;
   font-weight: 500;
 `;
 const DateTimeTitle = styled.p`
   font-size: 1.1rem;
-  color: ${({ theme }) => theme.secondaryColor};
+  color: ${({ theme }) => theme.accentColor};
   margin-bottom: 0.5rem;
   font-weight: 500;
 `;
@@ -165,7 +165,7 @@ const InputContainer = styled.div`
   margin-bottom: 0.5rem;
 `;
 const Label = styled.label`
-  color: ${({ theme }) => theme.secondaryColor};
+  color: ${({ theme }) => theme.accentColor};
   margin-bottom: 0.5rem;
   display: block;
 `;
@@ -191,7 +191,7 @@ const SubmitButton = styled.button`
   margin-top: 0.5rem;
 `;
 const AdditionalInstructionsTitle = styled.p`
-  color: ${({ theme }) => theme.secondaryColor};
+  color: ${({ theme }) => theme.accentColor};
   margin-bottom: 0.5rem;
   font-weight: 500;
 `;

@@ -12,7 +12,7 @@ import { orderModes } from '../../../data/orderModes';
 import { useTranslation } from 'react-i18next';
 
 const OrderMode = () => {
-  const { t } = useTranslation<['home']>(['home']);
+  const { t } = useTranslation<['common', 'home']>(['common', 'home']);
   const {
     selectedOrderMode,
     branch,
@@ -39,7 +39,7 @@ const OrderMode = () => {
   }, [selectedOrderMode, showChangeBranch]);
   return (
     <Container>
-      <Title>Order Mode</Title>
+      <Title>{t('order-mode')}</Title>
       <GridContainer>
         {orderModes.map(orderMode => (
           <OrderModeItem orderMode={orderMode} />
@@ -60,7 +60,7 @@ const OrderMode = () => {
           ) : (
             <LocationPromptContainer>
               <LocationPrompt to="/location">
-                Select your Delivery Destination
+                {t('select-delivery-destination')}
               </LocationPrompt>
               <IconContainer>
                 <BiMap size={25} />
@@ -203,7 +203,7 @@ const BranchContainer = styled.li<{ selected: boolean }>`
   padding: 0.75rem;
   background-color: ${props =>
     props.selected ? props.theme.mainColor : '#fff'};
-  color: ${props => (props.selected ? '#fff' : props.theme.secondaryColor)};
+  color: ${props => (props.selected ? '#fff' : props.theme.accentColor)};
   transition: background-color 150ms ease-in-out;
   display: flex;
   align-items: center;
@@ -235,7 +235,7 @@ const ConfirmButton = styled.button`
 `;
 const UserLocationContainer = styled.div`
   padding: 0.5rem;
-  color: ${props => props.theme.secondaryColor};
+  color: ${props => props.theme.accentColor};
 `;
 const StyledP = styled.p`
   margin-bottom: 0.5rem;
@@ -257,7 +257,7 @@ const SelectedBranchContainer = styled.div`
   display: flex;
   padding: 0.5rem;
   gap: 0.5rem;
-  color: ${props => props.theme.secondaryColor};
+  color: ${props => props.theme.accentColor};
 `;
 
 const OrderingFrom = styled.p``;

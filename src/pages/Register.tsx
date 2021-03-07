@@ -159,7 +159,7 @@ const InputContainer = styled.div`
   margin-bottom: 0.5rem;
 `;
 const Label = styled.label`
-  color: ${({ theme }) => theme.secondaryColor};
+  color: ${({ theme }) => theme.accentColor};
   margin-bottom: 0.3rem;
   font-size: 0.8rem;
   display: block;

@@ -22,7 +22,7 @@ const MobileNavIcons = ({
   };
   return (
     <Container>
-      {/* <div className="">
+      <div className="">
         {language === 'ar' && (
           <LanguageButton onClick={() => changeLanguage('en')}>
             English
@@ -33,7 +33,7 @@ const MobileNavIcons = ({
             العربية
           </LanguageButton>
         )}
-      </div> */}
+      </div>
       <CartIconContainer to="/cart">
         <Icon>
           <HiOutlineShoppingBag size={20} color="#fff" />
@@ -60,6 +60,7 @@ const Icon = styled.span`
 const LanguageButton = styled.button`
   padding: 0.25rem 0.5rem;
   border-radius: 5px;
+  color: #fff;
 `;
 const CartIconContainer = styled(Link)`
   display: flex;

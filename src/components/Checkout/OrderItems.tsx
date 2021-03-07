@@ -92,7 +92,7 @@ const ProductName = styled.p`
   font-weight: 500;
 `;
 const SpecialInstructions = styled.p`
-  color: ${props => props.theme.secondaryColor};
+  color: ${props => props.theme.highlightColor};
   font-size: 0.7rem;
 `;
 const PricingContainer = styled.div`

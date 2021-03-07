@@ -95,14 +95,14 @@ const ListContainer = styled.div`
 `;
 
 const ListItem = styled.span(
-  ({ theme: { breakpoints, secondaryColor } }) => `
+  ({ theme: { breakpoints, accentColor } }) => `
   position: absolute;
   top: 0;
   right: 0;
   left: 0;
   bottom: 0;
   opacity: 0;
-  color : ${secondaryColor};
+  color : ${accentColor};
   transform: translateY(10px);
   font-weight: 600; 
   font-size: 1.875rem;

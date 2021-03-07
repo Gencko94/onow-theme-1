@@ -169,7 +169,7 @@ const BranchContainer = styled.li<{ selected: boolean }>`
   padding: 0.5rem;
   background-color: ${props =>
     props.selected ? props.theme.mainColor : '#fff'};
-  color: ${props => (props.selected ? '#fff' : props.theme.secondaryColor)};
+  color: ${props => (props.selected ? '#fff' : props.theme.accentColor)};
   transition: background-color 150ms ease-in-out;
   display: flex;
   align-items: center;

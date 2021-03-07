@@ -17,6 +17,7 @@ const LayoutMobile: React.FC = ({ children }) => {
   return (
     <Wrapper>
       <MobileNavbar setDrawerOpen={setDrawerOpen} drawerOpen={drawerOpen} />
+
       <CSSTransition
         in={drawerOpen}
         classNames="drawer-"

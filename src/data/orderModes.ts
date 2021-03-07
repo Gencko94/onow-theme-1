@@ -2,11 +2,11 @@ import { OrderMode } from '../interfaces/orderModes';
 
 export const orderModes: OrderMode[] = [
   {
-    title: 'Delivery',
+    title: 'delivery',
     value: 'delivery',
   },
   {
-    title: 'Pick up',
+    title: 'pickup',
     value: 'pickup',
   },
 ];

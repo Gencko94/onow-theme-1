@@ -5,6 +5,7 @@ import { OMode } from '../../../contexts/ApplicationContext';
 import { BiRadioCircleMarked, BiRadioCircle } from 'react-icons/bi';
 import { OrderMode } from '../../../interfaces/orderModes';
 import { ThemeContext, ThemeMode } from '../../../contexts/ThemeContext';
+import { useTranslation } from 'react-i18next';
 interface IProps {
   orderMode: OrderMode;
   small?: boolean;
@@ -14,6 +15,7 @@ const OrderModeItem = ({ orderMode, small }: IProps) => {
   const { selectedOrderMode, handleOrderModeChange } = useContext(
     ApplicationProvider
   );
+  const { t } = useTranslation(['common', 'home']);
   const { mode } = useContext(ThemeContext);
   return (
     <Container
@@ -28,7 +30,7 @@ const OrderModeItem = ({ orderMode, small }: IProps) => {
       }}
     >
       <TitleContainer>
-        <Title>{orderMode.title}</Title>
+        <Title>{t(orderMode.title)}</Title>
       </TitleContainer>
       <IconContainer>
         {selectedOrderMode === orderMode.value ? (

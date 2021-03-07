@@ -1,30 +1,14 @@
-import { Dispatch, SetStateAction, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
-import { BsArrowLeft } from 'react-icons/bs';
-import { Branch } from '../../interfaces/branch';
-interface IProps {
-  selectedBranch: Branch | null;
-  setModalOpen: Dispatch<SetStateAction<boolean>>;
-}
-const BranchModal = ({ selectedBranch: branch, setModalOpen }: IProps) => {
-  const handleClose = () => {
-    setModalOpen(false);
-  };
+import { branches } from '../data/branches';
+import Layout from '../layout/Layout';
+
+const Branch = () => {
+  const { t } = useTranslation(['branches']);
   const days = ['Sat', 'Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri'];
-  useEffect(() => {
-    document.body.style.overflow = 'hidden';
-    return () => {
-      document.body.style.overflow = 'unset';
-    };
-  }, []);
-  if (!branch) return null;
+  const branch = branches[0];
   return (
-    <Container>
-      <HeadContainer>
-        <BackButton onClick={handleClose}>
-          <BsArrowLeft size={40} />
-        </BackButton>
-      </HeadContainer>
+    <Layout>
       <img
         src={`https://maps.googleapis.com/maps/api/staticmap?center=${branch.coordinates.lat},${branch.coordinates.lng}&zoom=15&size=800x250&key=${process.env.REACT_APP_GOOGLE_MAPS_API_KEY}`}
         alt={branch.name}
@@ -33,17 +17,17 @@ const BranchModal = ({ selectedBranch: branch, setModalOpen }: IProps) => {
       <ContentContainer>
         <Name>{branch.name}</Name>
         <OpenNow isOpen={branch.openNow}>
-          {branch.openNow ? 'Open Now' : 'Closed'}
+          {branch.openNow ? t('open-now') : t('closed')}
         </OpenNow>
       </ContentContainer>
       <ContentContainer>
         <Address>{branch.directions}</Address>
       </ContentContainer>
       <BookingButtonContainer>
-        <BookButton>Book Now</BookButton>
+        <BookButton>{t('book-here')}</BookButton>
       </BookingButtonContainer>
       <ContentContainer>
-        <OpeningHoursTitle>Opening Hours</OpeningHoursTitle>
+        <OpeningHoursTitle>{t('opening-hours')}</OpeningHoursTitle>
         <OpeningHoursContainer>
           <DaysContainer>
             {days.map(day => (
@@ -57,36 +41,12 @@ const BranchModal = ({ selectedBranch: branch, setModalOpen }: IProps) => {
           </HoursContainer>
         </OpeningHoursContainer>
       </ContentContainer>
-    </Container>
+    </Layout>
   );
 };
 
-export default BranchModal;
+export default Branch;
 
-const Container = styled.div`
-  position: fixed;
-  top: 0;
-  width: 100%;
-  left: 0;
-  height: 100%;
-  background-color: #fff;
-  z-index: 20;
-  max-height: 100%;
-  overflow-y: auto;
-`;
-const HeadContainer = styled.div`
-  padding: 0.5rem;
-  background-color: ${({ theme }) => theme.mainColor};
-  color: #fff;
-  display: flex;
-  align-items: center;
-`;
-const BackButton = styled.button`
-  color: #fff;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`;
 const ContentContainer = styled.div`
   padding: 0.25rem 1rem;
 `;
@@ -106,7 +66,7 @@ const Address = styled.p`
 
 const OpeningHoursTitle = styled.p`
   font-size: 1.1rem;
-  color: ${({ theme }) => theme.secondaryColor};
+  color: ${({ theme }) => theme.subtitleColor};
   margin-bottom: 0.5rem;
   font-weight: 500;
 `;
@@ -121,7 +81,7 @@ const DaysContainer = styled.div`
 const Day = styled.p`
   padding: 0.25rem;
   font-size: 0.9rem;
-  color: ${({ theme }) => theme.secondaryColor};
+  color: ${({ theme }) => theme.subtitleColor};
   border-top: 1px solid #dfdfdf;
   border-left: 1px solid #dfdfdf;
 `;
@@ -132,7 +92,7 @@ const HoursContainer = styled.div`
 const Hour = styled.p`
   padding: 0.25rem;
   font-size: 0.9rem;
-  color: ${({ theme }) => theme.secondaryColor};
+  color: ${({ theme }) => theme.subtitleColor};
   border-top: 1px solid #dfdfdf;
   border-left: 1px solid #dfdfdf;
 `;

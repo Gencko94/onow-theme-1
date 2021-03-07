@@ -4,20 +4,28 @@ import styled from 'styled-components';
 import { ThemeContext, ThemeMode } from '../../contexts/ThemeContext';
 import { Category } from '../../interfaces/categories';
 import LazyImage from '../../utils/LazyImage';
+import { useTranslation } from 'react-i18next';
 
 interface Props {
   category: Category;
 }
 
 const HomeCategory = ({ category }: Props) => {
+  const {
+    i18n: { language },
+  } = useTranslation();
   const { mode } = useContext(ThemeContext);
   return (
     <Container>
       <ImageContainer mode={mode} to={`/categories/${category.slug}`}>
-        <LazyImage src={category.image} alt={category.title} pb="100%" />
+        <LazyImage
+          src={category.image}
+          alt={category.title[language]}
+          pb="100%"
+        />
       </ImageContainer>
       <NameContainer mode={mode} to={`/categories/${category.slug}`}>
-        <CategoryName>{category.title}</CategoryName>
+        <CategoryName>{category.title[language]}</CategoryName>
       </NameContainer>
     </Container>
   );

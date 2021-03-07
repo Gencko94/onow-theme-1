@@ -1,8 +1,7 @@
 import { useTranslation } from 'react-i18next';
 
 const DesktopNavbar = () => {
-  const { t, i18n, ready } = useTranslation();
-
+  const { t, i18n, ready } = useTranslation(['home']);
   const changeLanguage = (lng: string) => {
     if (ready) {
       i18n.changeLanguage(lng);
@@ -10,7 +9,7 @@ const DesktopNavbar = () => {
   };
   return (
     <div className="flex items-center p-2 bg-blue-400">
-      <h1 className="font-semibold text-xl">{t('Welcome_to_React')}</h1>
+      <h1 className="font-semibold text-xl">{t('hello')}</h1>
       <div className="ml-auto">
         <button className="btn-sm border" onClick={() => changeLanguage('en')}>
           en

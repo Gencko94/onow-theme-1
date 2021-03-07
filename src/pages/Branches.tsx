@@ -1,27 +1,20 @@
-import { useState } from 'react';
-import { CSSTransition } from 'react-transition-group';
 import styled from 'styled-components';
 import Hero from '../components/Home/Hero/Hero';
 import { branches } from '../data/branches';
 import Layout from '../layout/Layout';
 import MapLazyImage from '../utils/MapLazyImage';
-import { Branch } from '../interfaces/branch';
-import BranchModal from '../components/Branches/BranchModal';
-import { useHistory } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 const Branches = () => {
-  const [modalOpen, setModalOpen] = useState<boolean>(false);
-  const [selectedBranch, setSelectedBranch] = useState<null | Branch>(null);
-  const handleOpen = (branch: Branch) => {
-    setModalOpen(true);
-    setSelectedBranch(branch);
-  };
+  const { t } = useTranslation(['branches']);
+
   const { push } = useHistory();
   return (
     <Layout>
       <Hero />
       <Container>
-        <Title>Our Branches</Title>
+        <Title>{t('common:our-branches')}</Title>
         <BranchesContainer>
           {branches.map(branch => (
             <BranchItem>
@@ -36,14 +29,14 @@ const Branches = () => {
                 <BranchName>{branch.name}</BranchName>
                 <OpeningHours>{branch.openingHours}</OpeningHours>
                 <OpenNow isOpen={branch.openNow}>
-                  {branch.openNow ? 'Open Now' : 'Closed'}
+                  {branch.openNow ? t('open-now') : t('closed')}
                 </OpenNow>
                 <ButtonsContainer>
-                  <DetailsButton onClick={() => handleOpen(branch)}>
-                    See Details
+                  <DetailsButton to={`/branch/${branch.name}`}>
+                    {t('branch-details')}
                   </DetailsButton>
                   <BookButton onClick={() => push('/booking')}>
-                    Book Now
+                    {t('book-here')}
                   </BookButton>
                 </ButtonsContainer>
               </BranchDetails>
@@ -51,18 +44,6 @@ const Branches = () => {
           ))}
         </BranchesContainer>
       </Container>
-      <CSSTransition
-        in={modalOpen}
-        classNames="product-modal"
-        timeout={{ enter: 200, exit: 300 }}
-        unmountOnExit
-        mountOnEnter
-      >
-        <BranchModal
-          selectedBranch={selectedBranch}
-          setModalOpen={setModalOpen}
-        />
-      </CSSTransition>
     </Layout>
   );
 };
@@ -75,12 +56,12 @@ const Container = styled.div`
 `;
 
 const Title = styled.h1(
-  ({ theme: { breakpoints, secondaryColor } }) => `
+  ({ theme: { breakpoints, accentColor } }) => `
   font-size: 1.875rem; 
   line-height: 2.25rem;
   text-align: center;
   margin-bottom: 2rem;
-  color:${secondaryColor};
+  color:${accentColor};
   @media ${breakpoints.xs} {
       font-size: 1.5rem;
       line-height: 2rem;
@@ -106,7 +87,7 @@ const BranchDetails = styled.div`
 `;
 const BranchName = styled.h6``;
 const OpeningHours = styled.p`
-  color: ${props => props.theme.secondaryColor};
+  color: ${props => props.theme.accentColor};
   font-size: 0.9rem;
 `;
 const OpenNow = styled.p`
@@ -120,12 +101,12 @@ const ButtonsContainer = styled.div`
   font-size: 0.9rem;
   /* justify-content: center; */
 `;
-const DetailsButton = styled.button`
-  /* display: block; */
+const DetailsButton = styled(Link)`
+  display: block;
   padding: 0.5rem;
   border-radius: 20px;
   color: #fff;
-  background-color: ${props => props.theme.secondaryColor};
+  background-color: ${props => props.theme.accentColor};
 `;
 const BookButton = styled.button`
   /* display: block; */
