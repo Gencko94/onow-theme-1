@@ -23,29 +23,31 @@ const CartItem = ({ product }: Props) => {
   };
   return (
     <Container>
-      <LazyImage src={product.image} alt={product.name} pb="100%" />
-      <Details>
-        <ProductName to="/products/cheese-burger">{product.name}</ProductName>
-        <Price>{product.price}</Price>
-        {addons.map(addon => (
-          <>
-            <AddonName>{addon.name}</AddonName>
-            <AddonPrice>+{addon.price}</AddonPrice>
-          </>
-        ))}
-        {/* <SpecialInstructions>Extra Cheese</SpecialInstructions> */}
-      </Details>
+      <ProductContainer>
+        <LazyImage src={product.image} alt={product.name} pb="100%" />
+        <Details>
+          <ProductName to="/products/cheese-burger">{product.name}</ProductName>
+          <Price>{product.price}</Price>
+          {addons.map(addon => (
+            <>
+              <AddonName>{addon.name}</AddonName>
+              <AddonPrice>+{addon.price}</AddonPrice>
+            </>
+          ))}
+          {/* <SpecialInstructions>Extra Cheese</SpecialInstructions> */}
+        </Details>
+      </ProductContainer>
       <QuantityWrapper>
         <QuantityContainer>
           <QuantityButton>
-            <AiOutlineMinus size={10} />
+            <AiOutlineMinus size={18} />
           </QuantityButton>
           <QuantityText>1</QuantityText>
           <QuantityButton>
-            <AiOutlinePlus size={10} />
+            <AiOutlinePlus size={18} />
           </QuantityButton>
         </QuantityContainer>
-        <AiFillDelete size={20} color="#b72b2b" />
+        <AiFillDelete size={27} color="#b72b2b" />
       </QuantityWrapper>
 
       {/* <PricingContainer>
@@ -76,12 +78,14 @@ export default CartItem;
 
 const Container = styled.div`
   border-bottom: 1px solid rgba(0, 0, 0, 0.2);
-  display: grid;
-  grid-template-columns: 0.2fr 1fr 0.2fr;
-  gap: 0.25rem;
-  padding: 1rem 0rem;
+  padding: 0.5rem 0;
 `;
-
+const ProductContainer = styled.div`
+  display: grid;
+  grid-template-columns: 0.4fr 1fr;
+  gap: 0.5rem;
+  padding: 0.5rem 0rem;
+`;
 const Details = styled.div`
   display: grid;
   grid-template-columns: 1fr 0.4fr;
@@ -104,13 +108,16 @@ const AddonPrice = styled.p`
   color: ${props => props.theme.subHeading};
   font-size: 0.8rem;
   font-weight: ${props => props.theme.font.bold};
+  display: flex;
+  /* align-items: center; */
+  justify-content: center;
 `;
 const Price = styled.p`
   font-size: 0.9rem;
   color: ${props => props.theme.headingColor};
   font-weight: ${props => props.theme.font.xbold};
   display: flex;
-  align-items: center;
+  /* align-items: center; */
   justify-content: center;
 `;
 const SpecialInstructions = styled.p`
@@ -123,14 +130,14 @@ const PricingContainer = styled.div`
 `;
 const QuantityWrapper = styled.div`
   display: flex;
-  flex-direction: column;
-  align-items: flex-end;
+  padding: 0.25rem 0;
+  align-items: center;
   justify-content: space-between;
   /* align-self: flex-start; */
 `;
 const QuantityText = styled.p`
   font-size: 1rem;
-  margin: 0 0.25rem;
+  margin: 0 0.5rem;
   font-weight: ${props => props.theme.font.xbold};
   color: ${props => props.theme.subHeading};
 `;
@@ -145,9 +152,9 @@ const Quantity = styled.p`
   text-align: center;
 `;
 const QuantityButton = styled.button`
-  width: 20px;
-  height: 20px;
-  border-radius: 5px;
+  width: 25px;
+  height: 25px;
+  border-radius: 8px;
   background-color: #fff;
   border: 1px solid rgba(0, 0, 0, 0.2);
   box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.1);

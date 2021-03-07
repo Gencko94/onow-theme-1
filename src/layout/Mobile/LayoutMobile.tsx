@@ -37,7 +37,7 @@ const LayoutMobile: React.FC = ({ children }) => {
         <Backdrop onClick={() => setDrawerOpen(false)} />
       </CSSTransition>
       <ContentContainer>{children}</ContentContainer>
-      <MobileFooter />
+      {/* <MobileFooter /> */}
     </Wrapper>
   );
 };

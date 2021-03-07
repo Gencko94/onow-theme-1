@@ -23,10 +23,10 @@ const CheckoutSection = () => {
   const history = useHistory();
   return (
     <>
-      <CouponContainer>
+      {/* <CouponContainer>
         <CouponInput placeholder={t('enter-code-or-coupon')} />
         <SubmitButton type="button">{t('submit')}</SubmitButton>
-      </CouponContainer>
+      </CouponContainer> */}
       {/* <Container>
         <ContentWrapper>
           <MediumBlock>
@@ -212,13 +212,13 @@ const ContentWrapper = styled.div`
   padding: 0 0.5rem;
 `;
 const StickyContainer = styled.div`
-  padding: 0.25rem 0.5rem;
-  background-color: aliceblue;
+  padding: 0.5rem 1rem;
+  background-color: ${props => props.theme.overlayColor};
   position: sticky;
-  top: 51px;
+  bottom: 0;
   z-index: 3;
   align-self: flex-start;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  border-top: 1px solid rgba(0, 0, 0, 0.5);
 `;
 
 const OrderModeText = styled.h6`
@@ -250,21 +250,23 @@ const SmallBlock = styled.div`
   align-items: center;
 `;
 const MediumBlock = styled.div`
-  padding: 0.25rem 0;
+  padding: 0.5rem 0;
   display: flex;
   justify-content: space-between;
   align-items: center;
 `;
-const BlockText = styled.p<{ bold?: boolean }>`
-  font-weight: ${props => (props.bold ? 600 : 'regular')};
+const BlockText = styled.h5<{ bold?: boolean }>`
+  font-weight: ${props =>
+    props.bold ? props.theme.font.xbold : props.theme.font.bold};
 `;
 
 const CheckoutButtonContainer = styled.div`
   padding: 0.5rem 0.25rem;
 `;
 const CheckoutButton = styled.button`
-  background-color: ${props => props.theme.mainColor};
-  color: #fff;
+  background-color: ${props => props.theme.btnPrimaryDark};
+  color: ${props => props.theme.btnText};
+  border: ${props => `1px solid ${props.theme.mainColor}`};
   padding: 0.7em;
   font-weight: 600;
   text-transform: uppercase;

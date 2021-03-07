@@ -5,7 +5,7 @@ export const lightTheme = {
   accentColor: '#ECECEC', // Inputs
   breakpoints: devices,
   bodyColor: '#FCFCFC',
-  overlayColor: '',
+  overlayColor: '#FCFCFC',
   headingColor: '#252525',
   subHeading: '#3B3B3B',
   textColor: 'rgba(15,15,15,.7)',

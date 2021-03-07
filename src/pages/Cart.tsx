@@ -10,8 +10,8 @@ const Cart = () => {
       <Container>
         <MobileHeader title="my-basket" />
         <Grid>
-          {/* <CheckoutSection /> */}
           <CartItems />
+          <CheckoutSection />
         </Grid>
       </Container>
     </Layout>
@@ -27,6 +27,6 @@ const Container = styled.div`
 const Grid = styled.div`
   /* display: grid; */
   height: 100%;
-  position: relative;
+  /* position: relative; */
   /* grid-template-columns: 1fr; */
 `;

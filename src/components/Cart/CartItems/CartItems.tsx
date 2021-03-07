@@ -1,12 +1,15 @@
+import { useContext } from 'react';
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
+import { ThemeContext } from '../../../contexts/ThemeContext';
 import { products } from '../../../data/products';
 import CartItem from './CartItem';
 
 const CartItems = () => {
   const { t } = useTranslation();
+  const { mode } = useContext(ThemeContext);
   return (
-    <Container>
+    <Container mode={mode}>
       <Qty>
         <QtyText>Items (3)</QtyText>
       </Qty>
@@ -21,8 +24,9 @@ const CartItems = () => {
 
 export default CartItems;
 
-const Container = styled.div`
-  background-color: ${props => props.theme.bodyColor};
+const Container = styled.div<{ mode: string | undefined }>`
+  background-color: ${props =>
+    props.mode === 'dark' ? props.theme.bodyColor : '#eee'};
 `;
 const TextWrapper = styled.div`
   padding: 0.5rem;
