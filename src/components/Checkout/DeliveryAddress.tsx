@@ -198,7 +198,6 @@ const InputContainer = styled.div`
   margin-bottom: 0.5rem;
 `;
 const Label = styled.label`
-  color: ${({ theme }) => theme.subtitleColor};
   margin-bottom: 0.25rem;
   display: block;
   font-size: 0.8rem;
