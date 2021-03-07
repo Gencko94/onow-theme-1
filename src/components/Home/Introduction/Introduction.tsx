@@ -64,7 +64,7 @@ const Quote = styled.q`
   line-height: 1.75rem /* 28px */;
   display: block;
   margin-bottom: 0.75rem; /* 12px */
-  color: ${props => props.theme.subtitleColor};
+  color: ${props => props.theme.subHeading};
 `;
 
 const AnimationContainer = styled.div(

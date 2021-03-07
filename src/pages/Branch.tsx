@@ -66,7 +66,7 @@ const Address = styled.p`
 
 const OpeningHoursTitle = styled.p`
   font-size: 1.1rem;
-  color: ${({ theme }) => theme.subtitleColor};
+  color: ${({ theme }) => theme.subHeading};
   margin-bottom: 0.5rem;
   font-weight: 500;
 `;
@@ -81,7 +81,7 @@ const DaysContainer = styled.div`
 const Day = styled.p`
   padding: 0.25rem;
   font-size: 0.9rem;
-  color: ${({ theme }) => theme.subtitleColor};
+  color: ${({ theme }) => theme.subHeading};
   border-top: 1px solid #dfdfdf;
   border-left: 1px solid #dfdfdf;
 `;
@@ -92,7 +92,7 @@ const HoursContainer = styled.div`
 const Hour = styled.p`
   padding: 0.25rem;
   font-size: 0.9rem;
-  color: ${({ theme }) => theme.subtitleColor};
+  color: ${({ theme }) => theme.subHeading};
   border-top: 1px solid #dfdfdf;
   border-left: 1px solid #dfdfdf;
 `;
