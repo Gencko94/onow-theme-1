@@ -27,7 +27,7 @@ const Container = styled.div`
 `;
 const TextBlock = styled.div``;
 const StoreName = styled.h5`
-  margin: 1rem 0;
+  margin: 0.5rem 0;
   color: ${props => props.theme.subHeading};
   font-weight: ${props => props.theme.font.bold};
 `;
@@ -42,8 +42,8 @@ const LogoWrapper = styled.div`
 `;
 const LogoContainer = styled.div`
   border-radius: 50%;
-  width: 100px;
-  height: 100px;
+  width: 75px;
+  height: 75px;
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
   margin-bottom: 0.5rem;
 `;

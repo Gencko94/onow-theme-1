@@ -79,7 +79,7 @@ const Container = styled.div`
   display: grid;
   grid-template-columns: 0.2fr 1fr 0.2fr;
   gap: 0.25rem;
-  padding: 0.5rem 0rem;
+  padding: 1rem 0rem;
 `;
 
 const Details = styled.div`
@@ -109,6 +109,9 @@ const Price = styled.p`
   font-size: 0.9rem;
   color: ${props => props.theme.headingColor};
   font-weight: ${props => props.theme.font.xbold};
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `;
 const SpecialInstructions = styled.p`
   color: ${props => props.theme.highlightColor};
