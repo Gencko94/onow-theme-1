@@ -89,7 +89,7 @@ const ProductContainer = styled.div`
 const Details = styled.div`
   display: grid;
   grid-template-columns: 1fr 0.4fr;
-
+  gap: 0.25rem;
   align-self: flex-start;
 `;
 const ProductName = styled(Link)`
@@ -113,7 +113,7 @@ const AddonPrice = styled.p`
   justify-content: center;
 `;
 const Price = styled.p`
-  font-size: 0.9rem;
+  /* font-size: 0.9rem; */
   color: ${props => props.theme.headingColor};
   font-weight: ${props => props.theme.font.xbold};
   display: flex;

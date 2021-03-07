@@ -170,6 +170,7 @@ const LinkContainer = styled.div`
   display: flex;
   align-items: center;
   font-weight: ${props => props.theme.font.bold};
+  margin: 0.25rem 0;
 `;
 const Linkitem = styled(Link)`
   display: block;
