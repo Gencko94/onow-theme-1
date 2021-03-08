@@ -19,7 +19,7 @@ interface IProps {
   setDrawerOpen: Dispatch<SetStateAction<boolean>>;
 }
 const Drawer = ({ setDrawerOpen }: IProps) => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   let topSectionRef = React.useRef<HTMLDivElement | null>(null);
   let linksRef = React.useRef<HTMLDivElement | null>(null);
   const tl = gsap.timeline();
@@ -64,7 +64,7 @@ const Drawer = ({ setDrawerOpen }: IProps) => {
     setDrawerOpen(false);
   };
   return (
-    <DrawerContainer>
+    <DrawerContainer rtl={i18n.language === 'ar'}>
       <TopSection ref={topSectionRef}>
         <LogoWrapper>
           <LogoContainer>
@@ -122,10 +122,11 @@ const Drawer = ({ setDrawerOpen }: IProps) => {
 
 export default Drawer;
 
-const DrawerContainer = styled.div`
+const DrawerContainer = styled.div<{ rtl: boolean }>`
   position: fixed;
   top: 0;
-  left: 0;
+  left: ${props => !props.rtl && '0'};
+  right: ${props => props.rtl && '0'};
   overflow: hidden;
   z-index: 300;
   background-color: ${props => props.theme.bodyColor};

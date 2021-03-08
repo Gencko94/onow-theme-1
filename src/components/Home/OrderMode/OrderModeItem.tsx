@@ -81,4 +81,5 @@ const TitleContainer = styled.div`
 `;
 const Title = styled.p`
   text-align: center;
+  font-weight: ${props => props.theme.font.bold};
 `;

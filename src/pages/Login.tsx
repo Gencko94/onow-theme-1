@@ -4,6 +4,7 @@ import { useForm } from 'react-hook-form';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import { LoginForm, SocialAuth } from '../interfaces/loginForm';
+
 import {
   AiFillFacebook,
   AiOutlineArrowLeft,
@@ -13,8 +14,10 @@ import {
 import { GrApple } from 'react-icons/gr';
 import { MdVisibility, MdVisibilityOff } from 'react-icons/md';
 import { useState } from 'react';
+import { useTranslation, Trans } from 'react-i18next/';
 
 const Login = () => {
+  const { t, ready, i18n } = useTranslation(['auth']);
   const schema = Yup.object().shape({
     phoneNumber: Yup.string().required('Required Field').min(5),
     password: Yup.string().required('Required Field').min(5),
@@ -23,6 +26,11 @@ const Login = () => {
   const { register, handleSubmit, errors } = useForm<LoginForm>({
     resolver: yupResolver(schema),
   });
+  const changeLanguage = (lng: string) => {
+    if (ready) {
+      i18n.changeLanguage(lng);
+    }
+  };
   const onSubmit = (data: LoginForm) => {
     // const info = {
     //   ...data,
@@ -47,7 +55,7 @@ const Login = () => {
         <FormContainer>
           <Form onSubmit={handleSubmit(onSubmit)}>
             <InputContainer>
-              <Label>Phone Number</Label>
+              <Label>{t('phone-number')}</Label>
               <PhoneInputContainer>
                 <PhoneKey>+965</PhoneKey>
                 <PhoneInput name="phoneNumber" ref={register} />
@@ -57,7 +65,7 @@ const Login = () => {
               )}
             </InputContainer>
             <InputContainer>
-              <Label>Password</Label>
+              <Label>{t('password')}</Label>
               <PasswordInputContainer>
                 <PasswordInput
                   type={showPassword ? 'text' : 'password'}
@@ -66,9 +74,9 @@ const Login = () => {
                 />
                 <ShowPassword onClick={() => handleShowPassword()}>
                   {showPassword ? (
-                    <MdVisibilityOff size={20} />
+                    <MdVisibilityOff size={21} />
                   ) : (
-                    <MdVisibility size={20} />
+                    <MdVisibility size={21} />
                   )}
                 </ShowPassword>
               </PasswordInputContainer>
@@ -77,16 +85,26 @@ const Login = () => {
               )}
             </InputContainer>
 
-            <SubmitButton type="submit">Login</SubmitButton>
+            <SubmitButton type="submit">{t('login')}</SubmitButton>
           </Form>
         </FormContainer>
         <Footer>
-          <Text>Don't have an account ? Register here</Text>
-          <Text>Forgot Password ? Reset Here</Text>
+          <Text>
+            <Trans i18nKey="auth:no-account">
+              Don't have an account ?
+              <InlineLink to="/register">Register here</InlineLink>
+            </Trans>
+          </Text>
+          <Text>
+            <Trans i18nKey="auth:forgot-password">
+              Forgot Password ?
+              <InlineLink to="/register">Reset Here</InlineLink>
+            </Trans>
+          </Text>
         </Footer>
         <LoginWithContainer>
           <SpanLine />
-          <LoginWithText>Or Login with</LoginWithText>
+          <LoginWithText>{t('or-login-with')}</LoginWithText>
           <SpanLine />
         </LoginWithContainer>
         <SocialLinksContainer>
@@ -106,7 +124,14 @@ const Login = () => {
       </ContentWrapper>
 
       <LanguageContainer>
-        <Icon>العربية</Icon>
+        <>
+          {i18n.language === 'ar' && (
+            <Icon onClick={() => changeLanguage('en')}>English</Icon>
+          )}
+          {i18n.language === 'en' && (
+            <Icon onClick={() => changeLanguage('ar')}>العربية</Icon>
+          )}
+        </>
       </LanguageContainer>
       <BackButtonContainer>
         <Icon>
@@ -125,6 +150,7 @@ const Container = styled.div`
   align-items: center;
   justify-content: center;
   font-family: ${props => props.theme.fontFamily};
+  background-color: ${props => props.theme.bodyColor};
 `;
 
 const ContentWrapper = styled.div`
@@ -151,6 +177,7 @@ const FormContainer = styled.div`
   border-radius: 12px;
   margin-bottom: 0.5rem;
   border: 1px solid rgba(0, 0, 0, 0.1);
+  background-color: ${props => props.theme.overlayColor};
 `;
 const Form = styled.form`
   padding: 0.5rem 0.25rem;
@@ -159,22 +186,25 @@ const InputContainer = styled.div`
   margin-bottom: 0.5rem;
 `;
 const Label = styled.label`
-  color: ${({ theme }) => theme.accentColor};
-  margin-bottom: 0.3rem;
-  font-size: 0.8rem;
+  color: ${({ theme }) => theme.subHeading};
+  margin-bottom: 0.4rem;
+  font-size: 0.9rem;
+  font-weight: ${props => props.theme.font.bold};
   display: block;
 `;
 const PhoneInputContainer = styled.div`
   display: flex;
   align-items: center;
   border-radius: 5px;
-  border: 1px solid rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  border: 1px solid ${props => props.theme.btnBorder};
+  background-color: ${props => props.theme.inputColorLight};
 `;
 const PhoneKey = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  border-right: 1px solid rgba(0, 0, 0, 0.1);
+  font-weight: ${props => props.theme.font.semibold};
   padding: 0.5rem;
   font-size: 0.9rem;
 `;
@@ -182,24 +212,31 @@ const PhoneInput = styled.input`
   padding: 0.5rem;
   width: 100%;
   font-size: 0.9rem;
+
+  color: ${props => props.theme.subHeading};
 `;
 const PasswordInputContainer = styled.div`
   display: flex;
   align-items: center;
+  background-color: ${props => props.theme.inputColorLight};
   border-radius: 5px;
-  border: 1px solid rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  border: 1px solid ${props => props.theme.btnBorder};
 `;
 const PasswordInput = styled.input`
   padding: 0.5rem;
   width: 100%;
   font-size: 0.9rem;
+
+  color: ${props => props.theme.subHeading};
 `;
 const ShowPassword = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  border-left: 1px solid rgba(0, 0, 0, 0.1);
+  /* border-left: 1px solid rgba(0, 0, 0, 0.1); */
   padding: 0.5rem;
+  background-color: ${props => props.theme.inputColorLight};
 `;
 const ErrorMessage = styled.p`
   color: #b72b2b;
@@ -209,10 +246,16 @@ const ErrorMessage = styled.p`
 const SubmitButton = styled.button`
   width: 100%;
   padding: 0.5rem;
-  background-color: ${props => props.theme.mainColor};
-  color: #fff;
+  background-color: ${props => props.theme.btnPrimaryLight};
+  color: ${props => props.theme.btnText};
+  font-weight: ${props => props.theme.font.bold};
   border-radius: 5px;
   text-transform: uppercase;
+  transition: background-color 75ms;
+  &:hover {
+    background-color: ${props => props.theme.btnPrimaryDark};
+  }
+
   margin-top: 0.5rem;
 `;
 const Footer = styled.div`
@@ -221,20 +264,23 @@ const Footer = styled.div`
 `;
 const Text = styled.p`
   font-size: 0.8rem;
+  font-weight: ${props => props.theme.font.semibold};
 `;
 
 const BackButtonContainer = styled.div`
   position: absolute;
   top: 20px;
-  left: 50px;
+  left: 40px;
 `;
 const LanguageContainer = styled.div`
   position: absolute;
   top: 20px;
-  right: 50px;
+  right: 40px;
 `;
 
-const Icon = styled.button``;
+const Icon = styled.button`
+  color: ${props => props.theme.headingColor};
+`;
 
 const LoginWithContainer = styled.div`
   display: flex;
@@ -248,11 +294,17 @@ const SpanLine = styled.span`
 const LoginWithText = styled.p`
   font-size: 0.8rem;
   margin: 0 0.5rem;
+  font-weight: ${props => props.theme.font.bold};
 `;
 const SocialLinksContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-evenly;
+`;
+const InlineLink = styled(Link)`
+  color: #b72b2b;
+  font-weight: ${props => props.theme.font.bold};
+  text-decoration: underline;
 `;
 const SocialLink = styled.div<{ variant: SocialAuth }>`
   background: ${props => {
@@ -271,8 +323,8 @@ const SocialLink = styled.div<{ variant: SocialAuth }>`
     }
   }};
   color: #fff;
-  width: 30px;
-  height: 30px;
+  width: 40px;
+  height: 40px;
   padding: 0.25rem;
   border-radius: 50%;
   display: flex;

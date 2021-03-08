@@ -3,7 +3,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
-import { LoginForm, SocialAuth } from '../interfaces/loginForm';
+import { RegisterForm, SocialAuth } from '../interfaces/loginForm';
 import {
   AiFillFacebook,
   AiOutlineArrowLeft,
@@ -13,22 +13,29 @@ import {
 import { GrApple } from 'react-icons/gr';
 import { MdVisibility, MdVisibilityOff } from 'react-icons/md';
 import { useState } from 'react';
+import { Trans, useTranslation } from 'react-i18next';
 
 const Register = () => {
   const schema = Yup.object().shape({
     phoneNumber: Yup.string().required('Required Field').min(5),
     password: Yup.string().required('Required Field').min(5),
+    email: Yup.string().email(),
   });
-
-  const { register, handleSubmit, errors } = useForm<LoginForm>({
+  const { t, ready, i18n } = useTranslation(['auth']);
+  const { register, handleSubmit, errors } = useForm<RegisterForm>({
     resolver: yupResolver(schema),
   });
   const [showPassword, setShowPassword] = useState(false);
-  const onSubmit = (data: LoginForm) => {
+  const onSubmit = (data: RegisterForm) => {
     // const info = {
     //   ...data,
     // };
     console.log(data);
+  };
+  const changeLanguage = (lng: string) => {
+    if (ready) {
+      i18n.changeLanguage(lng);
+    }
   };
   const handleShowPassword = () => {
     if (showPassword) {
@@ -48,17 +55,24 @@ const Register = () => {
         <FormContainer>
           <Form onSubmit={handleSubmit(onSubmit)}>
             <InputContainer>
-              <Label>Phone Number</Label>
+              <Label>{t('phone-number')}</Label>
               <PhoneInputContainer>
                 <PhoneKey>+965</PhoneKey>
-                <PhoneInput name="phoneNumber" ref={register} />
+                <Input name="phoneNumber" ref={register} />
               </PhoneInputContainer>
               {errors.phoneNumber && (
                 <ErrorMessage>{errors.phoneNumber.message}</ErrorMessage>
               )}
             </InputContainer>
             <InputContainer>
-              <Label>Password</Label>
+              <Label>{t('email')}</Label>
+              <Input colored border name="email" ref={register} />
+              {errors.email && (
+                <ErrorMessage>{errors.email.message}</ErrorMessage>
+              )}
+            </InputContainer>
+            <InputContainer>
+              <Label>{t('password')}</Label>
               <PasswordInputContainer>
                 <PasswordInput
                   type={showPassword ? 'text' : 'password'}
@@ -78,15 +92,19 @@ const Register = () => {
               )}
             </InputContainer>
 
-            <SubmitButton type="submit">Register</SubmitButton>
+            <SubmitButton type="submit">{t('register')}</SubmitButton>
           </Form>
         </FormContainer>
         <Footer>
-          <Text>Have an account ? Log in here</Text>
+          <Text>
+            <Trans i18nKey="auth:have-an-account">
+              Have an account ?<InlineLink to="/login">Login here</InlineLink>
+            </Trans>
+          </Text>
         </Footer>
         <LoginWithContainer>
           <SpanLine />
-          <LoginWithText>Or Login with</LoginWithText>
+          <LoginWithText>{t('or-signup-with')}</LoginWithText>
           <SpanLine />
         </LoginWithContainer>
         <SocialLinksContainer>
@@ -106,7 +124,14 @@ const Register = () => {
       </ContentWrapper>
 
       <LanguageContainer>
-        <Icon>العربية</Icon>
+        <>
+          {i18n.language === 'ar' && (
+            <Icon onClick={() => changeLanguage('en')}>English</Icon>
+          )}
+          {i18n.language === 'en' && (
+            <Icon onClick={() => changeLanguage('ar')}>العربية</Icon>
+          )}
+        </>
       </LanguageContainer>
       <BackButtonContainer>
         <Icon>
@@ -125,6 +150,7 @@ const Container = styled.div`
   align-items: center;
   justify-content: center;
   font-family: ${props => props.theme.fontFamily};
+  background-color: ${props => props.theme.bodyColor};
 `;
 
 const ContentWrapper = styled.div`
@@ -151,6 +177,7 @@ const FormContainer = styled.div`
   border-radius: 12px;
   margin-bottom: 0.5rem;
   border: 1px solid rgba(0, 0, 0, 0.1);
+  background-color: ${props => props.theme.overlayColor};
 `;
 const Form = styled.form`
   padding: 0.5rem 0.25rem;
@@ -159,29 +186,37 @@ const InputContainer = styled.div`
   margin-bottom: 0.5rem;
 `;
 const Label = styled.label`
-  color: ${({ theme }) => theme.accentColor};
-  margin-bottom: 0.3rem;
-  font-size: 0.8rem;
+  color: ${({ theme }) => theme.subHeading};
+  margin-bottom: 0.4rem;
+  font-size: 0.9rem;
+  font-weight: ${props => props.theme.font.bold};
   display: block;
 `;
 const PhoneInputContainer = styled.div`
   display: flex;
   align-items: center;
   border-radius: 5px;
-  border: 1px solid rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  border: 1px solid ${props => props.theme.btnBorder};
+  background-color: ${props => props.theme.inputColorLight};
 `;
 const PhoneKey = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  border-right: 1px solid rgba(0, 0, 0, 0.1);
+  font-weight: ${props => props.theme.font.semibold};
   padding: 0.5rem;
   font-size: 0.9rem;
 `;
-const PhoneInput = styled.input`
+const Input = styled.input<{ border?: boolean; colored?: boolean }>`
   padding: 0.5rem;
   width: 100%;
   font-size: 0.9rem;
+
+  color: ${props => props.theme.subHeading};
+  border: ${props => props.border && `1px solid ${props.theme.btnBorder}`};
+  border-radius: ${props => props.border && '5px'};
+  background-color: ${props => props.colored && props.theme.inputColorLight};
 `;
 
 const ErrorMessage = styled.p`
@@ -192,10 +227,16 @@ const ErrorMessage = styled.p`
 const SubmitButton = styled.button`
   width: 100%;
   padding: 0.5rem;
-  background-color: ${props => props.theme.mainColor};
-  color: #fff;
+  background-color: ${props => props.theme.btnPrimaryLight};
+  color: ${props => props.theme.btnText};
+  font-weight: ${props => props.theme.font.bold};
   border-radius: 5px;
   text-transform: uppercase;
+  transition: background-color 75ms;
+  &:hover {
+    background-color: ${props => props.theme.btnPrimaryDark};
+  }
+
   margin-top: 0.5rem;
 `;
 const Footer = styled.div`
@@ -209,16 +250,21 @@ const Text = styled.p`
 const BackButtonContainer = styled.div`
   position: absolute;
   top: 20px;
-  left: 50px;
+  left: 40px;
 `;
 const LanguageContainer = styled.div`
   position: absolute;
   top: 20px;
-  right: 50px;
+  right: 40px;
 `;
-
-const Icon = styled.button``;
-
+const InlineLink = styled(Link)`
+  color: #b72b2b;
+  font-weight: ${props => props.theme.font.bold};
+  text-decoration: underline;
+`;
+const Icon = styled.button`
+  color: ${props => props.theme.headingColor};
+`;
 const LoginWithContainer = styled.div`
   display: flex;
   align-items: center;
@@ -254,8 +300,8 @@ const SocialLink = styled.div<{ variant: SocialAuth }>`
     }
   }};
   color: #fff;
-  width: 30px;
-  height: 30px;
+  width: 40px;
+  height: 40px;
   padding: 0.25rem;
   border-radius: 50%;
   display: flex;
@@ -267,17 +313,22 @@ const PasswordInputContainer = styled.div`
   display: flex;
   align-items: center;
   border-radius: 5px;
-  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
+  overflow: hidden;
+  border: 1px solid ${props => props.theme.btnBorder};
+  background-color: ${props => props.theme.inputColorLight};
 `;
 const PasswordInput = styled.input`
   padding: 0.5rem;
   width: 100%;
   font-size: 0.9rem;
+
+  color: ${props => props.theme.subHeading};
 `;
 const ShowPassword = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  border-left: 1px solid rgba(0, 0, 0, 0.1);
+  /* border-left: 1px solid rgba(0, 0, 0, 0.1); */
   padding: 0.5rem;
 `;

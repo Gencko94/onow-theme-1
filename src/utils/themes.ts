@@ -5,6 +5,8 @@ export const lightTheme = {
   accentColor: '#ECECEC', // Inputs
   breakpoints: devices,
   bodyColor: '#FCFCFC',
+  inputColorLight: '#f3f3f3',
+  inputColorDark: '#f3f3f3',
   overlayColor: '#FCFCFC',
   headingColor: '#252525',
   subHeading: '#3B3B3B',
@@ -15,6 +17,7 @@ export const lightTheme = {
   navColor: '#b11e29',
   btnPrimaryLight: '#b11e29',
   btnPrimaryDark: '#b11e29',
+  btnBorder: 'rgba(0,0,0,0.1)',
   green: '#0B9B23',
   btnText: '#fff',
   font: {
@@ -28,6 +31,9 @@ export const lightTheme = {
 export const darkTheme = {
   mainColor: '#b11e29',
   accentColor: '#5B5B5B',
+  inputColorLight: '#505050',
+  inputColorDark: '#6f6f6f',
+  btnBorder: '#D8D8D8',
   breakpoints: devices,
   bodyColor: '#3B3B3B',
   navColor: '#3B3B3B',
@@ -38,7 +44,7 @@ export const darkTheme = {
   shadow: '',
   highlightColor: 'rgba(255,255,255,.9)',
   highlightColorText: 'rgba(15,15,15,.8)',
-  btnPrimaryLight: '#5B5B5B',
+  btnPrimaryLight: '#797979',
   btnPrimaryDark: '#3B3B3B',
   green: '#1AD439',
   btnText: '#fff',

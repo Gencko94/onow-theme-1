@@ -1,6 +1,7 @@
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
 import { branches } from '../data/branches';
+import { MdDirections } from 'react-icons/md';
 import Layout from '../layout/Layout';
 
 const Branch = () => {
@@ -24,7 +25,10 @@ const Branch = () => {
         <Address>{branch.directions}</Address>
       </ContentContainer>
       <BookingButtonContainer>
-        <BookButton>{t('book-here')}</BookButton>
+        <DirectionsButton>
+          <MdDirections size={20} />
+          <ButtonText>{t('directions')}</ButtonText>
+        </DirectionsButton>
       </BookingButtonContainer>
       <ContentContainer>
         <OpeningHoursTitle>{t('opening-hours')}</OpeningHoursTitle>
@@ -52,28 +56,29 @@ const ContentContainer = styled.div`
 `;
 const Name = styled.h1`
   font-size: 1.5rem;
-  color: ${({ theme }) => theme.mainColor};
+  color: ${({ theme }) => theme.headingColor};
+  font-weight: ${props => props.theme.font.xbold};
 `;
-const OpenNow = styled.p`
-  color: ${(props: { isOpen: boolean }) => (props.isOpen ? 'green' : 'red')};
-  font-size: 0.9rem;
-  margin-bottom: 0.5rem;
+const OpenNow = styled.p<{ isOpen: boolean }>`
+  color: ${props => (props.isOpen ? props.theme.green : 'red')};
+  font-weight: ${props => props.theme.font.bold};
 `;
 const Address = styled.p`
-  font-size: 0.9rem;
-  color: #57423f;
+  font-weight: ${props => props.theme.font.bold};
+  color: ${props => props.theme.subHeading};
 `;
 
-const OpeningHoursTitle = styled.p`
+const OpeningHoursTitle = styled.h6`
   font-size: 1.1rem;
   color: ${({ theme }) => theme.subHeading};
   margin-bottom: 0.5rem;
-  font-weight: 500;
+  font-weight: ${props => props.theme.font.bold};
 `;
 
 const OpeningHoursContainer = styled.div`
   display: grid;
   grid-template-columns: 0.4fr 1fr;
+  background-color: ${props => props.theme.overlayColor};
 `;
 const DaysContainer = styled.div`
   border-bottom: 1px solid #dfdfdf;
@@ -100,12 +105,19 @@ const BookingButtonContainer = styled.div`
   display: flex;
   justify-content: flex-end;
   align-items: center;
-  padding: 0.25rem 1rem;
+  padding: 1rem;
 `;
-const BookButton = styled.button`
+const DirectionsButton = styled.button`
+  display: flex;
+  align-items: center;
+  justify-content: center;
   margin: 0 0.25rem;
-  background-color: ${props => props.theme.mainColor};
+  background-color: ${props => props.theme.btnPrimaryLight};
   padding: 0.5rem;
   border-radius: 20px;
-  color: #fff;
+  color: ${props => props.theme.btnText};
+  font-weight: ${props => props.theme.font.semibold};
+`;
+const ButtonText = styled.span`
+  margin: 0 0.25rem;
 `;

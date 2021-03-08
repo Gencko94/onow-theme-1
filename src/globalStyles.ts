@@ -50,9 +50,7 @@ h3 {
   font-size:1.75rem;
   line-height:2rem;
 }
-input {
-  background-color:rgba(243,243,243,.8);
-}
+
 h4 {
   font-size:1.5rem;
   line-height:1.75rem;

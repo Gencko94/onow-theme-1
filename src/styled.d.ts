@@ -26,6 +26,9 @@ declare module 'styled-components' {
     navColor: string;
     btnPrimaryLight: string;
     btnPrimaryDark: string;
+    inputColorLight: string;
+    inputColorDark: string;
+    btnBorder: string;
     btnText: string;
     green: string;
     font: FontWeights;

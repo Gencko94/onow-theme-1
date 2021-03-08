@@ -10,11 +10,11 @@ const MobileNavIcons = ({
   shouldChangeColor: () => boolean;
 }) => {
   const { i18n, ready } = useTranslation();
-  const language = React.useMemo(() => {
-    if (ready) {
-      return i18n.language;
-    }
-  }, [ready, i18n.language]);
+  // const language = React.useMemo(() => {
+  //   if (ready) {
+  //     return i18n.language;
+  //   }
+  // }, [ready, i18n.language]);
   const changeLanguage = (lng: string) => {
     if (ready) {
       i18n.changeLanguage(lng);
@@ -23,22 +23,22 @@ const MobileNavIcons = ({
   return (
     <Container>
       <div className="">
-        {language === 'ar' && (
+        {i18n.language === 'ar' && (
           <LanguageButton onClick={() => changeLanguage('en')}>
             English
           </LanguageButton>
         )}
-        {language === 'en' && (
+        {i18n.language === 'en' && (
           <LanguageButton onClick={() => changeLanguage('ar')}>
             العربية
           </LanguageButton>
         )}
       </div>
       <CartIconContainer to="/cart">
+        <CartTotal shouldChangeColor={shouldChangeColor}>3.000 KD</CartTotal>
         <Icon>
           <HiOutlineShoppingBag size={20} color="#fff" />
         </Icon>
-        <CartTotal shouldChangeColor={shouldChangeColor}>3.000 KD</CartTotal>
       </CartIconContainer>
     </Container>
   );
@@ -46,10 +46,11 @@ const MobileNavIcons = ({
 
 export default MobileNavIcons;
 const Container = styled.div`
-  margin-left: auto;
+  /* margin-left: auto; */
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-end;
+  width: 100%;
 `;
 const Icon = styled.span`
   padding: 0.25rem;
@@ -71,10 +72,11 @@ const CartIconContainer = styled(Link)`
   padding: 0.25rem 0.5rem;
 `;
 
-const CartTotal = styled.span<{ shouldChangeColor: () => boolean }>`
+const CartTotal = styled.p<{ shouldChangeColor: () => boolean }>`
   text-align: center;
   font-size: 0.8rem;
   color: ${props =>
     props.shouldChangeColor() ? '#fff' : 'rgba(255,255,255,.8)'};
   transition: color 250ms;
+  font-weight: ${props => props.theme.font.bold};
 `;

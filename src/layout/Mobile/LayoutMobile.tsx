@@ -4,6 +4,7 @@ import { CSSTransition } from 'react-transition-group';
 import Drawer from './Drawer/Drawer';
 import MobileFooter from '../../components/MobileFooter/MobileFooter';
 import styled from 'styled-components';
+import { useTranslation } from 'react-i18next';
 const ContentContainer = styled.div`
   min-height: 100vh;
 `;
@@ -13,6 +14,7 @@ const Wrapper = styled.div`
 `;
 const LayoutMobile: React.FC = ({ children }) => {
   const [drawerOpen, setDrawerOpen] = React.useState<boolean>(false);
+  const { i18n } = useTranslation();
 
   return (
     <Wrapper>
@@ -20,7 +22,7 @@ const LayoutMobile: React.FC = ({ children }) => {
 
       <CSSTransition
         in={drawerOpen}
-        classNames="drawer-"
+        classNames={`drawer_${i18n.language}-`}
         unmountOnExit
         mountOnEnter
         timeout={300}

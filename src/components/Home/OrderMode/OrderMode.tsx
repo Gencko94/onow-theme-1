@@ -152,8 +152,8 @@ const Container = styled.div`
 const Title = styled.h4`
   font-size: 1.075rem;
   line-height: 2.25rem;
-  font-weight: normal;
-  margin-bottom: 1rem;
+  font-weight: ${props => props.theme.font.bold};
+  margin-bottom: 0.5rem;
   color: ${props => props.theme.headingColor};
   @media ${({ theme }) => theme.breakpoints.xs} {
     font-size: 1.2rem;

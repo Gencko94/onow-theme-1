@@ -5,6 +5,7 @@ import Layout from '../layout/Layout';
 import MapLazyImage from '../utils/MapLazyImage';
 import { Link, useHistory } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import MobileHeader from '../components/Header/MobileHeader';
 
 const Branches = () => {
   const { t } = useTranslation(['branches']);
@@ -12,9 +13,8 @@ const Branches = () => {
   const { push } = useHistory();
   return (
     <Layout>
-      <Hero />
+      <MobileHeader title="our-branches" />
       <Container>
-        <Title>{t('common:our-branches')}</Title>
         <BranchesContainer>
           {branches.map(branch => (
             <BranchItem>
@@ -35,9 +35,9 @@ const Branches = () => {
                   <DetailsButton to={`/branch/${branch.name}`}>
                     {t('branch-details')}
                   </DetailsButton>
-                  <BookButton onClick={() => push('/booking')}>
+                  {/* <BookButton onClick={() => push('/booking')}>
                     {t('book-here')}
-                  </BookButton>
+                  </BookButton> */}
                 </ButtonsContainer>
               </BranchDetails>
             </BranchItem>
@@ -51,8 +51,9 @@ const Branches = () => {
 export default Branches;
 
 const Container = styled.div`
-  margin-top: 58px;
-  padding: 1rem;
+  /* margin-top: 58px; */
+  padding: 0.5rem;
+  background-color: ${props => props.theme.bodyColor};
 `;
 
 const Title = styled.h1(
@@ -81,19 +82,26 @@ const BranchItem = styled.div`
   padding: 0.25rem;
   border-radius: 15px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  background-color: ${props => props.theme.overlayColor};
 `;
 const BranchDetails = styled.div`
   padding: 0.5rem;
 `;
-const BranchName = styled.h6``;
-const OpeningHours = styled.p`
-  color: ${props => props.theme.accentColor};
-  font-size: 0.9rem;
+const BranchName = styled.h5`
+  color: ${props => props.theme.headingColor};
+
+  font-weight: ${props => props.theme.font.xbold};
 `;
-const OpenNow = styled.p`
-  color: ${(props: { isOpen: boolean }) => (props.isOpen ? 'green' : 'red')};
+const OpeningHours = styled.p`
+  color: ${props => props.theme.subHeading};
+  font-size: 0.9rem;
+  font-weight: ${props => props.theme.font.semibold};
+`;
+const OpenNow = styled.p<{ isOpen: boolean }>`
+  color: ${props => (props.isOpen ? 'green' : 'red')};
   font-size: 0.9rem;
   margin-bottom: 0.5rem;
+  font-weight: ${props => props.theme.font.bold};
 `;
 const ButtonsContainer = styled.div`
   display: flex;
@@ -106,7 +114,7 @@ const DetailsButton = styled(Link)`
   padding: 0.5rem;
   border-radius: 20px;
   color: #fff;
-  background-color: ${props => props.theme.accentColor};
+  background-color: ${props => props.theme.btnPrimaryDark};
 `;
 const BookButton = styled.button`
   /* display: block; */

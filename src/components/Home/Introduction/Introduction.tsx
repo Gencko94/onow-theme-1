@@ -58,6 +58,7 @@ const Title = styled.h1`
   font-size: 1.975rem;
   margin-bottom: 0.75rem;
   color: ${props => props.theme.headingColor};
+  font-weight: ${props => props.theme.font.xbold};
 `;
 const Quote = styled.q`
   font-size: 1.125rem /* 18px */;
@@ -65,6 +66,7 @@ const Quote = styled.q`
   display: block;
   margin-bottom: 0.75rem; /* 12px */
   color: ${props => props.theme.subHeading};
+  font-weight: ${props => props.theme.font.bold};
 `;
 
 const AnimationContainer = styled.div(
@@ -95,16 +97,16 @@ const ListContainer = styled.div`
 `;
 
 const ListItem = styled.span(
-  ({ theme: { breakpoints, accentColor } }) => `
+  ({ theme: { breakpoints, subHeading, font } }) => `
   position: absolute;
   top: 0;
   right: 0;
   left: 0;
   bottom: 0;
   opacity: 0;
-  color : ${accentColor};
+  color : ${subHeading};
   transform: translateY(10px);
-  font-weight: 600; 
+  font-weight: ${font.xbold}; 
   font-size: 1.875rem;
   line-height: 2.25rem;
 

@@ -1,15 +1,29 @@
-.drawer--enter {
+.drawer_en--enter {
   transform: translateX(-100%);
 }
-.drawer--enter-active {
+.drawer_en--enter-active {
   transform: translateX(0);
   transition: all 300ms;
 }
-.drawer--exit {
+.drawer_en--exit {
   transform: translateX(0);
 }
-.drawer--exit-active {
+.drawer_en--exit-active {
   transform: translateX(-100%);
+  transition: all 300ms;
+}
+.drawer_ar--enter {
+  transform: translateX(100%);
+}
+.drawer_ar--enter-active {
+  transform: translateX(0);
+  transition: all 300ms;
+}
+.drawer_ar--exit {
+  transform: translateX(0);
+}
+.drawer_ar--exit-active {
+  transform: translateX(100%);
   transition: all 300ms;
 }
 

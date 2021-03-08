@@ -24,7 +24,6 @@ const MobileNavbar = ({ setDrawerOpen, drawerOpen }: IProps) => {
     if (
       pathname === '/' ||
       pathname.includes('categories') ||
-      pathname.includes('branches') ||
       pathname.includes('booking') ||
       pathname.includes('checkout')
     )

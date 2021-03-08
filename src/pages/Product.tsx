@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import { products } from '../data/products';
 import Layout from '../layout/Layout';
 import LazyImage from '../utils/LazyImage';
+import color from 'color';
 
 const Product = () => {
   const product = products[0];
@@ -64,29 +65,34 @@ const ContentContainer = styled.div`
 `;
 const Name = styled.h1`
   font-size: 1.5rem;
-  color: ${({ theme }) => theme.mainColor};
+  color: ${({ theme }) => theme.headingColor};
+  font-weight: ${props => props.theme.font.xbold};
 `;
 const Description = styled.p`
   font-size: 0.8rem;
-  color: #57423f;
+  color: ${({ theme }) => theme.subHeading};
+  font-weight: ${props => props.theme.font.bold};
 `;
 const Price = styled.p`
   font-size: 1.2rem;
-  color: ${({ theme }) => theme.accentColor};
+  color: ${({ theme }) => color(theme.mainColor).lighten(0.4).toString()};
   font-weight: 600;
+  font-weight: ${props => props.theme.font.xbold};
 `;
-const AdditionalInstructionsTitle = styled.p`
-  font-size: 1rem;
-  color: ${({ theme }) => theme.accentColor};
+const AdditionalInstructionsTitle = styled.h5`
+  /* font-size: 1rem; */
+  color: ${({ theme }) => theme.headingColor};
   margin-bottom: 0.5rem;
+  font-weight: ${props => props.theme.font.bold};
 `;
 const AdditionalInstructionsText = styled.textarea`
   border-radius: 5px;
   padding: 0.25rem;
   font-size: 0.9rem;
-  border: 1px solid rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(0, 0, 0, 0.1);
   box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.1);
   width: 100%;
+  background-color: ${props => props.theme.inputColorDark};
 `;
 
 const BuyingOptionsContainer = styled.div`
@@ -100,7 +106,7 @@ const QuantityWrapper = styled.div`
 `;
 const QuantityText = styled.p`
   font-size: 1rem;
-  color: #57423f;
+  color: ${({ theme }) => theme.subHeading};
 `;
 const QuantityContainer = styled.div`
   display: flex;
@@ -122,12 +128,15 @@ const QuantityButton = styled.button`
   display: flex;
   align-items: center;
   justify-content: center;
+  color: ${props => props.theme.btnText};
 `;
 const AddButton = styled.button`
-  border-radius: 20px;
-  background-color: ${({ theme }) => theme.mainColor};
-  color: #fff;
+  border-radius: 10px;
+  background-color: ${({ theme }) =>
+    color(theme.mainColor).lighten(0.4).toString()};
+  color: ${props => props.theme.btnText};
   padding: 0.5rem;
+  font-weight: ${props => props.theme.font.bold};
   flex: 1;
   text-transform: uppercase;
 `;
