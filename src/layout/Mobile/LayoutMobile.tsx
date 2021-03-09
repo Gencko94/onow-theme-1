@@ -2,11 +2,12 @@ import React from 'react';
 import MobileNavbar from '../../components/MobileNavbar/MobileNavbar';
 import { CSSTransition } from 'react-transition-group';
 import Drawer from './Drawer/Drawer';
-import MobileFooter from '../../components/MobileFooter/MobileFooter';
+
 import styled from 'styled-components';
 import { useTranslation } from 'react-i18next';
 const ContentContainer = styled.div`
   min-height: 100vh;
+  background-color: ${props => props.theme.bodyColor};
 `;
 const Wrapper = styled.div`
   position: relative;

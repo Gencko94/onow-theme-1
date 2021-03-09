@@ -26,6 +26,7 @@ const Checkout = React.lazy(() => import('./pages/Checkout'));
 const SelectLocation = React.lazy(() => import('./pages/SelectLocation'));
 const Login = React.lazy(() => import('./pages/Login'));
 const Register = React.lazy(() => import('./pages/Register'));
+const MyAccount = React.lazy(() => import('./pages/MyAccount'));
 const queryClient = new QueryClient();
 
 function App() {
@@ -92,6 +93,7 @@ function App() {
               <Route exact path="/location" component={SelectLocation} />
               <Route exact path="/login" component={Login} />
               <Route exact path="/register" component={Register} />
+              <Route exact path="/user/account" component={MyAccount} />
             </Router>
           </ThemeProvider>
         </ApplicationContext>

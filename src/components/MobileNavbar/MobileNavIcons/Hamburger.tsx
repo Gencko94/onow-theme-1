@@ -1,7 +1,14 @@
 import { gsap } from 'gsap';
-import { Dispatch, SetStateAction, useEffect, useMemo } from 'react';
+import {
+  Dispatch,
+  SetStateAction,
+  useContext,
+  useEffect,
+  useMemo,
+} from 'react';
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
+import { ThemeContext } from '../../../contexts/ThemeContext';
 
 interface IProps {
   setDrawerOpen: Dispatch<SetStateAction<boolean>>;
@@ -24,6 +31,7 @@ const HamburgerButton = styled.button<{ rtl: boolean }>`
 
 const Hamburger = ({ drawerOpen, setDrawerOpen }: IProps) => {
   const { i18n } = useTranslation();
+  const { mode } = useContext(ThemeContext);
   const timeline = useMemo(() => {
     return gsap.timeline({ paused: true, defaults: { duration: 0.5 } });
   }, []);
@@ -56,12 +64,16 @@ const Hamburger = ({ drawerOpen, setDrawerOpen }: IProps) => {
   console.log(i18n.language);
   return (
     <HamburgerButton rtl={i18n.language === 'ar'} onClick={handleDrawer}>
-      <svg width="23" height="23" viewBox="0 0 23 23">
+      <svg
+        stroke={mode === 'dark' ? '#fff' : drawerOpen ? '#252525' : '#fff'}
+        width="23"
+        height="23"
+        viewBox="0 0 23 23"
+      >
         <path
           id="ham_first-bar"
           fill="#555"
           strokeWidth="3"
-          stroke="#fff"
           strokeLinecap="round"
           d="M 2 2.5 L 20 2.5"
         />
@@ -69,7 +81,6 @@ const Hamburger = ({ drawerOpen, setDrawerOpen }: IProps) => {
           id="ham_second-bar"
           fill="#555"
           strokeWidth="3"
-          stroke="#fff"
           strokeLinecap="round"
           d="M 2 9.423 L 20 9.423"
         />
@@ -77,7 +88,6 @@ const Hamburger = ({ drawerOpen, setDrawerOpen }: IProps) => {
           id="ham_third-bar"
           fill="#555"
           strokeWidth="3"
-          stroke="#fff"
           strokeLinecap="round"
           d="M 2 16.346 L 20 16.346"
         />

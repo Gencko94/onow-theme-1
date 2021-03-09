@@ -14,6 +14,6 @@ const SelectLocation = () => {
 
 export default SelectLocation;
 const Container = styled.div`
-  height: calc(100vh - 66px);
+  height: calc(100vh - 52px);
   position: relative;
 `;

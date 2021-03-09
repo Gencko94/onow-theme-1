@@ -18,17 +18,13 @@ import MapSearchbar from './MapSearchbar';
 import axios from 'axios';
 import { ApplicationProvider } from '../../contexts/ApplicationContext';
 import { useHistory } from 'react-router-dom';
+import { ThemeContext } from '../../contexts/ThemeContext';
 
 const center = {
   lat: 29.3759,
   lng: 47.9774,
 };
-const options: google.maps.MapOptions = {
-  // styles: mapStyles,
-  disableDefaultUI: true,
-  zoomControl: false,
-  gestureHandling: 'greedy',
-};
+
 const Map = () => {
   const {
     i18n: { language },
@@ -40,6 +36,7 @@ const Map = () => {
   const [outOfBorder, setOutOfBorder] = useState<boolean>(false);
   const { getCurrentLocation } = useCurrentLocation();
   const { addUserLocation } = useContext(ApplicationProvider);
+  const { mode } = useContext(ThemeContext);
   const libraries = useMemo<Libraries>(() => ['places'], []);
 
   const history = useHistory();
@@ -50,6 +47,103 @@ const Map = () => {
     language,
   });
   //problem here when changing lng
+  const mapOptions: google.maps.MapOptions = useMemo(() => {
+    return {
+      // styles: mapStyles,
+      disableDefaultUI: true,
+      zoomControl: false,
+      gestureHandling: 'greedy',
+      styles:
+        mode === 'light'
+          ? []
+          : [
+              { elementType: 'geometry', stylers: [{ color: '#242f3e' }] },
+              {
+                elementType: 'labels.text.stroke',
+                stylers: [{ color: '#242f3e' }],
+              },
+              {
+                elementType: 'labels.text.fill',
+                stylers: [{ color: '#746855' }],
+              },
+              {
+                featureType: 'administrative.locality',
+                elementType: 'labels.text.fill',
+                stylers: [{ color: '#d59563' }],
+              },
+              {
+                featureType: 'poi',
+                elementType: 'labels.text.fill',
+                stylers: [{ color: '#d59563' }],
+              },
+              {
+                featureType: 'poi.park',
+                elementType: 'geometry',
+                stylers: [{ color: '#263c3f' }],
+              },
+              {
+                featureType: 'poi.park',
+                elementType: 'labels.text.fill',
+                stylers: [{ color: '#6b9a76' }],
+              },
+              {
+                featureType: 'road',
+                elementType: 'geometry',
+                stylers: [{ color: '#38414e' }],
+              },
+              {
+                featureType: 'road',
+                elementType: 'geometry.stroke',
+                stylers: [{ color: '#212a37' }],
+              },
+              {
+                featureType: 'road',
+                elementType: 'labels.text.fill',
+                stylers: [{ color: '#9ca5b3' }],
+              },
+              {
+                featureType: 'road.highway',
+                elementType: 'geometry',
+                stylers: [{ color: '#746855' }],
+              },
+              {
+                featureType: 'road.highway',
+                elementType: 'geometry.stroke',
+                stylers: [{ color: '#1f2835' }],
+              },
+              {
+                featureType: 'road.highway',
+                elementType: 'labels.text.fill',
+                stylers: [{ color: '#f3d19c' }],
+              },
+              {
+                featureType: 'transit',
+                elementType: 'geometry',
+                stylers: [{ color: '#2f3948' }],
+              },
+              {
+                featureType: 'transit.station',
+                elementType: 'labels.text.fill',
+                stylers: [{ color: '#d59563' }],
+              },
+              {
+                featureType: 'water',
+                elementType: 'geometry',
+                stylers: [{ color: '#17263c' }],
+              },
+              {
+                featureType: 'water',
+                elementType: 'labels.text.fill',
+                stylers: [{ color: '#515c6d' }],
+              },
+              {
+                featureType: 'water',
+                elementType: 'labels.text.stroke',
+                stylers: [{ color: '#17263c' }],
+              },
+            ],
+    };
+  }, [mode]);
   const mapRef = useRef<google.maps.Map<Element>>();
   const onMapLoad = useCallback((map: google.maps.Map<Element>) => {
     mapRef.current = map;
@@ -128,7 +222,7 @@ const Map = () => {
 
       zoom={15}
       center={center}
-      options={options}
+      options={mapOptions}
       clickableIcons={false}
       onLoad={onMapLoad}
       onClick={e => {
@@ -156,7 +250,7 @@ const Map = () => {
             )
           }
         >
-          <BiCurrentLocation size={25} />
+          <BiCurrentLocation size={30} />
         </MapIcon>
         <ConfirmButton
           outOfBorder={outOfBorder}
@@ -197,20 +291,23 @@ const ConfirmationContainer = styled.div`
 
 const ConfirmButton = styled.button<{ outOfBorder: boolean }>`
   border-radius: 15px;
+  font-size: 1.1rem;
   background-color: ${props =>
-    props.outOfBorder ? 'gray' : props.theme.mainColor};
-  color: #fff;
-  padding: 0.25rem 0.75rem;
+    props.outOfBorder ? 'gray' : props.theme.btnPrimaryLight};
+  color: ${props => props.theme.btnText};
+  padding: 0.5rem 0.75rem;
+  font-weight: ${props => props.theme.font.bold};
+  border: 1px solid ${props => props.theme.btnBorder};
   margin: 0 1rem;
 `;
 const MapIcon = styled.button`
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: #fff;
+  background-color: ${props => props.theme.dangerRed};
   padding: 0.25rem;
   border-radius: 50%;
-  color: ${props => props.theme.mainColor};
+  color: ${props => props.theme.btnText};
 `;
 
 const OutOfBorderContainer = styled.div`

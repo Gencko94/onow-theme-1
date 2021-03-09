@@ -82,7 +82,7 @@ const Drawer = ({ setDrawerOpen }: IProps) => {
         </LinkContainer>
         <LinkContainer>
           <BiGitBranch size={20} />
-          <Linkitem to="/">{t('common:our-branches')}</Linkitem>
+          <Linkitem to="/branches">{t('common:our-branches')}</Linkitem>
         </LinkContainer>
         <LinkContainer>
           <AiOutlineUnorderedList size={20} />
@@ -98,7 +98,7 @@ const Drawer = ({ setDrawerOpen }: IProps) => {
         </LinkContainer>
         <LinkContainer>
           <BsGearFill size={20} />
-          <Linkitem to="/">{t('common:settings')}</Linkitem>
+          <Linkitem to="/user/account">{t('common:my-account')}</Linkitem>
         </LinkContainer>
 
         <Toggler>

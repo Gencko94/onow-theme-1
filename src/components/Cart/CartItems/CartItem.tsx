@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { AiOutlineMinus, AiOutlinePlus, AiFillDelete } from 'react-icons/ai';
-import { BsPlus } from 'react-icons/bs';
+
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { Product } from '../../../interfaces/product';
