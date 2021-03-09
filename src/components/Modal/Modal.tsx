@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { GrClose } from 'react-icons/gr';
+import { IoMdClose } from 'react-icons/io';
 
 import { CSSTransition } from 'react-transition-group';
 import { AiOutlineInfoCircle } from 'react-icons/ai';
@@ -35,7 +35,7 @@ const Modal = ({ title, closeModal, modalOpen }: ModalProps) => {
         <Container>
           <ModalHead>
             <CloseIcon onClick={() => closeModal()}>
-              <GrClose size={16} />
+              <IoMdClose size={25} />
             </CloseIcon>
             <TitleContainer>
               <Title>{title}</Title>
@@ -100,17 +100,17 @@ const Modal = ({ title, closeModal, modalOpen }: ModalProps) => {
 export default Modal;
 
 const Container = styled.div(
-  ({ theme: { breakpoints, bodyColor } }) => `
+  ({ theme: { breakpoints, overlayColor, bodyColor, headingColor } }) => `
   position: fixed;
   z-index: 200;
   left: 0;
   right: 0;
-  
+ 
   top:50%;
   transform:translateY(-50%);
   border-radius:6px;
   margin: auto;
-  background-color:#fff;
+  background-color:${overlayColor};
   
   @media ${breakpoints.xs} {
       width:90%;
@@ -126,6 +126,7 @@ const CloseIcon = styled.button`
   display: flex;
   justify-content: center;
   align-items: center;
+  color: ${props => props.theme.btnText};
 `;
 const TitleContainer = styled.div`
   flex: 1;
@@ -133,8 +134,8 @@ const TitleContainer = styled.div`
   justify-content: center;
   align-items: center;
 `;
-const Title = styled.h6`
-  font-weight: 500;
+const Title = styled.h5`
+  font-weight: ${props => props.theme.font.bold};
 `;
 
 const ModalHead = styled.div`
@@ -158,18 +159,20 @@ const Backdrop = styled.span`
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.3);
+  background-color: rgba(0, 0, 0, 0.5);
 `;
 const BranchesListContainer = styled.ul`
-  border: 1px solid rgba(0, 0, 0, 0.1);
+  border: 1px solid ${props => props.theme.btnBorder};
   border-radius: 5px;
   overflow: hidden;
 `;
 const BranchContainer = styled.li<{ selected: boolean }>`
   padding: 0.5rem;
+  cursor: pointer;
   background-color: ${props =>
-    props.selected ? props.theme.mainColor : '#fff'};
-  color: ${props => (props.selected ? '#fff' : props.theme.accentColor)};
+    props.selected ? props.theme.highlightColor : props.theme.overlayColor};
+  color: ${props =>
+    props.selected ? props.theme.highlightColorText : props.theme.headingColor};
   transition: background-color 150ms ease-in-out;
   display: flex;
   align-items: center;
@@ -196,7 +199,8 @@ const ButtonContainer = styled.div`
 `;
 const ConfirmButton = styled.button`
   border-radius: 15px;
-  background-color: ${props => props.theme.mainColor};
-  color: #fff;
+  background-color: ${props => props.theme.btnPrimaryDark};
+  color: ${props => props.theme.btnText};
   padding: 0.25rem 0.75rem;
+  border: 1px solid ${props => props.theme.btnBorder};
 `;

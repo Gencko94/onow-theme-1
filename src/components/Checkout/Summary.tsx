@@ -14,13 +14,15 @@ import { ApplicationProvider } from '../../contexts/ApplicationContext';
 import { CSSTransition, SwitchTransition } from 'react-transition-group';
 import Pickup from './Pickup';
 import { PaymentMethods } from '../../interfaces/paymentMethods';
+import { useTranslation } from 'react-i18next';
 
 const schema = yup.object().shape({
   name: yup.string().required('Required Field').min(5),
   phone: yup.string().required('Required Field').min(5),
 });
 const Summary = () => {
-  const [locationType, setLocationType] = useState<LocationT>('House');
+  const { t } = useTranslation(['checkout']);
+  const [locationType, setLocationType] = useState<LocationT>('house');
   const [paymentMethod, setPaymentMethod] = useState<PaymentMethods>(
     paymentMethods[0]
   );
@@ -34,12 +36,12 @@ const Summary = () => {
 
   return (
     <Container>
-      <Subtitle>Order Mode</Subtitle>
-      <GridContainer>
+      {/* <Subtitle>Order Mode</Subtitle> */}
+      {/* <GridContainer>
         {orderModes.map(orderMode => (
           <OrderModeItem small orderMode={orderMode} />
         ))}
-      </GridContainer>
+      </GridContainer> */}
       <SwitchTransition mode="out-in">
         {selectedOrderMode === 'delivery' ? (
           <CSSTransition
@@ -68,9 +70,9 @@ const Summary = () => {
       </SwitchTransition>
       <Box>
         <BoxHead>
-          <Title>Payment</Title>
-          <Subtitle>Select your preffered payment method</Subtitle>
+          <Title>{t('payment')} </Title>
         </BoxHead>
+        <Subtitle>{t('payment-prompt')} </Subtitle>
         <PaymentMethodsContainer>
           {paymentMethods.map(method => (
             <PaymentMethodItem
@@ -103,7 +105,7 @@ const Container = styled.div`
 const Title = styled.h5(
   ({ theme: { breakpoints } }) => `
  
-   margin-bottom: 0.5rem;
+   
   text-align: center;
  
  
@@ -115,24 +117,28 @@ const Title = styled.h5(
 );
 const BoxHead = styled.div`
   padding: 0.5rem;
+  background: ${props => props.theme.btnPrimaryLight};
+  color: ${props => props.theme.btnText};
 `;
 const Subtitle = styled.p`
   text-align: center;
-  font-size: 1.1rem;
-  margin-bottom: 0.5rem;
-  font-weight: 500;
+  /* font-size: 1.1rem; */
+  /* margin-bottom: 0.5rem; */
+  padding: 0.25rem;
+  font-weight: ${props => props.theme.font.bold};
 `;
 const Box = styled.div`
-  background-color: #fff;
+  background-color: ${props => props.theme.overlayColor};
   border-radius: 12px;
   margin-bottom: 0.5rem;
+  overflow: hidden;
   border: 1px solid rgba(0, 0, 0, 0.1);
 `;
 const PaymentMethodsContainer = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   gap: 0.5rem;
-  padding: 0.5rem;
+  padding: 0.25rem 0.5rem 0.5rem 0.5rem;
 `;
 const PaymentMethodItem = styled.div<{ active: boolean }>`
   border: 1px solid rgba(0, 0, 0, 0.1);
@@ -142,12 +148,15 @@ const PaymentMethodItem = styled.div<{ active: boolean }>`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background-color: ${props => props.active && props.theme.mainColor};
-  color: ${props => props.active && '#fff'};
+  cursor: pointer;
+  background-color: ${props =>
+    props.active ? props.theme.highlightColor : props.theme.inputColorLight};
+  color: ${props =>
+    props.active ? props.theme.highlightColorText : props.theme.subHeading};
 `;
 const PaymentMethodName = styled.p`
   font-size: 0.8rem;
-  font-weight: 500;
+  font-weight: ${props => props.theme.font.bold};
 `;
 const PaymentMethodImage = styled.img`
   width: 46px;

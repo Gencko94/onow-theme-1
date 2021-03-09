@@ -32,5 +32,6 @@ declare module 'styled-components' {
     btnText: string;
     green: string;
     font: FontWeights;
+    dangerRed: string;
   }
 }

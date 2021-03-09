@@ -2,6 +2,7 @@ import { Route, Switch, useLocation, useRouteMatch } from 'react-router-dom';
 import styled from 'styled-components';
 import ContactInfo from '../components/Checkout/ContactInfo';
 import Summary from '../components/Checkout/Summary';
+import MobileHeader from '../components/Header/MobileHeader';
 import Hero from '../components/Home/Hero/Hero';
 
 import Layout from '../layout/Layout';
@@ -13,10 +14,8 @@ const Checkout = () => {
   console.log(path);
   return (
     <Layout>
-      <Hero />
+      <MobileHeader title="checkout" />
       <Container>
-        <Title>Checkout</Title>
-
         <Switch location={location}>
           <Route exact path={path} component={ContactInfo} />
           <Route exact path={`/checkout/summary`} component={Summary} />
@@ -30,7 +29,7 @@ export default Checkout;
 const Container = styled.div`
   min-height: calc(100vh - 66px);
   position: relative;
-  margin-top: 58px;
+
   padding: 1rem;
   overflow-x: hidden;
 `;

@@ -20,5 +20,6 @@
   "order-total": "إجمالي الطلب",
   "delivery-cost": "تكلفة التوصيل",
   "subtotal": "المجموع",
-  "my-basket": "سلة المشتريات"
+  "my-basket": "سلة المشتريات",
+  "checkout": "إتمام الطلب"
 }

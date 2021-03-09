@@ -20,5 +20,6 @@
   "order-total": "Order Total",
   "delivery-cost": "Delivery Cost",
   "subtotal": "Subtotal",
-  "my-basket": "My Basket"
+  "my-basket": "My Basket",
+  "checkout": "Checkout"
 }

@@ -38,22 +38,20 @@ const Pickup = () => {
 export default Pickup;
 
 const Box = styled.div`
-  background-color: #fff;
+  background-color: ${props => props.theme.overlayColor};
   border-radius: 12px;
   margin-bottom: 0.5rem;
   border: 1px solid rgba(0, 0, 0, 0.1);
-  padding: 0.5rem;
+  /* padding: 0.5rem; */
+  overflow: hidden;
 `;
 const BoxHead = styled.div`
-  padding: 0.25rem 0;
-  position: sticky;
-  top: 0;
-  z-index: 2;
-  background: #fff;
+  padding: 0.5rem;
+  background-color: ${props => props.theme.btnPrimaryLight};
+  color: ${props => props.theme.btnText};
 `;
 const Title = styled.h5(
   ({ theme: { breakpoints } }) => `
-  margin-bottom:.25rem;
   text-align: center;
  
  
@@ -66,27 +64,30 @@ const Title = styled.h5(
 const Subtitle = styled.p`
   text-align: center;
   font-size: 1rem;
+  font-weight: ${props => props.theme.font.semibold};
 `;
 const PickupContainer = styled.div`
-  padding: 0.25rem 0;
+  padding: 0.5rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
 `;
 const ChangeButton = styled.button`
   border-radius: 12px;
-  background-color: ${props => props.theme.mainColor};
-  color: #fff;
+  background-color: ${props => props.theme.btnPrimaryLight};
+  color: ${props => props.theme.btnText};
   padding: 0.25rem 0.5rem;
   font-size: 0.7rem;
+  font-weight: ${props => props.theme.font.bold};
   margin: 0 0.25rem;
 `;
 const PickupBranch = styled.p`
-  font-size: 1rem;
-  font-weight: 600;
+  font-size: 1.1rem;
+  font-weight: ${props => props.theme.font.bold};
+  padding: 0 0.5rem;
 `;
 const Prompt = styled.button`
-  font-weight: 500;
+  font-weight: ${props => props.theme.font.semibold};
   font-size: 0.9rem;
   text-decoration: underline;
 `;

@@ -1,5 +1,5 @@
 import { devices } from '../breakpoints';
-
+import color from 'color';
 export const lightTheme = {
   mainColor: '#b11e29',
   accentColor: '#ECECEC', // Inputs
@@ -20,6 +20,7 @@ export const lightTheme = {
   btnBorder: 'rgba(0,0,0,0.1)',
   green: '#0B9B23',
   btnText: '#fff',
+  dangerRed: '#b72b2b',
   font: {
     regular: '400',
     semibold: '600',
@@ -48,6 +49,7 @@ export const darkTheme = {
   btnPrimaryDark: '#3B3B3B',
   green: '#1AD439',
   btnText: '#fff',
+  dangerRed: color('#b72b2b').lighten(0.5).toString(),
   font: {
     regular: '400',
     semibold: '600',

@@ -11,7 +11,7 @@ import { useLocation } from 'react-router';
 import Hamburger from './MobileNavIcons/Hamburger';
 import MobileNavIcons from './MobileNavIcons/MobileNavIcons';
 import { Link } from 'react-router-dom';
-import { useTranslation } from 'react-i18next';
+
 interface IProps {
   drawerOpen: boolean;
   setDrawerOpen: Dispatch<SetStateAction<boolean>>;
@@ -24,8 +24,7 @@ const MobileNavbar = ({ setDrawerOpen, drawerOpen }: IProps) => {
     if (
       pathname === '/' ||
       pathname.includes('categories') ||
-      pathname.includes('booking') ||
-      pathname.includes('checkout')
+      pathname.includes('booking')
     )
       return true;
     return false;

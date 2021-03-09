@@ -1,4 +1,5 @@
 import { Dispatch, SetStateAction, useContext } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { ApplicationProvider } from '../../contexts/ApplicationContext';
@@ -24,13 +25,14 @@ const DeliveryAddress = ({
   locationType,
   setLocationType,
 }: IProps) => {
+  const { t } = useTranslation(['checkout']);
   const { deliveryAddress } = useContext(ApplicationProvider);
   return (
     <Box>
       <BoxHead>
-        <Title>Delivery Details</Title>
-        <Subtitle>Select location type </Subtitle>
+        <Title>{t('delivery-details')}</Title>
       </BoxHead>
+      <Subtitle bold>{t('location-type')} </Subtitle>
       <LocationTypesContainer>
         {locationTypes.map(({ title, Icon }) => (
           <LocationType
@@ -41,49 +43,47 @@ const DeliveryAddress = ({
             <LocationTypeIcon>
               <Icon size={20} />
             </LocationTypeIcon>
-            <LocationTypeName>{title}</LocationTypeName>
+            <LocationTypeName>{t(title)}</LocationTypeName>
           </LocationType>
         ))}
       </LocationTypesContainer>
       <DeliveryAddressContainer>
-        <Subtitle>Deliver to</Subtitle>
+        <Subtitle bold>{t('deliver-to')}</Subtitle>
         {deliveryAddress ? (
-          <ChangeButton to="/location">Change</ChangeButton>
+          <ChangeButton to="/location">{t('change')}</ChangeButton>
         ) : (
-          <LocationPrompt to="/location">
-            Select your Delivery location
-          </LocationPrompt>
+          <LocationPrompt to="/location">{t('delivery-prompt')}</LocationPrompt>
         )}
       </DeliveryAddressContainer>
       {deliveryAddress && (
         <AddressText>{deliveryAddress.physicalAddress}</AddressText>
       )}
-      {deliveryAddress && <OrderTime title="Delivery Time" />}
+      {deliveryAddress && <OrderTime title="delivery-time" />}
       <Form onSubmit={handleSubmit(onSubmit)}>
-        {locationType === 'House' && (
+        {locationType === 'house' && (
           <InputContainer>
-            <Label>House no</Label>
+            <Label>{t('house-no')}</Label>
             <Input name="name" ref={register} />
             {errors.name && <ErrorMessage>{errors.name.message}</ErrorMessage>}
           </InputContainer>
         )}
         <InputContainer>
-          <Label>Avenue</Label>
+          <Label>{t('avenue')}</Label>
           <Input name="phone" ref={register} />
           {errors.phone && <ErrorMessage>{errors.phone.message}</ErrorMessage>}
         </InputContainer>
-        {locationType === 'Office' && (
+        {locationType === 'office' && (
           <InputContainer>
-            <Label>Office no</Label>
+            <Label>{t('office-no')}</Label>
             <Input name="phone" ref={register} />
             {errors.phone && (
               <ErrorMessage>{errors.phone.message}</ErrorMessage>
             )}
           </InputContainer>
         )}
-        {locationType === 'Apartment' && (
+        {locationType === 'apartment' && (
           <InputContainer>
-            <Label>Apt no</Label>
+            <Label>{t('apt-no')}</Label>
             <Input name="phone" ref={register} />
             {errors.phone && (
               <ErrorMessage>{errors.phone.message}</ErrorMessage>
@@ -91,12 +91,12 @@ const DeliveryAddress = ({
           </InputContainer>
         )}
         <InputContainer>
-          <Label>Street</Label>
+          <Label>{t('street')}</Label>
           <Input name="phone" ref={register} />
           {errors.phone && <ErrorMessage>{errors.phone.message}</ErrorMessage>}
         </InputContainer>
         <InputContainer>
-          <Label>Block</Label>
+          <Label>{t('block')}</Label>
           <Input name="phone" ref={register} />
           {errors.phone && <ErrorMessage>{errors.phone.message}</ErrorMessage>}
         </InputContainer>
@@ -107,22 +107,23 @@ const DeliveryAddress = ({
 
 export default DeliveryAddress;
 const Box = styled.div`
-  background-color: #fff;
+  background-color: ${props => props.theme.overlayColor};
   border-radius: 12px;
   margin-bottom: 0.5rem;
   border: 1px solid rgba(0, 0, 0, 0.1);
-  padding: 0.5rem;
+  overflow: hidden;
 `;
 const BoxHead = styled.div`
-  padding: 0.25rem 0;
-  position: sticky;
-  top: 0;
-  z-index: 2;
-  background: #fff;
+  padding: 0.5rem;
+
+  background-color: ${props => props.theme.btnPrimaryLight};
+  color: ${props => props.theme.btnText};
+  /* background: #fff; */
 `;
 const Title = styled.h5(
-  ({ theme: { breakpoints } }) => `
+  ({ theme: { breakpoints, font, headingColor } }) => `
   
+  font-weight:${font.bold};
   text-align: center;
  
  
@@ -135,27 +136,33 @@ const Title = styled.h5(
 const Subtitle = styled.p<{ bold?: boolean }>`
   text-align: center;
   font-size: 1rem;
-  font-weight: ${props => props.bold && '600'};
+  font-weight: ${props =>
+    props.bold ? props.theme.font.bold : props.theme.font.semibold};
+  padding: 0.25rem;
 `;
 const LocationTypesContainer = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   gap: 0.5rem;
+  padding: 0.25rem 0.5rem;
 `;
 const LocationType = styled.div<{ active: boolean }>`
   border: 1px solid rgba(0, 0, 0, 0.1);
+  cursor: pointer;
   border-radius: 8px;
   display: flex;
   padding: 0.25rem;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background-color: ${props => props.active && props.theme.mainColor};
-  color: ${props => props.active && '#fff'};
+  background-color: ${props =>
+    props.active ? props.theme.highlightColor : props.theme.inputColorLight};
+  color: ${props =>
+    props.active ? props.theme.highlightColorText : props.theme.subHeading};
 `;
 const LocationTypeName = styled.p`
-  font-size: 0.8rem;
-  font-weight: 500;
+  font-size: 0.9rem;
+  font-weight: ${props => props.theme.font.bold};
 `;
 const LocationTypeIcon = styled.span`
   display: flex;
@@ -175,6 +182,7 @@ const LocationPrompt = styled(Link)`
   display: block;
   font-size: 0.9rem;
   text-decoration: underline;
+  padding: 0 0.5rem;
 `;
 const ChangeButton = styled(Link)`
   border-radius: 12px;
@@ -186,13 +194,15 @@ const ChangeButton = styled(Link)`
 `;
 const AddressText = styled.p`
   font-size: 0.9rem;
-  font-weight: 600;
+  padding: 0 0.5rem;
+  font-weight: ${props => props.theme.font.bold};
 `;
 const Form = styled.form`
   margin-top: 0.5rem;
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 0.25rem;
+  padding: 0.5rem;
 `;
 const InputContainer = styled.div`
   margin-bottom: 0.5rem;
@@ -200,14 +210,16 @@ const InputContainer = styled.div`
 const Label = styled.label`
   margin-bottom: 0.25rem;
   display: block;
-  font-size: 0.8rem;
+  font-size: 0.9rem;
+  font-weight: ${props => props.theme.font.bold};
 `;
 const Input = styled.input`
   border-radius: 5px;
-  border: 1px solid rgba(0, 0, 0, 0.1);
+  border: 1px solid ${props => props.theme.btnBorder};
   padding: 0.25rem;
   width: 100%;
   font-size: 0.9rem;
+  background-color: ${props => props.theme.inputColorLight};
 `;
 const ErrorMessage = styled.p`
   color: #b72b2b;

@@ -1,4 +1,5 @@
 import { useContext, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
 import { ApplicationProvider } from '../../contexts/ApplicationContext';
 
@@ -9,6 +10,7 @@ interface IProps {
 }
 
 const OrderTime = ({ title }: IProps) => {
+  const { t } = useTranslation(['checkout']);
   const {
     orderTime,
     orderTimeType,
@@ -18,11 +20,11 @@ const OrderTime = ({ title }: IProps) => {
   return (
     <Container>
       <TimeOptionsContainer>
-        <Subtitle>{title} :</Subtitle>
+        <Subtitle>{t(title)} :</Subtitle>
 
         <RadioContainer>
           <InputContainer>
-            <Label htmlFor="pickup">ASAP</Label>
+            <Label htmlFor="pickup">{t('asap')} </Label>
             <RadioInput
               id="pickup"
               type="radio"
@@ -35,7 +37,7 @@ const OrderTime = ({ title }: IProps) => {
             />
           </InputContainer>
           <InputContainer>
-            <Label htmlFor="schedule">Schedule</Label>
+            <Label htmlFor="schedule">{t('schedule')} </Label>
             <RadioInput
               id="schedule"
               type="radio"
@@ -51,7 +53,7 @@ const OrderTime = ({ title }: IProps) => {
       </TimeOptionsContainer>
       {orderTimeType === 'schedule' && (
         <TimeOptionsContainer>
-          <Subtitle>Date & Time</Subtitle>
+          <Subtitle>{t('date-time')} </Subtitle>
           <DateTimePicker
             selectedDate={orderTime || new Date()}
             handleSetOrderTime={handleSetOrderTime}
@@ -66,12 +68,13 @@ const OrderTime = ({ title }: IProps) => {
 export default OrderTime;
 
 const Container = styled.div`
-  padding: 0.5rem 0;
+  padding: 0.25rem 0.5rem;
 `;
 
 const Subtitle = styled.p<{ bold?: boolean; center?: boolean }>`
   font-size: 1rem;
-  font-weight: ${props => (props.bold ? '600' : '400')};
+  font-weight: ${props =>
+    props.bold ? props.theme.font.bold : props.theme.font.semibold};
   text-align: ${props => props.center && 'center'};
 `;
 
@@ -84,10 +87,9 @@ const TimeOptionsContainer = styled.div`
 
 const RadioContainer = styled.div`
   display: flex;
-  flex: 1;
   justify-content: center;
   align-items: center;
-  font-weight: 600;
+  font-weight: ${props => props.theme.font.bold};
 `;
 const InputContainer = styled.div`
   display: flex;

@@ -7,14 +7,14 @@ import { LocationType } from '../interfaces/LocationTypes';
 export const locationTypes: LocationType[] = [
   {
     Icon: BsFillHouseFill,
-    title: 'House',
+    title: 'house',
   },
   {
     Icon: BiBuilding,
-    title: 'Apartment',
+    title: 'apartment',
   },
   {
     Icon: IoBusinessSharp,
-    title: 'Office',
+    title: 'office',
   },
 ];

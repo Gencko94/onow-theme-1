@@ -1,6 +1,6 @@
 import { IconType } from 'react-icons/lib';
 
-export type LocationT = 'House' | 'Office' | 'Apartment';
+export type LocationT = 'house' | 'office' | 'apartment';
 
 export type LocationType = {
   title: LocationT;

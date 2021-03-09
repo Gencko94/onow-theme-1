@@ -1,14 +1,18 @@
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
 import { products } from '../../data/products';
 import LazyImage from '../../utils/LazyImage';
 
 const OrderItems = () => {
+  const { t } = useTranslation(['checkout']);
   const [expand, setExpand] = useState(false);
   return (
     <Box expand={expand}>
       <BoxHead>
-        <Title>Order Items ({products.length})</Title>
+        <Title>
+          {t('order-items')} ({products.length})
+        </Title>
       </BoxHead>
       <OrderItemsContainer>
         {products.map(product => (
@@ -22,11 +26,11 @@ const OrderItems = () => {
             </DetailsContainer>
             <PricingContainer>
               <SmallContainer>
-                <Paragraph>Qty : </Paragraph>
+                <Paragraph>{t('qty')} : </Paragraph>
                 <Quantity>2 * {product.price}</Quantity>
               </SmallContainer>
               <SmallContainer>
-                <Paragraph bold>Total </Paragraph>
+                <Paragraph bold>{t('total')} </Paragraph>
                 <Price> {product.price}</Price>
               </SmallContainer>
             </PricingContainer>
@@ -34,7 +38,7 @@ const OrderItems = () => {
         ))}
       </OrderItemsContainer>
       <ExpandButtonContainer onClick={() => setExpand(!expand)}>
-        {expand ? 'Hide' : 'Show all'}
+        {expand ? t('hide') : t('show-all')}
       </ExpandButtonContainer>
     </Box>
   );
@@ -42,7 +46,7 @@ const OrderItems = () => {
 
 export default OrderItems;
 const Box = styled.div<{ expand: boolean }>`
-  background-color: #fff;
+  background-color: ${props => props.theme.overlayColor};
   border-radius: 12px;
   margin-bottom: 0.5rem;
   border: 1px solid rgba(0, 0, 0, 0.1);
@@ -55,7 +59,8 @@ const BoxHead = styled.div`
   position: sticky;
   top: 0;
   z-index: 2;
-  background: #fff;
+  background: ${props => props.theme.btnPrimaryLight};
+  color: ${props => props.theme.btnText};
 `;
 const Title = styled.h5(
   ({ theme: { breakpoints } }) => `
@@ -89,11 +94,12 @@ const Details = styled.div`
 const ProductName = styled.p`
   font-size: 0.8rem;
   margin-bottom: 0.25rem;
-  font-weight: 500;
+  font-weight: ${props => props.theme.font.xbold};
 `;
 const SpecialInstructions = styled.p`
-  color: ${props => props.theme.highlightColor};
-  font-size: 0.7rem;
+  color: ${props => props.theme.subHeading};
+  font-size: 0.8rem;
+  font-weight: ${props => props.theme.font.bold};
 `;
 const PricingContainer = styled.div`
   padding: 0.5em;
@@ -108,16 +114,18 @@ const SmallContainer = styled.div`
 
 const Paragraph = styled.p<{ bold?: boolean }>`
   font-size: 0.9rem;
-  font-weight: ${props => (props.bold ? 500 : 400)};
+  font-weight: ${props =>
+    props.bold ? props.theme.font.xbold : props.theme.font.semibold};
 `;
 const Quantity = styled.p`
   margin: 0 0.25rem;
   font-size: 0.8rem;
+  font-weight: ${props => props.theme.font.semibold};
 `;
 const Price = styled.p`
   margin: 0 0.25rem;
-  font-size: 0.8rem;
-  font-weight: 600;
+  font-size: 1rem;
+  font-weight: ${props => props.theme.font.xbold};
 `;
 
 const ExpandButtonContainer = styled.button`
