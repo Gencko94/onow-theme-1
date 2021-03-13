@@ -30,7 +30,7 @@ const Container = styled.div`
   min-height: calc(100vh - 66px);
   position: relative;
 
-  padding: 1rem;
+  /* padding: 1rem; */
   overflow-x: hidden;
 `;
 const Title = styled.h1(

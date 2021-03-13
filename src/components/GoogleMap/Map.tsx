@@ -17,30 +17,51 @@ import styled from 'styled-components';
 import MapSearchbar from './MapSearchbar';
 import axios from 'axios';
 import { ApplicationProvider } from '../../contexts/ApplicationContext';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import { ThemeContext } from '../../contexts/ThemeContext';
-
-const center = {
-  lat: 29.3759,
-  lng: 47.9774,
-};
+import { GoogleMapsResult } from '../../interfaces/googleMaps';
+import { Address } from '../../interfaces/Address';
+import { UserInfoProvider } from '../../contexts/UserInfoContext';
+import { useQueryParams } from '../../hooks/useQueryParams';
 
 const Map = () => {
   const {
     i18n: { language },
     t,
   } = useTranslation(['map']);
+  const query = useQueryParams();
 
-  const [marker, setMarker] = useState<MapCoordinates | null>(null);
-  const [markerAddress, setMarkerAddress] = useState<string>('');
+  const [marker, setMarker] = useState<MapCoordinates | null>(() => {
+    if (typeof query.lt === 'string' && typeof query.lg === 'string') {
+      return {
+        lat: parseFloat(query.lt),
+        lng: parseFloat(query.lg),
+      };
+    } else return null;
+  });
+  const [address, setAddress] = useState<Address | null>(null);
+
   const [outOfBorder, setOutOfBorder] = useState<boolean>(false);
   const { getCurrentLocation } = useCurrentLocation();
   const { addUserLocation } = useContext(ApplicationProvider);
+  const { handleSetEditedAddress } = useContext(UserInfoProvider);
   const { mode } = useContext(ThemeContext);
   const libraries = useMemo<Libraries>(() => ['places'], []);
-
   const history = useHistory();
-
+  console.log(query);
+  const mapCenter = useMemo(() => {
+    if (typeof query.lt == 'string' && typeof query.lg === 'string') {
+      return {
+        lat: parseFloat(query.lt),
+        lng: parseFloat(query.lg),
+      };
+    } else {
+      return {
+        lat: 29.3759,
+        lng: 47.9774,
+      };
+    }
+  }, []);
   const { isLoaded, loadError } = useJsApiLoader({
     googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
     libraries,
@@ -49,10 +70,10 @@ const Map = () => {
   //problem here when changing lng
   const mapOptions: google.maps.MapOptions = useMemo(() => {
     return {
-      // styles: mapStyles,
       disableDefaultUI: true,
       zoomControl: false,
       gestureHandling: 'greedy',
+
       styles:
         mode === 'light'
           ? []
@@ -143,7 +164,7 @@ const Map = () => {
               },
             ],
     };
-  }, [mode]);
+  }, []);
   const mapRef = useRef<google.maps.Map<Element>>();
   const onMapLoad = useCallback((map: google.maps.Map<Element>) => {
     mapRef.current = map;
@@ -171,18 +192,21 @@ const Map = () => {
           `https://maps.googleapis.com/maps/api/geocode/json?latlng=${marker.lat},${marker.lng}&key=${process.env.REACT_APP_GOOGLE_MAPS_API_KEY}&language=${language}`
         )
         .then(res => {
-          console.log(res.data);
-          if (res.data.results.length === 0) {
-            setMarkerAddress('');
-            // setMarkerInfoWindowDetails(null);
+          let block: string = '';
+          let street: string = '';
+          let area: string = '';
+
+          const results = res.data.results;
+          if (results.length === 0) {
+            setAddress(null);
             setOutOfBorder(true);
             return;
           }
           if (
-            res.data.results[0].address_components.find((address: any) =>
+            results[0].address_components.find((address: any) =>
               address.types.includes('country')
             ).short_name !== 'KW' ||
-            res.data.results.length === 0
+            results.length === 0
           ) {
             setOutOfBorder(true);
           } else {
@@ -190,15 +214,40 @@ const Map = () => {
               setOutOfBorder(false);
             }
           }
-          setMarkerAddress(
-            `${res.data.results[0].address_components
-              .map((address: any) => address.short_name)
-              .join(', ')}`
-          );
+
+          results.forEach((result: GoogleMapsResult) => {
+            if (
+              result.types.includes('street_address') ||
+              result.types.includes('route')
+            ) {
+              street = result.address_components[0].long_name;
+            }
+            if (result.types.includes('neighborhood')) {
+              block = result.address_components[0].long_name;
+            }
+            if (
+              result.types.includes('sublocality_level_1') ||
+              result.types.includes('sublocality') ||
+              result.types.includes('locality')
+            ) {
+              area = result.address_components[0].long_name;
+            }
+          });
+          setAddress(prev => ({
+            ...prev,
+            coords: {
+              lat: marker.lat,
+              lng: marker.lng,
+            },
+            mapAddress: `${street},${block},${area}`,
+            area,
+            block,
+            street,
+          }));
         })
         .catch(err => {});
     } else {
-      setMarkerAddress('');
+      setAddress(null);
       // setMarkerInfoWindowDetails(null);
     }
   }, [marker]);
@@ -221,7 +270,7 @@ const Map = () => {
       // }}
 
       zoom={15}
-      center={center}
+      center={mapCenter}
       options={mapOptions}
       clickableIcons={false}
       onLoad={onMapLoad}
@@ -232,7 +281,7 @@ const Map = () => {
         });
       }}
     >
-      <MapSearchbar panTo={panTo} markerAddress={markerAddress} />
+      <MapSearchbar panTo={panTo} markerAddress={address?.mapAddress} />
       {marker && <Marker position={{ lat: marker?.lat, lng: marker?.lng }} />}
       {outOfBorder && (
         <OutOfBorderContainer>{t('cannot-deliver-here')}</OutOfBorderContainer>
@@ -258,11 +307,22 @@ const Map = () => {
           onClick={() => {
             if (addUserLocation && marker !== null) {
               addUserLocation({
-                lat: marker?.lat,
-                lng: marker?.lng,
-                physicalAddress: markerAddress,
+                coords: {
+                  lat: marker?.lat,
+                  lng: marker?.lng,
+                },
+                mapAddress: address?.mapAddress,
+                area: address?.area,
+                street: address?.street,
+                block: address?.block,
+                building: '3',
               });
-              history.goBack();
+              if (query.e) {
+                history.push('/address/edit');
+                handleSetEditedAddress(address);
+              } else {
+                history.goBack();
+              }
             }
           }}
         >

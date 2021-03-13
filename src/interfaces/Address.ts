@@ -1,19 +1,16 @@
-import { LocationT } from './LocationTypes';
-
 export interface Address {
-  id: number;
+  id?: number;
   coords: {
     lat: number;
     lng: number;
   };
-  area: string;
+  area: string | undefined;
   mapAddress?: string;
-  default: boolean;
-  type: LocationT;
-  street: string | null;
-  floor?: string | null;
-  avenue: string | null;
-  block: string | null;
-  additionalDirections?: string | null;
-  building: string | null;
+  default?: boolean;
+
+  street: string | undefined;
+  floor?: string | undefined;
+  block: string | undefined;
+  additionalDirections?: string | undefined;
+  building?: string | undefined;
 }

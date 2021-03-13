@@ -9,7 +9,7 @@ import { useEffect } from 'react';
 
 interface Props {
   panTo: ({ lat, lng }: { lat: number; lng: number }) => void;
-  markerAddress: string | null;
+  markerAddress: string | undefined;
 }
 
 const MapSearchbar = ({ panTo, markerAddress }: Props) => {

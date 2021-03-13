@@ -3,5 +3,7 @@
   "fullname": "Full Name",
   "phonenumber": "Phone Number",
   "website-settings": "Website Settings",
-  "preffered-payment": "Preffered Payment Method"
+  "preffered-payment": "Preffered Payment Method",
+  "change": "Change",
+  "save": "Save"
 }

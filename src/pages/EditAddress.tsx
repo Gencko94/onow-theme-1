@@ -24,13 +24,14 @@ const EditAddress = () => {
     UserInfoProvider
   );
   const history = useHistory();
+
   const { t } = useTranslation(['addresses']);
   const { register, handleSubmit, errors } = useForm<Address>({
     resolver: yupResolver(schema),
     defaultValues: {
       mapAddress: editedAddress?.mapAddress,
       block: editedAddress?.block,
-      avenue: editedAddress?.avenue,
+
       street: editedAddress?.street,
       building: editedAddress?.building,
       floor: editedAddress?.floor,
@@ -50,13 +51,21 @@ const EditAddress = () => {
   }, []);
   return (
     <Container>
-      <BackNav title="edit-address" />
+      <BackNav title="edit-address" target="mapEdit" />
       <ContentContainer>
         <MapContainer>
           <MapImage
             src={`https://maps.googleapis.com/maps/api/staticmap?center=${editedAddress?.coords.lat},${editedAddress?.coords.lng}&zoom=15&size=500x500&key=${process.env.REACT_APP_GOOGLE_MAPS_API_KEY}`}
           />
-          <EditButton>Edit Location</EditButton>
+          <EditButton
+            onClick={() =>
+              history.push(
+                `/location?e=t&lt=${editedAddress?.coords.lat}&lg=${editedAddress?.coords.lng}`
+              )
+            }
+          >
+            Edit Location
+          </EditButton>
         </MapContainer>
         <Form onSubmit={handleSubmit(onSubmit)}>
           <InputContainer>

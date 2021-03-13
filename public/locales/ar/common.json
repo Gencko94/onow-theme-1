@@ -23,5 +23,6 @@
   "subtotal": "المجموع",
   "my-basket": "سلة المشتريات",
   "checkout": "إتمام الطلب",
-  "edit-address": "تعديل العنوان"
+  "edit-address": "تعديل العنوان",
+  "delivery-address": "عنوان التوصيل"
 }

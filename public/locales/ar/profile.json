@@ -3,5 +3,7 @@
   "fullname": "الإسم الكامل",
   "phonenumber": "رقم الهاتف",
   "website-settings": "اعدادات الموقع",
-  "preffered-payment": "طريقة الدفع المفضلة"
+  "preffered-payment": "طريقة الدفع المفضلة",
+  "change": "تغيير",
+  "save": "حفظ"
 }

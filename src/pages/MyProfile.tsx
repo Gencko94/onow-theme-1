@@ -6,11 +6,11 @@ import { paymentMethods } from '../data/paymentMethods';
 import Layout from '../layout/Layout';
 
 const MyProfile = () => {
-  const { t } = useTranslation(['account']);
+  const { t } = useTranslation(['profile']);
   const [paymentMethod, setPaymentMethod] = useState(paymentMethods[0]);
   return (
     <Layout>
-      <MobileHeader title="my-account" />
+      <MobileHeader title="my-profile" />
 
       <Container>
         <Box>
@@ -27,7 +27,7 @@ const MyProfile = () => {
             <Info>+9655067821</Info>
           </Block>
           <ButtonContainer>
-            <Button>Change</Button>
+            <Button>{t('change')}</Button>
           </ButtonContainer>
         </Box>
         <Box>
@@ -47,7 +47,7 @@ const MyProfile = () => {
             ))}
           </PaymentMethodsContainer>
           <ButtonContainer>
-            <Button>Save</Button>
+            <Button>{t('save')}</Button>
           </ButtonContainer>
         </Box>
       </Container>
@@ -58,13 +58,12 @@ const MyProfile = () => {
 export default MyProfile;
 
 const Container = styled.div`
-  padding: 0.5rem;
+  /* padding: 0.5rem; */
 `;
 const Title = styled.h5(
   ({ theme: { breakpoints, font, headingColor } }) => `
   
   font-weight:${font.bold};
-  text-align: center;
  
  
   @media ${breakpoints.xs} {
@@ -75,7 +74,6 @@ const Title = styled.h5(
 );
 const Box = styled.div`
   background-color: ${props => props.theme.overlayColor};
-  border-radius: 12px;
   margin: 0.5rem 0 1rem 0;
   overflow: hidden;
   border: 1px solid rgba(0, 0, 0, 0.1);

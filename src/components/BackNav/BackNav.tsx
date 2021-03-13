@@ -3,12 +3,20 @@ import { BiArrowBack } from 'react-icons/bi';
 import { useHistory } from 'react-router';
 import styled from 'styled-components';
 
-const BackNav = ({ title }: { title: string }) => {
+const BackNav = ({ title, target }: { title: string; target: string }) => {
   const { t } = useTranslation();
   const history = useHistory();
   return (
     <Container>
-      <Icon onClick={() => history.goBack()}>
+      <Icon
+        onClick={() => {
+          if (target === 'mapEdit') {
+            history.push('/address/edit');
+          } else {
+            history.goBack();
+          }
+        }}
+      >
         <BiArrowBack size={25} />
       </Icon>
       <TitleContainer>

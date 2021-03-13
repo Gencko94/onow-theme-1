@@ -112,7 +112,11 @@ function App() {
 
                 <Route exact path="/booking" component={Booking} />
                 <Route path="/checkout" component={Checkout} />
-                <Route exact path="/location" component={SelectLocation} />
+                <Route
+                  exact
+                  path="/location/:edited?"
+                  component={SelectLocation}
+                />
                 <Route exact path="/login" component={Login} />
                 <Route exact path="/register" component={Register} />
                 <Route exact path="/user/profile" component={MyProfile} />

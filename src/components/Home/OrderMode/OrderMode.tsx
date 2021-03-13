@@ -49,8 +49,8 @@ const OrderMode = () => {
         <>
           {deliveryAddress ? (
             <UserLocationContainer>
-              <StyledP>Delivering To</StyledP>
-              <StyledValue>{deliveryAddress.physicalAddress}</StyledValue>
+              <StyledP>{t('delivery-address')}</StyledP>
+              <StyledValue>{deliveryAddress.mapAddress}</StyledValue>
               <ButtonContainer>
                 <ChangeButton onClick={() => history.push('/location')}>
                   Change
@@ -235,7 +235,7 @@ const ConfirmButton = styled.button`
 `;
 const UserLocationContainer = styled.div`
   padding: 0.5rem;
-  color: ${props => props.theme.accentColor};
+  color: ${props => props.theme.subHeading};
 `;
 const StyledP = styled.p`
   margin-bottom: 0.5rem;

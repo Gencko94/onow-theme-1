@@ -68,7 +68,7 @@ const OrderTime = ({ title }: IProps) => {
 export default OrderTime;
 
 const Container = styled.div`
-  padding: 0.25rem 0.5rem;
+  padding: 0.5rem;
 `;
 
 const Subtitle = styled.p<{ bold?: boolean; center?: boolean }>`
