@@ -1,11 +1,10 @@
-import { Dispatch, SetStateAction, useContext } from 'react';
+import { useContext } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { ApplicationProvider } from '../../contexts/ApplicationContext';
 import { locationTypes } from '../../data/locationTypes';
 import { CheckoutFormInputs } from '../../interfaces/checkoutForm';
-import { LocationT } from '../../interfaces/LocationTypes';
 import OrderTime from './OrderTime';
 
 interface IProps {
@@ -13,8 +12,6 @@ interface IProps {
   errors: any;
   handleSubmit: any;
   onSubmit: (data: CheckoutFormInputs) => void;
-  locationType: LocationT;
-  setLocationType: Dispatch<SetStateAction<LocationT>>;
 }
 
 const DeliveryAddress = ({
@@ -22,8 +19,6 @@ const DeliveryAddress = ({
   errors,
   handleSubmit,
   onSubmit,
-  locationType,
-  setLocationType,
 }: IProps) => {
   const { t } = useTranslation(['checkout']);
   const { deliveryAddress } = useContext(ApplicationProvider);
@@ -33,7 +28,7 @@ const DeliveryAddress = ({
         <Title>{t('delivery-details')}</Title>
       </BoxHead>
       <Subtitle bold>{t('location-type')} </Subtitle>
-      <LocationTypesContainer>
+      {/* <LocationTypesContainer>
         {locationTypes.map(({ title, Icon }) => (
           <LocationType
             onClick={() => setLocationType(title)}
@@ -46,7 +41,7 @@ const DeliveryAddress = ({
             <LocationTypeName>{t(title)}</LocationTypeName>
           </LocationType>
         ))}
-      </LocationTypesContainer>
+      </LocationTypesContainer> */}
       <DeliveryAddressContainer>
         <Subtitle bold>{t('deliver-to')}</Subtitle>
         {deliveryAddress ? (
@@ -60,36 +55,6 @@ const DeliveryAddress = ({
       )}
       {deliveryAddress && <OrderTime title="delivery-time" />}
       <Form onSubmit={handleSubmit(onSubmit)}>
-        {locationType === 'house' && (
-          <InputContainer>
-            <Label>{t('house-no')}</Label>
-            <Input name="name" ref={register} />
-            {errors.name && <ErrorMessage>{errors.name.message}</ErrorMessage>}
-          </InputContainer>
-        )}
-        <InputContainer>
-          <Label>{t('avenue')}</Label>
-          <Input name="phone" ref={register} />
-          {errors.phone && <ErrorMessage>{errors.phone.message}</ErrorMessage>}
-        </InputContainer>
-        {locationType === 'office' && (
-          <InputContainer>
-            <Label>{t('office-no')}</Label>
-            <Input name="phone" ref={register} />
-            {errors.phone && (
-              <ErrorMessage>{errors.phone.message}</ErrorMessage>
-            )}
-          </InputContainer>
-        )}
-        {locationType === 'apartment' && (
-          <InputContainer>
-            <Label>{t('apt-no')}</Label>
-            <Input name="phone" ref={register} />
-            {errors.phone && (
-              <ErrorMessage>{errors.phone.message}</ErrorMessage>
-            )}
-          </InputContainer>
-        )}
         <InputContainer>
           <Label>{t('street')}</Label>
           <Input name="phone" ref={register} />

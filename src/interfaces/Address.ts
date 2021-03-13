@@ -6,15 +6,14 @@ export interface Address {
     lat: number;
     lng: number;
   };
+  area: string;
   mapAddress?: string;
   default: boolean;
   type: LocationT;
-  houseNo?: string | null;
-  officeNo?: string | null;
-  street?: string | null;
+  street: string | null;
   floor?: string | null;
-  aptNo?: string | null;
   avenue: string | null;
   block: string | null;
-  additionalDetails?: string | null;
+  additionalDirections?: string | null;
+  building: string | null;
 }

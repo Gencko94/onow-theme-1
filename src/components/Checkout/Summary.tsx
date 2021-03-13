@@ -7,9 +7,6 @@ import DeliveryAddress from './DeliveryAddress';
 import OrderItems from './OrderItems';
 import { CheckoutFormInputs } from '../../interfaces/checkoutForm';
 import { useContext, useState } from 'react';
-import { LocationT } from '../../interfaces/LocationTypes';
-import OrderModeItem from '../Home/OrderMode/OrderModeItem';
-import { orderModes } from '../../data/orderModes';
 import { ApplicationProvider } from '../../contexts/ApplicationContext';
 import { CSSTransition, SwitchTransition } from 'react-transition-group';
 import Pickup from './Pickup';
@@ -22,7 +19,6 @@ const schema = yup.object().shape({
 });
 const Summary = () => {
   const { t } = useTranslation(['checkout']);
-  const [locationType, setLocationType] = useState<LocationT>('house');
   const [paymentMethod, setPaymentMethod] = useState<PaymentMethods>(
     paymentMethods[0]
   );
@@ -54,8 +50,6 @@ const Summary = () => {
               errors={errors}
               onSubmit={onSubmit}
               handleSubmit={handleSubmit}
-              locationType={locationType}
-              setLocationType={setLocationType}
             />
           </CSSTransition>
         ) : (

@@ -1,57 +1,65 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
-import { paymentMethods } from '../../data/paymentMethods';
+import MobileHeader from '../components/Header/MobileHeader';
+import { paymentMethods } from '../data/paymentMethods';
+import Layout from '../layout/Layout';
 
-const Profile = () => {
+const MyProfile = () => {
   const { t } = useTranslation(['account']);
   const [paymentMethod, setPaymentMethod] = useState(paymentMethods[0]);
   return (
-    <Container>
-      <Box>
-        <BoxHead>
-          <Title>{t('account-info')}</Title>
-        </BoxHead>
-        <Block>
-          <Label>{t('fullname')}</Label>
-          <Info>Maher Khawandi</Info>
-        </Block>
-        <hr />
-        <Block>
-          <Label>{t('phonenumber')}</Label>
-          <Info>+9655067821</Info>
-        </Block>
-        <ButtonContainer>
-          <Button>Change</Button>
-        </ButtonContainer>
-      </Box>
-      <Box>
-        <BoxHead>
-          <Title>{t('preffered-payment')}</Title>
-        </BoxHead>
-        <PaymentMethodsContainer>
-          {paymentMethods.map(method => (
-            <PaymentMethodItem
-              active={paymentMethod.name === method.name}
-              onClick={() => setPaymentMethod(method)}
-              key={method.name}
-            >
-              <PaymentMethodImage src={method.photo} alt={method.name} />
-              <PaymentMethodName>{method.name}</PaymentMethodName>
-            </PaymentMethodItem>
-          ))}
-        </PaymentMethodsContainer>
-        <ButtonContainer>
-          <Button>Save</Button>
-        </ButtonContainer>
-      </Box>
-    </Container>
+    <Layout>
+      <MobileHeader title="my-account" />
+
+      <Container>
+        <Box>
+          <BoxHead>
+            <Title>{t('account-info')}</Title>
+          </BoxHead>
+          <Block>
+            <Label>{t('fullname')}</Label>
+            <Info>Maher Khawandi</Info>
+          </Block>
+          <hr />
+          <Block>
+            <Label>{t('phonenumber')}</Label>
+            <Info>+9655067821</Info>
+          </Block>
+          <ButtonContainer>
+            <Button>Change</Button>
+          </ButtonContainer>
+        </Box>
+        <Box>
+          <BoxHead>
+            <Title>{t('preffered-payment')}</Title>
+          </BoxHead>
+          <PaymentMethodsContainer>
+            {paymentMethods.map(method => (
+              <PaymentMethodItem
+                active={paymentMethod.name === method.name}
+                onClick={() => setPaymentMethod(method)}
+                key={method.name}
+              >
+                <PaymentMethodImage src={method.photo} alt={method.name} />
+                <PaymentMethodName>{method.name}</PaymentMethodName>
+              </PaymentMethodItem>
+            ))}
+          </PaymentMethodsContainer>
+          <ButtonContainer>
+            <Button>Save</Button>
+          </ButtonContainer>
+        </Box>
+      </Container>
+    </Layout>
   );
 };
 
-export default Profile;
+export default MyProfile;
 
-const Container = styled.div``;
+const Container = styled.div`
+  padding: 0.5rem;
+`;
 const Title = styled.h5(
   ({ theme: { breakpoints, font, headingColor } }) => `
   

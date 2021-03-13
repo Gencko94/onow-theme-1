@@ -1,0 +1,19 @@
+{
+  "office": "مكتب",
+  "house": "منزل",
+  "apartment": "شقة",
+  "default": "إفتراضي",
+  "set-default": "التعيين كإفتراضي",
+  "location-type": "نوع الموقع",
+  "saved-addresses": "العناوين المحفوطة",
+  "addbtn": "إضافة",
+  "address": "العنوان",
+  "building": "البناء",
+  "avenue": "الحي",
+  "block": "رقم البلوك",
+  "street": "الشارع",
+
+  "floor": "الطابق",
+  "additional-directions": "إتجاهات إضافية",
+  "area": "المنطقة"
+}

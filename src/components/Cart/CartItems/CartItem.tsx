@@ -40,11 +40,11 @@ const CartItem = ({ product }: Props) => {
       <QuantityWrapper>
         <QuantityContainer>
           <QuantityButton>
-            <AiOutlineMinus size={18} />
+            <AiOutlineMinus size={17} />
           </QuantityButton>
           <QuantityText>1</QuantityText>
           <QuantityButton>
-            <AiOutlinePlus size={18} />
+            <AiOutlinePlus size={17} />
           </QuantityButton>
         </QuantityContainer>
         <AiFillDelete size={27} color="#b72b2b" />
@@ -154,7 +154,7 @@ const Quantity = styled.p`
 const QuantityButton = styled.button`
   width: 25px;
   height: 25px;
-  border-radius: 8px;
+  border-radius: 50%;
   background-color: #fff;
   border: 1px solid rgba(0, 0, 0, 0.2);
   box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.1);

@@ -1,20 +1,9 @@
 {
   "profile": "البروفايل",
-  "website-settings": "اعدادات الموقع",
-  "preffered-payment": "طريقة الدفع المفضلة",
+
   "my-addresses": "عناويني",
-  "saved-addresses": "العناوين المحفوطة",
-  "account-info": "معلومات الحساب",
-  "fullname": "الإسم الكامل",
-  "phonenumber": "رقم الهاتف",
-  "addbtn": "إضافة",
+
   "details": "إظهار التفاصيل",
   "show": "إظهار",
-  "hide": "إخفاء",
-  "location-type": "نوع الموقع",
-  "office": "مكتب",
-  "house": "منزل",
-  "apartment": "شقة",
-  "default": "إفتراضي",
-  "set-default": "التعيين كإفتراضي"
+  "hide": "إخفاء"
 }

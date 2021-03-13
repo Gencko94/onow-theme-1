@@ -9,7 +9,8 @@
   "signup": "إنشاء حساب",
   "our-branches": "فروعنا",
   "about-us": "نبذة عنا",
-  "my-account": "حسابي",
+  "my-profile": "حسابي",
+  "my-addresses": "عناويني المحفوظة",
   "contact-us": "تواصل معنا",
   "my-orders": "طلباتي",
   "quantity": "الكمية",
@@ -21,5 +22,6 @@
   "delivery-cost": "تكلفة التوصيل",
   "subtotal": "المجموع",
   "my-basket": "سلة المشتريات",
-  "checkout": "إتمام الطلب"
+  "checkout": "إتمام الطلب",
+  "edit-address": "تعديل العنوان"
 }

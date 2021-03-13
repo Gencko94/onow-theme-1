@@ -6,7 +6,7 @@ import React, {
   useState,
 } from 'react';
 import { useTranslation } from 'react-i18next';
-import { ThemeProvider as StyledThemes } from 'styled-components';
+import styled, { ThemeProvider as StyledThemes } from 'styled-components';
 import { darkTheme, lightTheme } from '../utils/themes';
 export type ThemeMode = 'light' | 'dark' | string;
 type ContextProps = {
@@ -45,10 +45,14 @@ const ThemeProvider: React.FC = ({ children }) => {
   return (
     <ThemeContext.Provider value={{ toggleTheme, mode }}>
       <StyledThemes theme={currentTheme}>
-        <div dir={i18n.language === 'ar' ? 'rtl' : 'ltr'}>{children}</div>
+        <Container lang={i18n.language}>{children}</Container>
       </StyledThemes>
     </ThemeContext.Provider>
   );
 };
 
 export default ThemeProvider;
+const Container = styled.div<{ lang: string }>`
+  font-family: ${props => props.theme.fontFamily};
+  direction: ${props => (props.lang === 'ar' ? 'rtl' : 'ltr')};
+`;

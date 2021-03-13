@@ -2,9 +2,8 @@ import React, { Dispatch, SetStateAction } from 'react';
 import { gsap } from 'gsap';
 import styled from 'styled-components';
 import { IoMdListBox } from 'react-icons/io';
-import { BiGitBranch } from 'react-icons/bi';
-import { HiOutlineMail } from 'react-icons/hi';
-import { BsGearFill } from 'react-icons/bs';
+import { BiGitBranch, BiMapAlt } from 'react-icons/bi';
+import { HiOutlineMail, HiUserCircle } from 'react-icons/hi';
 import {
   AiOutlineUnorderedList,
   AiFillInfoCircle,
@@ -89,16 +88,20 @@ const Drawer = ({ setDrawerOpen }: IProps) => {
           <Linkitem to="/">{t('common:my-orders')}</Linkitem>
         </LinkContainer>
         <LinkContainer>
+          <HiUserCircle size={20} />
+          <Linkitem to="/user/profile">{t('common:my-profile')}</Linkitem>
+        </LinkContainer>
+        <LinkContainer>
+          <BiMapAlt size={20} />
+          <Linkitem to="/user/addresses">{t('common:my-addresses')}</Linkitem>
+        </LinkContainer>
+        <LinkContainer>
           <HiOutlineMail size={20} />
           <Linkitem to="/">{t('common:contact-us')}</Linkitem>
         </LinkContainer>
         <LinkContainer>
           <AiFillInfoCircle size={20} />
           <Linkitem to="/">{t('common:about-us')}</Linkitem>
-        </LinkContainer>
-        <LinkContainer>
-          <BsGearFill size={20} />
-          <Linkitem to="/user/account">{t('common:my-account')}</Linkitem>
         </LinkContainer>
 
         <Toggler>

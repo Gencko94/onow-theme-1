@@ -1,20 +1,9 @@
 {
   "profile": "Profile",
-  "website-settings": "Website Settings",
-  "preffered-payment": "Preffered Payment Method",
-  "saved-addresses": "Saved Addresses",
+
   "my-addresses": "Addresses",
-  "account-info": "Account Info",
-  "fullname": "Full Name",
-  "phonenumber": "Phone Number",
-  "addbtn": "Add New",
+
   "details": "Details",
   "show": "Show",
-  "hide": "Hide",
-  "location-type": "Location Type",
-  "office": "Office",
-  "house": "House",
-  "apartment": "Apartment",
-  "default": "Default",
-  "set-default": "Set as Default"
+  "hide": "Hide"
 }

@@ -1,0 +1,19 @@
+{
+  "location-type": "Location Type",
+  "office": "Office",
+  "house": "House",
+  "apartment": "Apartment",
+  "default": "Default",
+  "set-default": "Set as Default",
+  "saved-addresses": "Saved Addresses",
+  "addbtn": "Add New",
+  "address": "Address",
+  "building": "Building",
+  "avenue": "Avenue",
+  "block": "Block no",
+  "street": "Street",
+
+  "floor": "Floor",
+  "additional-directions": "Additional Directions",
+  "area": "Area"
+}

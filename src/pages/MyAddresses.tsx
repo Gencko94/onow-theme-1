@@ -1,27 +1,35 @@
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
-import { addresses } from '../../data/addresses';
-import Address from './Address';
+import MobileHeader from '../components/Header/MobileHeader';
+import Address from '../components/MyAccount/Address';
+import { addresses } from '../data/addresses';
+import Layout from '../layout/Layout';
 
-const Addresses = () => {
-  const { t } = useTranslation(['account']);
+const MyAddresses = () => {
+  const { t } = useTranslation(['addresses']);
   return (
-    <Container>
-      <TitleContainer>
-        <Title>{t('saved-addresses')}</Title>
-        <Button>{t('addbtn')}</Button>
-      </TitleContainer>
-      <AddressesContainer>
-        {addresses.map(address => (
-          <Address key={address.id} address={address} />
-        ))}
-      </AddressesContainer>
-    </Container>
+    <Layout>
+      <Container>
+        <MobileHeader title="my-addresses" />
+        <TitleContainer>
+          <Title>{t('saved-addresses')}</Title>
+          <Button>{t('addbtn')}</Button>
+        </TitleContainer>
+        <AddressesContainer>
+          {addresses.map(address => (
+            <Address key={address.id} address={address} />
+          ))}
+        </AddressesContainer>
+      </Container>
+    </Layout>
   );
 };
 
-export default Addresses;
-const Container = styled.div``;
+export default MyAddresses;
+const Container = styled.div`
+  padding: 0.5rem;
+  overflow: hidden;
+`;
 const TitleContainer = styled.div`
   display: flex;
   align-items: center;

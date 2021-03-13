@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
 import { Address as AddressInterface } from '../../interfaces/Address';
@@ -6,7 +6,9 @@ import { BsCheckCircle, BsFillHouseFill } from 'react-icons/bs';
 import { BiBuilding } from 'react-icons/bi';
 import { IoBusinessSharp } from 'react-icons/io5';
 import { IconType } from 'react-icons/lib';
-import { AiFillDelete } from 'react-icons/ai';
+import { AiFillDelete, AiTwotoneEdit } from 'react-icons/ai';
+import { useHistory } from 'react-router';
+import { UserInfoProvider } from '../../contexts/UserInfoContext';
 
 interface IProps {
   address: AddressInterface;
@@ -14,7 +16,8 @@ interface IProps {
 
 const Address: React.FC<IProps> = ({ address }) => {
   const { t } = useTranslation(['account']);
-  const [showDetails, setShowDetails] = useState(false);
+  const history = useHistory();
+  const { handleSetEditedAddress } = useContext(UserInfoProvider);
   const getLocationType = (location: 'house' | 'office' | 'apartment') => {
     let I: IconType;
 
@@ -34,22 +37,21 @@ const Address: React.FC<IProps> = ({ address }) => {
         break;
     }
     return (
-      <>
+      <LocationTypeContainer>
         <LocationType>{t(location)}</LocationType>
         <Icon>
           <I size={18} />
         </Icon>
-      </>
+      </LocationTypeContainer>
     );
   };
   return (
-    <Container showDetails={showDetails}>
+    <Container>
       <AddressHeader>
         <div>
           <AddressTitle>{address.mapAddress}</AddressTitle>
-          <LocationTypeContainer>
-            <Label>{t('location-type')}</Label> :{getLocationType(address.type)}
-          </LocationTypeContainer>
+          <Label>Area :{address.area}</Label>
+          <Label>Block : {address.block}</Label>
         </div>
         {address.default ? (
           <DefaultLocationContainer>
@@ -64,14 +66,25 @@ const Address: React.FC<IProps> = ({ address }) => {
       </AddressHeader>
 
       <ButtonsContainer>
-        <ShowDetailsButton onClick={() => setShowDetails(prev => !prev)}>
+        {/* <ShowDetailsButton onClick={() => setShowDetails(prev => !prev)}>
           {t(showDetails ? 'hide' : 'show')} {t('details')}
-        </ShowDetailsButton>
-        <RemoveButton>
-          <AiFillDelete size={20} />
+        </ShowDetailsButton> */}
+        <EditButton
+          onClick={() => {
+            handleSetEditedAddress(address);
+            history.push('/address/edit');
+          }}
+          col="w"
+        >
+          <DefaultText>Edit</DefaultText>
+          <AiTwotoneEdit size={18} />
+        </EditButton>
+        <RemoveButton col="r">
+          <DefaultText>Delete</DefaultText>
+          <AiFillDelete size={18} />
         </RemoveButton>
       </ButtonsContainer>
-      <Details>
+      {/* <Details>
         <Block>
           <InfoContainer>
             <Label>Block</Label>
@@ -82,8 +95,9 @@ const Address: React.FC<IProps> = ({ address }) => {
             <Info>{address.avenue}</Info>
           </InfoContainer>
           <InfoContainer>
-            <Label>{t('location-type')}</Label>
-            <Info>{t(address.type)}</Info>
+            <Label>{t('location-type')}:</Label>
+          
+            <Info>{getLocationType(address.type)}</Info>
           </InfoContainer>
           <InfoContainer>
             <Label>Avenue</Label>
@@ -92,33 +106,24 @@ const Address: React.FC<IProps> = ({ address }) => {
         </Block>
         <Label>Additional Details</Label>
         <AdditionalDetails>{address.additionalDetails}</AdditionalDetails>
-      </Details>
+      </Details> */}
     </Container>
   );
 };
 
 export default Address;
 
-const Container = styled.div<{ showDetails: boolean }>`
+const Container = styled.div`
   border-radius: 12px;
   background-color: ${props => props.theme.overlayColor};
   border: 1px solid ${props => props.theme.btnBorder};
   padding: 0.5rem;
-  max-height: ${props => (props.showDetails ? '500px' : '109px')};
-  /* overflow: ${props => (props.showDetails ? 'auto' : 'hidden')}; */
-  overflow: hidden;
-  transition: max-height 300ms;
-
-  -webkit-scrollbar {
-    display: none;
-  }
-  -ms-overflow-style: none; /* IE and Edge */
-  scrollbar-width: none; /* Firefox */
 `;
 const AddressTitle = styled.h6`
   font-weight: ${props => props.theme.font.xbold};
-  margin-bottom: 0.25rem;
+
   font-size: 1.1rem;
+  color: ${props => props.theme.headingColor};
 `;
 const AddressHeader = styled.div`
   display: grid;
@@ -129,6 +134,7 @@ const ButtonsContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
+  margin-top: 0.5rem;
 `;
 const DefaultLocationContainer = styled.div`
   display: flex;
@@ -152,44 +158,37 @@ const DefaultText = styled.p`
   font-weight: ${props => props.theme.font.semibold};
   margin: 0 0.25rem;
 `;
-const ShowDetailsButton = styled.button`
-  border-radius: 8px;
-  background-color: ${props => props.theme.btnPrimaryLight};
-  color: ${props => props.theme.btnText};
-  padding: 0.25rem 0.5rem;
-  border: 1px solid ${props => props.theme.btnBorder};
-  font-size: 0.9rem;
-  font-weight: ${props => props.theme.font.bold};
-`;
-const RemoveButton = styled.button`
-  color: ${props => props.theme.dangerRed};
+
+const EditButton = styled.button<{ col: string }>`
+  color: ${props =>
+    props.col === 'r' ? props.theme.dangerRed : props.theme.subHeading};
   display: flex;
   align-items: center;
   justify-content: center;
+  border-radius: 6px;
 `;
-const Details = styled.div`
-  margin: 0.5rem 0;
+const RemoveButton = styled.button<{ col: string }>`
+  color: ${props =>
+    props.col === 'r' ? props.theme.dangerRed : props.theme.subHeading};
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: ${props => props.theme.btnPrimaryDark};
+  padding: 0.25rem;
+  border-radius: 6px;
+  color: ${props => props.theme.btnText};
 `;
+
 const Label = styled.p`
   font-weight: ${props => props.theme.font.bold};
   display: block;
   font-size: 1rem;
-  color: ${props => props.theme.headingColor};
-`;
-const Info = styled.p`
-  font-weight: ${props => props.theme.font.semibold};
   color: ${props => props.theme.subHeading};
 `;
-const Block = styled.div`
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 0.25rem;
-`;
-const InfoContainer = styled.div``;
+
 const LocationTypeContainer = styled.div`
   display: flex;
   align-items: center;
-  margin-bottom: 0.5rem;
 `;
 const LocationType = styled.p`
   font-weight: ${props => props.theme.font.bold};
@@ -200,4 +199,3 @@ const Icon = styled.span`
   align-items: center;
   justify-content: center;
 `;
-const AdditionalDetails = styled.p``;

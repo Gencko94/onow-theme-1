@@ -10,7 +10,8 @@
   "our-branches": "Our Branches",
   "about-us": "About us",
   "contact-us": "Contact us",
-  "my-account": "My Account",
+  "my-profile": "My Profile",
+  "my-addresses": "My Addresses",
   "my-orders": "My Orders",
   "quantity": "Quantity",
   "add-to-cart": "Add to Cart",
@@ -21,5 +22,6 @@
   "delivery-cost": "Delivery Cost",
   "subtotal": "Subtotal",
   "my-basket": "My Basket",
-  "checkout": "Checkout"
+  "checkout": "Checkout",
+  "edit-address": "Edit Address"
 }
