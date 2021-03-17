@@ -211,15 +211,31 @@ const SubmitButton = styled.button`
 const ContentWrapper = styled.div`
   padding: 0 0.5rem;
 `;
-const StickyContainer = styled.div`
+const StickyContainer = styled.div(
+  ({ theme: { breakpoints, overlayColor, btnBorder } }) => ` 
   padding: 0.5rem 1rem;
-  background-color: ${props => props.theme.overlayColor};
-  position: sticky;
-  bottom: 0;
+  background-color: ${overlayColor};
+  
+  width: 100%;
   z-index: 3;
   align-self: flex-start;
-  border-top: 1px solid rgba(0, 0, 0, 0.5);
-`;
+  @media ${breakpoints.xs} {
+    border-top: 1px solid rgba(0, 0, 0, 0.5);
+    position: sticky;
+    bottom: 0;
+  };
+  @media ${breakpoints.md} {
+    position: relative;
+    max-width:1100px;
+    margin:0 auto;
+    border:1px solid ${btnBorder};
+    border-radius:6px;
+  }
+  @media ${breakpoints.lg} {
+    // margin-top: 1rem;
+  }
+`
+);
 
 const OrderModeText = styled.h6`
   font-size: large;

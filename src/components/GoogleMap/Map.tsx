@@ -17,7 +17,7 @@ import styled from 'styled-components';
 import MapSearchbar from './MapSearchbar';
 import axios from 'axios';
 import { ApplicationProvider } from '../../contexts/ApplicationContext';
-import { useHistory, useLocation } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { ThemeContext } from '../../contexts/ThemeContext';
 import { GoogleMapsResult } from '../../interfaces/googleMaps';
 import { Address } from '../../interfaces/Address';
@@ -44,7 +44,9 @@ const Map = () => {
   const [outOfBorder, setOutOfBorder] = useState<boolean>(false);
   const { getCurrentLocation } = useCurrentLocation();
   const { addUserLocation } = useContext(ApplicationProvider);
-  const { handleSetEditedAddress } = useContext(UserInfoProvider);
+  const { handleSetEditedAddress, handleSetNewAddress } = useContext(
+    UserInfoProvider
+  );
   const { mode } = useContext(ThemeContext);
   const libraries = useMemo<Libraries>(() => ['places'], []);
   const history = useHistory();
@@ -317,9 +319,22 @@ const Map = () => {
                 block: address?.block,
                 building: '3',
               });
-              if (query.e) {
+              if (query.m === 'e') {
                 history.push('/address/edit');
                 handleSetEditedAddress(address);
+              } else if (query.m === 'a') {
+                history.push('/address/add');
+                handleSetNewAddress({
+                  coords: {
+                    lat: marker?.lat,
+                    lng: marker?.lng,
+                  },
+                  mapAddress: address?.mapAddress,
+                  area: address?.area,
+                  street: address?.street,
+                  block: address?.block,
+                  building: '3',
+                });
               } else {
                 history.goBack();
               }

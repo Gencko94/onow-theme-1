@@ -1,5 +1,5 @@
 export interface ImageProps {
-  src: string;
+  src: string | undefined;
   pb: string;
-  alt: string;
+  alt: string | undefined;
 }

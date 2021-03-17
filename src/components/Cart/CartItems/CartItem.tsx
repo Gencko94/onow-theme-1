@@ -1,14 +1,17 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { AiOutlineMinus, AiOutlinePlus, AiFillDelete } from 'react-icons/ai';
+import { FiPlus, FiMinus } from 'react-icons/fi';
+import { useMutation, useQueryClient } from 'react-query';
 
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import { Product } from '../../../interfaces/product';
+import { CartItem as CartItemT } from '../../../interfaces/cartitem';
 import LazyImage from '../../../utils/LazyImage';
+import { deleteCartItem } from '../../../utils/queries';
 
 interface Props {
-  product: Product;
+  product: CartItemT;
 }
 const addons = [
   { name: 'Extra Cheese', price: '0.500 KD' },
@@ -16,17 +19,61 @@ const addons = [
 ];
 const CartItem = ({ product }: Props) => {
   const { t } = useTranslation();
-  const [quantity, setQuantity] = useState<number>(1);
+  const queryClient = useQueryClient();
+  const { mutateAsync: deleteMutation } = useMutation(deleteCartItem, {
+    onSuccess: () => {
+      queryClient.setQueryData<CartItemT[] | undefined>('cart', prev => {
+        return prev?.filter(i => i.id !== product.id);
+      });
+    },
+  });
+  const { mutateAsync: editItem } = useMutation(deleteCartItem, {
+    onSuccess: () => {
+      queryClient.setQueryData<CartItemT[] | undefined>('cart', prev => {
+        return prev?.filter(i => i.id !== product.id);
+      });
+    },
+  });
+  const [quantity, setQuantity] = useState<number>(() => {
+    return product.quantity;
+  });
+  const [quantityChanged, setQuantityChanged] = useState(false);
+  const handleIncrementQuantity = () => {
+    setQuantity(prev => prev + 1);
+    if (quantity + 1 === product.quantity) {
+      setQuantityChanged(false);
+    } else {
+      setQuantityChanged(true);
+    }
+  };
   const handleSubstractQuantity = () => {
-    if (quantity === 1) return;
+    if (quantity === 1) {
+      return;
+    }
+    if (quantity - 1 === product.quantity) {
+      setQuantityChanged(false);
+    } else {
+      setQuantityChanged(true);
+    }
     setQuantity(prev => prev - 1);
+  };
+  const handleDeleteItem = async () => {
+    try {
+      await deleteMutation({ id: product.id });
+    } catch (error) {
+      console.log(error);
+    }
   };
   return (
     <Container>
       <ProductContainer>
-        <LazyImage src={product.image} alt={product.name} pb="100%" />
+        <ImageContainer>
+          <Image src={product.image} alt={product.name} />
+        </ImageContainer>
         <Details>
-          <ProductName to="/products/cheese-burger">{product.name}</ProductName>
+          <ProductName to={`products/${product.id}`}>
+            {product.name}
+          </ProductName>
           <Price>{product.price}</Price>
           {addons.map(addon => (
             <>
@@ -36,81 +83,123 @@ const CartItem = ({ product }: Props) => {
           ))}
           {/* <SpecialInstructions>Extra Cheese</SpecialInstructions> */}
         </Details>
-      </ProductContainer>
-      <QuantityWrapper>
-        <QuantityContainer>
-          <QuantityButton>
-            <AiOutlineMinus size={17} />
-          </QuantityButton>
-          <QuantityText>1</QuantityText>
-          <QuantityButton>
-            <AiOutlinePlus size={17} />
-          </QuantityButton>
-        </QuantityContainer>
-        <AiFillDelete size={27} color="#b72b2b" />
-      </QuantityWrapper>
-
-      {/* <PricingContainer>
         <QuantityWrapper>
-          <QuantityText>{t('quantity')} </QuantityText>
           <QuantityContainer>
-            <QuantityButton onClick={handleSubstractQuantity}>
-              <AiOutlineMinus size={20} />
+            <QuantityButton onClick={() => handleIncrementQuantity()}>
+              <FiPlus size={17} />
             </QuantityButton>
-            <Quantity>{quantity}</Quantity>
-            <QuantityButton onClick={() => setQuantity(prev => prev + 1)}>
-              <AiOutlinePlus size={20} />
+            <QuantityText>{quantity}</QuantityText>
+            <QuantityButton onClick={() => handleSubstractQuantity()}>
+              <FiMinus size={17} />
             </QuantityButton>
           </QuantityContainer>
+          <ButtonsContainer>
+            {quantityChanged && <EditButton>Edit</EditButton>}
+            <DeleteButton onClick={() => handleDeleteItem()}>
+              <AiFillDelete size={23} color="#b72b2b" />
+            </DeleteButton>
+          </ButtonsContainer>
         </QuantityWrapper>
-        <PriceContainer>
-          <p>{product.price}</p>
-        </PriceContainer>
-        <RemoveButton type="button">
-          <AiFillDelete size={20} />
-        </RemoveButton>
-      </PricingContainer> */}
+      </ProductContainer>
     </Container>
   );
 };
 
 export default CartItem;
 
-const Container = styled.div`
+const Container = styled.div(
+  ({ theme: { breakpoints, btnBorder } }) => ` 
+
   border-bottom: 1px solid rgba(0, 0, 0, 0.2);
-  padding: 0.5rem 0;
-`;
-const ProductContainer = styled.div`
+  padding: 0.5rem;
+  @media ${breakpoints.md}{
+    border:1px solid ${btnBorder};
+    border-radius:6px;
+    margin-bottom:1rem;
+  }
+`
+);
+const ProductContainer = styled.div(
+  ({ theme: { breakpoints } }) => ` 
+
   display: grid;
-  grid-template-columns: 0.4fr 1fr;
   gap: 0.5rem;
-  padding: 0.5rem 0rem;
+  @media ${breakpoints.xs}{
+    grid-template-columns: 0.3fr 1fr;
+   
+  }
+  @media ${breakpoints.md}{
+    grid-template-columns: 0.3fr 1fr 0.1fr;
+
+ }
+
+`
+);
+const ImageContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `;
+const Image = styled.img(
+  ({ theme: { breakpoints } }) => ` 
+border-radius:50%;
+@media ${breakpoints.xs} {
+  width:60px;
+  height:60px;
+}
+@media ${breakpoints.md} {
+  width:100px;
+  height:100px;
+}
+@media ${breakpoints.lg} {
+  width:120px;
+  height:120px;
+}
+`
+);
+
 const Details = styled.div`
   display: grid;
   grid-template-columns: 1fr 0.4fr;
   gap: 0.25rem;
   align-self: flex-start;
 `;
-const ProductName = styled(Link)`
+const ProductName = styled(Link)(
+  ({ theme: { breakpoints, headingColor, font } }) => ` 
   display: block;
-  /* font-size: 0.9rem; */
-  /* margin-bottom: 0.25rem; */
-  color: ${props => props.theme.headingColor};
-  font-weight: ${props => props.theme.font.xbold};
-`;
-const AddonName = styled.p`
+  color: ${headingColor};
+  font-weight: ${font.xbold};
+  @media ${breakpoints.xs}{
+    font-size:1rem;
+  }
+  @media ${breakpoints.md}{
+    font-size:1.2rem;
+  }
+  @media ${breakpoints.lg}{
+    font-size:1.4rem;
+  }
+`
+);
+const AddonName = styled.p(
+  ({ theme: { breakpoints, subHeading, font } }) => ` 
   font-size: 0.8rem;
-  color: ${props => props.theme.subHeading};
-  font-weight: ${props => props.theme.font.semibold};
-`;
+  color: ${subHeading};
+  font-weight: ${font.semibold};
+  @media ${breakpoints.xs}{
+    font-size: 0.8rem;
+  }
+  @media ${breakpoints.md}{
+    font-size: 0.9rem;
+  }
+`
+);
 const AddonPrice = styled.p`
   color: ${props => props.theme.subHeading};
   font-size: 0.8rem;
   font-weight: ${props => props.theme.font.bold};
   display: flex;
   /* align-items: center; */
-  justify-content: center;
+  justify-content: flex-end;
 `;
 const Price = styled.p`
   /* font-size: 0.9rem; */
@@ -118,43 +207,58 @@ const Price = styled.p`
   font-weight: ${props => props.theme.font.xbold};
   display: flex;
   /* align-items: center; */
+  justify-content: flex-end;
+`;
+
+const QuantityWrapper = styled.div(
+  ({ theme: { breakpoints } }) => ` 
+  display: flex;
+  
+  align-items: center;
+ 
   justify-content: center;
-`;
-const SpecialInstructions = styled.p`
-  color: ${props => props.theme.highlightColor};
-`;
-const PricingContainer = styled.div`
-  padding: 0.5em;
-  display: flex;
-  align-items: center;
-`;
-const QuantityWrapper = styled.div`
-  display: flex;
-  padding: 0.25rem 0;
-  align-items: center;
-  justify-content: space-between;
-  /* align-self: flex-start; */
-`;
+  @media ${breakpoints.xs}{
+    grid-column:span 3;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+  @media ${breakpoints.md}{
+    grid-column:span 1;
+    flex-direction: column;
+  } 
+  `
+);
 const QuantityText = styled.p`
   font-size: 1rem;
   margin: 0 0.5rem;
   font-weight: ${props => props.theme.font.xbold};
   color: ${props => props.theme.subHeading};
 `;
-const QuantityContainer = styled.div`
+const QuantityContainer = styled.div(
+  ({ theme: { breakpoints } }) => ` 
   display: flex;
   align-items: center;
-  /* margin: 0 0.7rem; */
-`;
+  justify-content: center;
+  
+  @media ${breakpoints.xs}{
+    
+    flex-direction: row;
+  }
+  @media ${breakpoints.md}{
+    
+    flex-direction: column;
+  }
+  `
+);
 const Quantity = styled.p`
   margin: 0 0.7rem;
   width: 10px;
   text-align: center;
 `;
 const QuantityButton = styled.button`
-  width: 25px;
-  height: 25px;
-  border-radius: 50%;
+  width: 22px;
+  height: 22px;
+  border-radius: 6px;
   background-color: #fff;
   border: 1px solid rgba(0, 0, 0, 0.2);
   box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.1);
@@ -164,19 +268,22 @@ const QuantityButton = styled.button`
   /* border: 1px solid #222; */
   justify-content: center;
 `;
-const PriceContainer = styled.div`
-  color: ${props => props.theme.mainColor};
-  font-weight: 600;
-  font-size: 1.2em;
-  margin: 0 1em;
-`;
-const RemoveButton = styled.button`
-  color: ${props => props.theme.mainColor};
-  color: #b72b2b;
-  padding: 0.5em;
-  margin-left: auto;
-  text-transform: uppercase;
+const ButtonsContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+`;
+const DeleteButton = styled.button`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+const EditButton = styled.button`
+  padding: 0 0.25rem;
+  background-color: ${props => props.theme.btnPrimaryLight};
+  color: ${props => props.theme.btnText};
+  border: 1px solid ${props => props.theme.btnBorder};
+  font-size: 0.9rem;
+  border-radius: 6px;
+  margin: 0 0.25rem;
 `;

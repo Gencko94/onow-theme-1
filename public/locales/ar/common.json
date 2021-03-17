@@ -24,5 +24,7 @@
   "my-basket": "سلة المشتريات",
   "checkout": "إتمام الطلب",
   "edit-address": "تعديل العنوان",
-  "delivery-address": "عنوان التوصيل"
+  "delivery-address": "عنوان التوصيل",
+  "select-location": "تحديد العنوان",
+  "add-location": "إضافة موقع"
 }

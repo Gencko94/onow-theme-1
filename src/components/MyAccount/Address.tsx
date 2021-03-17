@@ -1,57 +1,53 @@
-import { useContext, useState } from 'react';
+import { useContext } from 'react';
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
-import { Address as AddressInterface } from '../../interfaces/Address';
-import { BsCheckCircle, BsFillHouseFill } from 'react-icons/bs';
-import { BiBuilding } from 'react-icons/bi';
-import { IoBusinessSharp } from 'react-icons/io5';
-import { IconType } from 'react-icons/lib';
+import {
+  Address as AddressT,
+  Address as AddressInterface,
+} from '../../interfaces/Address';
+import { BsCheckCircle } from 'react-icons/bs';
 import { AiFillDelete, AiTwotoneEdit } from 'react-icons/ai';
 import { useHistory } from 'react-router';
 import { UserInfoProvider } from '../../contexts/UserInfoContext';
+import { useMutation, useQueryClient } from 'react-query';
+import { deleteAddress } from '../../utils/queries';
 
 interface IProps {
   address: AddressInterface;
 }
 
 const Address: React.FC<IProps> = ({ address }) => {
-  const { t } = useTranslation(['account']);
+  const { t } = useTranslation(['addresses']);
   const history = useHistory();
+  const queryClient = useQueryClient();
   const { handleSetEditedAddress } = useContext(UserInfoProvider);
-  const getLocationType = (location: 'house' | 'office' | 'apartment') => {
-    let I: IconType;
-
-    switch (location) {
-      case 'house':
-        I = BsFillHouseFill;
-        break;
-      case 'apartment':
-        I = BiBuilding;
-        break;
-      case 'office':
-        I = IoBusinessSharp;
-        break;
-
-      default:
-        I = BsFillHouseFill;
-        break;
+  const { mutateAsync } = useMutation(deleteAddress, {
+    onSuccess: () => {
+      queryClient.setQueryData<AddressT[] | undefined>('addresses', prev => {
+        return prev?.filter(i => i.id !== address.id);
+      });
+    },
+  });
+  const handleDelete = async () => {
+    if (address.id) {
+      try {
+        const res = await mutateAsync({ id: address.id });
+      } catch (error) {
+        console.log(error);
+      }
     }
-    return (
-      <LocationTypeContainer>
-        <LocationType>{t(location)}</LocationType>
-        <Icon>
-          <I size={18} />
-        </Icon>
-      </LocationTypeContainer>
-    );
   };
   return (
     <Container>
       <AddressHeader>
         <div>
           <AddressTitle>{address.mapAddress}</AddressTitle>
-          <Label>Area :{address.area}</Label>
-          <Label>Block : {address.block}</Label>
+          <Label>
+            {t('area')} :{address.area}
+          </Label>
+          <Label>
+            {t('block')} : {address.block}
+          </Label>
         </div>
         {address.default ? (
           <DefaultLocationContainer>
@@ -61,52 +57,26 @@ const Address: React.FC<IProps> = ({ address }) => {
             </Icon>
           </DefaultLocationContainer>
         ) : (
-          <SetDefaultLocation>Set Default</SetDefaultLocation>
+          <SetDefaultLocation>{t('set-default')}</SetDefaultLocation>
         )}
       </AddressHeader>
 
       <ButtonsContainer>
-        {/* <ShowDetailsButton onClick={() => setShowDetails(prev => !prev)}>
-          {t(showDetails ? 'hide' : 'show')} {t('details')}
-        </ShowDetailsButton> */}
         <EditButton
           onClick={() => {
             handleSetEditedAddress(address);
-            history.push('/address/edit');
+            history.push(`/address/edit`);
           }}
           col="w"
         >
-          <DefaultText>Edit</DefaultText>
+          <DefaultText>{t('edit')}</DefaultText>
           <AiTwotoneEdit size={18} />
         </EditButton>
-        <RemoveButton col="r">
-          <DefaultText>Delete</DefaultText>
+        <RemoveButton onClick={() => handleDelete()} col="r">
+          <DefaultText>{t('delete')}</DefaultText>
           <AiFillDelete size={18} />
         </RemoveButton>
       </ButtonsContainer>
-      {/* <Details>
-        <Block>
-          <InfoContainer>
-            <Label>Block</Label>
-            <Info>{address.block}</Info>
-          </InfoContainer>
-          <InfoContainer>
-            <Label>Avenue</Label>
-            <Info>{address.avenue}</Info>
-          </InfoContainer>
-          <InfoContainer>
-            <Label>{t('location-type')}:</Label>
-          
-            <Info>{getLocationType(address.type)}</Info>
-          </InfoContainer>
-          <InfoContainer>
-            <Label>Avenue</Label>
-            <Info>{address.avenue}</Info>
-          </InfoContainer>
-        </Block>
-        <Label>Additional Details</Label>
-        <AdditionalDetails>{address.additionalDetails}</AdditionalDetails>
-      </Details> */}
     </Container>
   );
 };
@@ -182,18 +152,10 @@ const RemoveButton = styled.button<{ col: string }>`
 const Label = styled.p`
   font-weight: ${props => props.theme.font.bold};
   display: block;
-  font-size: 1rem;
+  font-size: 0.9rem;
   color: ${props => props.theme.subHeading};
 `;
 
-const LocationTypeContainer = styled.div`
-  display: flex;
-  align-items: center;
-`;
-const LocationType = styled.p`
-  font-weight: ${props => props.theme.font.bold};
-  margin: 0 0.25rem;
-`;
 const Icon = styled.span`
   display: flex;
   align-items: center;

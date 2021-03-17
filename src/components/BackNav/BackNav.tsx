@@ -1,23 +1,32 @@
+import { useContext } from 'react';
 import { useTranslation } from 'react-i18next';
-import { BiArrowBack } from 'react-icons/bi';
+import { AiOutlineArrowLeft, AiOutlineArrowRight } from 'react-icons/ai';
 import { useHistory } from 'react-router';
 import styled from 'styled-components';
+import { UserInfoProvider } from '../../contexts/UserInfoContext';
 
-const BackNav = ({ title, target }: { title: string; target: string }) => {
-  const { t } = useTranslation();
+const BackNav = ({ title, target }: { title: string; target?: string }) => {
+  const { t, i18n } = useTranslation();
+
   const history = useHistory();
   return (
     <Container>
       <Icon
         onClick={() => {
-          if (target === 'mapEdit') {
-            history.push('/address/edit');
-          } else {
-            history.goBack();
-          }
+          // if (target === 'mapEdit') {
+          //   history.push('/user/addresses');
+          // } else if (target === 'addAddress') {
+          //   history.push('/address/add');
+          // } else {
+          history.goBack();
+          // }
         }}
       >
-        <BiArrowBack size={25} />
+        {i18n.language === 'ar' ? (
+          <AiOutlineArrowRight size={25} />
+        ) : (
+          <AiOutlineArrowLeft size={25} />
+        )}
       </Icon>
       <TitleContainer>
         <Title>{t(title)}</Title>
@@ -33,7 +42,7 @@ const Container = styled.div`
   top: 0;
   left: 0;
   width: 100%;
-  padding: 0.5rem;
+  padding: 0.75rem;
   z-index: 9;
   background-color: ${props => props.theme.navColor};
 `;

@@ -12,8 +12,12 @@
   "avenue": "الحي",
   "block": "رقم البلوك",
   "street": "الشارع",
+  "edit": "تعديل",
+  "edit-location": "تحديد الموقع",
 
+  "delete": "حذف",
   "floor": "الطابق",
   "additional-directions": "إتجاهات إضافية",
-  "area": "المنطقة"
+  "area": "المنطقة",
+  "save": "حفظ"
 }

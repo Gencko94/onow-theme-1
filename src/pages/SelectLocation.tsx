@@ -1,14 +1,13 @@
 import styled from 'styled-components';
+import BackNav from '../components/BackNav/BackNav';
 import Map from '../components/GoogleMap/Map';
-import Layout from '../layout/Layout';
 
 const SelectLocation = () => {
   return (
-    <Layout>
-      <Container>
-        <Map />
-      </Container>
-    </Layout>
+    <Container>
+      <BackNav title="select-location" />
+      <Map />
+    </Container>
   );
 };
 

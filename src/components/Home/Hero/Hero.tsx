@@ -16,14 +16,37 @@ export default Hero;
 const Container = styled.div`
   position: relative;
 `;
-
-const HeroImageContainer = styled.div<{ image: string }>`
-  background-image: url(${props => props.image});
-  height: 175px;
+const Title = styled.h1(
+  ({ theme: { breakpoints, headingColor } }) => `
+  font-size: 1.875rem; 
+  line-height: 2.25rem;
+  text-align: center;
+  margin-bottom: 2rem;
+  color:${headingColor};
+  @media ${breakpoints.xs} {
+      font-size: 1.5rem;
+      line-height: 2rem;
+    }
+  }
+`
+);
+const HeroImageContainer = styled.div<{ image: string }>(
+  ({ theme: { breakpoints, headingColor }, image }) => `
+  background-image: url(${image});
   background-position: center !important;
   background-size: cover !important;
-  filter: brightness(0.6); ;
-`;
+  filter: brightness(0.6);
+  @media ${breakpoints.xs} {
+    height: 175px;
+  };
+  @media ${breakpoints.md} {
+    height: 200px;
+  };
+  @media ${breakpoints.lg} {
+    height: 225px;
+  };
+`
+);
 
 const LogoContainer = styled(Link)`
   position: absolute;

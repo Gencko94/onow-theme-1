@@ -137,7 +137,7 @@ const SuggestionContainer = styled.div<{ isHighlighted: boolean }>`
   font-size: 0.8rem;
 
   background-color: ${props =>
-    props.isHighlighted ? props.theme.mainColor : '#fff'};
+    props.isHighlighted ? props.theme.mainColor : props.theme.overlayColor};
   color: ${props =>
     props.isHighlighted ? props.theme.highlightColor : '#fff'};
 `;

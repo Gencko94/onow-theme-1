@@ -1,46 +1,130 @@
-# Getting Started with Create React App
+# ONow API Structure :
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## 1. Initialization :
 
-## Available Scripts
+#### - When the Page first loads, some data about the store should be fetched. and in order to make the response time & size as minimalistic as possible, i'll specify exactly what i need.
 
-In the project directory, you can run:
+Here is a list of the required fields : (**_Subject to change_**)
 
-### `yarn start`
+```
+	 {
+		 store_name: {
+			  en:string,
+			  ar:string,
+			},
+		 store_images: {
+			 logo: string,
+			 heroImage_desktop : string,
+			 heroImage_mobile : string,
+			  },
+		 store_theme:{
+			primary_color:string(hex),
+			  },
+		 payment_methods:[
+			 {
+			   name:{
+				ar:string,
+				en:string
+			  }
+			}
+		 ],
+		 order_modes:string[],
+		 cart_total:string;
+	}
+```
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## 2. **_Branches_** :
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+A list of the store's branches
 
-### `yarn test`
+```
+ [{
+	name:{
+		ar:string,
+		en:string
+		 },
+	opening_hours:[
+		{
+		 day:string;
+		 from:string;
+		 to:string
+		 }
+	],
+	coords:{
+		lat:number;
+		lng:number;
+	},
+	delivery:{
+		enabled:boolean;
+		cost:string;
+		time:string
+	 }
+  }]
+```
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## 3. **_Cart_** :
 
-### `yarn build`
+I would suggest erasing the cart after 24h of abandoning.
+Cart Object would be something like this:
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+1.  Get Cart :
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+```
+ {
+	 items:[
+			 {
+				 id:number,
+				 name:{
+					 ar:string;
+					 en:string
+				  },
+				 slug:string,
+				 price:string,
+				 total_price:string,(*Quantity)
+				 image:string,
+				 quantity:string,
+				 extras:[]
+			 }
+		 ],
+	 total:string,
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+  }
+```
 
-### `yarn eject`
+2. Add To Cart **_(POST)_** :
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+```
+	 {
+	 quantity:number,
+	 extras:number[],(variations.. idk about this),
+	  }
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+```
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+## 3. **_User Addresses_** :
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+A List of saved user addresses.
 
-## Learn More
+```
+ {
+	[ {
+		id:number,
+		coords:{
+				lat:number;
+				lng:number
+			},
+		is_default:boolean,
+		details:{
+				area:string,
+				address:string,
+				building:string,
+				block:string,
+				street:string,
+				floor:string,
+				additional_directions:string(extra directions from the user)
+			}
+		}
+	 ]
+}
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+```

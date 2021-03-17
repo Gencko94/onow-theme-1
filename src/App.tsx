@@ -15,7 +15,9 @@ import Cart from './pages/Cart';
 import Branch from './pages/Branch';
 import EditAddress from './pages/EditAddress';
 import UserInfoContext from './contexts/UserInfoContext';
-
+import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css';
+import 'react-placeholder/lib/reactPlaceholder.css';
+import AddAddress from './pages/AddAddress';
 const Aboutus = React.lazy(() => import('./pages/Aboutus'));
 const Home = React.lazy(() => import('./pages/Home'));
 const Categories = React.lazy(() => import('./pages/Categories'));
@@ -50,7 +52,7 @@ function App() {
                   path="/categories/:category"
                   component={Category}
                 />
-                <Route exact path="/products/:productSlug">
+                <Route exact path="/products/:id">
                   {({ match }) => (
                     <CSSTransition
                       in={match !== null}
@@ -106,6 +108,20 @@ function App() {
                     </CSSTransition>
                   )}
                 </Route>
+                <Route exact path="/address/add">
+                  {({ match }) => (
+                    <CSSTransition
+                      in={match !== null}
+                      classNames="pages"
+                      timeout={250}
+                      unmountOnExit
+                    >
+                      <div className="pages">
+                        <AddAddress />
+                      </div>
+                    </CSSTransition>
+                  )}
+                </Route>
                 <Route exact path="/aboutus" component={Aboutus} />
                 {/* <Route exact path="/cart" component={Cart} /> */}
                 <Route exact path="/branches" component={Branches} />
@@ -121,6 +137,7 @@ function App() {
                 <Route exact path="/register" component={Register} />
                 <Route exact path="/user/profile" component={MyProfile} />
                 <Route exact path="/user/addresses" component={MyAddresses} />
+                {/* <Route exact path="*" component={Home} /> */}
               </Router>
             </ThemeProvider>
           </UserInfoContext>

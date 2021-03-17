@@ -5,26 +5,37 @@ const MobileHeader = ({ title }: { title: string }) => {
   const { t } = useTranslation();
   return (
     <Container>
-      <TextBlock>
-        <StoreName>Rock House Sliders</StoreName>
-        <Title>{t(title)}</Title>
-      </TextBlock>
-      <LogoWrapper>
-        <LogoContainer>
-          <img src="/images/logo.png" alt="logo" />
-        </LogoContainer>
-      </LogoWrapper>
+      <ContentContainer>
+        <TextBlock>
+          <StoreName>Rock House Sliders</StoreName>
+          <Title>{t(title)}</Title>
+        </TextBlock>
+        <LogoWrapper>
+          <LogoContainer>
+            <img src="/images/logo.png" alt="logo" />
+          </LogoContainer>
+        </LogoWrapper>
+      </ContentContainer>
     </Container>
   );
 };
 
 export default MobileHeader;
 const Container = styled.div`
-  padding: 0.5rem 0.75rem;
+  padding: 0.5rem 0.25rem;
   background-color: ${props => props.theme.overlayColor};
+`;
+const ContentContainer = styled.div(
+  ({ theme: { breakpoints } }) => `
   display: grid;
   grid-template-columns: 1fr 0.4fr;
-`;
+  @media ${breakpoints.md}{
+      max-width:1100px;
+      margin:0 auto;
+      padding: 0 .5rem;
+  }
+  `
+);
 const TextBlock = styled.div``;
 const StoreName = styled.h5`
   margin: 0.5rem 0;

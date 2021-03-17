@@ -23,4 +23,7 @@ export default Home;
 
 const Container = styled.div`
   margin-top: 58px;
+  max-width: 1100px;
+  margin-left: auto;
+  margin-right: auto;
 `;

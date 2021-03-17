@@ -1,4 +1,4 @@
-import { useContext } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import BackNav from '../components/BackNav/BackNav';
 import { UserInfoProvider } from '../contexts/UserInfoContext';
@@ -7,9 +7,9 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
 import { Address } from '../interfaces/Address';
 import { useTranslation } from 'react-i18next';
-import { Redirect, useHistory } from 'react-router';
+import { useHistory } from 'react-router';
 import { useMutation, useQueryClient } from 'react-query';
-import { editAddress } from '../utils/queries';
+import { addAddress } from '../utils/queries';
 import Loader from 'react-loader-spinner';
 import { Link } from 'react-router-dom';
 
@@ -33,55 +33,49 @@ const schema = Yup.object().shape({
   building: Yup.string().required('Required Field').max(20),
   area: Yup.string().required('Required Field').max(20),
 });
-const EditAddress = () => {
+const AddAddress = () => {
   const queryClient = useQueryClient();
-  const { editedAddress } = useContext(UserInfoProvider);
+  const { newAddress } = useContext(UserInfoProvider);
 
-  const { mutateAsync: editUserAddress, isLoading: editLoading } = useMutation(
-    editAddress,
-    {
-      onSuccess: data => {
-        queryClient.setQueryData<Address[] | undefined>('addresses', prev => {
-          const newAddresses = prev?.filter(i => i.id !== data.id);
-          newAddresses?.push(data);
-          return newAddresses;
-        });
-      },
-    }
-  );
+  const { mutateAsync: addNewAddress, isLoading } = useMutation(addAddress, {
+    onSuccess: data => {
+      queryClient.setQueryData<Address[] | undefined>('addresses', prev => {
+        if (prev) {
+          return [...prev, data];
+        }
+      });
+    },
+  });
   const history = useHistory();
 
   const { t } = useTranslation(['addresses']);
   const { register, handleSubmit, errors } = useForm<EditedAddressForm>({
     resolver: yupResolver(schema),
     defaultValues: {
-      mapAddress: editedAddress?.mapAddress,
-      block: editedAddress?.block,
+      mapAddress: newAddress.mapAddress,
+      block: newAddress.block,
 
-      street: editedAddress?.street,
-      building: editedAddress?.building,
-      floor: editedAddress?.floor,
-      additionalDirections: editedAddress?.additionalDirections,
-      area: editedAddress?.area,
+      street: newAddress.street,
+      building: '',
+      floor: '',
+      area: newAddress.area,
     },
   });
 
   const onSubmit = async (data: EditedAddressForm) => {
-    if (editedAddress) {
+    if (newAddress) {
       try {
         console.log(data);
-        const res = await editUserAddress({
-          address: {
-            id: editedAddress.id,
-            coords: {
-              lat: editedAddress.coords.lat,
-              lng: editedAddress.coords.lng,
-            },
-            ...data,
+        const res = await addNewAddress({
+          id: newAddress.id,
+          coords: {
+            lat: newAddress.coords.lat,
+            lng: newAddress.coords.lng,
           },
+          ...data,
         });
         console.log(res);
-
+        // h(null);
         history.push('/user/addresses');
       } catch (error) {
         console.log(error);
@@ -91,20 +85,17 @@ const EditAddress = () => {
     }
   };
 
-  if (!editedAddress) {
-    return <Redirect to="/user/addresses" />;
-  }
   return (
     <Container>
-      <BackNav title="edit-address" target="mapEdit" />
+      <BackNav title="add-location" target="addAddress" />
 
       <ContentContainer>
         <MapContainer>
           <MapImage
-            src={`https://maps.googleapis.com/maps/api/staticmap?center=${editedAddress?.coords.lat},${editedAddress?.coords.lng}&zoom=15&size=500x500&key=${process.env.REACT_APP_GOOGLE_MAPS_API_KEY}`}
+            src={`https://maps.googleapis.com/maps/api/staticmap?center=${newAddress.coords.lat},${newAddress.coords.lng}&zoom=15&size=500x500&key=${process.env.REACT_APP_GOOGLE_MAPS_API_KEY}`}
           />
           <EditButton
-            to={`/location?m=e&lt=${editedAddress?.coords.lat}&lg=${editedAddress?.coords.lng}`}
+            to={`/location?m=a&lt=${newAddress?.coords.lat}&lg=${newAddress?.coords.lng}`}
           >
             {t('edit-location')}
           </EditButton>
@@ -161,7 +152,7 @@ const EditAddress = () => {
             )}
           </InputContainer>
           <SubmitButton type="submit">
-            {editLoading ? (
+            {isLoading ? (
               <Loader type="ThreeDots" color="#fff" height={20} width={30} />
             ) : (
               t('save')
@@ -173,7 +164,7 @@ const EditAddress = () => {
   );
 };
 
-export default EditAddress;
+export default AddAddress;
 
 const Container = styled.div``;
 const ContentContainer = styled.div`

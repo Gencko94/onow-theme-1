@@ -28,6 +28,8 @@
     "react-i18next": "^11.8.6",
     "react-icons": "^4.2.0",
     "react-lazyload": "^3.2.0",
+    "react-loader-spinner": "^4.0.0",
+    "react-placeholder": "^4.1.0",
     "react-query": "^3.8.3",
     "react-responsive": "^8.2.0",
     "react-router-dom": "^5.2.0",

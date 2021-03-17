@@ -7,7 +7,6 @@ const LayoutDesktop: React.FC = ({ children }) => {
   return (
     <Wrapper>
       <DesktopNavbar />
-
       {children}
     </Wrapper>
   );

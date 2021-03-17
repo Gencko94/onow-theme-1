@@ -24,5 +24,7 @@
   "my-basket": "My Basket",
   "checkout": "Checkout",
   "edit-address": "Edit Address",
-  "delivery-address": "Delivery Address"
+  "delivery-address": "Delivery Address",
+  "select-location": "Select Location",
+  "add-location": "Add Location"
 }

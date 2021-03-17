@@ -6,11 +6,11 @@ import Drawer from './Drawer/Drawer';
 import styled from 'styled-components';
 import { useTranslation } from 'react-i18next';
 const ContentContainer = styled.div`
-  min-height: 100vh;
+  /* min-height: 100vh; */
   background-color: ${props => props.theme.bodyColor};
 `;
 const Wrapper = styled.div`
-  position: relative;
+  /* position: relative; */
   font-family: ${props => props.theme.fontFamily};
 `;
 const LayoutMobile: React.FC = ({ children }) => {

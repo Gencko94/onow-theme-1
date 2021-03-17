@@ -12,8 +12,12 @@
   "avenue": "Avenue",
   "block": "Block no",
   "street": "Street",
+  "edit": "Edit",
+  "edit-location": "Pin Location",
 
+  "delete": "Delete",
   "floor": "Floor",
   "additional-directions": "Additional Directions",
-  "area": "Area"
+  "area": "Area",
+  "save": "Save"
 }
