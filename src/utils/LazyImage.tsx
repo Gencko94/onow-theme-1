@@ -17,20 +17,36 @@ export default LazyImage;
 
 const ImageContainer = styled.div`
   position: relative;
-  background-color: #fafafa;
-  padding-bottom: ${(props: { pb: string }) => props.pb};
+  background-color: #fff;
+
+  /* padding-bottom: ${(props: { pb: string }) => props.pb}; */
   width: 100%;
 `;
 
+// const Image = styled.img`
+//   margin: auto;
+//   position: absolute;
+//   display: block;
+//   top: 0;
+//   left: 0;
+//   right: 0;
+//   bottom: 0;
+//   z-index: 1;
+//   max-height: 100%;
+//   max-width: 100%;
+// `;
 const Image = styled.img`
   margin: auto;
-  position: absolute;
+  /* position: absolute; */
   display: block;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
+  /* top: 0; */
+  /* left: 0; */
+  /* right: 0; */
+  /* bottom: 0; */
   z-index: 1;
-  max-height: 100%;
-  max-width: 100%;
+  border-radius: 6px;
+  /* max-height: 100%; */
+  /* max-width: 100%; */
+  /* object-fit: cover; */
+  /* object-position: center center; */
 `;

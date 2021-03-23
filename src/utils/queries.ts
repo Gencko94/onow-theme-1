@@ -1,16 +1,24 @@
 import axios from 'axios';
 import { AddToCartRequest } from '../interfaces/AddRequest';
 import { Address } from '../interfaces/Address';
+import { Branch } from '../interfaces/branch';
 import { CartItem } from '../interfaces/cartitem';
+import { Init } from '../interfaces/init';
 import { Product } from '../interfaces/product';
 
 const uri = 'http://localhost:3001';
 
+export const getGeneralInfo = async (): Promise<Init> => {
+  const res = await axios.get(`${uri}/init`);
+
+  return res.data;
+};
 export const getProduct = async (id: string): Promise<Product> => {
   const res = await axios.get(`${uri}/products/${id}`);
 
   return res.data;
 };
+
 export const addToCart = async (
   product: AddToCartRequest
 ): Promise<CartItem[]> => {
@@ -24,6 +32,7 @@ export const getCartItems = async (): Promise<CartItem[]> => {
   console.log(res.data);
   return res.data;
 };
+
 export const editCartItem = async ({
   product,
 }: {
@@ -43,20 +52,28 @@ export const deleteCartItem = async ({
   return res.data.items;
 };
 
+export const getBranches = async (): Promise<Branch[]> => {
+  const res = await axios.get(`${uri}/branches`);
+
+  return res.data;
+};
 export const getAddresses = async (): Promise<Address[]> => {
   const res = await axios.get(`${uri}/addresses`);
 
   return res.data;
 };
+
 export const getSingleAddress = async (id: string): Promise<Address> => {
   const res = await axios.get(`${uri}/addresses/${id}`);
   return res.data;
 };
+
 export const addAddress = async (address: Address): Promise<Address> => {
   const res = await axios.post(`${uri}/addresses`, { ...address });
 
   return res.data;
 };
+
 export const editAddress = async ({
   address,
 }: {
@@ -65,6 +82,7 @@ export const editAddress = async ({
   const res = await axios.put(`${uri}/addresses/${address.id}`, { ...address });
   return res.data;
 };
+
 export const deleteAddress = async ({
   id,
 }: {

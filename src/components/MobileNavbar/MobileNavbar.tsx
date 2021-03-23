@@ -19,7 +19,6 @@ interface IProps {
 
 const MobileNavbar = ({ setDrawerOpen, drawerOpen }: IProps) => {
   const { pathname } = useLocation();
-  console.log(pathname);
   const shouldChange = useMemo(() => {
     if (
       pathname === '/' ||
@@ -97,7 +96,7 @@ const Container = styled.div<{
   z-index: 9;
   transition: background-color 700ms;
   background-color: ${props =>
-    props.changeColor() ? props.theme.navColor : 'transparent'};
+    props.changeColor() ? props.theme.mainColor : 'transparent'};
 `;
 const LogoContainer = styled(Link)`
   border-radius: 50%;

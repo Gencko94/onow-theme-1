@@ -44,7 +44,7 @@ const Container = styled.div`
   width: 100%;
   padding: 0.75rem;
   z-index: 9;
-  background-color: ${props => props.theme.navColor};
+  background-color: ${props => props.theme.mainColor};
 `;
 const Icon = styled.button`
   display: flex;

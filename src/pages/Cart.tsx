@@ -15,7 +15,7 @@ const Cart = () => {
         <Grid>
           <CartItems data={data} isLoading={isLoading} />
           {/* add appear animation */}
-          {data && <CheckoutSection />}
+          <CheckoutSection isLoading={isLoading} data={data} />
         </Grid>
       </Container>
     </Layout>

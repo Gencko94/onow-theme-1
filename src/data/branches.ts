@@ -2,39 +2,60 @@ import { Branch } from '../interfaces/branch';
 
 export const branches: Branch[] = [
   {
-    name: 'Moon Branch',
+    id: 1,
+    name: {
+      ar: 'فرع السالمية',
+      en: 'Salmiyah Branch',
+    },
     openingHours: '4:00 AM - 5:00 PM',
-    directions: 'Near the Mars Embassy infront of Tom & Jerry',
+    directions: {
+      ar: 'قرب بلا بلا',
+      en: 'Near the Mars Embassy infront of Tom & Jerry',
+    },
     openNow: true,
-    image: '/images/map.jpg',
-    coordinates: {
+    coords: {
       lat: '29.37207021083113',
       lng: '47.97822612037658',
     },
     value: 'moon',
+    isMain: true,
   },
   {
-    name: 'Mars Branch',
+    id: 2,
+    name: {
+      ar: 'فرع حولي',
+      en: 'Hawalli Branch',
+    },
     openingHours: '7:00 AM - 5:00 PM',
-    directions: 'Near the Moon Embassy infront of Pinoccio',
+    directions: {
+      ar: 'قرب بلا بلا',
+      en: 'Near the Mars Embassy infront of Tom & Jerry',
+    },
     openNow: false,
-    image: '/images/map.jpg',
-    coordinates: {
+    coords: {
       lat: '29.37207021083113',
       lng: '47.97822612037658',
     },
     value: 'mars',
+    isMain: true,
   },
   {
-    name: 'Sun Branch',
+    id: 3,
+    name: {
+      ar: 'فرع العاصمة',
+      en: 'Asimah Branch',
+    },
     openingHours: 'Forever',
-    directions: 'Near the Earth completely infront of Cindrella',
+    directions: {
+      ar: 'قرب بلا بلا',
+      en: 'Near the Mars Embassy infront of Tom & Jerry',
+    },
     openNow: true,
-    image: '/images/map.jpg',
-    coordinates: {
+    coords: {
       lat: '29.37207021083113',
       lng: '47.97822612037658',
     },
     value: 'sun',
+    isMain: true,
   },
 ];

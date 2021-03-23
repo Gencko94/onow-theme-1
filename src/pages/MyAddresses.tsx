@@ -1,15 +1,15 @@
 import { useContext, useEffect } from 'react';
-import ContentLoader from 'react-content-loader';
 import { useTranslation } from 'react-i18next';
+import ReactPlaceholder from 'react-placeholder/lib';
 import { useQuery } from 'react-query';
 import { useHistory } from 'react-router';
 import styled from 'styled-components';
 import MobileHeader from '../components/Header/MobileHeader';
 import Address from '../components/MyAccount/Address';
 import { UserInfoProvider } from '../contexts/UserInfoContext';
-import { addresses } from '../data/addresses';
 import Layout from '../layout/Layout';
 import { getAddresses } from '../utils/queries';
+import { AiOutlinePlus } from 'react-icons/ai';
 
 const MyAddresses = () => {
   const { t } = useTranslation(['addresses']);
@@ -34,36 +34,47 @@ const MyAddresses = () => {
   }, []);
   return (
     <Layout>
+      <MobileHeader title="my-addresses" />
       <Container>
-        <MobileHeader title="my-addresses" />
-        <TitleContainer>
-          <Title>{t('saved-addresses')}</Title>
-          <Button onClick={() => history.push('/address/add')}>
-            {t('addbtn')}
-          </Button>
-        </TitleContainer>
         {isLoading && (
-          <LoadingGrid>
-            {[0, 1, 2].map(() => (
-              <ContentLoader
-                speed={2}
-                width="100%"
-                height="126px"
-                viewBox="0 0 400 126"
-                backgroundColor="#5B5B5B"
-                foregroundColor="#ecebeb"
+          <AddressesContainer>
+            {[0, 1, 2].map(i => (
+              <ReactPlaceholder
+                key={i}
+                type="textRow"
+                style={{
+                  width: '100%',
+                  height: '120px',
+                  borderRadius: '6px',
+                  margin: '0',
+                }}
+                color="#E0E0E0"
+                showLoadingAnimation
+                ready={Boolean(data)}
               >
-                <rect x="0" y="0" rx="6" ry="6" width="100%" height="100%" />
-              </ContentLoader>
+                <></>
+              </ReactPlaceholder>
             ))}
-          </LoadingGrid>
+          </AddressesContainer>
         )}
-        {data && (
+        {data && data.length > 0 && (
           <AddressesContainer>
             {data.map(address => (
               <Address key={address.id} address={address} />
             ))}
+            <AddNewAddress onClick={() => history.push('/address/add')}>
+              <AiOutlinePlus size={25} /> {t('addbtn')}
+            </AddNewAddress>
           </AddressesContainer>
+        )}
+        {data && data.length === 0 && (
+          <NoAddressesContainer>
+            <Title>{t('no-addresses')}</Title>
+            <Button onClick={() => history.push('/address/add')}>
+              <AiOutlinePlus size={25} />
+              {t('addbtn')}
+            </Button>
+          </NoAddressesContainer>
         )}
       </Container>
     </Layout>
@@ -71,21 +82,27 @@ const MyAddresses = () => {
 };
 
 export default MyAddresses;
-const Container = styled.div`
+const Container = styled.div(
+  ({ theme: { breakpoints } }) => `
   overflow: hidden;
-`;
-const TitleContainer = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0.5rem;
-`;
+  margin:0 auto;
+  @media ${breakpoints.md}{
+    
+    max-width:960px;
+  }
+  @media ${breakpoints.lg}{
+    
+    max-width:1100px;
+  }
+  `
+);
+
 const Title = styled.h5(
   ({ theme: { breakpoints, font, headingColor } }) => `
-  
+  color:${headingColor};
   font-weight:${font.bold};
   text-align: center;
- 
+ margin-bottom:1rem;
  
   @media ${breakpoints.xs} {
      
@@ -93,18 +110,19 @@ const Title = styled.h5(
   }
 `
 );
-const AddressesContainer = styled.div`
+const AddressesContainer = styled.div(
+  ({ theme: { breakpoints, font, headingColor } }) => `
   display: grid;
   grid-template-columns: 1fr;
   gap: 1rem;
   padding: 0.5rem;
-`;
-const LoadingGrid = styled.div`
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 1rem;
-  padding: 0.5rem;
-`;
+  @media ${breakpoints.md}{
+    grid-template-columns: 1fr 1fr;
+
+  }
+`
+);
+
 const Button = styled.button`
   border-radius: 6px;
   padding: 0.25rem 0.5rem;
@@ -113,4 +131,28 @@ const Button = styled.button`
   color: ${props => props.theme.btnText};
   font-weight: ${props => props.theme.font.bold};
   border: 1px solid ${props => props.theme.btnBorder};
+`;
+const NoAddressesContainer = styled.div(
+  ({ theme: { breakpoints } }) => `
+  
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  flex-direction:column;
+  height:calc(100vh - 229px);
+  @media ${breakpoints.md}{
+    height:calc(100vh - 230px);
+  }
+  `
+);
+const AddNewAddress = styled.button`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  border-radius: 12px;
+  padding: 0.5rem;
+  border: 1px solid ${props => props.theme.btnBorder};
+  background-color: ${props => props.theme.btnPrimaryLight};
+  color: ${props => props.theme.btnText};
 `;

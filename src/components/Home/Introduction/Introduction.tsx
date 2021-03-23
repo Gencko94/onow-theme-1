@@ -1,10 +1,12 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
-import { TweenLite, TimelineLite, Power3 } from 'gsap';
+import { useCallback, useContext, useEffect, useMemo, useState } from 'react';
+import { TweenLite, TimelineLite } from 'gsap';
 import styled from 'styled-components';
+import { ApplicationProvider } from '../../../contexts/ApplicationContext';
+import { useTranslation } from 'react-i18next';
 
 const Introduction = () => {
   const tl = useMemo(() => new TimelineLite({ repeat: -1 }), []);
-
+  const { i18n } = useTranslation();
   const categories = ['Steaks', 'Fries', 'Burgers', 'Doughnuts'];
   const [node, setNode] = useState<HTMLDivElement | null>(null);
   const textList = useCallback((el: HTMLDivElement) => {
@@ -12,6 +14,7 @@ const Introduction = () => {
       setNode(el);
     }
   }, []);
+  const { store_name } = useContext(ApplicationProvider);
   useEffect(() => {
     if (node) {
       node.childNodes.forEach(child => {
@@ -34,7 +37,7 @@ const Introduction = () => {
 
   return (
     <Container>
-      <Title>Rock House Sliders</Title>
+      <Title>{store_name?.[i18n.language]}</Title>
       <Quote>Try Once , Repeat Forever</Quote>
       <AnimationContainer>
         <h1>Best</h1>

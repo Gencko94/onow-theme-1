@@ -24,7 +24,11 @@
   "my-basket": "سلة المشتريات",
   "checkout": "إتمام الطلب",
   "edit-address": "تعديل العنوان",
+  "add-address": "إضافة عنوان جديد",
   "delivery-address": "عنوان التوصيل",
   "select-location": "تحديد العنوان",
-  "add-location": "إضافة موقع"
+  "add-location": "إضافة موقع",
+  "track-order": "متابعة الطلب",
+  "hello": "مرحبا",
+  "go-back": "الرجوع للخلف"
 }

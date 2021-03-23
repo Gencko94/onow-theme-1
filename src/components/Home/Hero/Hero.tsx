@@ -1,12 +1,15 @@
+import { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+import { ApplicationProvider } from '../../../contexts/ApplicationContext';
 
 const Hero = () => {
+  const { store_images } = useContext(ApplicationProvider);
   return (
     <Container className="relative">
-      <HeroImageContainer image="/images/hero.jpg" />
+      <HeroImageContainer image={store_images?.heroImage_desktop} />
       <LogoContainer to="/">
-        <img src="/images/logo.png" alt="logo" />
+        <img src={store_images?.logo} alt="logo" />
       </LogoContainer>
     </Container>
   );
@@ -30,7 +33,7 @@ const Title = styled.h1(
   }
 `
 );
-const HeroImageContainer = styled.div<{ image: string }>(
+const HeroImageContainer = styled.div<{ image?: string }>(
   ({ theme: { breakpoints, headingColor }, image }) => `
   background-image: url(${image});
   background-position: center !important;

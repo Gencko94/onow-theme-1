@@ -1,8 +1,12 @@
 import './styles/transitions.css';
-import { Switch, BrowserRouter as Router, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
 import React from 'react';
-
-import { QueryClient, QueryClientProvider } from 'react-query';
+import { ErrorBoundary } from 'react-error-boundary';
+import {
+  QueryClient,
+  QueryClientProvider,
+  QueryErrorResetBoundary,
+} from 'react-query';
 import ScrollToTopOnMount from './utils/ScrollToTopOnMount';
 import { Suspense } from 'react';
 import Loading from './utils/Loading';
@@ -36,114 +40,133 @@ const queryClient = new QueryClient();
 
 function App() {
   return (
-    <Suspense fallback={<Loading />}>
-      <QueryClientProvider client={queryClient}>
-        <ApplicationContext>
-          <UserInfoContext>
-            <ThemeProvider>
-              <Router>
-                <GlobalStyle />
-                <ScrollToTopOnMount />
+    <QueryErrorResetBoundary>
+      {({ reset }) => (
+        <ErrorBoundary
+          fallbackRender={({ error, resetErrorBoundary }) => (
+            <div>
+              There was an error!{' '}
+              <button onClick={() => resetErrorBoundary()}>Try again</button>
+              <pre style={{ whiteSpace: 'normal' }}>{error.message}</pre>
+            </div>
+          )}
+          onReset={reset}
+        >
+          <Suspense fallback={<Loading />}>
+            <QueryClientProvider client={queryClient}>
+              <ApplicationContext>
+                <UserInfoContext>
+                  <ThemeProvider>
+                    <Router>
+                      <GlobalStyle />
+                      <ScrollToTopOnMount />
 
-                <Route exact path="/" component={Home} />
-                <Route exact path="/categories" component={Categories} />
-                <Route
-                  exact
-                  path="/categories/:category"
-                  component={Category}
-                />
-                <Route exact path="/products/:id">
-                  {({ match }) => (
-                    <CSSTransition
-                      in={match !== null}
-                      classNames="pages"
-                      timeout={250}
-                      unmountOnExit
-                    >
-                      <div className="pages">
-                        <Product />
-                      </div>
-                    </CSSTransition>
-                  )}
-                </Route>
-                <Route exact path="/cart">
-                  {({ match }) => (
-                    <CSSTransition
-                      in={match !== null}
-                      classNames="pages"
-                      timeout={250}
-                      unmountOnExit
-                    >
-                      <div className="pages">
-                        <Cart />
-                      </div>
-                    </CSSTransition>
-                  )}
-                </Route>
-                <Route exact path="/branch/:branch">
-                  {({ match }) => (
-                    <CSSTransition
-                      in={match !== null}
-                      classNames="pages"
-                      timeout={250}
-                      unmountOnExit
-                    >
-                      <div className="pages">
-                        <Branch />
-                      </div>
-                    </CSSTransition>
-                  )}
-                </Route>
-                <Route exact path="/address/edit">
-                  {({ match }) => (
-                    <CSSTransition
-                      in={match !== null}
-                      classNames="pages"
-                      timeout={250}
-                      unmountOnExit
-                    >
-                      <div className="pages">
-                        <EditAddress />
-                      </div>
-                    </CSSTransition>
-                  )}
-                </Route>
-                <Route exact path="/address/add">
-                  {({ match }) => (
-                    <CSSTransition
-                      in={match !== null}
-                      classNames="pages"
-                      timeout={250}
-                      unmountOnExit
-                    >
-                      <div className="pages">
-                        <AddAddress />
-                      </div>
-                    </CSSTransition>
-                  )}
-                </Route>
-                <Route exact path="/aboutus" component={Aboutus} />
-                {/* <Route exact path="/cart" component={Cart} /> */}
-                <Route exact path="/branches" component={Branches} />
+                      <Route exact path="/" component={Home} />
+                      <Route exact path="/categories" component={Categories} />
+                      <Route
+                        exact
+                        path="/categories/:category"
+                        component={Category}
+                      />
+                      <Route exact path="/products/:id">
+                        {({ match }) => (
+                          <CSSTransition
+                            in={match !== null}
+                            classNames="pages"
+                            timeout={250}
+                            unmountOnExit
+                          >
+                            <div className="pages">
+                              <Product />
+                            </div>
+                          </CSSTransition>
+                        )}
+                      </Route>
+                      <Route exact path="/cart">
+                        {({ match }) => (
+                          <CSSTransition
+                            in={match !== null}
+                            classNames="pages"
+                            timeout={250}
+                            unmountOnExit
+                          >
+                            <div className="pages">
+                              <Cart />
+                            </div>
+                          </CSSTransition>
+                        )}
+                      </Route>
+                      <Route exact path="/branch/:branch">
+                        {({ match }) => (
+                          <CSSTransition
+                            in={match !== null}
+                            classNames="pages"
+                            timeout={250}
+                            unmountOnExit
+                          >
+                            <div className="pages">
+                              <Branch />
+                            </div>
+                          </CSSTransition>
+                        )}
+                      </Route>
+                      <Route exact path="/address/edit">
+                        {({ match }) => (
+                          <CSSTransition
+                            in={match !== null}
+                            classNames="pages"
+                            timeout={250}
+                            unmountOnExit
+                          >
+                            <div className="pages">
+                              <EditAddress />
+                            </div>
+                          </CSSTransition>
+                        )}
+                      </Route>
+                      <Route exact path="/address/add">
+                        {({ match }) => (
+                          <CSSTransition
+                            in={match !== null}
+                            classNames="pages"
+                            timeout={250}
+                            unmountOnExit
+                          >
+                            <div className="pages">
+                              <AddAddress />
+                            </div>
+                          </CSSTransition>
+                        )}
+                      </Route>
+                      <Route exact path="/aboutus" component={Aboutus} />
+                      {/* <Route exact path="/cart" component={Cart} /> */}
+                      <Route exact path="/branches" component={Branches} />
 
-                <Route exact path="/booking" component={Booking} />
-                <Route path="/checkout" component={Checkout} />
-                <Route
-                  exact
-                  path="/location/:edited?"
-                  component={SelectLocation}
-                />
-                <Route exact path="/login" component={Login} />
-                <Route exact path="/register" component={Register} />
-                <Route exact path="/user/profile" component={MyProfile} />
-                <Route exact path="/user/addresses" component={MyAddresses} />
-                {/* <Route exact path="*" component={Home} /> */}
-              </Router>
-            </ThemeProvider>
-          </UserInfoContext>
-        </ApplicationContext>
-      </QueryClientProvider>
-    </Suspense>
+                      <Route exact path="/booking" component={Booking} />
+                      <Route path="/checkout" component={Checkout} />
+                      <Route
+                        exact
+                        path="/location/:edited?"
+                        component={SelectLocation}
+                      />
+                      <Route exact path="/login" component={Login} />
+                      <Route exact path="/register" component={Register} />
+                      <Route exact path="/user/profile" component={MyProfile} />
+                      <Route
+                        exact
+                        path="/user/addresses"
+                        component={MyAddresses}
+                      />
+                      {/* <Route exact path="*" component={Home} /> */}
+                    </Router>
+                  </ThemeProvider>
+                </UserInfoContext>
+              </ApplicationContext>
+            </QueryClientProvider>
+          </Suspense>
+        </ErrorBoundary>
+      )}
+    </QueryErrorResetBoundary>
   );
 }
 

@@ -54,6 +54,7 @@ A list of the store's branches
 		lat:number;
 		lng:number;
 	},
+	directions:string;
 	delivery:{
 		enabled:boolean;
 		cost:string;

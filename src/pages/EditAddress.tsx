@@ -1,4 +1,4 @@
-import { useContext } from 'react';
+import { useContext, useEffect, useMemo, useState } from 'react';
 import styled from 'styled-components';
 import BackNav from '../components/BackNav/BackNav';
 import { UserInfoProvider } from '../contexts/UserInfoContext';
@@ -11,7 +11,9 @@ import { Redirect, useHistory } from 'react-router';
 import { useMutation, useQueryClient } from 'react-query';
 import { editAddress } from '../utils/queries';
 import Loader from 'react-loader-spinner';
-import { Link } from 'react-router-dom';
+import EditAddressMap from '../components/EditAddressMap';
+import MobileHeader from '../components/Header/MobileHeader';
+import Layout from '../layout/Layout';
 
 interface EditedAddressForm {
   area: string | undefined;
@@ -23,19 +25,24 @@ interface EditedAddressForm {
   building?: string | undefined;
 }
 
-const schema = Yup.object().shape({
-  mapAddress: Yup.string().required('Required Field').max(200),
-  avenue: Yup.string().max(20),
-  floor: Yup.string().max(20),
-  block: Yup.string().required('Required Field').max(20),
-  street: Yup.string().required('Required Field').max(20),
-  additionalDirections: Yup.string().max(100),
-  building: Yup.string().required('Required Field').max(20),
-  area: Yup.string().required('Required Field').max(20),
-});
 const EditAddress = () => {
+  const { t } = useTranslation(['addresses']);
   const queryClient = useQueryClient();
   const { editedAddress } = useContext(UserInfoProvider);
+  const [outOfBorder, setOutOfBorder] = useState<boolean>(false);
+
+  const schema = useMemo(() => {
+    return Yup.object().shape({
+      mapAddress: Yup.string().required(t('required-field')).max(200),
+      avenue: Yup.string().max(20),
+      floor: Yup.string().max(20),
+      block: Yup.string().required(t('required-field')).max(20),
+      street: Yup.string().required(t('required-field')).max(50),
+      additionalDirections: Yup.string().max(100),
+      building: Yup.string().required(t('required-field')).max(20),
+      area: Yup.string().required(t('required-field')).max(20),
+    });
+  }, []);
 
   const { mutateAsync: editUserAddress, isLoading: editLoading } = useMutation(
     editAddress,
@@ -51,8 +58,7 @@ const EditAddress = () => {
   );
   const history = useHistory();
 
-  const { t } = useTranslation(['addresses']);
-  const { register, handleSubmit, errors } = useForm<EditedAddressForm>({
+  const { register, handleSubmit, errors, reset } = useForm<EditedAddressForm>({
     resolver: yupResolver(schema),
     defaultValues: {
       mapAddress: editedAddress?.mapAddress,
@@ -90,24 +96,31 @@ const EditAddress = () => {
       return;
     }
   };
+  useEffect(() => {
+    reset({
+      additionalDirections: editedAddress?.additionalDirections,
+      area: editedAddress?.area,
+      block: editedAddress?.block,
+      building: editedAddress?.building,
+      floor: editedAddress?.floor,
+      mapAddress: editedAddress?.mapAddress,
+      street: editedAddress?.street,
+    });
+  }, [editedAddress]);
 
   if (!editedAddress) {
     return <Redirect to="/user/addresses" />;
   }
   return (
-    <Container>
-      <BackNav title="edit-address" target="mapEdit" />
+    <Layout>
+      <MobileHeader title="edit-address" />
 
       <ContentContainer>
         <MapContainer>
-          <MapImage
-            src={`https://maps.googleapis.com/maps/api/staticmap?center=${editedAddress?.coords.lat},${editedAddress?.coords.lng}&zoom=15&size=500x500&key=${process.env.REACT_APP_GOOGLE_MAPS_API_KEY}`}
+          <EditAddressMap
+            outOfBorder={outOfBorder}
+            setOutOfBorder={setOutOfBorder}
           />
-          <EditButton
-            to={`/location?m=e&lt=${editedAddress?.coords.lat}&lg=${editedAddress?.coords.lng}`}
-          >
-            {t('edit-location')}
-          </EditButton>
         </MapContainer>
         <Form onSubmit={handleSubmit(onSubmit)}>
           <InputContainer>
@@ -117,18 +130,22 @@ const EditAddress = () => {
               <ErrorMessage>{errors.mapAddress.message}</ErrorMessage>
             )}
           </InputContainer>
-          <InputContainer>
-            <Label>{t('area')}*</Label>
-            <Input colored border name="area" ref={register} />
-            {errors.area && <ErrorMessage>{errors.area.message}</ErrorMessage>}
-          </InputContainer>
-          <InputContainer>
-            <Label>{t('block')}*</Label>
-            <Input colored border name="block" ref={register} />
-            {errors.block && (
-              <ErrorMessage>{errors.block.message}</ErrorMessage>
-            )}
-          </InputContainer>
+          <InputsContainer flex>
+            <InputContainer>
+              <Label>{t('area')}*</Label>
+              <Input colored border name="area" ref={register} />
+              {errors.area && (
+                <ErrorMessage>{errors.area.message}</ErrorMessage>
+              )}
+            </InputContainer>
+            <InputContainer>
+              <Label>{t('block')}*</Label>
+              <Input colored border name="block" ref={register} />
+              {errors.block && (
+                <ErrorMessage>{errors.block.message}</ErrorMessage>
+              )}
+            </InputContainer>
+          </InputsContainer>
           <InputContainer>
             <Label>{t('street')}*</Label>
             <Input colored border name="street" ref={register} />
@@ -136,20 +153,22 @@ const EditAddress = () => {
               <ErrorMessage>{errors.street.message}</ErrorMessage>
             )}
           </InputContainer>
-          <InputContainer>
-            <Label>{t('building')}*</Label>
-            <Input colored border name="building" ref={register} />
-            {errors.building && (
-              <ErrorMessage>{errors.building.message}</ErrorMessage>
-            )}
-          </InputContainer>
-          <InputContainer>
-            <Label>{t('floor')}</Label>
-            <Input colored border name="floor" ref={register} />
-            {errors.floor && (
-              <ErrorMessage>{errors.floor.message}</ErrorMessage>
-            )}
-          </InputContainer>
+          <InputsContainer flex>
+            <InputContainer>
+              <Label>{t('building')}*</Label>
+              <Input colored border name="building" ref={register} />
+              {errors.building && (
+                <ErrorMessage>{errors.building.message}</ErrorMessage>
+              )}
+            </InputContainer>
+            <InputContainer>
+              <Label>{t('floor')}</Label>
+              <Input colored border name="floor" ref={register} />
+              {errors.floor && (
+                <ErrorMessage>{errors.floor.message}</ErrorMessage>
+              )}
+            </InputContainer>
+          </InputsContainer>
           <InputContainer>
             <Label>{t('additional-directions')}</Label>
             <AdditionalInstructionsText
@@ -160,7 +179,11 @@ const EditAddress = () => {
               <ErrorMessage>{errors.additionalDirections.message}</ErrorMessage>
             )}
           </InputContainer>
-          <SubmitButton type="submit">
+          <SubmitButton
+            outOfBorder={outOfBorder}
+            disabled={outOfBorder}
+            type="submit"
+          >
             {editLoading ? (
               <Loader type="ThreeDots" color="#fff" height={20} width={30} />
             ) : (
@@ -169,40 +192,49 @@ const EditAddress = () => {
           </SubmitButton>
         </Form>
       </ContentContainer>
-    </Container>
+    </Layout>
   );
 };
 
 export default EditAddress;
 
-const Container = styled.div``;
-const ContentContainer = styled.div`
+const ContentContainer = styled.div(
+  ({ theme: { breakpoints } }) => `
   padding: 0.5rem;
-`;
-const MapContainer = styled.div`
+  display:grid;
+  grid-template-columns:1fr;
+  margin:0 auto;
+  @media ${breakpoints.md}{
+    max-width:960px;
+    gap:1rem;
+    grid-template-columns:0.5fr 1fr;
+  }
+  @media ${breakpoints.lg}{
+    max-width:1100px;
+  }
+  `
+);
+const MapContainer = styled.div(
+  ({ theme: { breakpoints } }) => `
   height: 200px;
   width: 100%;
   position: relative;
-`;
-const MapImage = styled.img`
-  max-height: 100%;
-  width: 100%;
-  object-fit: cover;
-  border-radius: 12px;
-`;
-const EditButton = styled(Link)`
-  position: absolute;
-  left: 50%;
-  top: 100%;
-  transform: translate(-50%, -50%);
-  border-radius: 12px;
-  background-color: ${props => props.theme.btnPrimaryLight};
-  color: ${props => props.theme.btnText};
-  padding: 0.25rem 0.75rem;
-  z-index: 999px;
-`;
-const Form = styled.form`
-  padding: 1rem 0.25rem;
+  margin-bottom:1rem;
+  @media ${breakpoints.md}{
+    height: 100%;
+    margin-bottom:0;
+    border-radius:10px;
+    overflow:hidden;
+   
+  }
+`
+);
+
+const Form = styled.form``;
+const InputsContainer = styled.div<{ flex?: boolean }>`
+  display: ${props => (props.flex ? 'grid' : 'block')};
+  grid-template-columns: 1fr 1fr;
+  gap: 0.25rem;
 `;
 const InputContainer = styled.div`
   margin-bottom: 0.5rem;
@@ -230,9 +262,10 @@ const ErrorMessage = styled.p`
   font-size: 0.8rem;
   margin-top: 0.25rem;
 `;
-const SubmitButton = styled.button`
+const SubmitButton = styled.button<{ outOfBorder: boolean }>`
   padding: 0.5rem;
-  background-color: ${props => props.theme.btnPrimaryLight};
+  background-color: ${props =>
+    props.outOfBorder ? 'gray' : props.theme.btnPrimaryLight};
   color: ${props => props.theme.btnText};
   width: 100%;
   display: flex;

@@ -89,12 +89,18 @@ const Container = styled.div`
   border: 1px solid ${props => props.theme.btnBorder};
   padding: 0.5rem;
 `;
-const AddressTitle = styled.h6`
-  font-weight: ${props => props.theme.font.xbold};
+const AddressTitle = styled.h6(
+  ({ theme: { breakpoints, headingColor, font } }) => `
+  font-weight: ${font.xbold};
 
-  font-size: 1.1rem;
-  color: ${props => props.theme.headingColor};
-`;
+  font-size: 1rem;
+  color: ${headingColor};
+  @media ${breakpoints.md}{
+    
+    font-size: 1.1rem;
+  }
+`
+);
 const AddressHeader = styled.div`
   display: grid;
   grid-template-columns: 1fr 0.3fr;

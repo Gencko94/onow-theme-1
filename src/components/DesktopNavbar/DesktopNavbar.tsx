@@ -86,5 +86,5 @@ const Container = styled.div<{
   z-index: 9;
   transition: background-color 700ms;
   background-color: ${props =>
-    props.changeColor() ? props.theme.navColor : 'transparent'};
+    props.changeColor() ? props.theme.mainColor : 'transparent'};
 `;

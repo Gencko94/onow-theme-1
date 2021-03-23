@@ -1,17 +1,25 @@
+import { useContext } from 'react';
+import { useTranslation } from 'react-i18next';
 import { HiOutlineShoppingBag } from 'react-icons/hi';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+import { ThemeContext } from '../../contexts/ThemeContext';
 
 const RightSideIcons = () => {
+  const { t } = useTranslation();
+  const { mode } = useContext(ThemeContext);
   return (
     <Container>
-      <IconContainer to="/cart">
-        <IconText>Our Menu</IconText>
+      <IconContainer mode={mode} to="/cart">
+        <IconText>{t('our-menu')}</IconText>
       </IconContainer>
-      <IconContainer to="/cart">
-        <IconText>Track Order</IconText>
+      <IconContainer mode={mode} to="/branches">
+        <IconText>{t('our-branches')}</IconText>
       </IconContainer>
-      <IconContainer to="/cart">
+      <IconContainer mode={mode} to="/cart">
+        <IconText>{t('track-order')}</IconText>
+      </IconContainer>
+      <IconContainer mode={mode} to="/cart">
         <IconText>3.000 KD</IconText>
         <Icon>
           <HiOutlineShoppingBag size={20} color="#fff" />
@@ -33,11 +41,12 @@ const Icon = styled.span`
   align-items: center;
   justify-content: center;
 `;
-const IconContainer = styled(Link)`
+const IconContainer = styled(Link)<{ mode?: string }>`
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: rgba(0, 0, 0, 0.2);
+  background-color: ${props =>
+    props.mode === 'dark' ? 'rgba(0, 0, 0, 0.2)' : 'none'};
   border-radius: 15px;
   padding: 0.5rem;
   margin: 0 0.25rem;

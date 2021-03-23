@@ -5,18 +5,18 @@ import { MdDirections } from 'react-icons/md';
 import Layout from '../layout/Layout';
 
 const Branch = () => {
-  const { t } = useTranslation(['branches']);
+  const { t, i18n } = useTranslation(['branches']);
   const days = ['Sat', 'Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri'];
   const branch = branches[0];
   return (
     <Layout>
       <img
-        src={`https://maps.googleapis.com/maps/api/staticmap?center=${branch.coordinates.lat},${branch.coordinates.lng}&zoom=15&size=800x250&key=${process.env.REACT_APP_GOOGLE_MAPS_API_KEY}`}
-        alt={branch.name}
+        src={`https://maps.googleapis.com/maps/api/staticmap?center=${branch.coords.lat},${branch.coords.lng}&zoom=15&size=800x250&key=${process.env.REACT_APP_GOOGLE_MAPS_API_KEY}`}
+        alt={branch.name[i18n.language]}
       />
 
       <ContentContainer>
-        <Name>{branch.name}</Name>
+        <Name>{branch.name[i18n.language]}</Name>
         <OpenNow isOpen={branch.openNow}>
           {branch.openNow ? t('open-now') : t('closed')}
         </OpenNow>

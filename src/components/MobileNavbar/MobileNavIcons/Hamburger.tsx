@@ -61,7 +61,6 @@ const Hamburger = ({ drawerOpen, setDrawerOpen }: IProps) => {
         0
       );
   }, [timeline]);
-  console.log(i18n.language);
   return (
     <HamburgerButton rtl={i18n.language === 'ar'} onClick={handleDrawer}>
       <svg

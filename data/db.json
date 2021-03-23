@@ -1,5 +1,62 @@
 {
-  "addresses": [],
+  "addresses": [
+    {
+      "id": 1,
+      "coords": {
+        "lat": 29.2858641323574,
+        "lng": 47.8918800733571
+      },
+      "mapAddress": "شارع 3 جادة 1,قطعة 10,العارضية",
+      "area": "العارضية",
+      "block": "قطعة 10",
+      "street": "شارع 3 جادة 1",
+      "building": "r",
+      "floor": "",
+      "additionalDirections": ""
+    },
+    {
+      "coords": {
+        "lat": 29.316371359155493,
+        "lng": 48.060562469239684
+      },
+      "mapAddress": "شارع 114,قطعة 11,الرميثية",
+      "area": "الرميثية",
+      "block": "قطعة 11",
+      "street": "شارع 114",
+      "building": "2",
+      "floor": "",
+      "additionalDirections": "",
+      "id": 2
+    },
+    {
+      "coords": {
+        "lat": 29.34010665399198,
+        "lng": 48.0733486545682
+      },
+      "mapAddress": "شارع الدمنة جادة 7,قطعة 4,السالمية",
+      "area": "السالمية",
+      "block": "قطعة 4",
+      "street": "شارع الدمنة جادة 7",
+      "building": "6",
+      "floor": "",
+      "additionalDirections": "",
+      "id": 3
+    },
+    {
+      "coords": {
+        "lat": 29.33097809730989,
+        "lng": 48.070637947082524
+      },
+      "mapAddress": "1,قطعة 10,السالمية",
+      "area": "السالمية",
+      "block": "قطعة 10",
+      "street": "1",
+      "building": "r",
+      "floor": "",
+      "additionalDirections": "",
+      "id": 4
+    }
+  ],
   "cart": [
     {
       "image": "/images/meal.jpg",
@@ -13,20 +70,64 @@
       "image": "/images/burger.jpg",
       "name": "Big Mac Burger",
       "price": "2.000 KD",
-      "quantity": 1,
-      "slug": "s-burger",
-      "id": 5
-    },
-    {
-      "image": "/images/burger.jpg",
-      "name": "Big Mac Burger",
-      "price": "2.000 KD",
       "quantity": 3,
       "slug": "s-burger",
       "id": 6
     }
   ],
-  "categories": [],
+  "branches": [
+    {
+      "id": 1,
+      "name": {
+        "ar": "فرع حولي",
+        "en": "Hawalli Branch"
+      },
+      "openingHours": "4:00 AM - 5:00 PM",
+      "directions": {
+        "ar": "قرب السفارة البولندية جانب سوبرماركت المريخ",
+        "en": "Near the Mars Embassy infront of Tom & Jerry"
+      },
+      "coords": {
+        "lat": "29.37207021083113",
+        "lng": "47.97822612037658"
+      },
+      "isMain": true
+    },
+    {
+      "id": 2,
+      "name": {
+        "ar": "فرع السالمية",
+        "en": "Salmiyah Branch"
+      },
+      "openingHours": "4:00 AM - 5:00 PM",
+      "directions": {
+        "ar": "قرب السفارة البولندية جانب سوبرماركت المريخ",
+        "en": "Near the Mars Embassy infront of Tom & Jerry"
+      },
+      "coords": {
+        "lat": "29.37207021083113",
+        "lng": "47.97822612037658"
+      },
+      "isMain": false
+    },
+    {
+      "id": 3,
+      "name": {
+        "ar": "فرع العاصمة",
+        "en": "Asimah Branch"
+      },
+      "openingHours": "4:00 AM - 5:00 PM",
+      "directions": {
+        "ar": "قرب السفارة البولندية جانب سوبرماركت المريخ",
+        "en": "Near the Mars Embassy infront of Tom & Jerry"
+      },
+      "coords": {
+        "lat": "29.37207021083113",
+        "lng": "47.97822612037658"
+      },
+      "isMain": false
+    }
+  ],
   "products": [
     {
       "id": 1,
@@ -54,5 +155,43 @@
       "discount": 18,
       "description": "CLASSIC BUN - ANGUS BEEF PATTY - AMERICAN CHEDDAR CHEESE - CHOPPED ONIONS - KETCHUP - MUSTARD -  PICKLES"
     }
-  ]
+  ],
+  "init": {
+    "store_name": {
+      "ar": "روك هاوس سلايدرز",
+      "en": "Rock House Sliders"
+    },
+    "store_images": {
+      "logo": "/images/logo.png",
+      "heroImage_desktop": "/images/hero.jpg"
+    },
+    "store_theme": {
+      "primary_color": "#b11e29"
+    },
+    "payment_methods": [
+      {
+        "name": {
+          "ar": "كي-نت",
+          "en": "K-net"
+        },
+        "logo": "/images/knet.png"
+      },
+      {
+        "name": {
+          "ar": "ماستر/فيزا كارد",
+          "en": "Master/Visa Cart"
+        },
+        "logo": "/images/mastercard.png"
+      },
+      {
+        "name": {
+          "ar": "بوكي",
+          "en": "Bookey"
+        },
+        "logo": "/images/bookey.png"
+      }
+    ],
+    "order_modes": ["delivery", "pickup"],
+    "cart_total": "3.250"
+  }
 }

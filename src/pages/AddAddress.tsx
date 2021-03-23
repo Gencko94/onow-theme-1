@@ -1,6 +1,5 @@
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useMemo, useState } from 'react';
 import styled from 'styled-components';
-import BackNav from '../components/BackNav/BackNav';
 import { UserInfoProvider } from '../contexts/UserInfoContext';
 import * as Yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -12,6 +11,9 @@ import { useMutation, useQueryClient } from 'react-query';
 import { addAddress } from '../utils/queries';
 import Loader from 'react-loader-spinner';
 import { Link } from 'react-router-dom';
+import Layout from '../layout/Layout';
+import MobileHeader from '../components/Header/MobileHeader';
+import AddAddressMap from '../components/AddAddressMap';
 
 interface EditedAddressForm {
   area: string | undefined;
@@ -23,17 +25,8 @@ interface EditedAddressForm {
   building?: string | undefined;
 }
 
-const schema = Yup.object().shape({
-  mapAddress: Yup.string().required('Required Field').max(200),
-  avenue: Yup.string().max(20),
-  floor: Yup.string().max(20),
-  block: Yup.string().required('Required Field').max(20),
-  street: Yup.string().required('Required Field').max(20),
-  additionalDirections: Yup.string().max(100),
-  building: Yup.string().required('Required Field').max(20),
-  area: Yup.string().required('Required Field').max(20),
-});
 const AddAddress = () => {
+  const [outOfBorder, setOutOfBorder] = useState<boolean>(false);
   const queryClient = useQueryClient();
   const { newAddress } = useContext(UserInfoProvider);
 
@@ -49,7 +42,19 @@ const AddAddress = () => {
   const history = useHistory();
 
   const { t } = useTranslation(['addresses']);
-  const { register, handleSubmit, errors } = useForm<EditedAddressForm>({
+  const schema = useMemo(() => {
+    return Yup.object().shape({
+      mapAddress: Yup.string().required(t('required-field')).max(200),
+      avenue: Yup.string().max(20),
+      floor: Yup.string().max(20),
+      block: Yup.string().required(t('required-field')).max(20),
+      street: Yup.string().required(t('required-field')).max(50),
+      additionalDirections: Yup.string().max(100),
+      building: Yup.string().required(t('required-field')).max(20),
+      area: Yup.string().required(t('required-field')).max(20),
+    });
+  }, []);
+  const { register, handleSubmit, errors, reset } = useForm<EditedAddressForm>({
     resolver: yupResolver(schema),
     defaultValues: {
       mapAddress: newAddress.mapAddress,
@@ -84,21 +89,27 @@ const AddAddress = () => {
       return;
     }
   };
-
+  useEffect(() => {
+    reset({
+      additionalDirections: newAddress?.additionalDirections,
+      area: newAddress?.area,
+      block: newAddress?.block,
+      building: newAddress?.building,
+      floor: newAddress?.floor,
+      mapAddress: newAddress?.mapAddress,
+      street: newAddress?.street,
+    });
+  }, [newAddress]);
   return (
-    <Container>
-      <BackNav title="add-location" target="addAddress" />
-
+    <Layout>
+      {/* <BackNav title="add-location" target="addAddress" /> */}
+      <MobileHeader title="add-address" />
       <ContentContainer>
         <MapContainer>
-          <MapImage
-            src={`https://maps.googleapis.com/maps/api/staticmap?center=${newAddress.coords.lat},${newAddress.coords.lng}&zoom=15&size=500x500&key=${process.env.REACT_APP_GOOGLE_MAPS_API_KEY}`}
+          <AddAddressMap
+            setOutOfBorder={setOutOfBorder}
+            outOfBorder={outOfBorder}
           />
-          <EditButton
-            to={`/location?m=a&lt=${newAddress?.coords.lat}&lg=${newAddress?.coords.lng}`}
-          >
-            {t('edit-location')}
-          </EditButton>
         </MapContainer>
         <Form onSubmit={handleSubmit(onSubmit)}>
           <InputContainer>
@@ -108,18 +119,22 @@ const AddAddress = () => {
               <ErrorMessage>{errors.mapAddress.message}</ErrorMessage>
             )}
           </InputContainer>
-          <InputContainer>
-            <Label>{t('area')}*</Label>
-            <Input colored border name="area" ref={register} />
-            {errors.area && <ErrorMessage>{errors.area.message}</ErrorMessage>}
-          </InputContainer>
-          <InputContainer>
-            <Label>{t('block')}*</Label>
-            <Input colored border name="block" ref={register} />
-            {errors.block && (
-              <ErrorMessage>{errors.block.message}</ErrorMessage>
-            )}
-          </InputContainer>
+          <InputsContainer flex>
+            <InputContainer>
+              <Label>{t('area')}*</Label>
+              <Input colored border name="area" ref={register} />
+              {errors.area && (
+                <ErrorMessage>{errors.area.message}</ErrorMessage>
+              )}
+            </InputContainer>
+            <InputContainer>
+              <Label>{t('block')}*</Label>
+              <Input colored border name="block" ref={register} />
+              {errors.block && (
+                <ErrorMessage>{errors.block.message}</ErrorMessage>
+              )}
+            </InputContainer>
+          </InputsContainer>
           <InputContainer>
             <Label>{t('street')}*</Label>
             <Input colored border name="street" ref={register} />
@@ -127,20 +142,22 @@ const AddAddress = () => {
               <ErrorMessage>{errors.street.message}</ErrorMessage>
             )}
           </InputContainer>
-          <InputContainer>
-            <Label>{t('building')}*</Label>
-            <Input colored border name="building" ref={register} />
-            {errors.building && (
-              <ErrorMessage>{errors.building.message}</ErrorMessage>
-            )}
-          </InputContainer>
-          <InputContainer>
-            <Label>{t('floor')}</Label>
-            <Input colored border name="floor" ref={register} />
-            {errors.floor && (
-              <ErrorMessage>{errors.floor.message}</ErrorMessage>
-            )}
-          </InputContainer>
+          <InputsContainer flex>
+            <InputContainer>
+              <Label>{t('building')}*</Label>
+              <Input colored border name="building" ref={register} />
+              {errors.building && (
+                <ErrorMessage>{errors.building.message}</ErrorMessage>
+              )}
+            </InputContainer>
+            <InputContainer>
+              <Label>{t('floor')}</Label>
+              <Input colored border name="floor" ref={register} />
+              {errors.floor && (
+                <ErrorMessage>{errors.floor.message}</ErrorMessage>
+              )}
+            </InputContainer>
+          </InputsContainer>
           <InputContainer>
             <Label>{t('additional-directions')}</Label>
             <AdditionalInstructionsText
@@ -160,21 +177,43 @@ const AddAddress = () => {
           </SubmitButton>
         </Form>
       </ContentContainer>
-    </Container>
+    </Layout>
   );
 };
 
 export default AddAddress;
 
-const Container = styled.div``;
-const ContentContainer = styled.div`
+const ContentContainer = styled.div(
+  ({ theme: { breakpoints } }) => `
   padding: 0.5rem;
-`;
-const MapContainer = styled.div`
+  display:grid;
+  grid-template-columns:1fr;
+  margin:0 auto;
+  @media ${breakpoints.md}{
+    max-width:960px;
+    gap:1rem;
+    grid-template-columns:0.5fr 1fr;
+  }
+  @media ${breakpoints.lg}{
+    max-width:1100px;
+  }
+  `
+);
+const MapContainer = styled.div(
+  ({ theme: { breakpoints } }) => `
   height: 200px;
   width: 100%;
   position: relative;
-`;
+  margin-bottom:1rem;
+  @media ${breakpoints.md}{
+    height: 100%;
+    margin-bottom:0;
+    border-radius:10px;
+    overflow:hidden;
+   
+  }
+`
+);
 const MapImage = styled.img`
   max-height: 100%;
   width: 100%;
@@ -192,8 +231,11 @@ const EditButton = styled(Link)`
   padding: 0.25rem 0.75rem;
   z-index: 999px;
 `;
-const Form = styled.form`
-  padding: 1rem 0.25rem;
+const Form = styled.form``;
+const InputsContainer = styled.div<{ flex?: boolean }>`
+  display: ${props => (props.flex ? 'grid' : 'block')};
+  grid-template-columns: 1fr 1fr;
+  gap: 0.25rem;
 `;
 const InputContainer = styled.div`
   margin-bottom: 0.5rem;

@@ -24,7 +24,11 @@
   "my-basket": "My Basket",
   "checkout": "Checkout",
   "edit-address": "Edit Address",
+  "add-address": "Add New Address",
   "delivery-address": "Delivery Address",
   "select-location": "Select Location",
-  "add-location": "Add Location"
+  "add-location": "Add Location",
+  "track-order": "Order Track",
+  "hello": "Hello",
+  "go-back": "Go Back"
 }

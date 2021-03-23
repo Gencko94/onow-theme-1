@@ -11,6 +11,7 @@ import { addToCart, getProduct } from '../utils/queries';
 import ReactPlaceholder from 'react-placeholder';
 import Loader from 'react-loader-spinner';
 import Hero from '../components/Home/Hero/Hero';
+import LazyImage from '../utils/LazyImage';
 
 const Product = () => {
   const { id } = useParams<{ id: string }>();
@@ -58,13 +59,24 @@ const Product = () => {
         <ContentContainer>
           <ReactPlaceholder
             type="rect"
-            style={{ width: '100%', height: '236px' }}
+            style={{
+              width: '100%',
+              height: '100%',
+              minHeight: '236px',
+              margin: 0,
+              borderRadius: '6px',
+            }}
             color="#E0E0E0"
             showLoadingAnimation
             ready={Boolean(product)}
           >
             <ImageContainer>
-              <Image src={product?.image} alt={product?.name} />
+              <LazyImage
+                src={product?.image}
+                alt={product?.name}
+                pb="calc(236/368 * 100%)"
+              />
+              {/* <Image src={product?.image} alt={product?.name} /> */}
             </ImageContainer>
           </ReactPlaceholder>
 
@@ -76,6 +88,7 @@ const Product = () => {
                 width: '100%',
                 height: '40px',
                 borderRadius: '5px',
+                margin: 0,
                 marginBottom: '.5rem',
               }}
               color="#E0E0E0"
@@ -90,6 +103,7 @@ const Product = () => {
                 width: '25%',
                 height: '28px',
                 borderRadius: '5px',
+                margin: 0,
                 marginBottom: '1rem',
               }}
               color="#E0E0E0"
@@ -105,6 +119,7 @@ const Product = () => {
                 width: '100%',
                 height: '57px',
                 borderRadius: '5px',
+                margin: 0,
                 marginBottom: '1rem',
               }}
               color="#E0E0E0"
@@ -122,6 +137,7 @@ const Product = () => {
                 width: '50%',
                 height: '28px',
                 borderRadius: '5px',
+                margin: 0,
                 marginBottom: '.5rem',
               }}
               color="#E0E0E0"
@@ -138,7 +154,7 @@ const Product = () => {
                 width: '100%',
                 height: '28px',
                 borderRadius: '5px',
-                marginBottom: '1rem',
+                margin: 0,
               }}
               color="#E0E0E0"
               showLoadingAnimation
@@ -204,6 +220,7 @@ const ContentContainer = styled.div(
   @media ${breakpoints.xs}{
     padding: 0.5rem;
     grid-template-columns:1fr;
+    row-gap:1rem;
   }
   @media ${breakpoints.md}{
     padding: 1rem;
@@ -221,9 +238,7 @@ const ImageContainer = styled.div(
   ({ theme: { breakpoints } }) => `
   height: 100%;
   width: 100%;
-  @media ${breakpoints.xs}{
-    margin-bottom:1rem;
-  }
+  
   @media ${breakpoints.md}{
     margin-bottom:0;
     
@@ -240,6 +255,7 @@ const Name = styled.h1(
   ({ theme: { breakpoints, headingColor, font } }) => `
   color: ${headingColor};
   font-weight: ${font.xbold};
+  font-size: 1rem;
   @media ${breakpoints.xs}{
     
     font-size: 1.5rem;

@@ -13,7 +13,7 @@ declare module 'styled-components' {
   export interface DefaultTheme {
     fontFamily: string;
     breakpoints: Devices;
-    mainColor: string;
+    mainColor: string | undefined;
     accentColor: string;
     highlightColor: string;
     highlightColorText: string;
@@ -23,7 +23,7 @@ declare module 'styled-components' {
     textColor: string;
     shadow: string;
     overlayColor: string;
-    navColor: string;
+    // navColor: string;
     btnPrimaryLight: string;
     btnPrimaryDark: string;
     inputColorLight: string;

@@ -16,6 +16,7 @@ const MyProfile = () => {
         <Box>
           <BoxHead>
             <Title>{t('account-info')}</Title>
+            <Button>{t('change')}</Button>
           </BoxHead>
           <Block>
             <Label>{t('fullname')}</Label>
@@ -26,9 +27,6 @@ const MyProfile = () => {
             <Label>{t('phonenumber')}</Label>
             <Info>+9655067821</Info>
           </Block>
-          <ButtonContainer>
-            <Button>{t('change')}</Button>
-          </ButtonContainer>
         </Box>
         <Box>
           <BoxHead>
@@ -46,9 +44,9 @@ const MyProfile = () => {
               </PaymentMethodItem>
             ))}
           </PaymentMethodsContainer>
-          <ButtonContainer>
+          {/* <ButtonContainer>
             <Button>{t('save')}</Button>
-          </ButtonContainer>
+          </ButtonContainer> */}
         </Box>
       </Container>
     </Layout>
@@ -57,12 +55,18 @@ const MyProfile = () => {
 
 export default MyProfile;
 
-const Container = styled.div`
-  /* padding: 0.5rem; */
-`;
+const Container = styled.div(
+  ({ theme: { breakpoints } }) => `
+
+   @media ${breakpoints.md}{
+     max-width:1100px;
+     margin:0 auto;
+     padding:1rem 0.5rem;
+   }
+`
+);
 const Title = styled.h5(
   ({ theme: { breakpoints, font, headingColor } }) => `
-  
   font-weight:${font.bold};
  
  
@@ -72,14 +76,31 @@ const Title = styled.h5(
   }
 `
 );
-const Box = styled.div`
-  background-color: ${props => props.theme.overlayColor};
+const Box = styled.div(
+  ({ theme: { breakpoints, overlayColor, btnBorder } }) => `
+  background-color: ${overlayColor};
   margin: 0.5rem 0 1rem 0;
   overflow: hidden;
-  border: 1px solid rgba(0, 0, 0, 0.1);
-`;
+  @media ${breakpoints.xs}{
+    border-top: 1px solid ${btnBorder};
+    border-bottom: 1px solid ${btnBorder};
+    
+  }
+  @media ${breakpoints.md}{
+    border: 1px solid ${btnBorder};
+    border-radius:6px;
+    margin: 0;
+    margin-bottom:1rem;
+
+  }
+`
+);
+
 const BoxHead = styled.div`
-  padding: 0.5rem;
+  padding: 0.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 
   background-color: ${props => props.theme.btnPrimaryLight};
   color: ${props => props.theme.btnText};
@@ -88,12 +109,17 @@ const BoxHead = styled.div`
 const Block = styled.div`
   padding: 0.5rem;
 `;
-const Label = styled.h6`
+const Label = styled.h6(
+  ({ theme: { breakpoints, headingColor } }) => `
   margin-bottom: 0.25rem;
   display: block;
   font-size: 1rem;
-  color: ${props => props.theme.headingColor};
-`;
+  color: ${headingColor};
+  @media ${breakpoints.md}{
+    font-size:1.2rem;
+  }
+`
+);
 const Info = styled.p`
   font-weight: ${props => props.theme.font.semibold};
   color: ${props => props.theme.subHeading};
@@ -127,14 +153,18 @@ const PaymentMethodImage = styled.img`
   height: 38px;
   margin: 0.25rem 0;
 `;
-const ButtonContainer = styled.div`
-  padding: 0.5rem;
-`;
-const Button = styled.button`
-  width: 100%;
+
+const Button = styled.button(
+  ({ theme: { breakpoints, font, btnPrimaryDark, btnText } }) => `
   border-radius: 8px;
-  background-color: ${props => props.theme.btnPrimaryDark};
-  color: ${props => props.theme.btnText};
+  background-color: ${btnPrimaryDark};
+  color: ${btnText};
   padding: 0.5rem;
-  font-weight: ${props => props.theme.font.bold};
-`;
+  font-size:.9rem;
+  font-weight: ${font.bold};
+  @media ${breakpoints.md}{
+    font-size:1rem;
+    padding: 0.25rem 0.5rem;
+  }
+`
+);

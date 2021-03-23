@@ -6,7 +6,7 @@
   "set-default": "التعيين كإفتراضي",
   "location-type": "نوع الموقع",
   "saved-addresses": "العناوين المحفوطة",
-  "addbtn": "إضافة",
+  "addbtn": " إضافة عنوان جديد",
   "address": "العنوان",
   "building": "البناء",
   "avenue": "الحي",
@@ -14,10 +14,11 @@
   "street": "الشارع",
   "edit": "تعديل",
   "edit-location": "تحديد الموقع",
-
+  "no-addresses": "لم تقم بحفظ اي عنوان",
   "delete": "حذف",
   "floor": "الطابق",
   "additional-directions": "إتجاهات إضافية",
   "area": "المنطقة",
-  "save": "حفظ"
+  "save": "حفظ",
+  "required-field": "حقل مطلوب"
 }

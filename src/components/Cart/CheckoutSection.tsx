@@ -1,12 +1,19 @@
 import { useContext, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import ReactPlaceholder from 'react-placeholder/lib';
 
 import { Link, useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 import { ApplicationProvider } from '../../contexts/ApplicationContext';
+import { CartItem } from '../../interfaces/cartitem';
 import DateTimePicker from '../../utils/DateTimePicker';
 import Modal from '../Modal/Modal';
-const CheckoutSection = () => {
+interface IProps {
+  data: CartItem[] | undefined;
+  isLoading: boolean;
+}
+
+const CheckoutSection = ({ isLoading, data }: IProps) => {
   const {
     branch,
     deliveryAddress,
@@ -23,6 +30,43 @@ const CheckoutSection = () => {
   const history = useHistory();
   return (
     <>
+      {!data && (
+        <StickyContainer>
+          <>
+            {[0, 1, 2].map(() => (
+              <ReactPlaceholder
+                type="textRow"
+                style={{
+                  width: '100%',
+                  height: '27px',
+                  borderRadius: '6px',
+                  marginTop: 0,
+                  margin: '0.8rem 0',
+                }}
+                color="#E0E0E0"
+                showLoadingAnimation
+                ready={Boolean(data)}
+              >
+                <></>
+              </ReactPlaceholder>
+            ))}
+            <ReactPlaceholder
+              type="textRow"
+              style={{
+                width: '100%',
+                height: '43px',
+                borderRadius: '6px',
+                marginTop: '1rem',
+              }}
+              color="#E0E0E0"
+              showLoadingAnimation
+              ready={Boolean(data)}
+            >
+              <></>
+            </ReactPlaceholder>
+          </>
+        </StickyContainer>
+      )}
       {/* <CouponContainer>
         <CouponInput placeholder={t('enter-code-or-coupon')} />
         <SubmitButton type="button">{t('submit')}</SubmitButton>
@@ -140,36 +184,40 @@ const CheckoutSection = () => {
           )}
         </ContentWrapper>
       </Container> */}
-      <StickyContainer>
-        <SmallBlock>
-          <BlockText>{t('order-total')}</BlockText>
-          <BlockText bold>2.000 KD</BlockText>
-        </SmallBlock>
-        <SmallBlock>
-          <BlockText>{t('delivery-cost')}</BlockText>
-          <BlockText bold>2.000 KD</BlockText>
-        </SmallBlock>
-        <hr />
-        <MediumBlock>
-          <BlockText>{t('subtotal')}</BlockText>
-          <BlockText bold>2.000 KD</BlockText>
-        </MediumBlock>
+      {data && (
+        <StickyContainer>
+          <SmallBlock>
+            <BlockText>{t('order-total')}</BlockText>
+            <BlockText bold>2.000 KD</BlockText>
+          </SmallBlock>
+          <SmallBlock>
+            <BlockText>{t('delivery-cost')}</BlockText>
+            <BlockText bold>2.000 KD</BlockText>
+          </SmallBlock>
 
-        <CheckoutButtonContainer>
-          <CheckoutButton
-            type="button"
-            onClick={() => {
-              if (deliveryAddress || branch) {
-                history.push('/checkout');
-              }
-            }}
-          >
-            {deliveryAddress || branch
-              ? 'Checkout'
-              : 'Please Select Order mode'}
-          </CheckoutButton>
-        </CheckoutButtonContainer>
-      </StickyContainer>
+          <hr />
+
+          <MediumBlock>
+            <BlockText>{t('subtotal')}</BlockText>
+            <BlockText bold>2.000 KD</BlockText>
+          </MediumBlock>
+
+          <CheckoutButtonContainer>
+            <CheckoutButton
+              type="button"
+              onClick={() => {
+                if (deliveryAddress || branch) {
+                  history.push('/checkout');
+                }
+              }}
+            >
+              {deliveryAddress || branch
+                ? 'Checkout'
+                : 'Please Select Order mode'}
+            </CheckoutButton>
+          </CheckoutButtonContainer>
+        </StickyContainer>
+      )}
 
       <Modal
         title="Pick up branch"
@@ -213,7 +261,7 @@ const ContentWrapper = styled.div`
 `;
 const StickyContainer = styled.div(
   ({ theme: { breakpoints, overlayColor, btnBorder } }) => ` 
-  padding: 0.5rem 1rem;
+  padding: 0.5rem;
   background-color: ${overlayColor};
   
   width: 100%;
@@ -226,8 +274,6 @@ const StickyContainer = styled.div(
   };
   @media ${breakpoints.md} {
     position: relative;
-    max-width:1100px;
-    margin:0 auto;
     border:1px solid ${btnBorder};
     border-radius:6px;
   }
@@ -260,7 +306,7 @@ const RadioInput = styled.input`
 `;
 
 const SmallBlock = styled.div`
-  padding: 0.25em 0;
+  padding: 0.5rem 0;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -271,10 +317,15 @@ const MediumBlock = styled.div`
   justify-content: space-between;
   align-items: center;
 `;
-const BlockText = styled.h5<{ bold?: boolean }>`
-  font-weight: ${props =>
-    props.bold ? props.theme.font.xbold : props.theme.font.bold};
-`;
+const BlockText = styled.h5<{ bold?: boolean }>(
+  ({ theme: { breakpoints, font }, bold }) => ` 
+  font-weight: ${bold ? font.xbold : font.bold};
+  font-size:1.1rem;
+  @media ${breakpoints.md}{
+    font-size:1.25rem;
+  }
+`
+);
 
 const CheckoutButtonContainer = styled.div`
   padding: 0.5rem 0.25rem;
@@ -282,7 +333,7 @@ const CheckoutButtonContainer = styled.div`
 const CheckoutButton = styled.button`
   background-color: ${props => props.theme.btnPrimaryDark};
   color: ${props => props.theme.btnText};
-  border: ${props => `1px solid ${props.theme.mainColor}`};
+  border: ${props => `1px solid ${props.theme.btnBorder}`};
   padding: 0.7em;
   font-weight: 600;
   text-transform: uppercase;

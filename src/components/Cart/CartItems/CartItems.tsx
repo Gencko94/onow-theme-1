@@ -17,28 +17,17 @@ const CartItems = ({ data, isLoading }: IProps) => {
   const { mode } = useContext(ThemeContext);
   return (
     <Container mode={mode}>
-      {/* {isLoading && (
-        <LoadingGrid>
-          {[0, 1, 2].map(() => (
-            <ContentLoader
-              speed={2}
-              width="100%"
-              height="126px"
-              viewBox="0 0 400 126"
-              backgroundColor="#5B5B5B"
-              foregroundColor="#ecebeb"
-            >
-              <rect x="0" y="0" rx="6" ry="6" width="100%" height="100%" />
-            </ContentLoader>
-          ))}
-        </LoadingGrid>
-      )} */}
       {!data && (
         <LoadingGrid>
           {[0, 1, 2].map(() => (
             <ReactPlaceholder
               type="textRow"
-              style={{ width: '100%', height: '119px', borderRadius: '6px' }}
+              style={{
+                width: '100%',
+                height: '119px',
+                borderRadius: '6px',
+                marginTop: 0,
+              }}
               color="#E0E0E0"
               showLoadingAnimation
               ready={Boolean(data)}
@@ -63,23 +52,29 @@ export default CartItems;
 
 const Container = styled.div<{ mode: string | undefined }>`
   background-color: ${props =>
-    props.mode === 'dark' ? props.theme.bodyColor : '#eee'};
+    props.mode === 'dark' ? props.theme.bodyColor : props.theme.bodyColor};
 `;
 
-const LoadingGrid = styled.div`
+const LoadingGrid = styled.div(
+  ({ theme: { breakpoints } }) => `
   display: grid;
   grid-template-columns: 1fr;
   gap: 0.5rem;
   padding: 0.5rem;
-`;
+  @media ${breakpoints.md}{
+    
+   padding:0;
+  }
+`
+);
 
 const ItemsWrapper = styled.div(
-  ({ theme: { breakpoints, headingColor } }) => `
+  ({ theme: { breakpoints } }) => `
 
   @media ${breakpoints.xs}{
     
-    min-height:calc(100vh - 333px);
-    max-height:calc(100vh - 333px);
+    min-height:calc(100vh - 334px);
+    max-height:calc(100vh - 334px);
     overflow:auto
   }
   @media ${breakpoints.md}{

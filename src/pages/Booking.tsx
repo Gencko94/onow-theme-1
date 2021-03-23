@@ -48,7 +48,7 @@ const Booking = () => {
     }));
   }, []);
   useEffect(() => {
-    setSelectedBranch(options[0]);
+    // setSelectedBranch(options[0].label);
   }, [options]);
 
   const handleBranchChange = (branch: SelectProps | null) => {
@@ -62,12 +62,12 @@ const Booking = () => {
         <Title>Booking</Title>
         <ContentContainer>
           <BranchTitle>Branch</BranchTitle>
-          <Select
+          {/* <Select
             options={options}
             defaultValue={options[0]}
             onChange={handleBranchChange}
             isSearchable={false}
-          />
+          /> */}
         </ContentContainer>
         <DateTimeWrapper>
           <DateTimeContainer>

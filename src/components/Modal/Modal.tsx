@@ -49,7 +49,7 @@ const Modal = ({ title, closeModal, modalOpen }: ModalProps) => {
                     setHighlightedBranch(b);
                   }}
                   selected={highlightedBranch?.name === b.name}
-                  key={b.value}
+                  key={b.id}
                 >
                   <BranchName>{b.name}</BranchName>
                   <IconsContainer>
@@ -116,7 +116,7 @@ const Container = styled.div(
       width:90%;
     
     };
-  @media ${breakpoints.sm} {
+  @media ${breakpoints.md} {
       width:70%
     }
   }

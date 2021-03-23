@@ -1,13 +1,16 @@
 import React, {
   createContext,
   useCallback,
+  useContext,
   useEffect,
   useMemo,
   useState,
 } from 'react';
 import { useTranslation } from 'react-i18next';
 import styled, { ThemeProvider as StyledThemes } from 'styled-components';
+import { devices } from '../breakpoints';
 import { darkTheme, lightTheme } from '../utils/themes';
+import { ApplicationProvider } from './ApplicationContext';
 export type ThemeMode = 'light' | 'dark' | string;
 type ContextProps = {
   toggleTheme: () => void;
@@ -17,29 +20,45 @@ type ContextProps = {
 export const ThemeContext = createContext<Partial<ContextProps>>({});
 
 const ThemeProvider: React.FC = ({ children }) => {
+  const { store_theme } = useContext(ApplicationProvider);
   const [mode, setMode] = useState<ThemeMode>('light');
   const { i18n } = useTranslation();
+
   const fontFamily = useMemo(
     () => (i18n.language === 'ar' ? 'Cairo' : 'Nunito'),
     [i18n.language]
   );
+
   const currentTheme = useMemo(() => {
-    if (mode === 'light') return { fontFamily, ...lightTheme };
-    return { fontFamily, ...darkTheme };
-  }, [mode, fontFamily]);
+    const theme =
+      mode === 'light'
+        ? { mainColor: store_theme?.primary_color, ...lightTheme }
+        : darkTheme;
+    return {
+      fontFamily,
+      breakpoints: devices,
+      font: {
+        regular: '400',
+        semibold: '600',
+        bold: '700',
+        xbold: '800',
+      },
+      ...theme,
+    };
+  }, [mode, fontFamily, store_theme]);
 
   const toggleTheme = useCallback(() => {
     if (mode === 'light') {
       setMode('dark');
-      window.localStorage.setItem('theme', 'dark');
+      localStorage.setItem('theme', 'dark');
     } else {
       setMode('light');
-      window.localStorage.setItem('theme', 'light');
+      localStorage.setItem('theme', 'light');
     }
   }, [mode]);
 
   useEffect(() => {
-    const localTheme = window.localStorage.getItem('theme');
+    const localTheme = localStorage.getItem('theme');
     localTheme && setMode(localTheme);
   }, []);
   return (

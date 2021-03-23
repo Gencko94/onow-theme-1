@@ -364,17 +364,25 @@ const ConfirmationContainer = styled.div`
   align-items: center;
 `;
 
-const ConfirmButton = styled.button<{ outOfBorder: boolean }>`
-  border-radius: 15px;
-  font-size: 1.1rem;
-  background-color: ${props =>
-    props.outOfBorder ? 'gray' : props.theme.btnPrimaryLight};
-  color: ${props => props.theme.btnText};
-  padding: 0.5rem 0.75rem;
-  font-weight: ${props => props.theme.font.bold};
-  border: 1px solid ${props => props.theme.btnBorder};
+const ConfirmButton = styled.button<{ outOfBorder: boolean }>(
+  ({
+    theme: { breakpoints, btnPrimaryLight, btnText, font, btnBorder },
+    outOfBorder,
+  }) => `
+
+  border-radius: 12px;
+  font-size: 1rem;
+  background-color: ${outOfBorder ? 'gray' : btnPrimaryLight};
+  color: ${btnText};
+  padding: 0.5rem 0.5rem;
+  font-weight: ${font.bold};
+  border: 1px solid ${btnBorder};
   margin: 0 1rem;
-`;
+  @media ${breakpoints.md}{
+  font-size:1.1rem;
+  }
+`
+);
 const MapIcon = styled.button`
   display: flex;
   justify-content: center;

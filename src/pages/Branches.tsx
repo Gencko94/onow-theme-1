@@ -1,14 +1,17 @@
 import styled from 'styled-components';
-import Hero from '../components/Home/Hero/Hero';
-import { branches } from '../data/branches';
 import Layout from '../layout/Layout';
 import MapLazyImage from '../utils/MapLazyImage';
 import { Link, useHistory } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import MobileHeader from '../components/Header/MobileHeader';
+import { BsCheckCircle } from 'react-icons/bs';
+import ReactPlaceholder from 'react-placeholder/lib';
+import { useQuery } from 'react-query';
+import { getBranches } from '../utils/queries';
 
 const Branches = () => {
-  const { t } = useTranslation(['branches']);
+  const { t, i18n } = useTranslation(['branches']);
+  const { data: branches, isLoading } = useQuery('branches', getBranches);
 
   const { push } = useHistory();
   return (
@@ -16,18 +19,44 @@ const Branches = () => {
       <MobileHeader title="our-branches" />
       <Container>
         <BranchesContainer>
-          {branches.map(branch => (
+          <ReactPlaceholder
+            type="textRow"
+            style={{
+              width: '100%',
+              height: '27px',
+              borderRadius: '6px',
+              marginTop: 0,
+              margin: '0.8rem 0',
+            }}
+            color="#E0E0E0"
+            showLoadingAnimation
+            ready={Boolean(branches)}
+          >
+            <></>
+          </ReactPlaceholder>
+          {branches?.map(branch => (
             <BranchItem>
               <MapLazyImage
                 height="200"
                 width="200"
-                lat={branch.coordinates?.lat}
-                lng={branch.coordinates?.lng}
-                alt={branch.name}
+                lat={branch.coords?.lat}
+                lng={branch.coords?.lng}
+                alt={branch.name[i18n.language]}
               />
               <BranchDetails>
-                <BranchName>{branch.name}</BranchName>
-                <OpeningHours>{branch.openingHours}</OpeningHours>
+                <BranchNameContainer>
+                  <BranchName>{branch.name[i18n.language]}</BranchName>
+                  {branch.isMain && (
+                    <MainBranchContainer>
+                      <MainBranch>{t('main-branch')}</MainBranch>
+                      <Icon>
+                        <BsCheckCircle size={20} />
+                      </Icon>
+                    </MainBranchContainer>
+                  )}
+                </BranchNameContainer>
+                <Directions>{branch.directions}</Directions>
+                {/* <OpeningHours>{branch.openingHours}</OpeningHours> */}
                 <OpenNow isOpen={branch.openNow}>
                   {branch.openNow ? t('open-now') : t('closed')}
                 </OpenNow>
@@ -50,11 +79,16 @@ const Branches = () => {
 
 export default Branches;
 
-const Container = styled.div`
+const Container = styled.div(
+  ({ theme: { breakpoints, bodyColor } }) => `
   /* margin-top: 58px; */
   padding: 0.5rem;
-  background-color: ${props => props.theme.bodyColor};
-`;
+  @media ${breakpoints.md}{
+    max-width:1100px;
+    margin:0 auto;
+  }
+`
+);
 
 const Title = styled.h1(
   ({ theme: { breakpoints, accentColor } }) => `
@@ -70,35 +104,60 @@ const Title = styled.h1(
   }
 `
 );
-const BranchesContainer = styled.div`
+const BranchesContainer = styled.div(
+  ({ theme: { breakpoints } }) => `
   display: grid;
   grid-template-columns: 1fr;
   gap: 1rem;
-`;
-const BranchItem = styled.div`
+
+  @media ${breakpoints.md}{
+    grid-template-columns: 1fr 1fr;
+
+  }
+`
+);
+const BranchItem = styled.div(
+  ({ theme: { breakpoints, overlayColor, btnBorder } }) => `
   display: grid;
   grid-template-columns: 0.4fr 1fr;
-  gap: 1rem;
-  padding: 0.25rem;
-  border-radius: 15px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  background-color: ${props => props.theme.overlayColor};
-`;
-const BranchDetails = styled.div`
+  gap: 0.75rem;
   padding: 0.5rem;
-`;
-const BranchName = styled.h5`
-  color: ${props => props.theme.headingColor};
+  border-radius: 6px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  background-color: ${overlayColor};
+  border:1px solid ${btnBorder};
+  @media ${breakpoints.md}{
+    grid-template-columns: 0.3fr 1fr;
 
-  font-weight: ${props => props.theme.font.xbold};
+  }
+`
+);
+const BranchDetails = styled.div`
+  /* padding: 0.5rem; */
 `;
+const BranchNameContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+const BranchName = styled.h5(
+  ({ theme: { breakpoints, font, headingColor } }) => `
+  color: ${headingColor};
+  font-weight: ${font.xbold};
+  font-size:1.1rem;
+  flex:1;
+  @media ${breakpoints.md} {
+    font-size:1.25rem;
+  }
+`
+);
 const OpeningHours = styled.p`
   color: ${props => props.theme.subHeading};
   font-size: 0.9rem;
   font-weight: ${props => props.theme.font.semibold};
 `;
 const OpenNow = styled.p<{ isOpen: boolean }>`
-  color: ${props => (props.isOpen ? 'green' : 'red')};
+  color: ${props => (props.isOpen ? props.theme.green : props.theme.dangerRed)};
   font-size: 0.9rem;
   margin-bottom: 0.5rem;
   font-weight: ${props => props.theme.font.bold};
@@ -109,13 +168,25 @@ const ButtonsContainer = styled.div`
   font-size: 0.9rem;
   /* justify-content: center; */
 `;
-const DetailsButton = styled(Link)`
+const DetailsButton = styled(Link)(
+  ({ theme: { breakpoints, btnPrimaryDark, btnBorder } }) => `
   display: block;
   padding: 0.5rem;
   border-radius: 20px;
   color: #fff;
-  background-color: ${props => props.theme.btnPrimaryDark};
-`;
+  font-size:0.9rem;
+  border: 1px solid ${btnBorder};
+  background-color: ${btnPrimaryDark};
+  transition: background-color 100ms;
+  @media ${breakpoints.md}{
+    font-size:1rem;
+    padding: 0.5rem 0.75rem;
+    &:hover {
+      background-color: rgba(0, 0, 0, 0.4);
+    }
+  }
+`
+);
 const BookButton = styled.button`
   /* display: block; */
   margin: 0 0.25rem;
@@ -124,3 +195,37 @@ const BookButton = styled.button`
   border-radius: 20px;
   color: #fff;
 `;
+const MainBranchContainer = styled.div(
+  ({ theme: { breakpoints, btnPrimaryDark } }) => `
+  display:flex;
+  align-items:center;
+  justify-content:center;
+`
+);
+const MainBranch = styled.p(
+  ({ theme: { breakpoints, green, font } }) => `
+    color:${green};
+    margin: 0 .25rem;
+    font-size: 0.8rem;
+    font-weight:${font.semibold};
+    @media ${breakpoints.md}{
+      font-size: 0.9rem;
+    }
+`
+);
+const Icon = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: ${props => props.theme.green};
+`;
+const Directions = styled.p(
+  ({ theme: { breakpoints, subHeading, font } }) => `
+color:${subHeading};
+font-size:.9rem;
+font-weight:${font.bold};
+@media ${breakpoints.md}{
+font-size:1rem;
+}
+`
+);

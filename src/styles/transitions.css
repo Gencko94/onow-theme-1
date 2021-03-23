@@ -113,3 +113,21 @@
   /* transform: translateX(-100%); */
   transition: all 250ms;
 }
+.account-menu-enter {
+  opacity: 0;
+  /* transform: translateX(100%); */
+}
+.account-menu-enter-active {
+  opacity: 1;
+  /* transform: translateX(0); */
+  transition: all 250ms;
+}
+.account-menu-exit {
+  opacity: 1;
+  /* transform: translateX(0); */
+}
+.account-menu-exit-active {
+  opacity: 0;
+  /* transform: translateX(-100%); */
+  transition: all 250ms;
+}

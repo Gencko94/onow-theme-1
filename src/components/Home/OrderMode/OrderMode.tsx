@@ -102,7 +102,7 @@ const OrderMode = () => {
                         setHighlightedBranch(b);
                       }}
                       selected={highlightedBranch?.name === b.name}
-                      key={b.value}
+                      key={b.id}
                     >
                       <BranchName>{b.name}</BranchName>
                       <IconsContainer>

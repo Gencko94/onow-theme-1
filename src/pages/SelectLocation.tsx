@@ -12,7 +12,16 @@ const SelectLocation = () => {
 };
 
 export default SelectLocation;
-const Container = styled.div`
-  height: calc(100vh - 100px);
+const Container = styled.div(
+  ({ theme: { breakpoints } }) => `
+  height: calc(100vh - 50px);
   position: relative;
-`;
+  margin: 0 auto;
+  @media ${breakpoints.md}{
+    max-width:960px;
+  }
+  @media ${breakpoints.lg}{
+    max-width:1100px;
+  }
+  `
+);
