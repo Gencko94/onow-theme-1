@@ -6,7 +6,7 @@ import { CartItem } from '../interfaces/cartitem';
 import { Init } from '../interfaces/init';
 import { Product } from '../interfaces/product';
 
-const uri = 'http://localhost:3001';
+const uri = 'http://localhost:3002';
 
 export const getGeneralInfo = async (): Promise<Init> => {
   const res = await axios.get(`${uri}/init`);
@@ -54,6 +54,11 @@ export const deleteCartItem = async ({
 
 export const getBranches = async (): Promise<Branch[]> => {
   const res = await axios.get(`${uri}/branches`);
+
+  return res.data;
+};
+export const getBranch = async (id: string): Promise<Branch> => {
+  const res = await axios.get(`${uri}/branches/${id}`);
 
   return res.data;
 };

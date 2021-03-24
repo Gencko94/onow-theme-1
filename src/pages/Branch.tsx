@@ -1,65 +1,96 @@
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
-import { branches } from '../data/branches';
 import { MdDirections } from 'react-icons/md';
 import Layout from '../layout/Layout';
+import { useParams } from 'react-router';
+import { getBranch } from '../utils/queries';
+import { useQuery } from 'react-query';
+import MobileHeader from '../components/Header/MobileHeader';
 
 const Branch = () => {
   const { t, i18n } = useTranslation(['branches']);
+  const { id } = useParams<{ id: string }>();
   const days = ['Sat', 'Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri'];
-  const branch = branches[0];
+  const { data: branch, isLoading } = useQuery(['branch', id], () =>
+    getBranch(id)
+  );
   return (
     <Layout>
-      <img
-        src={`https://maps.googleapis.com/maps/api/staticmap?center=${branch.coords.lat},${branch.coords.lng}&zoom=15&size=800x250&key=${process.env.REACT_APP_GOOGLE_MAPS_API_KEY}`}
-        alt={branch.name[i18n.language]}
-      />
-
-      <ContentContainer>
-        <Name>{branch.name[i18n.language]}</Name>
-        <OpenNow isOpen={branch.openNow}>
-          {branch.openNow ? t('open-now') : t('closed')}
-        </OpenNow>
-      </ContentContainer>
-      <ContentContainer>
-        <Address>{branch.directions}</Address>
-      </ContentContainer>
-      <BookingButtonContainer>
-        <DirectionsButton>
-          <MdDirections size={20} />
-          <ButtonText>{t('directions')}</ButtonText>
-        </DirectionsButton>
-      </BookingButtonContainer>
-      <ContentContainer>
-        <OpeningHoursTitle>{t('opening-hours')}</OpeningHoursTitle>
+      <MobileHeader title="our-branches" />
+      <Container>
+        <img
+          src={`https://maps.googleapis.com/maps/api/staticmap?center=${branch?.coords.lat},${branch?.coords.lng}&zoom=15&size=400x400&key=${process.env.REACT_APP_GOOGLE_MAPS_API_KEY}`}
+          alt={branch?.name[i18n.language]}
+        />
+        <ContentContainer>
+          <Name>{branch?.name[i18n.language]}</Name>
+          <OpenNow isOpen={branch?.openNow}>
+            {branch?.openNow ? t('open-now') : t('closed')}
+          </OpenNow>
+          <Address>{branch?.directions[i18n.language]}</Address>
+          <BookingButtonContainer>
+            <DirectionsButton>
+              <MdDirections size={20} />
+              <ButtonText>{t('directions')}</ButtonText>
+            </DirectionsButton>
+          </BookingButtonContainer>
+        </ContentContainer>
         <OpeningHoursContainer>
-          <DaysContainer>
-            {days.map(day => (
-              <Day key={day}>{day}</Day>
-            ))}
-          </DaysContainer>
-          <HoursContainer>
-            {days.map(day => (
-              <Hour key={day}>{branch.openingHours}</Hour>
-            ))}
-          </HoursContainer>
+          <OpeningHoursTitle>{t('opening-hours')}</OpeningHoursTitle>
+          <OpeningHoursGrid>
+            <DaysContainer>
+              {days.map(day => (
+                <Day key={day}>{day}</Day>
+              ))}
+            </DaysContainer>
+            <HoursContainer>
+              {days.map(day => (
+                <Hour key={day}>{branch?.openingHours}</Hour>
+              ))}
+            </HoursContainer>
+          </OpeningHoursGrid>
         </OpeningHoursContainer>
-      </ContentContainer>
+      </Container>
     </Layout>
   );
 };
 
 export default Branch;
 
-const ContentContainer = styled.div`
-  padding: 0.25rem 1rem;
-`;
+const Container = styled.div(
+  ({ theme: { breakpoints, overlayColor, btnBorder } }) => `
+  padding:  1rem 0.25rem;
+  display:grid;
+  gap:0.5rem;
+  grid-template-columns:1fr;
+  @media ${breakpoints.md}{
+    grid-template-columns:0.6fr 1fr 0.6fr;
+    max-width:960px;
+    margin:0 auto;
+    gap:1rem;
+  }
+  @media ${breakpoints.lg}{
+    max-width:1100px;
+
+  }
+  `
+);
+const ContentContainer = styled.div(
+  ({ theme: { breakpoints, overlayColor, btnBorder } }) => `
+  // padding: 0.25rem 1rem;
+  // display:grid;
+  // grid-template-columns:1fr;
+  // @media ${breakpoints.md}{
+
+  // }
+  `
+);
 const Name = styled.h1`
   font-size: 1.5rem;
   color: ${({ theme }) => theme.headingColor};
   font-weight: ${props => props.theme.font.xbold};
 `;
-const OpenNow = styled.p<{ isOpen: boolean }>`
+const OpenNow = styled.p<{ isOpen?: boolean }>`
   color: ${props => (props.isOpen ? props.theme.green : 'red')};
   font-weight: ${props => props.theme.font.bold};
 `;
@@ -75,7 +106,8 @@ const OpeningHoursTitle = styled.h6`
   font-weight: ${props => props.theme.font.bold};
 `;
 
-const OpeningHoursContainer = styled.div`
+const OpeningHoursContainer = styled.div``;
+const OpeningHoursGrid = styled.div`
   display: grid;
   grid-template-columns: 0.4fr 1fr;
   background-color: ${props => props.theme.overlayColor};

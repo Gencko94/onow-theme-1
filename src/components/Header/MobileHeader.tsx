@@ -70,7 +70,6 @@ const Title = styled.h4(
   font-size:1.25rem;
   @media ${breakpoints.md}{
     font-size: 1.5rem;
-    margin: 0.75rem 0;
   }
 `
 );

@@ -30,20 +30,6 @@
     },
     {
       "coords": {
-        "lat": 29.34010665399198,
-        "lng": 48.0733486545682
-      },
-      "mapAddress": "شارع الدمنة جادة 7,قطعة 4,السالمية",
-      "area": "السالمية",
-      "block": "قطعة 4",
-      "street": "شارع الدمنة جادة 7",
-      "building": "6",
-      "floor": "",
-      "additionalDirections": "",
-      "id": 3
-    },
-    {
-      "coords": {
         "lat": 29.33097809730989,
         "lng": 48.070637947082524
       },
@@ -191,7 +177,10 @@
         "logo": "/images/bookey.png"
       }
     ],
-    "order_modes": ["delivery", "pickup"],
+    "order_modes": [
+      "delivery",
+      "pickup"
+    ],
     "cart_total": "3.250"
   }
 }

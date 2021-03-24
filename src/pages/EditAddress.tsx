@@ -208,6 +208,7 @@ const ContentContainer = styled.div(
     max-width:960px;
     gap:1rem;
     grid-template-columns:0.5fr 1fr;
+    margin-top:0.5rem;
   }
   @media ${breakpoints.lg}{
     max-width:1100px;

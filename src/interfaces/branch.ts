@@ -9,7 +9,6 @@ export interface Branch {
     [key: string]: string;
   };
   id: number;
-
   openingHours: string;
   openNow: boolean;
   directions: {

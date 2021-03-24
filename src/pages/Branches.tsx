@@ -12,30 +12,30 @@ import { getBranches } from '../utils/queries';
 const Branches = () => {
   const { t, i18n } = useTranslation(['branches']);
   const { data: branches, isLoading } = useQuery('branches', getBranches);
-
   const { push } = useHistory();
+  console.log(branches);
   return (
     <Layout>
       <MobileHeader title="our-branches" />
       <Container>
+        <ReactPlaceholder
+          type="textRow"
+          style={{
+            width: '100%',
+            height: '27px',
+            borderRadius: '6px',
+            marginTop: 0,
+            margin: '0.8rem 0',
+          }}
+          color="#E0E0E0"
+          showLoadingAnimation
+          ready={Boolean(branches)}
+        >
+          <></>
+        </ReactPlaceholder>
         <BranchesContainer>
-          <ReactPlaceholder
-            type="textRow"
-            style={{
-              width: '100%',
-              height: '27px',
-              borderRadius: '6px',
-              marginTop: 0,
-              margin: '0.8rem 0',
-            }}
-            color="#E0E0E0"
-            showLoadingAnimation
-            ready={Boolean(branches)}
-          >
-            <></>
-          </ReactPlaceholder>
           {branches?.map(branch => (
-            <BranchItem>
+            <BranchItem key={branch.id}>
               <MapLazyImage
                 height="200"
                 width="200"
@@ -55,15 +55,15 @@ const Branches = () => {
                     </MainBranchContainer>
                   )}
                 </BranchNameContainer>
-                <Directions>{branch.directions}</Directions>
+                <Directions>{branch.directions[i18n.language]}</Directions>
                 {/* <OpeningHours>{branch.openingHours}</OpeningHours> */}
-                <OpenNow isOpen={branch.openNow}>
-                  {branch.openNow ? t('open-now') : t('closed')}
-                </OpenNow>
                 <ButtonsContainer>
-                  <DetailsButton to={`/branch/${branch.name}`}>
+                  <DetailsButton to={`/branch/${branch.id}`}>
                     {t('branch-details')}
                   </DetailsButton>
+                  {/* <OpenNow isOpen={branch.openNow}>
+                    {branch.openNow ? t('open-now') : t('closed')}
+                  </OpenNow> */}
                   {/* <BookButton onClick={() => push('/booking')}>
                     {t('book-here')}
                   </BookButton> */}
@@ -81,11 +81,15 @@ export default Branches;
 
 const Container = styled.div(
   ({ theme: { breakpoints, bodyColor } }) => `
-  /* margin-top: 58px; */
+ 
   padding: 0.5rem;
   @media ${breakpoints.md}{
-    max-width:1100px;
+    padding: 1rem 0.75rem;
+    max-width:960px;
     margin:0 auto;
+  }
+  @media ${breakpoints.lg}{
+    max-width:1100px;
   }
 `
 );
@@ -112,6 +116,7 @@ const BranchesContainer = styled.div(
 
   @media ${breakpoints.md}{
     grid-template-columns: 1fr 1fr;
+   
 
   }
 `
@@ -159,30 +164,43 @@ const OpeningHours = styled.p`
 const OpenNow = styled.p<{ isOpen: boolean }>`
   color: ${props => (props.isOpen ? props.theme.green : props.theme.dangerRed)};
   font-size: 0.9rem;
-  margin-bottom: 0.5rem;
+  /* margin-bottom: 0.5rem; */
   font-weight: ${props => props.theme.font.bold};
 `;
 const ButtonsContainer = styled.div`
   display: flex;
   align-items: center;
   font-size: 0.9rem;
+
+  justify-content: space-between;
   /* justify-content: center; */
 `;
 const DetailsButton = styled(Link)(
-  ({ theme: { breakpoints, btnPrimaryDark, btnBorder } }) => `
+  ({
+    theme: {
+      breakpoints,
+      btnPrimaryDark,
+      btnBorder,
+      highlightColor,
+      highlightColorText,
+      font,
+    },
+  }) => `
   display: block;
-  padding: 0.5rem;
-  border-radius: 20px;
+  font-weight:${font.bold};
+  padding: 0.25rem 0.5rem;
+  border-radius: 15px;
   color: #fff;
   font-size:0.9rem;
   border: 1px solid ${btnBorder};
   background-color: ${btnPrimaryDark};
   transition: background-color 100ms;
   @media ${breakpoints.md}{
-    font-size:1rem;
-    padding: 0.5rem 0.75rem;
+    font-size:0.9rem;
+    padding: 0.25rem 0.5rem;
     &:hover {
-      background-color: rgba(0, 0, 0, 0.4);
+      background-color: ${highlightColor};
+      color:${highlightColorText};
     }
   }
 `
@@ -209,7 +227,7 @@ const MainBranch = styled.p(
     font-size: 0.8rem;
     font-weight:${font.semibold};
     @media ${breakpoints.md}{
-      font-size: 0.9rem;
+      font-size: 0.8rem;
     }
 `
 );
@@ -222,8 +240,9 @@ const Icon = styled.div`
 const Directions = styled.p(
   ({ theme: { breakpoints, subHeading, font } }) => `
 color:${subHeading};
-font-size:.9rem;
+font-size:.8rem;
 font-weight:${font.bold};
+margin: .25rem 0;
 @media ${breakpoints.md}{
 font-size:1rem;
 }
