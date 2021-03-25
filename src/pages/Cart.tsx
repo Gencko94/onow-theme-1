@@ -28,15 +28,22 @@ const Container = styled.div`
   /* position: relative; */
   /* margin-top: 66px; */
 `;
-const Grid = styled.div`
+const Grid = styled.div(
+  ({ theme: { breakpoints } }) => `
+
+  // padding: 1rem 0rem;
   height: 100%;
-  @media (min-width: 768px) {
+  @media  ${breakpoints.md} {
+    padding: 1rem 0.75rem;
     margin: 0 auto;
-    max-width: 1100px;
+    max-width: 960px;
     display: grid;
     grid-template-columns: 1fr 0.5fr;
     gap: 1rem;
-    padding: 1rem 0.5rem;
   }
-  /* position: relative; */
-`;
+  @media ${breakpoints.lg} {
+    max-width: 1100px;
+  }
+ 
+`
+);

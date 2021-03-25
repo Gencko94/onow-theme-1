@@ -4,6 +4,7 @@ import { Devices } from './breakpoints';
 
 // and extend them!
 type FontWeights = {
+  light: string;
   regular: string;
   semibold: string;
   bold: string;
@@ -33,5 +34,6 @@ declare module 'styled-components' {
     green: string;
     font: FontWeights;
     dangerRed: string;
+    border: string;
   }
 }

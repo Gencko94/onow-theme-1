@@ -3,18 +3,19 @@
     {
       "id": 1,
       "coords": {
-        "lat": 29.2858641323574,
-        "lng": 47.8918800733571
+        "lat": 29.29157209873151,
+        "lng": 47.89481262231661
       },
-      "mapAddress": "شارع 3 جادة 1,قطعة 10,العارضية",
-      "area": "العارضية",
-      "block": "قطعة 10",
-      "street": "شارع 3 جادة 1",
+      "mapAddress": "Unnamed Road,Block 4,Ardiya",
+      "area": "Ardiya",
+      "block": "Block 4",
+      "street": "Unnamed Road",
       "building": "r",
       "floor": "",
       "additionalDirections": ""
     },
     {
+      "id": 2,
       "coords": {
         "lat": 29.316371359155493,
         "lng": 48.060562469239684
@@ -25,22 +26,21 @@
       "street": "شارع 114",
       "building": "2",
       "floor": "",
-      "additionalDirections": "",
-      "id": 2
+      "additionalDirections": ""
     },
     {
+      "id": 4,
       "coords": {
         "lat": 29.33097809730989,
         "lng": 48.070637947082524
       },
-      "mapAddress": "1,قطعة 10,السالمية",
+      "mapAddress": "HALA WALLA",
       "area": "السالمية",
       "block": "قطعة 10",
       "street": "1",
       "building": "r",
       "floor": "",
-      "additionalDirections": "",
-      "id": 4
+      "additionalDirections": ""
     }
   ],
   "cart": [
@@ -50,15 +50,31 @@
       "price": "5.000 KD",
       "quantity": 1,
       "slug": "big-daddy",
-      "id": 4
+      "id": 17
     },
     {
-      "image": "/images/burger.jpg",
-      "name": "Big Mac Burger",
-      "price": "2.000 KD",
-      "quantity": 3,
-      "slug": "s-burger",
-      "id": 6
+      "image": "/images/meal.jpg",
+      "name": "Big Daddy Rockar Meal",
+      "price": "5.000 KD",
+      "quantity": 1,
+      "slug": "big-daddy",
+      "id": 18
+    },
+    {
+      "image": "/images/meal.jpg",
+      "name": "Big Daddy Rockar Meal",
+      "price": "5.000 KD",
+      "quantity": 1,
+      "slug": "big-daddy",
+      "id": 19
+    },
+    {
+      "image": "/images/meal.jpg",
+      "name": "Big Daddy Rockar Meal",
+      "price": "5.000 KD",
+      "quantity": 1,
+      "slug": "big-daddy",
+      "id": 20
     }
   ],
   "branches": [
@@ -177,10 +193,13 @@
         "logo": "/images/bookey.png"
       }
     ],
-    "order_modes": [
-      "delivery",
-      "pickup"
-    ],
-    "cart_total": "3.250"
+    "order_modes": ["delivery", "pickup"],
+    "cart_total": "3.250",
+    "is_user": true,
+    "user": {
+      "name": "Maher Khawandi",
+      "phone": "+96550678621",
+      "payment": "k-net"
+    }
   }
 }

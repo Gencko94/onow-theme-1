@@ -25,7 +25,7 @@ const ThemeProvider: React.FC = ({ children }) => {
   const { i18n } = useTranslation();
 
   const fontFamily = useMemo(
-    () => (i18n.language === 'ar' ? 'Cairo' : 'Nunito'),
+    () => (i18n.language === 'ar' ? 'Cairo' : 'AmazonEmber'),
     [i18n.language]
   );
 
@@ -38,8 +38,9 @@ const ThemeProvider: React.FC = ({ children }) => {
       fontFamily,
       breakpoints: devices,
       font: {
+        light: '300',
         regular: '400',
-        semibold: '600',
+        semibold: '500',
         bold: '700',
         xbold: '800',
       },
@@ -74,4 +75,5 @@ export default ThemeProvider;
 const Container = styled.div<{ lang: string }>`
   font-family: ${props => props.theme.fontFamily};
   direction: ${props => (props.lang === 'ar' ? 'rtl' : 'ltr')};
+  overflow: hidden;
 `;

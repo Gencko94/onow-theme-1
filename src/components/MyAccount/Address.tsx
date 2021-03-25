@@ -91,7 +91,7 @@ const Container = styled.div`
 `;
 const AddressTitle = styled.h6(
   ({ theme: { breakpoints, headingColor, font } }) => `
-  font-weight: ${font.xbold};
+  font-weight: ${font.bold};
 
   font-size: 1rem;
   color: ${headingColor};
@@ -119,8 +119,10 @@ const DefaultLocationContainer = styled.div`
   color: ${props => props.theme.green};
   align-self: flex-start;
   padding: 0.25rem 0;
+  font-weight: ${props => props.theme.font.semibold};
 `;
 const SetDefaultLocation = styled.button`
+  font-weight: ${props => props.theme.font.semibold};
   align-self: flex-start;
   font-size: 0.7rem;
   color: ${props => props.theme.green};
@@ -131,7 +133,6 @@ const SetDefaultLocation = styled.button`
 `;
 const DefaultText = styled.p`
   font-size: 0.7rem;
-  font-weight: ${props => props.theme.font.semibold};
   margin: 0 0.25rem;
 `;
 
@@ -142,6 +143,7 @@ const EditButton = styled.button<{ col: string }>`
   align-items: center;
   justify-content: center;
   border-radius: 6px;
+  font-weight: ${props => props.theme.font.semibold};
 `;
 const RemoveButton = styled.button<{ col: string }>`
   color: ${props =>
@@ -152,11 +154,12 @@ const RemoveButton = styled.button<{ col: string }>`
   background-color: ${props => props.theme.btnPrimaryDark};
   padding: 0.25rem;
   border-radius: 6px;
+  font-weight: ${props => props.theme.font.semibold};
   color: ${props => props.theme.btnText};
 `;
 
 const Label = styled.p`
-  font-weight: ${props => props.theme.font.bold};
+  font-weight: ${props => props.theme.font.regular};
   display: block;
   font-size: 0.9rem;
   color: ${props => props.theme.subHeading};

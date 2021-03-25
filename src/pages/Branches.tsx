@@ -145,14 +145,14 @@ const BranchNameContainer = styled.div`
   justify-content: center;
   align-items: center;
 `;
-const BranchName = styled.h5(
+const BranchName = styled.h6(
   ({ theme: { breakpoints, font, headingColor } }) => `
   color: ${headingColor};
-  font-weight: ${font.xbold};
-  font-size:1.1rem;
+  font-weight: ${font.bold};
+  font-size:1rem;
   flex:1;
   @media ${breakpoints.md} {
-    font-size:1.25rem;
+    font-size: 1.1rem;
   }
 `
 );
@@ -187,7 +187,7 @@ const DetailsButton = styled(Link)(
     },
   }) => `
   display: block;
-  font-weight:${font.bold};
+  font-weight:${font.semibold};
   padding: 0.25rem 0.5rem;
   border-radius: 15px;
   color: #fff;
@@ -225,7 +225,7 @@ const MainBranch = styled.p(
     color:${green};
     margin: 0 .25rem;
     font-size: 0.8rem;
-    font-weight:${font.semibold};
+    font-weight:${font.regular};
     @media ${breakpoints.md}{
       font-size: 0.8rem;
     }
@@ -241,10 +241,10 @@ const Directions = styled.p(
   ({ theme: { breakpoints, subHeading, font } }) => `
 color:${subHeading};
 font-size:.8rem;
-font-weight:${font.bold};
+font-weight:${font.regular};
 margin: .25rem 0;
 @media ${breakpoints.md}{
-font-size:1rem;
+font-size:0.9rem;
 }
 `
 );

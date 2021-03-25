@@ -58,36 +58,49 @@ export default MyProfile;
 const Container = styled.div(
   ({ theme: { breakpoints } }) => `
 
-   @media ${breakpoints.md}{
-     max-width:1100px;
-     margin:0 auto;
+  @media ${breakpoints.md}{
+    max-width:960px;
+    margin:0 auto;
+    display:grid;
+    grid-template-columns:1fr 1fr 1fr;
+    gap:1rem;
+    padding:1rem 0.5rem;
+  }
+  @media ${breakpoints.lg}{
      padding:1rem 0.5rem;
+     max-width:1100px;
+    
    }
 `
 );
 const Title = styled.h5(
-  ({ theme: { breakpoints, font, headingColor } }) => `
-  font-weight:${font.bold};
- 
- 
+  ({ theme: { breakpoints, font } }) => `
+  font-weight:${font.regular};
+  
   @media ${breakpoints.xs} {
-     
-    }
+    
+    font-size:1rem;
+  }
+  @media ${breakpoints.lg} {
+    
+    font-size:1.1rem;
+  }
   }
 `
 );
 const Box = styled.div(
-  ({ theme: { breakpoints, overlayColor, btnBorder } }) => `
-  background-color: ${overlayColor};
+  ({ theme: { breakpoints, overlayColor, btnBorder, shadow } }) => `
+  background: ${overlayColor};
   margin: 0.5rem 0 1rem 0;
   overflow: hidden;
+  box-shadow:${shadow};
   @media ${breakpoints.xs}{
-    border-top: 1px solid ${btnBorder};
-    border-bottom: 1px solid ${btnBorder};
+    border-top: ${btnBorder};
+    border-bottom: ${btnBorder};
     
   }
   @media ${breakpoints.md}{
-    border: 1px solid ${btnBorder};
+    border: ${btnBorder};
     border-radius:6px;
     margin: 0;
     margin-bottom:1rem;
@@ -97,7 +110,7 @@ const Box = styled.div(
 );
 
 const BoxHead = styled.div`
-  padding: 0.75rem;
+  padding: 0.5rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -110,18 +123,19 @@ const Block = styled.div`
   padding: 0.5rem;
 `;
 const Label = styled.h6(
-  ({ theme: { breakpoints, headingColor } }) => `
+  ({ theme: { breakpoints, headingColor, font } }) => `
   margin-bottom: 0.25rem;
+  font-weight:${font.semibold};
   display: block;
   font-size: 1rem;
   color: ${headingColor};
   @media ${breakpoints.md}{
-    font-size:1.2rem;
+    font-size:1rem;
   }
 `
 );
 const Info = styled.p`
-  font-weight: ${props => props.theme.font.semibold};
+  font-weight: ${props => props.theme.font.regular};
   color: ${props => props.theme.subHeading};
 `;
 const PaymentMethodsContainer = styled.div`
@@ -155,16 +169,18 @@ const PaymentMethodImage = styled.img`
 `;
 
 const Button = styled.button(
-  ({ theme: { breakpoints, font, btnPrimaryDark, btnText } }) => `
-  border-radius: 8px;
-  background-color: ${btnPrimaryDark};
+  ({ theme: { breakpoints, font, btnBorder, btnPrimaryLight, btnText } }) => `
+  border-radius: 6px;
+  background-color: ${btnPrimaryLight};
+  // border:${btnBorder};
   color: ${btnText};
-  padding: 0.5rem;
-  font-size:.9rem;
-  font-weight: ${font.bold};
+  // padding: 0.5rem;
+  font-size:.8rem;
+  text-decoration:underline;
+  font-weight: ${font.semibold};
   @media ${breakpoints.md}{
-    font-size:1rem;
-    padding: 0.25rem 0.5rem;
+    font-size:0.8rem;
+    // padding: 0.25rem 0.5rem;
   }
 `
 );

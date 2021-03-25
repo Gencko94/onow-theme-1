@@ -75,6 +75,7 @@ const Container = styled.div<{
   changeView: boolean;
   shouldChange: boolean;
 }>`
+  font-weight: ${props => props.theme.font.regular};
   display: flex;
   align-items: center;
   justify-content: space-between;

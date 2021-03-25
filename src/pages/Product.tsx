@@ -45,7 +45,7 @@ const Product = () => {
           quantity,
           slug: product.slug,
         });
-        history.goBack();
+        history.push('/cart');
       } catch (error) {
         console.log(error);
       }

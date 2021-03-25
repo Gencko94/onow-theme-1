@@ -16,6 +16,11 @@ export type PAYMENT_METHOD = {
   };
   logo: string;
 };
+export type USER = {
+  name: string;
+  phone: string;
+  payment: string;
+};
 export interface Init {
   store_name: STORE_NAME;
   store_images: STORE_IMAGES;
@@ -23,4 +28,6 @@ export interface Init {
   payment_methods: PAYMENT_METHOD[];
   order_modes: string[];
   cart_total: string;
+  user: USER;
+  is_user: boolean;
 }

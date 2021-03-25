@@ -10,6 +10,7 @@ import { UserInfoProvider } from '../contexts/UserInfoContext';
 import Layout from '../layout/Layout';
 import { getAddresses } from '../utils/queries';
 import { AiOutlinePlus } from 'react-icons/ai';
+import { motion, Variants } from 'framer-motion';
 
 const MyAddresses = () => {
   const { t } = useTranslation(['addresses']);
@@ -32,51 +33,75 @@ const MyAddresses = () => {
       street: 'شارع حمد المبارك',
     });
   }, []);
+  const containerVariants: Variants = {
+    hidden: {
+      x: '100%',
+      opacity: 0,
+    },
+    visible: {
+      x: 0,
+      opacity: 1,
+      transition: {
+        type: 'tween',
+      },
+    },
+    exit: {
+      x: '-100%',
+      opacity: 0,
+    },
+  };
   return (
     <Layout>
       <MobileHeader title="my-addresses" />
-      <Container>
-        {isLoading && (
-          <AddressesContainer>
-            {[0, 1, 2].map(i => (
-              <ReactPlaceholder
-                key={i}
-                type="textRow"
-                style={{
-                  width: '100%',
-                  height: '120px',
-                  borderRadius: '6px',
-                  margin: '0',
-                }}
-                color="#E0E0E0"
-                showLoadingAnimation
-                ready={Boolean(data)}
-              >
-                <></>
-              </ReactPlaceholder>
-            ))}
-          </AddressesContainer>
-        )}
-        {data && data.length > 0 && (
-          <AddressesContainer>
-            {data.map(address => (
-              <Address key={address.id} address={address} />
-            ))}
-            <AddNewAddress onClick={() => history.push('/address/add')}>
-              <AiOutlinePlus size={25} /> {t('addbtn')}
-            </AddNewAddress>
-          </AddressesContainer>
-        )}
-        {data && data.length === 0 && (
-          <NoAddressesContainer>
-            <Title>{t('no-addresses')}</Title>
-            <Button onClick={() => history.push('/address/add')}>
-              <AiOutlinePlus size={25} />
-              {t('addbtn')}
-            </Button>
-          </NoAddressesContainer>
-        )}
-      </Container>
+      <motion.div
+        variants={containerVariants}
+        initial="hidden"
+        animate="visible"
+        exit="exit"
+      >
+        <Container>
+          {isLoading && (
+            <AddressesContainer>
+              {[0, 1, 2].map(i => (
+                <ReactPlaceholder
+                  key={i}
+                  type="textRow"
+                  style={{
+                    width: '100%',
+                    height: '120px',
+                    borderRadius: '6px',
+                    margin: '0',
+                  }}
+                  color="#E0E0E0"
+                  showLoadingAnimation
+                  ready={Boolean(data)}
+                >
+                  <></>
+                </ReactPlaceholder>
+              ))}
+            </AddressesContainer>
+          )}
+          {data && data.length > 0 && (
+            <AddressesContainer>
+              {data.map(address => (
+                <Address key={address.id} address={address} />
+              ))}
+              <AddNewAddress onClick={() => history.push('/address/add')}>
+                <AiOutlinePlus size={25} /> {t('addbtn')}
+              </AddNewAddress>
+            </AddressesContainer>
+          )}
+          {data && data.length === 0 && (
+            <NoAddressesContainer>
+              <Title>{t('no-addresses')}</Title>
+              <Button onClick={() => history.push('/address/add')}>
+                <AiOutlinePlus size={25} />
+                {t('addbtn')}
+              </Button>
+            </NoAddressesContainer>
+          )}
+        </Container>
+      </motion.div>
     </Layout>
   );
 };

@@ -1,42 +1,53 @@
+import { AnimatePresence, m } from 'framer-motion';
 import { useContext, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { FiChevronDown } from 'react-icons/fi';
-import { Link } from 'react-router-dom';
-import { CSSTransition } from 'react-transition-group';
+import { Link, useHistory } from 'react-router-dom';
 import styled from 'styled-components';
+import { ApplicationProvider } from '../../contexts/ApplicationContext';
 import { ThemeContext } from '../../contexts/ThemeContext';
 
 const LeftSideIcons = () => {
+  const { user, is_user } = useContext(ApplicationProvider);
   const { t } = useTranslation();
   const { mode } = useContext(ThemeContext);
   const [menuOpen, setMenuOpen] = useState(false);
+  const history = useHistory();
   return (
     <Container>
-      <IconContainer mode={mode} to="/login">
-        <IconText>{t('login')}</IconText>
-      </IconContainer>
-      <AccountIconContainer
-        mode={mode}
-        onMouseEnter={() => setMenuOpen(true)}
-        onMouseLeave={() => setMenuOpen(false)}
-      >
-        <IconText>{t('hello')} Maher</IconText>
-        <Icon>
-          <FiChevronDown size={20} />
-        </Icon>
-        <CSSTransition
-          in={menuOpen}
-          timeout={200}
-          unmountOnExit
-          classNames="account-menu"
+      {!is_user && (
+        <IconContainer mode={mode} to="/login">
+          <IconText>{t('login')}</IconText>
+        </IconContainer>
+      )}
+      {is_user && (
+        <AccountIconContainer
+          mode={mode}
+          onMouseEnter={() => setMenuOpen(true)}
+          onMouseLeave={() => setMenuOpen(false)}
         >
-          <AccountMenu mode={mode}>
-            <MenuItem to="/user/profile">{t('my-profile')}</MenuItem>
-            <MenuItem to="/user/addresses">{t('my-addresses')}</MenuItem>
-            <MenuItem to="/user/orders">{t('my-orders')}</MenuItem>
-          </AccountMenu>
-        </CSSTransition>
-      </AccountIconContainer>
+          <IconText>
+            {t('hello')} {user?.name}
+          </IconText>
+          <Icon>
+            <FiChevronDown size={20} />
+          </Icon>
+          <AnimatePresence>
+            {menuOpen && (
+              <AccountMenu
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                mode={mode}
+              >
+                <MenuItem to="/user/profile">{t('my-profile')}</MenuItem>
+                <MenuItem to="/user/addresses">{t('my-addresses')}</MenuItem>
+                <MenuItem to="/user/orders">{t('my-orders')}</MenuItem>
+              </AccountMenu>
+            )}
+          </AnimatePresence>
+        </AccountIconContainer>
+      )}
     </Container>
   );
 };
@@ -74,7 +85,6 @@ const IconText = styled.p`
   font-size: 0.9rem;
   color: #fff;
   transition: color 250ms;
-  font-weight: ${props => props.theme.font.bold};
   margin: 0 0.25rem;
 `;
 const AccountIconContainer = styled.div<{ mode?: string }>`
@@ -93,7 +103,7 @@ const AccountIconContainer = styled.div<{ mode?: string }>`
     background-color: rgba(0, 0, 0, 0.3);
   }
 `;
-const AccountMenu = styled.div<{ mode?: string }>`
+const AccountMenu = styled(m.div)<{ mode?: string }>`
   width: 100%;
   position: absolute;
   top: 100%;

@@ -18,22 +18,24 @@ const Branch = () => {
     <Layout>
       <MobileHeader title="our-branches" />
       <Container>
-        <img
-          src={`https://maps.googleapis.com/maps/api/staticmap?center=${branch?.coords.lat},${branch?.coords.lng}&zoom=15&size=400x400&key=${process.env.REACT_APP_GOOGLE_MAPS_API_KEY}`}
-          alt={branch?.name[i18n.language]}
-        />
+        <ImageContainer>
+          <Image
+            src={`https://maps.googleapis.com/maps/api/staticmap?center=${branch?.coords.lat},${branch?.coords.lng}&zoom=15&size=400x400&key=${process.env.REACT_APP_GOOGLE_MAPS_API_KEY}`}
+            alt={branch?.name[i18n.language]}
+          />
+        </ImageContainer>
         <ContentContainer>
           <Name>{branch?.name[i18n.language]}</Name>
-          <OpenNow isOpen={branch?.openNow}>
+          {/* <OpenNow isOpen={branch?.openNow}>
             {branch?.openNow ? t('open-now') : t('closed')}
-          </OpenNow>
+          </OpenNow> */}
           <Address>{branch?.directions[i18n.language]}</Address>
-          <BookingButtonContainer>
+          {/* <BookingButtonContainer>
             <DirectionsButton>
               <MdDirections size={20} />
               <ButtonText>{t('directions')}</ButtonText>
             </DirectionsButton>
-          </BookingButtonContainer>
+          </BookingButtonContainer> */}
         </ContentContainer>
         <OpeningHoursContainer>
           <OpeningHoursTitle>{t('opening-hours')}</OpeningHoursTitle>
@@ -59,15 +61,16 @@ export default Branch;
 
 const Container = styled.div(
   ({ theme: { breakpoints, overlayColor, btnBorder } }) => `
-  padding:  1rem 0.25rem;
+  padding:  0 0.5rem;
   display:grid;
   gap:0.5rem;
   grid-template-columns:1fr;
   @media ${breakpoints.md}{
+    padding:  1rem 0.75rem;
     grid-template-columns:0.6fr 1fr 0.6fr;
     max-width:960px;
     margin:0 auto;
-    gap:1rem;
+    gap:0.5rem;
   }
   @media ${breakpoints.lg}{
     max-width:1100px;
@@ -75,35 +78,63 @@ const Container = styled.div(
   }
   `
 );
-const ContentContainer = styled.div(
+const ImageContainer = styled.div(
   ({ theme: { breakpoints, overlayColor, btnBorder } }) => `
-  // padding: 0.25rem 1rem;
-  // display:grid;
-  // grid-template-columns:1fr;
-  // @media ${breakpoints.md}{
-
-  // }
+  max-height:175px;
+  margin-top:0.5rem;
+  border-radius:8px;
+  overflow:hidden;
+  
+  
+  @media ${breakpoints.md}{
+      margin-top:0;
+      max-height:100%;
+    }
   `
 );
-const Name = styled.h1`
-  font-size: 1.5rem;
-  color: ${({ theme }) => theme.headingColor};
-  font-weight: ${props => props.theme.font.xbold};
+const Image = styled.img`
+  max-height: 100%;
+  width: 100%;
+  object-fit: cover;
+  object-position: center;
 `;
+const ContentContainer = styled.div(
+  ({ theme: { breakpoints, overlayColor, btnBorder } }) => `
+  padding: 0.5rem 0;
+  @media ${breakpoints.md}{
+    
+    padding: 0;
+  }
+  `
+);
+const Name = styled.h4(
+  ({ theme: { breakpoints, headingColor, font } }) => `
+  font-size: 1.3rem;
+  color: ${headingColor};
+  font-weight: ${font.bold};
+`
+);
 const OpenNow = styled.p<{ isOpen?: boolean }>`
-  color: ${props => (props.isOpen ? props.theme.green : 'red')};
-  font-weight: ${props => props.theme.font.bold};
+  color: ${props => (props.isOpen ? props.theme.green : props.theme.dangerRed)};
+  font-weight: ${props => props.theme.font.semibold};
 `;
-const Address = styled.p`
-  font-weight: ${props => props.theme.font.bold};
-  color: ${props => props.theme.subHeading};
-`;
+const Address = styled.p(
+  ({ theme: { breakpoints, subHeading, font } }) => `
+color:${subHeading};
+font-size:0.9rem;
+font-weight:${font.regular};
+margin: .25rem 0;
+@media ${breakpoints.md}{
+font-size:1rem;
+}
+`
+);
 
 const OpeningHoursTitle = styled.h6`
   font-size: 1.1rem;
-  color: ${({ theme }) => theme.subHeading};
+  color: ${({ theme }) => theme.headingColor};
   margin-bottom: 0.5rem;
-  font-weight: ${props => props.theme.font.bold};
+  font-weight: ${props => props.theme.font.semibold};
 `;
 
 const OpeningHoursContainer = styled.div``;
@@ -137,13 +168,14 @@ const BookingButtonContainer = styled.div`
   display: flex;
   justify-content: flex-end;
   align-items: center;
-  padding: 1rem;
+  padding: 0.5rem 0;
 `;
 const DirectionsButton = styled.button`
   display: flex;
   align-items: center;
   justify-content: center;
   margin: 0 0.25rem;
+  font-size: 0.9rem;
   background-color: ${props => props.theme.btnPrimaryLight};
   padding: 0.5rem;
   border-radius: 20px;

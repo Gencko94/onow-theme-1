@@ -1,5 +1,4 @@
-import React, { Dispatch, SetStateAction } from 'react';
-import { gsap } from 'gsap';
+import React, { Dispatch, SetStateAction, useContext } from 'react';
 import styled from 'styled-components';
 import { IoMdListBox } from 'react-icons/io';
 import { BiGitBranch, BiMapAlt } from 'react-icons/bi';
@@ -13,65 +12,51 @@ import {
 import { Link } from 'react-router-dom';
 import ThemeToggler from '../../../utils/ThemeToggler';
 import { useTranslation } from 'react-i18next';
+import { ApplicationProvider } from '../../../contexts/ApplicationContext';
 
 interface IProps {
   setDrawerOpen: Dispatch<SetStateAction<boolean>>;
 }
 const Drawer = ({ setDrawerOpen }: IProps) => {
   const { t, i18n } = useTranslation();
+  const { user, is_user, store_name } = useContext(ApplicationProvider);
   let topSectionRef = React.useRef<HTMLDivElement | null>(null);
   let linksRef = React.useRef<HTMLDivElement | null>(null);
-  const tl = gsap.timeline();
-  React.useEffect(() => {
-    const menuLinks = topSectionRef.current?.lastElementChild;
-    const logo = topSectionRef.current?.firstElementChild;
-    const links = linksRef.current;
-    if (menuLinks && logo && links) {
-      tl.from(logo, {
-        duration: 0.7,
-        scale: 0,
-        delay: 0.3,
-        transformOrigin: 'center',
-        ease: 'Back.easeOut',
-      })
-        .from(
-          menuLinks.children,
-          {
-            duration: 0.4,
-            y: 500,
-            stagger: 0.1,
-            opacity: 0,
-            ease: 'Power4.easeOut',
-          },
-          '0.3'
-        )
-        .from(
-          links.children,
-          {
-            duration: 0.4,
-            x: 500,
-            stagger: 0.1,
-            opacity: 0,
-            ease: 'Power4.easeOut',
-          },
-          '.3'
-        );
-    }
-  }, []);
+
   const handleDrawerClose = () => {
-    tl.reverse();
     setDrawerOpen(false);
   };
   return (
     <DrawerContainer rtl={i18n.language === 'ar'}>
       <TopSection ref={topSectionRef}>
+        {is_user && (
+          <NameWrapper>
+            <Name>
+              {t('hello')} {user?.name} !
+            </Name>
+            <PhoneNumber>{user?.phone}</PhoneNumber>
+          </NameWrapper>
+        )}
+        {!is_user && (
+          <NameWrapper>
+            <Name>{store_name?.[i18n.language]}</Name>
+            <ButtonsContainer>
+              <Button to="/login">
+                <AiOutlinePoweroff size={20} />
+                <Text>Login</Text>
+              </Button>
+              <Button to="/register">
+                <AiOutlineUserAdd size={20} />
+                <Text>Register</Text>
+              </Button>
+            </ButtonsContainer>
+          </NameWrapper>
+        )}
         <LogoWrapper>
           <LogoContainer>
             <img src="/images/logo.png" alt="logo" />
           </LogoContainer>
         </LogoWrapper>
-        <Name>Hello Maher !</Name>
-        <PhoneNumber>+96550678621</PhoneNumber>
       </TopSection>
       <LinksContainer ref={linksRef}>
         <LinkContainer>
@@ -83,18 +68,24 @@ const Drawer = ({ setDrawerOpen }: IProps) => {
           <BiGitBranch size={20} />
           <Linkitem to="/branches">{t('common:our-branches')}</Linkitem>
         </LinkContainer>
-        <LinkContainer>
-          <AiOutlineUnorderedList size={20} />
-          <Linkitem to="/">{t('common:my-orders')}</Linkitem>
-        </LinkContainer>
-        <LinkContainer>
-          <HiUserCircle size={20} />
-          <Linkitem to="/user/profile">{t('common:my-profile')}</Linkitem>
-        </LinkContainer>
-        <LinkContainer>
-          <BiMapAlt size={20} />
-          <Linkitem to="/user/addresses">{t('common:my-addresses')}</Linkitem>
-        </LinkContainer>
+        {is_user && (
+          <>
+            <LinkContainer>
+              <HiUserCircle size={20} />
+              <Linkitem to="/user/profile">{t('common:my-profile')}</Linkitem>
+            </LinkContainer>
+            <LinkContainer>
+              <AiOutlineUnorderedList size={20} />
+              <Linkitem to="/">{t('common:my-orders')}</Linkitem>
+            </LinkContainer>
+            <LinkContainer>
+              <BiMapAlt size={20} />
+              <Linkitem to="/user/addresses">
+                {t('common:my-addresses')}
+              </Linkitem>
+            </LinkContainer>
+          </>
+        )}
         <LinkContainer>
           <HiOutlineMail size={20} />
           <Linkitem to="/">{t('common:contact-us')}</Linkitem>
@@ -109,16 +100,6 @@ const Drawer = ({ setDrawerOpen }: IProps) => {
           <ThemeToggler />
         </Toggler>
       </LinksContainer>
-      <ButtonsContainer>
-        <Button to="/login">
-          <AiOutlinePoweroff size={20} />
-          <Text>Login</Text>
-        </Button>
-        <Button to="/register">
-          <AiOutlineUserAdd size={20} />
-          <Text>Register</Text>
-        </Button>
-      </ButtonsContainer>
     </DrawerContainer>
   );
 };
@@ -139,6 +120,10 @@ const DrawerContainer = styled.div<{ rtl: boolean }>`
 const TopSection = styled.div`
   /* background-color: ${props => props.theme.mainColor}; */
   color: #fff;
+  margin-top: 3rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   /* height: 200px; */
   padding: 1rem;
 `;
@@ -147,21 +132,27 @@ const LogoWrapper = styled.div`
   justify-content: center;
   align-items: center;
 `;
+const NameWrapper = styled.div``;
 const LogoContainer = styled.div`
   border-radius: 50%;
-  width: 100px;
-  height: 100px;
+  width: 75px;
+  height: 75px;
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
   margin-bottom: 0.5rem;
 `;
-const Name = styled.h4`
-  color: ${props => props.theme.headingColor};
+const Name = styled.h4(
+  ({ theme: { breakpoints, headingColor } }) => `
+
+  font-size:1.3rem;
+  color: ${headingColor};
   margin-bottom: 0.25rem;
-`;
+  
+`
+);
 
 const PhoneNumber = styled.p`
   color: ${props => props.theme.subHeading};
-  font-weight: ${props => props.theme.font.bold};
+  font-weight: ${props => props.theme.font.regular};
 `;
 const LinksContainer = styled.div`
   padding: 1rem;
@@ -173,12 +164,12 @@ const LinkContainer = styled.div`
   color: ${props => props.theme.subHeading};
   display: flex;
   align-items: center;
-  font-weight: ${props => props.theme.font.bold};
+  font-weight: ${props => props.theme.font.regular};
   margin: 0.25rem 0;
 `;
 const Linkitem = styled(Link)`
   display: block;
-  font-size: 1.2rem;
+  font-size: 1.1rem;
   margin: 0 0.5rem;
 `;
 const Toggler = styled.div`
@@ -193,18 +184,21 @@ const ButtonsContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-top: 2rem;
-  padding: 1rem;
+  margin-top: 0.75rem;
+  /* padding: 1rem; */
 `;
 const Button = styled(Link)`
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: 0 0.25rem;
-  padding: 0.75rem;
-  background-color: ${props => props.theme.btnPrimaryLight};
-  color: ${props => props.theme.btnText};
-  border-radius: 19px;
-  font-weight: ${props => props.theme.font.bold};
-  width: 115px;
+  /* margin: 0 0.25rem; */
+  border: ${props => props.theme.btnBorder};
+  text-decoration: underline;
+  padding: 0.25rem 0.5rem;
+  font-size: 0.8rem;
+  /* background-color: ${props => props.theme.btnPrimaryLight}; */
+  color: ${props => props.theme.subHeading};
+  border-radius: 5px;
+  font-weight: ${props => props.theme.font.semibold};
+  /* width: 115px; */
 `;

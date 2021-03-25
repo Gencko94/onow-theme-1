@@ -9,7 +9,6 @@ const GlobalStyle = createGlobalStyle`
 	outline: 0;
 	padding: 0;
 	margin: 0;
-  font-family:inherit;
 }
 body {
   min-height: 100vh;

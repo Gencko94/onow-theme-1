@@ -1,11 +1,4 @@
-import { gsap } from 'gsap';
-import {
-  Dispatch,
-  SetStateAction,
-  useContext,
-  useEffect,
-  useMemo,
-} from 'react';
+import { Dispatch, SetStateAction, useContext, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
 import { ThemeContext } from '../../../contexts/ThemeContext';
@@ -32,35 +25,31 @@ const HamburgerButton = styled.button<{ rtl: boolean }>`
 const Hamburger = ({ drawerOpen, setDrawerOpen }: IProps) => {
   const { i18n } = useTranslation();
   const { mode } = useContext(ThemeContext);
-  const timeline = useMemo(() => {
-    return gsap.timeline({ paused: true, defaults: { duration: 0.5 } });
-  }, []);
+
   const handleDrawer = () => {
     if (drawerOpen) {
       setDrawerOpen(false);
-      timeline.reverse();
     } else {
       setDrawerOpen(true);
-      timeline.play();
     }
   };
-  useEffect(() => {
-    if (drawerOpen) {
-      timeline.play();
-    } else {
-      timeline.reverse();
-    }
-  }, [drawerOpen, timeline]);
-  useEffect(() => {
-    timeline
-      .to('#ham_first-bar', { rotate: 45, y: 7, transformOrigin: 'center' }, 0)
-      .to('#ham_second-bar', { scale: 0, transformOrigin: 'center' }, 0)
-      .to(
-        '#ham_third-bar',
-        { rotate: -45, y: -7, transformOrigin: 'center' },
-        0
-      );
-  }, [timeline]);
+  // useEffect(() => {
+  //   if (drawerOpen) {
+  //     timeline.play();
+  //   } else {
+  //     timeline.reverse();
+  //   }
+  // }, [drawerOpen, timeline]);
+  // useEffect(() => {
+  //   timeline
+  //     .to('#ham_first-bar', { rotate: 45, y: 7, transformOrigin: 'center' }, 0)
+  //     .to('#ham_second-bar', { scale: 0, transformOrigin: 'center' }, 0)
+  //     .to(
+  //       '#ham_third-bar',
+  //       { rotate: -45, y: -7, transformOrigin: 'center' },
+  //       0
+  //     );
+  // }, [timeline]);
   return (
     <HamburgerButton rtl={i18n.language === 'ar'} onClick={handleDrawer}>
       <svg

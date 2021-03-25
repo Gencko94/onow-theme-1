@@ -61,5 +61,4 @@ const IconText = styled.p`
   font-size: 0.9rem;
   color: #fff;
   transition: color 250ms;
-  font-weight: ${props => props.theme.font.bold};
 `;

@@ -1,7 +1,6 @@
 import styled from 'styled-components';
 import { IoMdClose } from 'react-icons/io';
 
-import { CSSTransition } from 'react-transition-group';
 import { AiOutlineInfoCircle } from 'react-icons/ai';
 import { BiCheckCircle, BiCircle } from 'react-icons/bi';
 import { branches } from '../../data/branches';
@@ -25,74 +24,59 @@ const Modal = ({ title, closeModal, modalOpen }: ModalProps) => {
   const { handleBranchChange } = useContext(ApplicationProvider);
   return (
     <>
-      <CSSTransition
-        in={modalOpen}
-        classNames="modal"
-        unmountOnExit
-        mountOnEnter
-        timeout={300}
-      >
-        <Container>
-          <ModalHead>
-            <CloseIcon onClick={() => closeModal()}>
-              <IoMdClose size={25} />
-            </CloseIcon>
-            <TitleContainer>
-              <Title>{title}</Title>
-            </TitleContainer>
-          </ModalHead>
-          <ModalBody>
-            <BranchesListContainer>
-              {branches.map(b => (
-                <BranchContainer
-                  onClick={() => {
-                    setHighlightedBranch(b);
-                  }}
-                  selected={highlightedBranch?.name === b.name}
-                  key={b.id}
-                >
-                  <BranchName>{b.name}</BranchName>
-                  <IconsContainer>
-                    <IconContainer onClick={() => history.push('/branches')}>
-                      <AiOutlineInfoCircle size={25} />
-                    </IconContainer>
-                    <IconContainer>
-                      {b.name === highlightedBranch?.name ? (
-                        <BiCheckCircle size={25} />
-                      ) : (
-                        <BiCircle size={25} />
-                      )}
-                    </IconContainer>
-                  </IconsContainer>
-                </BranchContainer>
-              ))}
-            </BranchesListContainer>
-          </ModalBody>
-          <ModalFooter>
-            <ButtonContainer>
-              <ConfirmButton
+      <Container>
+        <ModalHead>
+          <CloseIcon onClick={() => closeModal()}>
+            <IoMdClose size={25} />
+          </CloseIcon>
+          <TitleContainer>
+            <Title>{title}</Title>
+          </TitleContainer>
+        </ModalHead>
+        <ModalBody>
+          <BranchesListContainer>
+            {branches.map(b => (
+              <BranchContainer
                 onClick={() => {
-                  if (highlightedBranch && handleBranchChange) {
-                    handleBranchChange(highlightedBranch);
-                    closeModal();
-                  }
+                  setHighlightedBranch(b);
                 }}
+                selected={highlightedBranch?.name === b.name}
+                key={b.id}
               >
-                Confirm
-              </ConfirmButton>
-            </ButtonContainer>
-          </ModalFooter>
-        </Container>
-      </CSSTransition>
-      <CSSTransition
-        in={modalOpen}
-        classNames="backdrop"
-        unmountOnExit
-        mountOnEnter
-        timeout={300}
-      >
-        <Backdrop onClick={() => closeModal()} />
-      </CSSTransition>
+                <BranchName>{b.name}</BranchName>
+                <IconsContainer>
+                  <IconContainer onClick={() => history.push('/branches')}>
+                    <AiOutlineInfoCircle size={25} />
+                  </IconContainer>
+                  <IconContainer>
+                    {b.name === highlightedBranch?.name ? (
+                      <BiCheckCircle size={25} />
+                    ) : (
+                      <BiCircle size={25} />
+                    )}
+                  </IconContainer>
+                </IconsContainer>
+              </BranchContainer>
+            ))}
+          </BranchesListContainer>
+        </ModalBody>
+        <ModalFooter>
+          <ButtonContainer>
+            <ConfirmButton
+              onClick={() => {
+                if (highlightedBranch && handleBranchChange) {
+                  handleBranchChange(highlightedBranch);
+                  closeModal();
+                }
+              }}
+            >
+              Confirm
+            </ConfirmButton>
+          </ButtonContainer>
+        </ModalFooter>
+      </Container>
+
+      <Backdrop onClick={() => closeModal()} />
     </>
   );
 };

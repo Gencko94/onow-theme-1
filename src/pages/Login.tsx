@@ -150,7 +150,7 @@ const Container = styled.div`
   align-items: center;
   justify-content: center;
   font-family: ${props => props.theme.fontFamily};
-  background-color: ${props => props.theme.bodyColor};
+  background: ${props => props.theme.bodyColor};
 `;
 
 const ContentWrapper = styled.div`
@@ -172,24 +172,25 @@ const LogoContainer = styled(Link)`
   border-radius: 50%;
 `;
 const FormContainer = styled.div`
-  padding: 0.5rem;
+  padding: 0.75rem 0.75rem;
+  border: ${props => props.theme.btnBorder};
+  box-shadow: ${props => props.theme.shadow};
   background-color: #fff;
   border-radius: 12px;
   margin-bottom: 0.5rem;
-  border: 1px solid rgba(0, 0, 0, 0.1);
-  background-color: ${props => props.theme.overlayColor};
+  background: ${props => props.theme.overlayColor};
 `;
 const Form = styled.form`
-  padding: 0.5rem 0.25rem;
+  padding: 0rem 0.25rem;
 `;
 const InputContainer = styled.div`
   margin-bottom: 0.5rem;
 `;
 const Label = styled.label`
-  color: ${({ theme }) => theme.subHeading};
+  color: ${({ theme }) => theme.headingColor};
   margin-bottom: 0.4rem;
-  font-size: 0.9rem;
-  font-weight: ${props => props.theme.font.bold};
+  font-size: 0.8rem;
+  font-weight: ${props => props.theme.font.semibold};
   display: block;
 `;
 const PhoneInputContainer = styled.div`
@@ -248,9 +249,11 @@ const SubmitButton = styled.button`
   padding: 0.5rem;
   background-color: ${props => props.theme.btnPrimaryLight};
   color: ${props => props.theme.btnText};
-  font-weight: ${props => props.theme.font.bold};
+  font-weight: ${props => props.theme.font.regular};
   border-radius: 5px;
+  border: ${props => props.theme.btnBorder};
   text-transform: uppercase;
+  font-size: 0.9rem;
   transition: background-color 75ms;
   &:hover {
     background-color: ${props => props.theme.btnPrimaryDark};
@@ -264,7 +267,7 @@ const Footer = styled.div`
 `;
 const Text = styled.p`
   font-size: 0.8rem;
-  font-weight: ${props => props.theme.font.semibold};
+  font-weight: ${props => props.theme.font.regular};
 `;
 
 const BackButtonContainer = styled.div`
@@ -294,7 +297,7 @@ const SpanLine = styled.span`
 const LoginWithText = styled.p`
   font-size: 0.8rem;
   margin: 0 0.5rem;
-  font-weight: ${props => props.theme.font.bold};
+  font-weight: ${props => props.theme.font.regular};
 `;
 const SocialLinksContainer = styled.div`
   display: flex;
@@ -302,8 +305,8 @@ const SocialLinksContainer = styled.div`
   justify-content: space-evenly;
 `;
 const InlineLink = styled(Link)`
-  color: #b72b2b;
-  font-weight: ${props => props.theme.font.bold};
+  color: ${props => props.theme.dangerRed};
+  font-weight: ${props => props.theme.font.light};
   text-decoration: underline;
 `;
 const SocialLink = styled.div<{ variant: SocialAuth }>`

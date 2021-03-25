@@ -6,7 +6,7 @@ import { CartItem } from '../interfaces/cartitem';
 import { Init } from '../interfaces/init';
 import { Product } from '../interfaces/product';
 
-const uri = 'http://localhost:3002';
+const uri = 'http://localhost:3001';
 
 export const getGeneralInfo = async (): Promise<Init> => {
   const res = await axios.get(`${uri}/init`);

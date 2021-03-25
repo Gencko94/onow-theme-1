@@ -1,3 +1,4 @@
+import { m } from 'framer-motion';
 import { useContext } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link, useHistory } from 'react-router-dom';
@@ -12,8 +13,14 @@ const MobileHeader = ({ title }: { title: string }) => {
     <Container>
       <ContentContainer>
         <TextBlock>
-          <StoreName>{store_name?.[i18n.language]}</StoreName>
-          <Title>{t(title)}</Title>
+          {/* <StoreName>{store_name?.[i18n.language]}</StoreName> */}
+          <Title
+            exit={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            initial={{ opacity: 0 }}
+          >
+            {t(title)}
+          </Title>
           <GoBack onClick={() => history.goBack()}>{t('go-back')}</GoBack>
         </TextBlock>
         <LogoWrapper>
@@ -29,7 +36,8 @@ const MobileHeader = ({ title }: { title: string }) => {
 export default MobileHeader;
 const Container = styled.div`
   padding: 0.5rem;
-  background-color: ${props => props.theme.overlayColor};
+  background: ${props => props.theme.overlayColor};
+
   border-bottom: 1px solid rgba(0, 0, 0, 0.1);
 `;
 const ContentContainer = styled.div(
@@ -53,23 +61,23 @@ const StoreName = styled.h5(
   ({ theme: { breakpoints, subHeading, font } }) => `
   margin: 0.25rem 0;
   color: ${subHeading};
-  font-weight: ${font.bold};
+  font-weight: ${font.regular};
   font-size:1.1rem;
   @media ${breakpoints.md}{
-    font-size: 1.25rem;
+    font-size: 1.1rem;
     margin: 0.5rem 0;
   }
 `
 );
 
-const Title = styled.h4(
+const Title = styled(m.h4)(
   ({ theme: { breakpoints, headingColor, font } }) => `
   margin: 0.5rem 0;
   color: ${headingColor};
-  font-weight: ${font.xbold};
+  font-weight: ${font.semibold};
   font-size:1.25rem;
   @media ${breakpoints.md}{
-    font-size: 1.5rem;
+    font-size: 1.4rem;
   }
 `
 );

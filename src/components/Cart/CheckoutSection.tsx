@@ -219,11 +219,11 @@ const CheckoutSection = ({ isLoading, data }: IProps) => {
         </StickyContainer>
       )}
 
-      <Modal
+      {/* <Modal
         title="Pick up branch"
         closeModal={() => setModalOpen(false)}
         modalOpen={modalOpen}
-      />
+      /> */}
     </>
   );
 };
@@ -260,10 +260,10 @@ const ContentWrapper = styled.div`
   padding: 0 0.5rem;
 `;
 const StickyContainer = styled.div(
-  ({ theme: { breakpoints, overlayColor, btnBorder } }) => ` 
+  ({ theme: { breakpoints, overlayColor, shadow } }) => ` 
   padding: 0.5rem;
-  background-color: ${overlayColor};
-  
+  background: ${overlayColor};
+  box-shadow:${shadow};
   width: 100%;
   z-index: 3;
   align-self: flex-start;
@@ -274,7 +274,7 @@ const StickyContainer = styled.div(
   };
   @media ${breakpoints.md} {
     position: relative;
-    border:1px solid ${btnBorder};
+    border:none;
     border-radius:6px;
   }
   @media ${breakpoints.lg} {
@@ -306,7 +306,7 @@ const RadioInput = styled.input`
 `;
 
 const SmallBlock = styled.div`
-  padding: 0.5rem 0;
+  padding: 0.25rem 0;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -319,10 +319,10 @@ const MediumBlock = styled.div`
 `;
 const BlockText = styled.h5<{ bold?: boolean }>(
   ({ theme: { breakpoints, font }, bold }) => ` 
-  font-weight: ${bold ? font.xbold : font.bold};
+  font-weight: ${bold ? font.bold : font.semibold};
   font-size:1.1rem;
   @media ${breakpoints.md}{
-    font-size:1.25rem;
+    font-size:1rem;
   }
 `
 );
@@ -335,8 +335,8 @@ const CheckoutButton = styled.button`
   color: ${props => props.theme.btnText};
   border: ${props => `1px solid ${props.theme.btnBorder}`};
   padding: 0.7em;
-  font-weight: 600;
-  text-transform: uppercase;
+  font-weight: ${props => props.theme.font.semibold};
+  /* text-transform: uppercase; */
   font-size: 0.9rem;
   letter-spacing: 1px;
   width: 100%;

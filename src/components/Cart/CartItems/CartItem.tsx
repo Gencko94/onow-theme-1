@@ -1,3 +1,4 @@
+import { m, Variants } from 'framer-motion';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { AiOutlineMinus, AiOutlinePlus, AiFillDelete } from 'react-icons/ai';
@@ -7,7 +8,6 @@ import { useMutation, useQueryClient } from 'react-query';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { CartItem as CartItemT } from '../../../interfaces/cartitem';
-import LazyImage from '../../../utils/LazyImage';
 import { deleteCartItem } from '../../../utils/queries';
 
 interface Props {
@@ -17,8 +17,24 @@ const addons = [
   { name: 'Extra Cheese', price: '0.500 KD' },
   { name: 'Extra Onions', price: '0.750 KD' },
 ];
+const containerVariants: Variants = {
+  hidden: {
+    opacity: 0,
+  },
+  visible: {
+    opacity: 1,
+  },
+  exited: {
+    x: 300,
+    opacity: 0,
+    transition: {
+      duration: 0.3,
+      ease: 'easeOut',
+    },
+  },
+};
 const CartItem = ({ product }: Props) => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const queryClient = useQueryClient();
   const { mutateAsync: deleteMutation } = useMutation(deleteCartItem, {
     onSuccess: () => {
@@ -65,7 +81,13 @@ const CartItem = ({ product }: Props) => {
     }
   };
   return (
-    <Container>
+    <Container
+      layout
+      variants={containerVariants}
+      initial="hidden"
+      animate="visible"
+      exit="exited"
+    >
       <ProductContainer>
         <ImageContainer>
           <Image src={product.image} alt={product.name} />
@@ -107,14 +129,15 @@ const CartItem = ({ product }: Props) => {
 
 export default CartItem;
 
-const Container = styled.div(
-  ({ theme: { breakpoints, btnBorder } }) => ` 
-
-  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+const Container = styled(m.div)(
+  ({ theme: { breakpoints, border, overlayColor, bodyColor, shadow } }) => ` 
+  background-color:${bodyColor};
+  border-radius:6px;
+  box-shadow:${shadow};
   padding: 0.5rem;
   @media ${breakpoints.md}{
-    border:1px solid ${btnBorder};
-    border-radius:6px;
+    background:${overlayColor};
+    // border-radius:6px;
     margin-bottom:1rem;
   }
 `
@@ -142,7 +165,7 @@ const ImageContainer = styled.div`
 `;
 const Image = styled.img(
   ({ theme: { breakpoints } }) => ` 
-border-radius:50%;
+border-radius:15px;
 @media ${breakpoints.xs} {
   width:60px;
   height:60px;
@@ -152,8 +175,8 @@ border-radius:50%;
   height:100px;
 }
 @media ${breakpoints.lg} {
-  width:120px;
-  height:120px;
+  width:140px;
+  height:140px;
 }
 `
 );
@@ -168,15 +191,15 @@ const ProductName = styled(Link)(
   ({ theme: { breakpoints, headingColor, font } }) => ` 
   display: block;
   color: ${headingColor};
-  font-weight: ${font.xbold};
+  font-weight: ${font.regular};
   @media ${breakpoints.xs}{
-    font-size:1rem;
+    font-size:0.9rem;
   }
   @media ${breakpoints.md}{
-    font-size:1.2rem;
+    font-size:1rem;
   }
   @media ${breakpoints.lg}{
-    font-size:1.4rem;
+    font-size:1.1rem;
   }
 `
 );
@@ -184,7 +207,7 @@ const AddonName = styled.p(
   ({ theme: { breakpoints, subHeading, font } }) => ` 
   font-size: 0.8rem;
   color: ${subHeading};
-  font-weight: ${font.semibold};
+  font-weight: ${font.regular};
   @media ${breakpoints.xs}{
     font-size: 0.8rem;
   }
@@ -193,18 +216,21 @@ const AddonName = styled.p(
   }
 `
 );
-const AddonPrice = styled.p`
-  color: ${props => props.theme.subHeading};
+const AddonPrice = styled.p(
+  ({ theme: { breakpoints, subHeading, font } }) => ` 
+  color: ${subHeading};
   font-size: 0.8rem;
-  font-weight: ${props => props.theme.font.bold};
-  display: flex;
-  /* align-items: center; */
-  justify-content: flex-end;
-`;
+  font-weight: ${font.regular};
+  text-align:right;
+  @media ${breakpoints.md}{
+    font-size: 0.9rem;
+  }
+`
+);
 const Price = styled.p`
   /* font-size: 0.9rem; */
   color: ${props => props.theme.headingColor};
-  font-weight: ${props => props.theme.font.xbold};
+  font-weight: ${props => props.theme.font.semibold};
   display: flex;
   /* align-items: center; */
   justify-content: flex-end;

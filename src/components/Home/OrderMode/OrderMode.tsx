@@ -1,11 +1,10 @@
 import OrderModeItem from './OrderModeItem';
 import styled from 'styled-components';
 import { Link, useHistory } from 'react-router-dom';
-import { useContext, useEffect, useRef, useState } from 'react';
+import { useContext, useState } from 'react';
 import { BiMap, BiCheckCircle, BiCircle } from 'react-icons/bi';
 import { AiOutlineInfoCircle } from 'react-icons/ai';
 import { ApplicationProvider } from '../../../contexts/ApplicationContext';
-import { gsap } from 'gsap';
 import { branches } from '../../../data/branches';
 import { Branch } from '../../../interfaces/branch';
 import { orderModes } from '../../../data/orderModes';
@@ -23,20 +22,8 @@ const OrderMode = () => {
     null
   );
   const [showChangeBranch, setShowChangeBranch] = useState<boolean>(false);
-  const pickUpRef = useRef<HTMLUListElement | null>(null);
   const history = useHistory();
 
-  useEffect(() => {
-    if (selectedOrderMode === 'pickup' && showChangeBranch) {
-      const el = pickUpRef.current;
-      if (el) {
-        gsap.from(el?.children, {
-          stagger: 0.1,
-          opacity: 0,
-        });
-      }
-    }
-  }, [selectedOrderMode, showChangeBranch]);
   return (
     <Container>
       <Title>{t('order-mode')}</Title>
@@ -95,7 +82,7 @@ const OrderMode = () => {
                 <PickupPromptContainer>
                   <PickupPrompt>Select a branch to pick up from</PickupPrompt>
                 </PickupPromptContainer>
-                <BranchesListContainer ref={pickUpRef}>
+                <BranchesListContainer>
                   {branches.map(b => (
                     <BranchContainer
                       onClick={() => {
