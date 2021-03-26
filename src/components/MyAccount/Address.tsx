@@ -85,8 +85,8 @@ export default Address;
 
 const Container = styled.div`
   border-radius: 12px;
-  background-color: ${props => props.theme.overlayColor};
-  border: 1px solid ${props => props.theme.btnBorder};
+  background: ${props => props.theme.overlayColor};
+  border: ${props => props.theme.btnBorder};
   padding: 0.5rem;
 `;
 const AddressTitle = styled.h6(

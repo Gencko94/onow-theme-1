@@ -1,10 +1,5 @@
 import './styles/transitions.css';
-import {
-  BrowserRouter as Router,
-  Route,
-  Switch,
-  useLocation,
-} from 'react-router-dom';
+import { Route, Switch, useLocation } from 'react-router-dom';
 import React from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
 import {

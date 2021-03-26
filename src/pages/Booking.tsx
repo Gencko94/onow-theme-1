@@ -5,8 +5,8 @@ import Select from 'react-select';
 import { branches } from '../data/branches';
 import { useForm } from 'react-hook-form';
 import { useEffect, useMemo, useState } from 'react';
-import DatePicker from '../utils/DatePicker';
-import TimePicker from '../utils/TimePicker';
+// import DatePicker from '../utils/DatePicker';
+// import TimePicker from '../utils/TimePicker';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 
@@ -73,17 +73,17 @@ const Booking = () => {
           <DateTimeContainer>
             <DateTimeTitle>Date</DateTimeTitle>
 
-            <DatePicker
+            {/* <DatePicker
               selectedDate={selectedDate}
               setSelectedDate={setSelectedDate}
-            />
+            /> */}
           </DateTimeContainer>
           <DateTimeContainer>
             <DateTimeTitle>Time</DateTimeTitle>
-            <TimePicker
+            {/* <TimePicker
               selectedDate={selectedDate}
               setSelectedDate={setSelectedDate}
-            />
+            /> */}
           </DateTimeContainer>
         </DateTimeWrapper>
         <Form onSubmit={handleSubmit(onSubmit)}>

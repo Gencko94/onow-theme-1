@@ -3,8 +3,6 @@ import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
 import { ApplicationProvider } from '../../contexts/ApplicationContext';
 
-import DateTimePicker from '../../utils/DateTimePicker';
-
 interface IProps {
   title: string;
 }
@@ -54,10 +52,6 @@ const OrderTime = ({ title }: IProps) => {
       {orderTimeType === 'schedule' && (
         <TimeOptionsContainer>
           <Subtitle>{t('date-time')} </Subtitle>
-          <DateTimePicker
-            selectedDate={orderTime || new Date()}
-            handleSetOrderTime={handleSetOrderTime}
-          />
         </TimeOptionsContainer>
       )}
       {/* <Subtitle bold>{orderTimeType === 'asap' ? 'ASAP' : 'Schedule'}</Subtitle> */}

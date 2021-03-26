@@ -1,7 +1,8 @@
 export type OPENING_HOUR = {
-  day: string;
+  day: number;
   from: string;
   to: string;
+  closed: boolean;
 };
 
 export interface Branch {
@@ -9,7 +10,7 @@ export interface Branch {
     [key: string]: string;
   };
   id: number;
-  openingHours: string;
+  openingHours: OPENING_HOUR[];
   openNow: boolean;
   directions: {
     [key: string]: string;

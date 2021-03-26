@@ -93,11 +93,17 @@ const LogoContainer = styled(Link)`
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
   margin-bottom: 0.5rem;
 `;
-const GoBack = styled.button`
+const GoBack = styled.button(
+  ({ theme: { breakpoints, btnText, btnPrimaryLight, btnBorder } }) => `
   padding: 0.25rem 0.5rem;
-  font-size: 0.9rem;
-  background-color: ${props => props.theme.btnPrimaryLight};
-  color: ${props => props.theme.btnText};
-  border: ${props => props.theme.btnBorder};
+  font-size: 0.8rem;
+  background-color: ${btnPrimaryLight};
+  color: ${btnText};
+  border: ${btnBorder};
   border-radius: 6px;
-`;
+  @media ${breakpoints.md}{
+    font-size: 0.9rem;
+
+  }
+  `
+);

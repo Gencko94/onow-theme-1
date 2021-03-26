@@ -6,7 +6,6 @@ import { Link, useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 import { ApplicationProvider } from '../../contexts/ApplicationContext';
 import { CartItem } from '../../interfaces/cartitem';
-import DateTimePicker from '../../utils/DateTimePicker';
 import Modal from '../Modal/Modal';
 interface IProps {
   data: CartItem[] | undefined;

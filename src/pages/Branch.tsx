@@ -6,7 +6,7 @@ import { useParams } from 'react-router';
 import { getBranch } from '../utils/queries';
 import { useQuery } from 'react-query';
 import MobileHeader from '../components/Header/MobileHeader';
-
+import { getDayStringFromNumber } from '../utils/getDayStringFromNumber';
 const Branch = () => {
   const { t, i18n } = useTranslation(['branches']);
   const { id } = useParams<{ id: string }>();
@@ -40,16 +40,16 @@ const Branch = () => {
         <OpeningHoursContainer>
           <OpeningHoursTitle>{t('opening-hours')}</OpeningHoursTitle>
           <OpeningHoursGrid>
-            <DaysContainer>
-              {days.map(day => (
-                <Day key={day}>{day}</Day>
-              ))}
-            </DaysContainer>
-            <HoursContainer>
-              {days.map(day => (
-                <Hour key={day}>{branch?.openingHours}</Hour>
-              ))}
-            </HoursContainer>
+            {branch?.openingHours.map(h => (
+              <>
+                <DaysContainer>
+                  <Day>{getDayStringFromNumber(h.day, i18n.language)}</Day>
+                </DaysContainer>
+                <HoursContainer>
+                  <Hour>{`${h.from} - ${h.to}`}</Hour>
+                </HoursContainer>
+              </>
+            ))}
           </OpeningHoursGrid>
         </OpeningHoursContainer>
       </Container>
@@ -61,7 +61,7 @@ export default Branch;
 
 const Container = styled.div(
   ({ theme: { breakpoints, overlayColor, btnBorder } }) => `
-  padding:  0 0.5rem;
+  padding:   0.5rem;
   display:grid;
   gap:0.5rem;
   grid-template-columns:1fr;
@@ -81,13 +81,11 @@ const Container = styled.div(
 const ImageContainer = styled.div(
   ({ theme: { breakpoints, overlayColor, btnBorder } }) => `
   max-height:175px;
-  margin-top:0.5rem;
   border-radius:8px;
   overflow:hidden;
   
   
   @media ${breakpoints.md}{
-      margin-top:0;
       max-height:100%;
     }
   `
@@ -142,6 +140,9 @@ const OpeningHoursGrid = styled.div`
   display: grid;
   grid-template-columns: 0.4fr 1fr;
   background-color: ${props => props.theme.overlayColor};
+  border: 1px solid #dfdfdf;
+  overflow: hidden;
+  border-radius: 5px;
 `;
 const DaysContainer = styled.div`
   border-bottom: 1px solid #dfdfdf;
@@ -150,8 +151,8 @@ const Day = styled.p`
   padding: 0.25rem;
   font-size: 0.9rem;
   color: ${({ theme }) => theme.subHeading};
-  border-top: 1px solid #dfdfdf;
-  border-left: 1px solid #dfdfdf;
+  /* border-top: 1px solid #dfdfdf; */
+  border-right: 1px solid #dfdfdf;
 `;
 const HoursContainer = styled.div`
   border-bottom: 1px solid #dfdfdf;
@@ -161,7 +162,7 @@ const Hour = styled.p`
   padding: 0.25rem;
   font-size: 0.9rem;
   color: ${({ theme }) => theme.subHeading};
-  border-top: 1px solid #dfdfdf;
+  /* border-top: 1px solid #dfdfdf; */
   border-left: 1px solid #dfdfdf;
 `;
 const BookingButtonContainer = styled.div`

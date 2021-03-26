@@ -129,8 +129,8 @@ const BranchItem = styled.div(
   padding: 0.5rem;
   border-radius: 6px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  background-color: ${overlayColor};
-  border:1px solid ${btnBorder};
+  background: ${overlayColor};
+  border:${btnBorder};
   @media ${breakpoints.md}{
     grid-template-columns: 0.3fr 1fr;
 
