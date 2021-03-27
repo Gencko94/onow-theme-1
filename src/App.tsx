@@ -72,7 +72,7 @@ function App() {
                           />
                           <Route
                             exact
-                            path="/categories/:category"
+                            path="/categories/:id"
                             component={Category}
                           />
                           <Route

@@ -1,20 +1,88 @@
+import { m, Variants } from 'framer-motion';
+import { useTranslation } from 'react-i18next';
+import ReactPlaceholder from 'react-placeholder/lib';
+import { useQuery } from 'react-query';
 import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
-import CategoryProduct from '../components/Categories/CategoryProduct';
 import Hero from '../components/Home/Hero/Hero';
-import { products } from '../data/products';
+import HomeProduct from '../components/HomeCategories/HomeProduct';
 import Layout from '../layout/Layout';
-
+import { getCategory } from '../utils/queries';
+const containerVariants: Variants = {
+  hidden: {
+    x: '100%',
+    opacity: 0,
+  },
+  visible: {
+    x: 0,
+    opacity: 1,
+    transition: {
+      type: 'tween',
+    },
+  },
+  exit: {
+    x: '-100%',
+    opacity: 0,
+  },
+};
 const Category = () => {
-  const { category } = useParams<{ category: string }>();
+  const { i18n } = useTranslation();
+  const { id } = useParams<{ id: string }>();
+  const { data: category, isLoading } = useQuery(['category', id], () =>
+    getCategory(id)
+  );
   return (
     <Layout>
       <Hero />
-      <Container>
-        <Title>{category}</Title>
+      <Container
+        variants={containerVariants}
+        initial="hidden"
+        animate="visible"
+        exit="exit"
+      >
+        <ReactPlaceholder
+          type="textRow"
+          style={{
+            width: '60%',
+            marginLeft: 'auto',
+            marginRight: 'auto',
+            height: '32px',
+            borderRadius: '6px',
+            marginTop: 0,
+            marginBottom: '2rem',
+          }}
+          color="#E0E0E0"
+          showLoadingAnimation
+          ready={Boolean(category)}
+        >
+          <Title>{category?.name[i18n.language]}</Title>
+        </ReactPlaceholder>
+        {isLoading && (
+          <ProductsContainer>
+            {[0, 1, 2, 3, 4, 5].map(i => (
+              <>
+                <ReactPlaceholder
+                  type="rect"
+                  style={{
+                    width: '100%',
+                    height: '125px',
+                    borderRadius: '6px',
+                    marginTop: 0,
+                  }}
+                  color="#E0E0E0"
+                  showLoadingAnimation
+                  // ready={Boolean(category)}
+                  ready={false}
+                >
+                  <></>
+                </ReactPlaceholder>
+              </>
+            ))}
+          </ProductsContainer>
+        )}
         <ProductsContainer>
-          {products.map(product => (
-            <CategoryProduct key={product.slug} product={product} />
+          {category?.products.map(product => (
+            <HomeProduct key={product.id} product={product} />
           ))}
         </ProductsContainer>
       </Container>
@@ -24,17 +92,18 @@ const Category = () => {
 
 export default Category;
 
-const Container = styled.div`
+const Container = styled(m.div)`
   margin-top: 58px;
   padding: 1rem;
 `;
 const Title = styled.h1(
-  ({ theme: { breakpoints } }) => `
-  font-size: 1.875rem; 
+  ({ theme: { breakpoints, headingColor, font } }) => `
+  font-size: 1.875rem;
+  font-weight:${font.bold};
   line-height: 2.25rem;
   text-align: center;
   margin-bottom: 2rem;
-  color:#5F7999;
+  color:${headingColor};
   @media ${breakpoints.xs} {
       font-size: 1.5rem;
       line-height: 2rem;
@@ -42,8 +111,13 @@ const Title = styled.h1(
   }
 `
 );
-const ProductsContainer = styled.div`
+const ProductsContainer = styled.div(
+  ({ theme: { breakpoints } }) => `
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
-  gap: 1.5rem;
-`;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 1rem;
+  @media ${breakpoints}{
+
+  }
+  `
+);

@@ -70,6 +70,7 @@ const ApplicationContext: React.FC = ({ children }) => {
         order_modes: data?.order_modes,
         user: data?.user,
         is_user: data?.is_user,
+        categories: data?.categories,
       }}
     >
       {children}

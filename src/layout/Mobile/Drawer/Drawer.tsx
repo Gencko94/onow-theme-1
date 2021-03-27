@@ -1,8 +1,10 @@
 import React, { Dispatch, SetStateAction, useContext } from 'react';
 import styled from 'styled-components';
 import { IoMdListBox } from 'react-icons/io';
-import { BiGitBranch, BiMapAlt } from 'react-icons/bi';
-import { HiOutlineMail, HiUserCircle } from 'react-icons/hi';
+import { BiGitBranch, BiFoodMenu } from 'react-icons/bi';
+import { FaMapMarkerAlt } from 'react-icons/fa';
+import { HiUserCircle } from 'react-icons/hi';
+import { MdMail } from 'react-icons/md';
 import {
   AiOutlineUnorderedList,
   AiFillInfoCircle,
@@ -52,53 +54,57 @@ const Drawer = ({ setDrawerOpen }: IProps) => {
             </ButtonsContainer>
           </NameWrapper>
         )}
-        <LogoWrapper>
+        {/* <LogoWrapper>
           <LogoContainer>
             <img src="/images/logo.png" alt="logo" />
           </LogoContainer>
-        </LogoWrapper>
+        </LogoWrapper> */}
       </TopSection>
+      <hr />
       <LinksContainer ref={linksRef}>
         <LinkContainer>
-          <IoMdListBox size={20} />
+          <BiFoodMenu size={30} color="#04b9aa" />
 
           <Linkitem to="/categories">{t('common:our-menu')}</Linkitem>
         </LinkContainer>
         <LinkContainer>
-          <BiGitBranch size={20} />
+          <BiGitBranch size={30} color="#b99e04" />
           <Linkitem to="/branches">{t('common:our-branches')}</Linkitem>
         </LinkContainer>
         {is_user && (
           <>
             <LinkContainer>
-              <HiUserCircle size={20} />
+              <HiUserCircle size={30} color="#dd321b" />
               <Linkitem to="/user/profile">{t('common:my-profile')}</Linkitem>
             </LinkContainer>
             <LinkContainer>
-              <AiOutlineUnorderedList size={20} />
+              <IoMdListBox size={30} color="#04b922" />
               <Linkitem to="/">{t('common:my-orders')}</Linkitem>
             </LinkContainer>
             <LinkContainer>
-              <BiMapAlt size={20} />
+              <FaMapMarkerAlt size={30} color="#c11ce2" />
               <Linkitem to="/user/addresses">
                 {t('common:my-addresses')}
               </Linkitem>
             </LinkContainer>
           </>
         )}
-        <LinkContainer>
-          <HiOutlineMail size={20} />
-          <Linkitem to="/">{t('common:contact-us')}</Linkitem>
-        </LinkContainer>
-        <LinkContainer>
-          <AiFillInfoCircle size={20} />
-          <Linkitem to="/">{t('common:about-us')}</Linkitem>
-        </LinkContainer>
 
         <Toggler>
           <Text>Toggle Theme</Text>
           <ThemeToggler />
         </Toggler>
+      </LinksContainer>
+      <hr />
+      <LinksContainer>
+        <LinkContainer>
+          <MdMail size={30} color="#3277f8" />
+          <Linkitem to="/">{t('common:contact-us')}</Linkitem>
+        </LinkContainer>
+        <LinkContainer>
+          <AiFillInfoCircle size={30} color="#29affc" />
+          <Linkitem to="/">{t('common:about-us')}</Linkitem>
+        </LinkContainer>
       </LinksContainer>
     </DrawerContainer>
   );
@@ -161,7 +167,7 @@ const LinksContainer = styled.div`
   gap: 0.5rem;
 `;
 const LinkContainer = styled.div`
-  color: ${props => props.theme.subHeading};
+  color: ${props => props.theme.headingColor};
   display: flex;
   align-items: center;
   font-weight: ${props => props.theme.font.regular};
@@ -169,8 +175,8 @@ const LinkContainer = styled.div`
 `;
 const Linkitem = styled(Link)`
   display: block;
-  font-size: 1.1rem;
-  margin: 0 0.5rem;
+  font-size: 1.2rem;
+  margin: 0 1rem;
 `;
 const Toggler = styled.div`
   display: flex;

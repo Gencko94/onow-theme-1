@@ -84,16 +84,17 @@ const Address: React.FC<IProps> = ({ address }) => {
 export default Address;
 
 const Container = styled.div`
-  border-radius: 12px;
+  border-radius: 8px;
   background: ${props => props.theme.overlayColor};
   border: ${props => props.theme.btnBorder};
+  box-shadow: ${props => props.theme.shadow};
   padding: 0.5rem;
 `;
 const AddressTitle = styled.h6(
   ({ theme: { breakpoints, headingColor, font } }) => `
-  font-weight: ${font.bold};
+  font-weight: ${font.semibold};
 
-  font-size: 1rem;
+  font-size: 1.1rem;
   color: ${headingColor};
   @media ${breakpoints.md}{
     
@@ -109,7 +110,8 @@ const AddressHeader = styled.div`
 const ButtonsContainer = styled.div`
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  gap: 0.5rem;
+  justify-content: flex-end;
   margin-top: 0.5rem;
 `;
 const DefaultLocationContainer = styled.div`
@@ -132,7 +134,7 @@ const SetDefaultLocation = styled.button`
   }
 `;
 const DefaultText = styled.p`
-  font-size: 0.7rem;
+  font-size: 0.8rem;
   margin: 0 0.25rem;
 `;
 
@@ -161,7 +163,7 @@ const RemoveButton = styled.button<{ col: string }>`
 const Label = styled.p`
   font-weight: ${props => props.theme.font.regular};
   display: block;
-  font-size: 0.9rem;
+  font-size: 1rem;
   color: ${props => props.theme.subHeading};
 `;
 

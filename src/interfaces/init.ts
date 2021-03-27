@@ -30,4 +30,5 @@ export interface Init {
   cart_total: string;
   user: USER;
   is_user: boolean;
+  categories: number[];
 }

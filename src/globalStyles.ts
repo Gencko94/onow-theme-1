@@ -10,8 +10,12 @@ const GlobalStyle = createGlobalStyle`
 	padding: 0;
 	margin: 0;
 }
+html {
+  height: 100%;
+}
 body {
-  min-height: 100vh;
+  height: -webkit-fill-available;
+  /* min-height: -webkit-fill-available; */
   scroll-behavior: smooth;
   text-rendering: optimizeSpeed;
   line-height: 1.5;
@@ -27,6 +31,9 @@ img {
 a {
   text-decoration:none;
   color:inherit;
+}
+hr {
+  margin : 0.25rem 0 ;
 }
 input,
 button,

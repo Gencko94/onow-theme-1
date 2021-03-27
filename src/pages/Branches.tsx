@@ -82,7 +82,7 @@ export default Branches;
 const Container = styled.div(
   ({ theme: { breakpoints, bodyColor } }) => `
  
-  padding: 0.5rem;
+  padding: 1rem 0.5rem;
   @media ${breakpoints.md}{
     padding: 1rem 0.75rem;
     max-width:960px;
@@ -149,7 +149,7 @@ const BranchName = styled.h6(
   ({ theme: { breakpoints, font, headingColor } }) => `
   color: ${headingColor};
   font-weight: ${font.bold};
-  font-size:1rem;
+  font-size:1.1rem;
   flex:1;
   @media ${breakpoints.md} {
     font-size: 1.1rem;
@@ -240,7 +240,7 @@ const Icon = styled.div`
 const Directions = styled.p(
   ({ theme: { breakpoints, subHeading, font } }) => `
 color:${subHeading};
-font-size:.8rem;
+font-size:.9rem;
 font-weight:${font.regular};
 margin: .25rem 0;
 @media ${breakpoints.md}{

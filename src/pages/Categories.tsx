@@ -12,7 +12,7 @@ const Categories = () => {
         <Title>Our Food Categories</Title>
         <CategoriesGrid>
           {categories.map(category => (
-            <HomeCategory category={category} />
+            <div></div>
           ))}
         </CategoriesGrid>
       </Container>

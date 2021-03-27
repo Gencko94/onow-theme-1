@@ -12,7 +12,24 @@ import ReactPlaceholder from 'react-placeholder';
 import Loader from 'react-loader-spinner';
 import Hero from '../components/Home/Hero/Hero';
 import LazyImage from '../utils/LazyImage';
-
+import { m, Variants } from 'framer-motion';
+const containerVariants: Variants = {
+  hidden: {
+    x: '100%',
+    opacity: 0,
+  },
+  visible: {
+    x: 0,
+    opacity: 1,
+    transition: {
+      type: 'tween',
+    },
+  },
+  exit: {
+    x: '-100%',
+    opacity: 0,
+  },
+};
 const Product = () => {
   const { id } = useParams<{ id: string }>();
   const { isDesktop } = useResponsive();
@@ -30,7 +47,7 @@ const Product = () => {
   const queryClient = useQueryClient();
   const [quantity, setQuantity] = useState<number>(1);
 
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const handleSubstractQuantity = () => {
     if (quantity === 1) return;
     setQuantity(prev => prev - 1);
@@ -39,8 +56,8 @@ const Product = () => {
     if (product) {
       try {
         await addMutation({
-          image: product.image,
-          name: product?.name,
+          // image: product.image,
+          // name: product?.name,
           price: product.price,
           quantity,
           slug: product.slug,
@@ -55,7 +72,12 @@ const Product = () => {
     <Layout>
       {/* <MobileHeader title="my-addresses" /> */}
       {isDesktop && <Hero />}
-      <Container>
+      <Container
+        variants={containerVariants}
+        initial="hidden"
+        animate="visible"
+        exit="exit"
+      >
         <ContentContainer>
           <ReactPlaceholder
             type="rect"
@@ -73,7 +95,7 @@ const Product = () => {
             <ImageContainer>
               <LazyImage
                 src={product?.image}
-                alt={product?.name}
+                alt={product?.name[i18n.language]}
                 pb="calc(236/368 * 100%)"
               />
               {/* <Image src={product?.image} alt={product?.name} /> */}
@@ -95,22 +117,7 @@ const Product = () => {
               showLoadingAnimation
               ready={Boolean(product)}
             >
-              <Name>{product?.name}</Name>
-            </ReactPlaceholder>
-            <ReactPlaceholder
-              type="rect"
-              style={{
-                width: '25%',
-                height: '28px',
-                borderRadius: '5px',
-                margin: 0,
-                marginBottom: '1rem',
-              }}
-              color="#E0E0E0"
-              showLoadingAnimation
-              ready={Boolean(product)}
-            >
-              <Price>{product?.price}</Price>
+              <Name>{product?.name[i18n.language]}</Name>
             </ReactPlaceholder>
 
             <ReactPlaceholder
@@ -128,7 +135,24 @@ const Product = () => {
               ready={Boolean(product)}
               // ready={false}
             >
-              <Description>{product?.description}</Description>
+              <Description>{product?.description?.[i18n.language]}</Description>
+            </ReactPlaceholder>
+            <ReactPlaceholder
+              type="rect"
+              style={{
+                width: '25%',
+                height: '28px',
+                borderRadius: '5px',
+                margin: 0,
+                marginBottom: '1rem',
+              }}
+              color="#E0E0E0"
+              showLoadingAnimation
+              ready={Boolean(product)}
+            >
+              <Price>
+                {product?.price} {t('kd')}
+              </Price>
             </ReactPlaceholder>
 
             <ReactPlaceholder
@@ -201,8 +225,8 @@ const Product = () => {
 };
 
 export default Product;
-const Container = styled.div(
-  ({ theme: { breakpoints, btnBorder } }) => `
+const Container = styled(m.div)(
+  ({ theme: { breakpoints } }) => `
   
   max-width:1100px;
   margin:auto;
@@ -274,7 +298,7 @@ const Description = styled.p`
 `;
 const Price = styled.p`
   font-size: 1.2rem;
-  color: ${({ theme }) => color(theme.mainColor).lighten(0.4).toString()};
+  color: ${props => props.theme.green};
   font-weight: 600;
   font-weight: ${props => props.theme.font.xbold};
 `;

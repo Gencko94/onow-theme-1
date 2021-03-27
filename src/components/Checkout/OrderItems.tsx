@@ -5,7 +5,7 @@ import { products } from '../../data/products';
 import LazyImage from '../../utils/LazyImage';
 
 const OrderItems = () => {
-  const { t } = useTranslation(['checkout']);
+  const { t, i18n } = useTranslation(['checkout']);
   const [expand, setExpand] = useState(false);
   return (
     <Box expand={expand}>
@@ -18,9 +18,13 @@ const OrderItems = () => {
         {products.map(product => (
           <OrderItem key={product.slug}>
             <DetailsContainer>
-              <LazyImage src={product.image} alt={product.name} pb="100%" />
+              <LazyImage
+                src={product.image}
+                alt={product.name[i18n.language]}
+                pb="100%"
+              />
               <Details>
-                <ProductName>{product.name}</ProductName>
+                <ProductName>{product.name[i18n.language]}</ProductName>
                 <SpecialInstructions>Extra Cheese</SpecialInstructions>
               </Details>
             </DetailsContainer>

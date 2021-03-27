@@ -14,9 +14,8 @@ const Cart = () => {
         <MobileHeader title="my-basket" />
         <Grid>
           <CartItems data={data} isLoading={isLoading} />
-          {/* add appear animation */}
-          <CheckoutSection isLoading={isLoading} data={data} />
         </Grid>
+        <CheckoutSection isLoading={isLoading} data={data} />
       </Container>
     </Layout>
   );
@@ -27,12 +26,13 @@ export default Cart;
 const Container = styled.div`
   /* position: relative; */
   /* margin-top: 66px; */
+  /* min-height: calc(100vh - 53px); */
+  /* min-height: -webkit-fill-available; */
 `;
 const Grid = styled.div(
   ({ theme: { breakpoints } }) => `
 
   // padding: 1rem 0rem;
-  height: 100%;
   @media  ${breakpoints.md} {
     padding: 1rem 0.75rem;
     margin: 0 auto;

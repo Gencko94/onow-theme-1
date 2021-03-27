@@ -3,11 +3,15 @@ import { AddToCartRequest } from '../interfaces/AddRequest';
 import { Address } from '../interfaces/Address';
 import { Branch } from '../interfaces/branch';
 import { CartItem } from '../interfaces/cartitem';
+import { Category } from '../interfaces/categories';
 import { Init } from '../interfaces/init';
 import { Product } from '../interfaces/product';
 
-const uri = 'http://localhost:3001';
-
+// const uri =
+//   process.env.NODE_ENV === 'production'
+//     ? 'https://onow-mock-api.herokuapp.com'
+//     : 'localhost:3001';
+const uri = 'https://onow-mock-api.herokuapp.com';
 export const getGeneralInfo = async (): Promise<Init> => {
   const res = await axios.get(`${uri}/init`);
 
@@ -15,6 +19,11 @@ export const getGeneralInfo = async (): Promise<Init> => {
 };
 export const getProduct = async (id: string): Promise<Product> => {
   const res = await axios.get(`${uri}/products/${id}`);
+
+  return res.data;
+};
+export const getCategory = async (id: number | string): Promise<Category> => {
+  const res = await axios.get(`${uri}/categories/${id}`);
 
   return res.data;
 };

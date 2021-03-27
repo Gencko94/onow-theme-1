@@ -15,5 +15,6 @@ const LayoutDesktop: React.FC = ({ children }) => {
 export default LayoutDesktop;
 const Wrapper = styled.div`
   position: relative;
+
   font-family: ${props => props.theme.fontFamily};
 `;

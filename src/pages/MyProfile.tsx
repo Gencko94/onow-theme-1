@@ -75,11 +75,11 @@ const Container = styled.div(
 );
 const Title = styled.h5(
   ({ theme: { breakpoints, font } }) => `
-  font-weight:${font.regular};
+  font-weight:${font.semibold};
   
   @media ${breakpoints.xs} {
     
-    font-size:1rem;
+    font-size:1.1rem;
   }
   @media ${breakpoints.lg} {
     
@@ -90,18 +90,18 @@ const Title = styled.h5(
 );
 const Box = styled.div(
   ({ theme: { breakpoints, overlayColor, btnBorder, shadow } }) => `
-  background: ${overlayColor};
-  margin: 0.5rem 0 1rem 0;
+  // background: ${overlayColor};
+  // margin: 0.5rem 0;
   overflow: hidden;
   box-shadow:${shadow};
   @media ${breakpoints.xs}{
-    border-top: ${btnBorder};
-    border-bottom: ${btnBorder};
+    // border-top: ${btnBorder};
+    // border-bottom: ${btnBorder};
     
   }
   @media ${breakpoints.md}{
-    border: ${btnBorder};
-    border-radius:6px;
+    // border: ${btnBorder};
+    // border-radius:6px;
     margin: 0;
     margin-bottom:1rem;
 
@@ -127,16 +127,17 @@ const Label = styled.h6(
   margin-bottom: 0.25rem;
   font-weight:${font.semibold};
   display: block;
-  font-size: 1rem;
+  font-size: 1.1rem;
   color: ${headingColor};
   @media ${breakpoints.md}{
-    font-size:1rem;
+    font-size:1.2rem;
   }
 `
 );
 const Info = styled.p`
-  font-weight: ${props => props.theme.font.regular};
+  font-weight: ${props => props.theme.font.light};
   color: ${props => props.theme.subHeading};
+  font-size: 1rem;
 `;
 const PaymentMethodsContainer = styled.div`
   display: grid;

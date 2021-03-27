@@ -140,7 +140,7 @@ const AddressesContainer = styled.div(
   display: grid;
   grid-template-columns: 1fr;
   gap: 1rem;
-  padding: 0.5rem;
+  padding: 1rem 0.5rem;
   @media ${breakpoints.md}{
     grid-template-columns: 1fr 1fr;
 

@@ -13,7 +13,8 @@ const MobileHeader = ({ title }: { title: string }) => {
     <Container>
       <ContentContainer>
         <TextBlock>
-          {/* <StoreName>{store_name?.[i18n.language]}</StoreName> */}
+          <StoreName>{store_name?.[i18n.language]}</StoreName>
+          <GoBack onClick={() => history.goBack()}>{t('go-back')}</GoBack>
           <Title
             exit={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -21,7 +22,6 @@ const MobileHeader = ({ title }: { title: string }) => {
           >
             {t(title)}
           </Title>
-          <GoBack onClick={() => history.goBack()}>{t('go-back')}</GoBack>
         </TextBlock>
         <LogoWrapper>
           <LogoContainer to="/">

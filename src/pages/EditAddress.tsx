@@ -14,6 +14,7 @@ import Loader from 'react-loader-spinner';
 import EditAddressMap from '../components/EditAddressMap';
 import MobileHeader from '../components/Header/MobileHeader';
 import Layout from '../layout/Layout';
+import { m, Variants } from 'framer-motion';
 
 interface EditedAddressForm {
   area: string | undefined;
@@ -24,7 +25,23 @@ interface EditedAddressForm {
   additionalDirections?: string | undefined;
   building?: string | undefined;
 }
-
+const containerVariants: Variants = {
+  hidden: {
+    x: '100%',
+    opacity: 0,
+  },
+  visible: {
+    x: 0,
+    opacity: 1,
+    transition: {
+      type: 'tween',
+    },
+  },
+  exit: {
+    x: '100%',
+    opacity: 0,
+  },
+};
 const EditAddress = () => {
   const { t } = useTranslation(['addresses']);
   const queryClient = useQueryClient();
@@ -115,7 +132,12 @@ const EditAddress = () => {
     <Layout>
       <MobileHeader title="edit-address" />
 
-      <ContentContainer>
+      <ContentContainer
+        variants={containerVariants}
+        initial="hidden"
+        animate="visible"
+        exit="exit"
+      >
         <MapContainer>
           <EditAddressMap
             outOfBorder={outOfBorder}
@@ -198,7 +220,7 @@ const EditAddress = () => {
 
 export default EditAddress;
 
-const ContentContainer = styled.div(
+const ContentContainer = styled(m.div)(
   ({ theme: { breakpoints } }) => `
   padding: 0.5rem;
   display:grid;

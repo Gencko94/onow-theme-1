@@ -1,9 +1,14 @@
 export interface Product {
   image: string;
-  name: string;
+  name: {
+    [key: string]: string;
+  };
+  id: number;
   price: string;
   slug: string;
-  sale?: boolean;
-  discount?: number;
-  description?: string;
+  sale: boolean;
+  discount: number | null;
+  description?: {
+    [key: string]: string;
+  };
 }

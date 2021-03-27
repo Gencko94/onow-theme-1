@@ -1,18 +1,22 @@
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
-import { categories } from '../../data/categories';
 import HomeCategory from './HomeCategory';
+
+import 'swiper/swiper-bundle.css';
+import { useContext } from 'react';
+import { ApplicationProvider } from '../../contexts/ApplicationContext';
 
 const HomeCategories = () => {
   const { t } = useTranslation();
+  const { categories } = useContext(ApplicationProvider);
+
   return (
     <Container>
       <Title>{t('common:our-menu')}</Title>
-      <CategoriesGrid>
-        {categories.map(category => (
-          <HomeCategory category={category} />
-        ))}
-      </CategoriesGrid>
+
+      {categories?.map(category => (
+        <HomeCategory id={category} />
+      ))}
     </Container>
   );
 };
@@ -41,4 +45,5 @@ const CategoriesGrid = styled.div`
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
   gap: 1.5rem;
+  padding: 0.5rem;
 `;

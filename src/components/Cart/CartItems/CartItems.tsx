@@ -75,13 +75,17 @@ const LoadingGrid = styled.div(
 );
 
 const ItemsWrapper = styled(m.div)(
-  ({ theme: { breakpoints } }) => `
-
+  ({ theme: { breakpoints, shadow } }) => `
+  display:grid;
+  grid-template-columns:1fr;
+  gap:0.5rem;
+  box-shadow:${shadow};
   @media ${breakpoints.xs}{
-    
-    min-height:calc(100vh - 353px);
-    max-height:calc(100vh - 353px);
-    overflow:auto
+    align-content:flex-start;
+    min-height:calc(100vh - 442px);
+    max-height:calc(100vh - 442px);
+    overflow:auto;
+    padding:0.5rem;
   }
   @media ${breakpoints.md}{
     min-height:unset;

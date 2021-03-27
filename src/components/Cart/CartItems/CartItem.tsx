@@ -131,13 +131,13 @@ export default CartItem;
 
 const Container = styled(m.div)(
   ({ theme: { breakpoints, border, overlayColor, bodyColor, shadow } }) => ` 
-  background-color:${bodyColor};
+  background:${overlayColor};
+  align-self:flex-start;
   border-radius:6px;
   box-shadow:${shadow};
   padding: 0.5rem;
   @media ${breakpoints.md}{
     background:${overlayColor};
-    // border-radius:6px;
     margin-bottom:1rem;
   }
 `
@@ -159,25 +159,34 @@ const ProductContainer = styled.div(
 `
 );
 const ImageContainer = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  /* display: flex; */
+  width: 100%;
+  height: 100%;
+  background-color: #fff;
+  border-radius: 8px;
+  overflow: hidden;
+  /* align-items: center; */
+  /* justify-content: center; */
 `;
 const Image = styled.img(
   ({ theme: { breakpoints } }) => ` 
-border-radius:15px;
-@media ${breakpoints.xs} {
-  width:60px;
-  height:60px;
-}
-@media ${breakpoints.md} {
-  width:100px;
-  height:100px;
-}
-@media ${breakpoints.lg} {
-  width:140px;
-  height:140px;
-}
+height:100%;
+width:100%;
+object-fit:contain;
+object-position:center;
+
+// @media ${breakpoints.xs} {
+//   width:60px;
+//   height:60px;
+// }
+// @media ${breakpoints.md} {
+//   width:100px;
+//   height:100px;
+// }
+// @media ${breakpoints.lg} {
+//   width:140px;
+//   height:140px;
+// }
 `
 );
 
@@ -191,9 +200,9 @@ const ProductName = styled(Link)(
   ({ theme: { breakpoints, headingColor, font } }) => ` 
   display: block;
   color: ${headingColor};
-  font-weight: ${font.regular};
+  font-weight: ${font.bold};
   @media ${breakpoints.xs}{
-    font-size:0.9rem;
+    font-size:1rem;
   }
   @media ${breakpoints.md}{
     font-size:1rem;
@@ -205,12 +214,9 @@ const ProductName = styled(Link)(
 );
 const AddonName = styled.p(
   ({ theme: { breakpoints, subHeading, font } }) => ` 
-  font-size: 0.8rem;
+  font-size: 0.9rem;
   color: ${subHeading};
   font-weight: ${font.regular};
-  @media ${breakpoints.xs}{
-    font-size: 0.8rem;
-  }
   @media ${breakpoints.md}{
     font-size: 0.9rem;
   }

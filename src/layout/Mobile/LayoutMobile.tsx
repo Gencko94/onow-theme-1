@@ -5,12 +5,10 @@ import Drawer from './Drawer/Drawer';
 
 import styled from 'styled-components';
 import { useTranslation } from 'react-i18next';
-const ContentContainer = styled.div`
+const ContentContainer = styled.div``;
+const Wrapper = styled.div`
   /* min-height: 100vh; */
   background-color: ${props => props.theme.bodyColor};
-`;
-const Wrapper = styled.div`
-  /* position: relative; */
   font-family: ${props => props.theme.fontFamily};
 `;
 const LayoutMobile: React.FC = ({ children }) => {
@@ -39,7 +37,9 @@ const LayoutMobile: React.FC = ({ children }) => {
       >
         <Backdrop onClick={() => setDrawerOpen(false)} />
       </CSSTransition>
-      <ContentContainer>{children}</ContentContainer>
+      {/* <ContentContainer> */}
+      {children}
+      {/* </ContentContainer> */}
       {/* <MobileFooter /> */}
     </Wrapper>
   );
