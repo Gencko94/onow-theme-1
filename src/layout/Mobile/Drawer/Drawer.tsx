@@ -89,11 +89,6 @@ const Drawer = ({ setDrawerOpen }: IProps) => {
             </LinkContainer>
           </>
         )}
-
-        <Toggler>
-          <Text>Toggle Theme</Text>
-          <ThemeToggler />
-        </Toggler>
       </LinksContainer>
       <hr />
       <LinksContainer>
@@ -106,6 +101,11 @@ const Drawer = ({ setDrawerOpen }: IProps) => {
           <Linkitem to="/">{t('common:about-us')}</Linkitem>
         </LinkContainer>
       </LinksContainer>
+      <hr />
+      <Toggler>
+        <Text>{t('dark-mode')}</Text>
+        <ThemeToggler />
+      </Toggler>
     </DrawerContainer>
   );
 };
@@ -182,9 +182,12 @@ const Toggler = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  padding: 1rem;
 `;
 const Text = styled.span`
   margin: 0 0.25rem;
+  font-size: 1.2rem;
+  color: ${props => props.theme.headingColor};
 `;
 const ButtonsContainer = styled.div`
   display: flex;

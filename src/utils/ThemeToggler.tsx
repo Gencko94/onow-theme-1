@@ -1,9 +1,10 @@
 import { useContext } from 'react';
 import styled from 'styled-components';
 import { ThemeContext } from '../contexts/ThemeContext';
-
+import { RiSunFill } from 'react-icons/ri';
+import { BsMoon } from 'react-icons/bs';
 const ThemeToggler = () => {
-  const { toggleTheme } = useContext(ThemeContext);
+  const { toggleTheme, mode } = useContext(ThemeContext);
 
   return (
     <Toggler>
@@ -11,9 +12,20 @@ const ThemeToggler = () => {
         onChange={() => {
           toggleTheme?.();
         }}
+        checked={mode === 'light'}
         type="checkbox"
       />
       <Slider />
+      {mode === 'dark' && (
+        <Sun>
+          <RiSunFill color="#ffee00" size={20} />
+        </Sun>
+      )}
+      {mode === 'light' && (
+        <Moon>
+          <BsMoon color="#4a029c" size={20} />
+        </Moon>
+      )}
     </Toggler>
   );
 };
@@ -22,24 +34,34 @@ export default ThemeToggler;
 const Toggler = styled.label`
   position: relative;
   display: inline-block;
-  width: 48px;
-  height: 20px;
+  width: 52px;
+  height: 25px;
 `;
 const TogglerInput = styled.input`
   opacity: 0;
   width: 0;
   height: 0;
   &:checked + span {
-    background-color: #2196f3;
+    /* background-color: #2196f3; */
   }
   &:focus + span {
-    box-shadow: 0 0 1px #2196f3;
+    /* box-shadow: 0 0 1px #2196f3; */
   }
   &:checked + span::before {
     -webkit-transform: translateX(26px);
     -ms-transform: translateX(26px);
     transform: translateX(26px);
   }
+`;
+const Sun = styled.span`
+  position: absolute;
+  top: 3px;
+  right: 3px;
+`;
+const Moon = styled.span`
+  position: absolute;
+  top: 3px;
+  left: 3px;
 `;
 const Slider = styled.span`
   position: absolute;
@@ -56,10 +78,10 @@ const Slider = styled.span`
     border-radius: 50%;
     position: absolute;
     content: '';
-    height: 14px;
-    width: 14px;
+    height: 17px;
+    width: 17px;
     left: 4px;
-    bottom: 3px;
+    bottom: 4px;
     background-color: white;
     -webkit-transition: 0.4s;
     transition: 0.4s;
