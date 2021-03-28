@@ -34,7 +34,7 @@ const Drawer = ({ setDrawerOpen }: IProps) => {
         {is_user && (
           <NameWrapper>
             <Name>
-              {t('hello')} {user?.name} !
+              {t('hello')} {user?.first_name} !
             </Name>
             <PhoneNumber>{user?.phone}</PhoneNumber>
           </NameWrapper>
@@ -65,7 +65,7 @@ const Drawer = ({ setDrawerOpen }: IProps) => {
         <LinkContainer>
           <BiFoodMenu size={30} color="#04b9aa" />
 
-          <Linkitem to="/categories">{t('common:our-menu')}</Linkitem>
+          <Linkitem to="/menu">{t('common:our-menu')}</Linkitem>
         </LinkContainer>
         <LinkContainer>
           <BiGitBranch size={30} color="#b99e04" />

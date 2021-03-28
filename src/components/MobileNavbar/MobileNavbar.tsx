@@ -22,7 +22,7 @@ const MobileNavbar = ({ setDrawerOpen, drawerOpen }: IProps) => {
   const shouldChange = useMemo(() => {
     if (
       pathname === '/' ||
-      pathname.includes('categories') ||
+      pathname.includes('menu') ||
       pathname.includes('booking')
     )
       return true;

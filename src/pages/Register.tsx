@@ -2,8 +2,8 @@ import * as Yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
-import { RegisterForm, SocialAuth } from '../interfaces/loginForm';
+import { Link, useHistory } from 'react-router-dom';
+import { SocialAuth } from '../interfaces/loginForm';
 import {
   AiFillFacebook,
   AiOutlineArrowLeft,
@@ -12,25 +12,71 @@ import {
 } from 'react-icons/ai';
 import { GrApple } from 'react-icons/gr';
 import { MdVisibility, MdVisibilityOff } from 'react-icons/md';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
+import { REGISTER_FORM } from '../interfaces/auth';
+import { userRegister } from '../utils/queries';
+import { useMutation } from 'react-query';
 
 const Register = () => {
-  const schema = Yup.object().shape({
-    phoneNumber: Yup.string().required('Required Field').min(5),
-    password: Yup.string().required('Required Field').min(5),
-    email: Yup.string().email(),
-  });
   const { t, ready, i18n } = useTranslation(['auth']);
-  const { register, handleSubmit, errors } = useForm<RegisterForm>({
+  const schema = useMemo(
+    () =>
+      Yup.object().shape({
+        phone_number: Yup.string()
+          .required('Required Field')
+          .min(8, t('phone-validation')),
+        password: Yup.string().required('Required Field').min(6, t('min-6')),
+        email: Yup.string().email(),
+      }),
+    []
+  );
+  const [phoneKey] = useState('+965');
+  const history = useHistory();
+  const {
+    register,
+    handleSubmit,
+    errors,
+    setError,
+    formState: { isSubmitting },
+  } = useForm<REGISTER_FORM>({
     resolver: yupResolver(schema),
   });
   const [showPassword, setShowPassword] = useState(false);
-  const onSubmit = (data: RegisterForm) => {
-    // const info = {
-    //   ...data,
-    // };
-    console.log(data);
+  const { mutateAsync: reg } = useMutation(userRegister, {
+    onSuccess: data => {
+      if (data.token) {
+        localStorage.setItem('tpid', data.token);
+        history.replace('/');
+      }
+    },
+  });
+  const onSubmit = async (data: REGISTER_FORM) => {
+    try {
+      await reg({
+        password: data.password,
+        phone_number: `${phoneKey}${data.phone_number}`,
+        email: '',
+      });
+    } catch (error) {
+      console.log(error.response);
+      if (
+        error.response.data.message === 'Phone Number or Password is Missing'
+      ) {
+        setError('password', {
+          message: t('fields-missing-response'),
+        });
+        setError('phone_number', {
+          message: t('fields-missing-response'),
+        });
+      } else if (error.response.data.message === 'User Already Existed') {
+        setError('phone_number', {
+          message: t('existing-user'),
+        });
+      } else {
+        // show unknown error
+      }
+    }
   };
   const changeLanguage = (lng: string) => {
     if (ready) {
@@ -58,18 +104,16 @@ const Register = () => {
               <Label>{t('phone-number')}</Label>
               <PhoneInputContainer>
                 <PhoneKey>+965</PhoneKey>
-                <Input name="phoneNumber" ref={register} />
+                <Input name="phone_number" ref={register} />
               </PhoneInputContainer>
-              {errors.phoneNumber && (
-                <ErrorMessage>{errors.phoneNumber.message}</ErrorMessage>
-              )}
+
+              <ErrorMessage>{errors.phone_number?.message}</ErrorMessage>
             </InputContainer>
             <InputContainer>
               <Label>{t('email')}</Label>
               <Input colored border name="email" ref={register} />
-              {errors.email && (
-                <ErrorMessage>{errors.email.message}</ErrorMessage>
-              )}
+
+              <ErrorMessage>{errors.email?.message}</ErrorMessage>
             </InputContainer>
             <InputContainer>
               <Label>{t('password')}</Label>
@@ -87,12 +131,17 @@ const Register = () => {
                   )}
                 </ShowPassword>
               </PasswordInputContainer>
-              {errors.password && (
-                <ErrorMessage>{errors.password.message}</ErrorMessage>
-              )}
+
+              <ErrorMessage>{errors.password?.message}</ErrorMessage>
             </InputContainer>
 
-            <SubmitButton type="submit">{t('register')}</SubmitButton>
+            <SubmitButton
+              type="submit"
+              disabled={isSubmitting}
+              loading={isSubmitting}
+            >
+              {t('register')}
+            </SubmitButton>
           </Form>
         </FormContainer>
         <Footer>
@@ -172,24 +221,25 @@ const LogoContainer = styled(Link)`
   border-radius: 50%;
 `;
 const FormContainer = styled.div`
-  padding: 0.5rem;
+  padding: 0.75rem 0.75rem;
+  border: ${props => props.theme.btnBorder};
+  box-shadow: ${props => props.theme.shadow};
   background-color: #fff;
   border-radius: 12px;
   margin-bottom: 0.5rem;
-  border: 1px solid rgba(0, 0, 0, 0.1);
-  background-color: ${props => props.theme.overlayColor};
+  background: ${props => props.theme.overlayColor};
 `;
 const Form = styled.form`
-  padding: 0.5rem 0.25rem;
+  /* padding: 0.5rem 0.25rem; */
 `;
 const InputContainer = styled.div`
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.25rem;
 `;
 const Label = styled.label`
-  color: ${({ theme }) => theme.subHeading};
+  color: ${({ theme }) => theme.headingColor};
   margin-bottom: 0.4rem;
-  font-size: 0.9rem;
-  font-weight: ${props => props.theme.font.bold};
+  font-size: 0.8rem;
+  font-weight: ${props => props.theme.font.semibold};
   display: block;
 `;
 const PhoneInputContainer = styled.div`
@@ -220,24 +270,26 @@ const Input = styled.input<{ border?: boolean; colored?: boolean }>`
 `;
 
 const ErrorMessage = styled.p`
-  color: #b72b2b;
+  color: ${props => props.theme.dangerRed};
+  height: 19.2px;
   font-size: 0.8rem;
   margin-top: 0.25rem;
 `;
-const SubmitButton = styled.button`
+const SubmitButton = styled.button<{ loading: boolean }>`
   width: 100%;
   padding: 0.5rem;
-  background-color: ${props => props.theme.btnPrimaryLight};
+  background-color: ${props =>
+    props.loading ? 'gray' : props.theme.btnPrimaryLight};
   color: ${props => props.theme.btnText};
-  font-weight: ${props => props.theme.font.bold};
+  font-weight: ${props => props.theme.font.regular};
   border-radius: 5px;
+  border: ${props => props.theme.btnBorder};
   text-transform: uppercase;
+  font-size: 0.9rem;
   transition: background-color 75ms;
   &:hover {
     background-color: ${props => props.theme.btnPrimaryDark};
   }
-
-  margin-top: 0.5rem;
 `;
 const Footer = styled.div`
   padding: 0.5rem;
@@ -258,8 +310,8 @@ const LanguageContainer = styled.div`
   right: 40px;
 `;
 const InlineLink = styled(Link)`
-  color: #b72b2b;
-  font-weight: ${props => props.theme.font.bold};
+  color: ${props => props.theme.dangerRed};
+  font-weight: ${props => props.theme.font.regular};
   text-decoration: underline;
 `;
 const Icon = styled.button`

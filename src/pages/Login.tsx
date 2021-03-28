@@ -2,8 +2,8 @@ import * as Yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
-import { LoginForm, SocialAuth } from '../interfaces/loginForm';
+import { Link, useHistory } from 'react-router-dom';
+import { SocialAuth } from '../interfaces/loginForm';
 
 import {
   AiFillFacebook,
@@ -15,15 +15,28 @@ import { GrApple } from 'react-icons/gr';
 import { MdVisibility, MdVisibilityOff } from 'react-icons/md';
 import { useState } from 'react';
 import { useTranslation, Trans } from 'react-i18next/';
+import { LOGIN_FORM } from '../interfaces/auth';
+import { useMutation } from 'react-query';
+import { userLogin } from '../utils/queries';
 
 const Login = () => {
   const { t, ready, i18n } = useTranslation(['auth']);
+  const [phoneKey] = useState('+965');
   const schema = Yup.object().shape({
-    phoneNumber: Yup.string().required('Required Field').min(5),
-    password: Yup.string().required('Required Field').min(5),
+    phone_number: Yup.string()
+      .required('Required Field')
+      .min(8, t('phone-validation')),
+    password: Yup.string().required('Required Field').min(6, t('min-6')),
   });
   const [showPassword, setShowPassword] = useState(false);
-  const { register, handleSubmit, errors } = useForm<LoginForm>({
+  const history = useHistory();
+  const {
+    register,
+    handleSubmit,
+    errors,
+    setError,
+    formState: { isSubmitting },
+  } = useForm<LOGIN_FORM>({
     resolver: yupResolver(schema),
   });
   const changeLanguage = (lng: string) => {
@@ -31,11 +44,42 @@ const Login = () => {
       i18n.changeLanguage(lng);
     }
   };
-  const onSubmit = (data: LoginForm) => {
-    // const info = {
-    //   ...data,
-    // };
-    console.log(data);
+  const { mutateAsync: login } = useMutation(userLogin, {
+    onSuccess: data => {
+      if (data.token) {
+        localStorage.setItem('tpid', data.token);
+        history.replace('/');
+      }
+    },
+  });
+  const onSubmit = async (data: LOGIN_FORM) => {
+    try {
+      await login({
+        password: data.password,
+        phone_number: `${phoneKey}${data.phone_number}`,
+      });
+    } catch (error) {
+      console.log(error.response);
+      if (
+        error.response.data.message === 'Phone Number or Password is Missing'
+      ) {
+        setError('password', {
+          message: t('fields-missing-response'),
+        });
+        setError('phone_number', {
+          message: t('fields-missing-response'),
+        });
+      } else if (error.response.data.message === 'Invalid Credentials') {
+        setError('password', {
+          message: t('invalid-credentials'),
+        });
+        setError('phone_number', {
+          message: t('invalid-credentials'),
+        });
+      } else {
+        // show unknown error
+      }
+    }
   };
   const handleShowPassword = () => {
     if (showPassword) {
@@ -57,12 +101,11 @@ const Login = () => {
             <InputContainer>
               <Label>{t('phone-number')}</Label>
               <PhoneInputContainer>
-                <PhoneKey>+965</PhoneKey>
-                <PhoneInput name="phoneNumber" ref={register} />
+                <PhoneKey>{phoneKey}</PhoneKey>
+                <PhoneInput name="phone_number" ref={register} />
               </PhoneInputContainer>
-              {errors.phoneNumber && (
-                <ErrorMessage>{errors.phoneNumber.message}</ErrorMessage>
-              )}
+
+              <ErrorMessage>{errors.phone_number?.message}</ErrorMessage>
             </InputContainer>
             <InputContainer>
               <Label>{t('password')}</Label>
@@ -80,12 +123,17 @@ const Login = () => {
                   )}
                 </ShowPassword>
               </PasswordInputContainer>
-              {errors.password && (
-                <ErrorMessage>{errors.password.message}</ErrorMessage>
-              )}
+
+              <ErrorMessage>{errors.password?.message}</ErrorMessage>
             </InputContainer>
 
-            <SubmitButton type="submit">{t('login')}</SubmitButton>
+            <SubmitButton
+              type="submit"
+              disabled={isSubmitting}
+              loading={isSubmitting}
+            >
+              {t('login')}
+            </SubmitButton>
           </Form>
         </FormContainer>
         <Footer>
@@ -184,7 +232,7 @@ const Form = styled.form`
   padding: 0rem 0.25rem;
 `;
 const InputContainer = styled.div`
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.25rem;
 `;
 const Label = styled.label`
   color: ${({ theme }) => theme.headingColor};
@@ -240,14 +288,16 @@ const ShowPassword = styled.div`
   background-color: ${props => props.theme.inputColorLight};
 `;
 const ErrorMessage = styled.p`
-  color: #b72b2b;
+  color: ${props => props.theme.dangerRed};
   font-size: 0.8rem;
   margin-top: 0.25rem;
+  height: 19.2px;
 `;
-const SubmitButton = styled.button`
+const SubmitButton = styled.button<{ loading: boolean }>`
   width: 100%;
   padding: 0.5rem;
-  background-color: ${props => props.theme.btnPrimaryLight};
+  background-color: ${props =>
+    props.loading ? 'gray' : props.theme.btnPrimaryLight};
   color: ${props => props.theme.btnText};
   font-weight: ${props => props.theme.font.regular};
   border-radius: 5px;
@@ -306,7 +356,7 @@ const SocialLinksContainer = styled.div`
 `;
 const InlineLink = styled(Link)`
   color: ${props => props.theme.dangerRed};
-  font-weight: ${props => props.theme.font.light};
+  font-weight: ${props => props.theme.font.regular};
   text-decoration: underline;
 `;
 const SocialLink = styled.div<{ variant: SocialAuth }>`

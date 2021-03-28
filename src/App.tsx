@@ -25,7 +25,7 @@ import { AnimatePresence, LazyMotion, domAnimation } from 'framer-motion';
 import MyAddresses from './pages/MyAddresses';
 const Aboutus = React.lazy(() => import('./pages/Aboutus'));
 const Home = React.lazy(() => import('./pages/Home'));
-const Categories = React.lazy(() => import('./pages/Categories'));
+const Menu = React.lazy(() => import('./pages/Menu'));
 const Category = React.lazy(() => import('./pages/Category'));
 // const Cart = React.lazy(() => import('./pages/Cart'));
 // const Product = React.lazy(() => import('./pages/Product'));
@@ -65,11 +65,7 @@ function App() {
                       <LazyMotion features={domAnimation}>
                         <Switch location={location} key={location.key}>
                           <Route exact path="/" component={Home} />
-                          <Route
-                            exact
-                            path="/categories"
-                            component={Categories}
-                          />
+                          <Route exact path="/menu" component={Menu} />
                           <Route
                             exact
                             path="/categories/:id"

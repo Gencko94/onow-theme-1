@@ -71,6 +71,7 @@ const ApplicationContext: React.FC = ({ children }) => {
         user: data?.user,
         is_user: data?.is_user,
         categories: data?.categories,
+        deals: data?.deals,
       }}
     >
       {children}

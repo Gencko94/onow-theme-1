@@ -1,5 +1,4 @@
 import { useTranslation } from 'react-i18next';
-import { FcClock } from 'react-icons/fc';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { Product } from '../../interfaces/product';
@@ -27,9 +26,7 @@ const HomeProduct = ({ product }: IProps) => {
       </ImageContainer>
       <Content>
         <ProductName>{product.name[language]}</ProductName>
-        {/* <PrepTime>
-          <FcClock size={15} /> 60min
-        </PrepTime> */}
+
         <Description>{product.description?.[language]}</Description>
         <PriceContainer>
           <Price>
@@ -80,7 +77,7 @@ const ProductName = styled.p(
   font-weight:${font.bold};
   font-size:1.2rem;
   @media ${breakpoints.md}{
-    font-size:1rem;
+    font-size:1.1rem;
   }
   `
 );
@@ -128,15 +125,7 @@ const DiscountIcon = styled.div`
 const DiscountText = styled.p`
   font-size: 0.7rem;
 `;
-const PrepTime = styled.p`
-  display: flex;
-  margin: 0.25rem 0;
-  align-items: center;
-  font-size: 0.9rem;
-  font-weight: ${props => props.theme.font.regular};
-  /* color: ${props => props.theme.green}; */
-  color: #00acc1;
-`;
+
 const PriceContainer = styled.div`
   display: flex;
 

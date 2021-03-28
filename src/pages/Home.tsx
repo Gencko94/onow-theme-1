@@ -5,7 +5,11 @@ import Introduction from '../components/Home/Introduction/Introduction';
 import OrderMode from '../components/Home/OrderMode/OrderMode';
 import styled from 'styled-components';
 import HomeCategories from '../components/HomeCategories/HomeCategories';
+import { useContext } from 'react';
+import { ApplicationProvider } from '../contexts/ApplicationContext';
+import Deals from '../components/deals/Deals';
 function Home() {
+  const { deals } = useContext(ApplicationProvider);
   return (
     <Layout>
       <Hero />
@@ -13,6 +17,7 @@ function Home() {
       <Container>
         <Introduction />
         <OrderMode />
+        {deals && <Deals />}
         <HomeCategories />
       </Container>
     </Layout>

@@ -41,6 +41,6 @@ export const darkTheme = {
   btnPrimaryDark: '#3B3B3B',
   green: '#1AD439',
   btnText: '#fff',
-  dangerRed: color('#b72b2b').lighten(0.5).toString(),
+  dangerRed: 'hsl(0, 100%, 69.6%)',
   border: '1px solid #D8D8D8',
 };

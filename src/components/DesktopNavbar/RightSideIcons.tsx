@@ -10,7 +10,7 @@ const RightSideIcons = () => {
   const { mode } = useContext(ThemeContext);
   return (
     <Container>
-      <IconContainer mode={mode} to="/cart">
+      <IconContainer mode={mode} to="/menu">
         <IconText>{t('our-menu')}</IconText>
       </IconContainer>
       <IconContainer mode={mode} to="/branches">

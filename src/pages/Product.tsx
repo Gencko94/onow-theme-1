@@ -300,6 +300,7 @@ const Price = styled.p`
   font-size: 1.2rem;
   color: ${props => props.theme.green};
   font-weight: 600;
+  text-align: right;
   font-weight: ${props => props.theme.font.xbold};
 `;
 const AdditionalInstructionsTitle = styled.h6(

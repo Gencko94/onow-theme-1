@@ -1,3 +1,5 @@
+import { Product } from './product';
+
 export type STORE_NAME = {
   [key: string]: string;
 };
@@ -17,9 +19,14 @@ export type PAYMENT_METHOD = {
   logo: string;
 };
 export type USER = {
-  name: string;
+  first_name: string;
+  last_name: string;
   phone: string;
   payment: string;
+};
+export type DEALS = {
+  title: { [key: string]: string };
+  products: Product[];
 };
 export interface Init {
   store_name: STORE_NAME;
@@ -31,4 +38,5 @@ export interface Init {
   user: USER;
   is_user: boolean;
   categories: number[];
+  deals: DEALS;
 }

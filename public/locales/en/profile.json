@@ -1,9 +1,19 @@
 {
-  "account-info": "Account Info",
+  "your-info": "Your Info",
   "fullname": "Full Name",
   "phonenumber": "Phone Number",
   "website-settings": "Website Settings",
   "preffered-payment": "Preffered Payment Method",
   "change": "Change",
-  "save": "Save"
+  "save": "Save",
+  "password": "Password",
+  "new-password": "New Password",
+  "old-password": "Old Password",
+  "confirm-new-password": "Confirm New Password",
+  "first-name": "First Name",
+  "last-name": "Last Name",
+  "6-char": "Your Password must be atleast 6 characters",
+  "update-password": "Update Password",
+  "update-info": "Update Your Info",
+  "email": "Email Address"
 }

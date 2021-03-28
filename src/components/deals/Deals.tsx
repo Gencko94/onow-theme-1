@@ -1,28 +1,23 @@
-import { useContext } from 'react';
-import { Link } from 'react-router-dom';
+import { useQuery } from 'react-query';
 import styled from 'styled-components';
-import { ThemeContext, ThemeMode } from '../../contexts/ThemeContext';
-import { useTranslation } from 'react-i18next';
+import { getDeals } from '../../utils/queries';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import SwiperCore, { Navigation } from 'swiper';
-import { useQuery } from 'react-query';
-import { getCategory } from '../../utils/queries';
-import { useInView } from 'react-intersection-observer';
-import HomeProduct from './HomeProduct';
+import 'swiper/swiper-bundle.css';
 import ReactPlaceholder from 'react-placeholder/lib';
+import { useTranslation } from 'react-i18next';
+import HomeProduct from '../HomeCategories/HomeProduct';
+
 SwiperCore.use([Navigation]);
-interface Props {
-  id: number;
-}
 const breakpoints = {
   // when window width is >= 320px
   320: {
-    slidesPerView: 1.5,
+    slidesPerView: 1.25,
     spaceBetween: 20,
   },
   // when window width is >= 480px
   480: {
-    slidesPerView: 3,
+    slidesPerView: 2.25,
     spaceBetween: 20,
   },
   // when window width is >= 640px
@@ -43,27 +38,19 @@ const breakpoints = {
     spaceBetween: 20,
   },
 };
-const HomeCategory = ({ id }: Props) => {
-  const { inView, ref } = useInView({});
+const Deals = () => {
   const {
-    t,
     i18n: { language },
   } = useTranslation();
-  const { data: category, isLoading } = useQuery(
-    ['category', id],
-    () => getCategory(id),
-    {
-      // enabled: inView,
-    }
-  );
-  const { mode } = useContext(ThemeContext);
+  const { data: deals, isLoading } = useQuery('deals', getDeals, {
+    // enabled: inView,
+  });
   return (
-    <Container ref={ref}>
-      <CategoryNameContainer>
-        <CategoryName>{category?.name[language]}</CategoryName>
-        <SeeAll to={`/categories/${category?.id}`}>{t('see-all')}</SeeAll>
-      </CategoryNameContainer>
-      {!category && (
+    <Container>
+      <DealsTitleContainer>
+        <DealsTitle>{deals?.title[language]}</DealsTitle>
+      </DealsTitleContainer>
+      {!deals && (
         <Swiper
           breakpoints={breakpoints}
           freeMode
@@ -84,7 +71,7 @@ const HomeCategory = ({ id }: Props) => {
                 }}
                 color="#E0E0E0"
                 showLoadingAnimation
-                ready={Boolean(category)}
+                ready={Boolean(deals)}
               >
                 <></>
               </ReactPlaceholder>
@@ -92,7 +79,7 @@ const HomeCategory = ({ id }: Props) => {
           ))}
         </Swiper>
       )}
-      {category && (
+      {deals && (
         <Swiper
           breakpoints={breakpoints}
           freeMode
@@ -100,7 +87,7 @@ const HomeCategory = ({ id }: Props) => {
           spaceBetween={10}
           slidesPerView={1.5}
         >
-          {category.products.map(product => (
+          {deals.products.map(product => (
             <SwiperSlide key={product.id}>
               <HomeProduct product={product} />
             </SwiperSlide>
@@ -111,38 +98,22 @@ const HomeCategory = ({ id }: Props) => {
   );
 };
 
-export default HomeCategory;
-
+export default Deals;
 const Container = styled.div`
   /* border-radius: 15px 3px 15px 3px; */
   /* background: #fff; */
   /* box-shadow: ${props => props.theme.shadow}; */
   overflow: hidden;
   margin: 4rem 0;
+  padding: 0.5rem;
 `;
-const CategoryNameContainer = styled.div`
+const DealsTitleContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
   margin-bottom: 1.5rem;
 `;
-const SeeAll = styled(Link)(
-  ({
-    theme: { breakpoints, btnPrimaryLight, btnText, btnBorder, highlightColor },
-  }) => `
-  background-color: ${btnPrimaryLight};
-  color:${btnText};
-  padding:0.5rem;
-  border-radius:6px;
-  font-size:0.9rem;
-  transition: background-color 150ms ease;
-  border:${btnBorder};
-  &:hover {
-    background-color:${highlightColor};
-  }
-  `
-);
-const CategoryName = styled.h5(
+const DealsTitle = styled.h5(
   ({ theme: { breakpoints, headingColor, font } }) => `
   color:${headingColor};
   font-weight:${font.xbold};

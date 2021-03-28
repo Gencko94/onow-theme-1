@@ -1,9 +1,19 @@
 {
-  "account-info": "معلومات الحساب",
+  "your-info": "معلومات الحساب",
   "fullname": "الإسم الكامل",
   "phonenumber": "رقم الهاتف",
   "website-settings": "اعدادات الموقع",
   "preffered-payment": "طريقة الدفع المفضلة",
   "change": "تغيير",
-  "save": "حفظ"
+  "save": "حفظ",
+  "password": "كلمة المرور",
+  "new-password": "كلمة المرور الجديدة",
+  "old-password": "كلمة المرور القديمة",
+  "confirm-new-password": "تأكيد كلمة المرور الجديدة",
+  "first-name": "الإسم الأول",
+  "last-name": "الإسم الأخير",
+  "6-char": "كلمة المرور الجديدة يجب ان تكون من 6 رموز كحد ادنى",
+  "update-password": "تحديث كلمة المرور",
+  "update-info": "تحديث البيانات",
+  "email": "البريد الإلكتروني"
 }

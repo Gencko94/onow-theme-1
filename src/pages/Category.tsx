@@ -92,10 +92,23 @@ const Category = () => {
 
 export default Category;
 
-const Container = styled(m.div)`
+const Container = styled(m.div)(
+  ({ theme: { breakpoints, headingColor, font } }) => `
   margin-top: 58px;
   padding: 1rem;
-`;
+  
+  @media ${breakpoints.md}{
+    max-width:960px;
+    margin: 0 auto;
+    margin-top: 58px;
+    
+  }
+  @media ${breakpoints.lg}{
+    max-width:1100px;
+
+  }
+  `
+);
 const Title = styled.h1(
   ({ theme: { breakpoints, headingColor, font } }) => `
   font-size: 1.875rem;
@@ -114,10 +127,11 @@ const Title = styled.h1(
 const ProductsContainer = styled.div(
   ({ theme: { breakpoints } }) => `
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  grid-template-columns: 1fr 1fr;
   gap: 1rem;
-  @media ${breakpoints}{
-
+  @media ${breakpoints.md}{
+    
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   }
   `
 );

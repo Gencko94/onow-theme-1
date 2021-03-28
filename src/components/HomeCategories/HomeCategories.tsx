@@ -12,7 +12,7 @@ const HomeCategories = () => {
 
   return (
     <Container>
-      <Title>{t('common:our-menu')}</Title>
+      <Title>{t('our-menu')}</Title>
 
       {categories?.map(category => (
         <HomeCategory id={category} />
@@ -24,7 +24,7 @@ const HomeCategories = () => {
 export default HomeCategories;
 
 const Container = styled.div`
-  padding: 1rem;
+  padding: 0.5rem;
 `;
 const Title = styled.h1(
   ({ theme: { breakpoints, headingColor } }) => `

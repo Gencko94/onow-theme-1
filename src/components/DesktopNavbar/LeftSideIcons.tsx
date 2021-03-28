@@ -27,7 +27,7 @@ const LeftSideIcons = () => {
           onMouseLeave={() => setMenuOpen(false)}
         >
           <IconText>
-            {t('hello')} {user?.name}
+            {t('hello')} {user?.first_name}
           </IconText>
           <Icon>
             <FiChevronDown size={20} />

@@ -20,7 +20,7 @@ const DesktopNavbar = () => {
   const shouldChange = useMemo(() => {
     if (
       pathname === '/' ||
-      pathname.includes('categories') ||
+      pathname.includes('menu') ||
       pathname.includes('booking') ||
       pathname.includes('products')
     )

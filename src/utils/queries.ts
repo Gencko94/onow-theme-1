@@ -1,17 +1,23 @@
 import axios from 'axios';
 import { AddToCartRequest } from '../interfaces/AddRequest';
 import { Address } from '../interfaces/Address';
+import {
+  LOGIN_FORM,
+  LOGIN_RESPONSE,
+  REGISTER_FORM,
+  REGISTER_RESPONSE,
+} from '../interfaces/auth';
 import { Branch } from '../interfaces/branch';
 import { CartItem } from '../interfaces/cartitem';
 import { Category } from '../interfaces/categories';
-import { Init } from '../interfaces/init';
+import { DEALS, Init, USER } from '../interfaces/init';
 import { Product } from '../interfaces/product';
 
-// const uri =
-//   process.env.NODE_ENV === 'production'
-//     ? 'https://onow-mock-api.herokuapp.com'
-//     : 'localhost:3001';
-const uri = 'https://onow-mock-api.herokuapp.com';
+const uri =
+  process.env.NODE_ENV === 'production'
+    ? 'https://onow-mock-api.herokuapp.com'
+    : 'http://localhost:4000';
+// const uri = 'https://onow-mock-api.herokuapp.com';
 export const getGeneralInfo = async (): Promise<Init> => {
   const res = await axios.get(`${uri}/init`);
 
@@ -103,6 +109,37 @@ export const deleteAddress = async ({
   id: number;
 }): Promise<Address[]> => {
   const res = await axios.delete(`${uri}/addresses/${id}`);
+
+  return res.data;
+};
+export const getDeals = async (): Promise<DEALS> => {
+  const res = await axios.get(`${uri}/deals`);
+
+  return res.data;
+};
+
+// Authentication Section
+
+export const getUser = async (t: string | null): Promise<USER> => {
+  const config = {
+    headers: {
+      Authorization: `Bearer ${t}`,
+    },
+  };
+
+  const res = await axios.get(`${uri}/user`, config);
+
+  return res.data;
+};
+export const userLogin = async (data: LOGIN_FORM): Promise<LOGIN_RESPONSE> => {
+  const res = await axios.post(`${uri}/login`, data);
+
+  return res.data;
+};
+export const userRegister = async (
+  data: REGISTER_FORM
+): Promise<REGISTER_RESPONSE> => {
+  const res = await axios.post(`${uri}/register`, data);
 
   return res.data;
 };
