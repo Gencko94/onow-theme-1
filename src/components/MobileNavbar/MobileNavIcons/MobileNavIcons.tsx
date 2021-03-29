@@ -1,20 +1,11 @@
-import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { HiOutlineShoppingBag } from 'react-icons/hi';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
-const MobileNavIcons = ({
-  shouldChangeColor,
-}: {
-  shouldChangeColor: () => boolean;
-}) => {
+const MobileNavIcons = () => {
   const { i18n, ready } = useTranslation();
-  // const language = React.useMemo(() => {
-  //   if (ready) {
-  //     return i18n.language;
-  //   }
-  // }, [ready, i18n.language]);
+
   const changeLanguage = (lng: string) => {
     if (ready) {
       i18n.changeLanguage(lng);
@@ -22,7 +13,7 @@ const MobileNavIcons = ({
   };
   return (
     <Container>
-      <div className="">
+      <div>
         {i18n.language === 'ar' && (
           <LanguageButton onClick={() => changeLanguage('en')}>
             English
@@ -35,7 +26,7 @@ const MobileNavIcons = ({
         )}
       </div>
       <CartIconContainer to="/cart">
-        <CartTotal shouldChangeColor={shouldChangeColor}>3.000 KD</CartTotal>
+        <CartTotal>3.000 KD</CartTotal>
         <Icon>
           <HiOutlineShoppingBag size={20} color="#fff" />
         </Icon>
@@ -72,11 +63,11 @@ const CartIconContainer = styled(Link)`
   padding: 0.25rem 0.5rem;
 `;
 
-const CartTotal = styled.p<{ shouldChangeColor: () => boolean }>`
+const CartTotal = styled.p`
   text-align: center;
   font-size: 0.8rem;
-  color: ${props =>
-    props.shouldChangeColor() ? '#fff' : 'rgba(255,255,255,.8)'};
+
+  color: #fff;
   transition: color 250ms;
   font-weight: ${props => props.theme.font.bold};
 `;

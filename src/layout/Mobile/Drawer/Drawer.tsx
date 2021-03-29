@@ -1,4 +1,4 @@
-import React, { Dispatch, SetStateAction, useContext } from 'react';
+import { Dispatch, SetStateAction, useContext, useRef } from 'react';
 import styled from 'styled-components';
 import { IoMdListBox } from 'react-icons/io';
 import { BiGitBranch, BiFoodMenu } from 'react-icons/bi';
@@ -6,7 +6,6 @@ import { FaMapMarkerAlt } from 'react-icons/fa';
 import { HiUserCircle } from 'react-icons/hi';
 import { MdMail } from 'react-icons/md';
 import {
-  AiOutlineUnorderedList,
   AiFillInfoCircle,
   AiOutlinePoweroff,
   AiOutlineUserAdd,
@@ -15,21 +14,23 @@ import { Link } from 'react-router-dom';
 import ThemeToggler from '../../../utils/ThemeToggler';
 import { useTranslation } from 'react-i18next';
 import { ApplicationProvider } from '../../../contexts/ApplicationContext';
+import Hamburger from '../../../components/MobileNavbar/MobileNavIcons/Hamburger';
 
 interface IProps {
   setDrawerOpen: Dispatch<SetStateAction<boolean>>;
+  drawerOpen: boolean;
 }
-const Drawer = ({ setDrawerOpen }: IProps) => {
+const Drawer = ({ setDrawerOpen, drawerOpen }: IProps) => {
   const { t, i18n } = useTranslation();
   const { user, is_user, store_name } = useContext(ApplicationProvider);
-  let topSectionRef = React.useRef<HTMLDivElement | null>(null);
-  let linksRef = React.useRef<HTMLDivElement | null>(null);
+  let topSectionRef = useRef<HTMLDivElement | null>(null);
+  let linksRef = useRef<HTMLDivElement | null>(null);
 
-  const handleDrawerClose = () => {
-    setDrawerOpen(false);
-  };
   return (
     <DrawerContainer rtl={i18n.language === 'ar'}>
+      <HamburgerContainer>
+        <Hamburger setDrawerOpen={setDrawerOpen} drawerOpen={drawerOpen} />
+      </HamburgerContainer>
       <TopSection ref={topSectionRef}>
         {is_user && (
           <NameWrapper>
@@ -45,20 +46,15 @@ const Drawer = ({ setDrawerOpen }: IProps) => {
             <ButtonsContainer>
               <Button to="/login">
                 <AiOutlinePoweroff size={20} />
-                <Text>Login</Text>
+                <Text>{t('login')}</Text>
               </Button>
               <Button to="/register">
                 <AiOutlineUserAdd size={20} />
-                <Text>Register</Text>
+                <Text>{t('register')}</Text>
               </Button>
             </ButtonsContainer>
           </NameWrapper>
         )}
-        {/* <LogoWrapper>
-          <LogoContainer>
-            <img src="/images/logo.png" alt="logo" />
-          </LogoContainer>
-        </LogoWrapper> */}
       </TopSection>
       <hr />
       <LinksContainer ref={linksRef}>
@@ -123,29 +119,22 @@ const DrawerContainer = styled.div<{ rtl: boolean }>`
   height: 100%;
   width: 85%;
 `;
+const HamburgerContainer = styled.div`
+  padding: 1rem;
+`;
 const TopSection = styled.div`
   /* background-color: ${props => props.theme.mainColor}; */
   color: #fff;
-  margin-top: 3rem;
+  /* margin-top: 3rem; */
   display: flex;
   align-items: center;
   justify-content: space-between;
   /* height: 200px; */
   padding: 1rem;
 `;
-const LogoWrapper = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
+
 const NameWrapper = styled.div``;
-const LogoContainer = styled.div`
-  border-radius: 50%;
-  width: 75px;
-  height: 75px;
-  box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
-  margin-bottom: 0.5rem;
-`;
+
 const Name = styled.h4(
   ({ theme: { breakpoints, headingColor } }) => `
 

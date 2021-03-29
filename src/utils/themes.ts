@@ -1,4 +1,3 @@
-import color from 'color';
 export const lightTheme = {
   accentColor: '#ECECEC', // Inputs
   bodyColor: '#F4F4F4',
@@ -27,13 +26,11 @@ export const darkTheme = {
   inputColorDark: '#6f6f6f',
   btnBorder: '1px solid #FFF',
   bodyColor: '#3B3B3B',
-  // overlayColor: '#5B5B5B',
   overlayColor:
     'linear-gradient(128deg,rgba(102, 102, 102, 1) 0%,rgba(91, 91, 91, 1) 100%)',
   headingColor: '#FFF',
   subHeading: '#D8D8D8',
   textColor: '#FFF',
-  // shadow: '0 0 10px rgba(0,0,0,0.7)',
   shadow: 'none',
   highlightColor: '#2d2d2d',
   highlightColorText: '#fff',

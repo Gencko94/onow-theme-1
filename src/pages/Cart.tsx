@@ -23,16 +23,11 @@ const Cart = () => {
 
 export default Cart;
 
-const Container = styled.div`
-  /* position: relative; */
-  /* margin-top: 66px; */
-  /* min-height: calc(100vh - 53px); */
-  /* min-height: -webkit-fill-available; */
-`;
+const Container = styled.div``;
 const Grid = styled.div(
   ({ theme: { breakpoints } }) => `
+   
 
-  // padding: 1rem 0rem;
   @media  ${breakpoints.md} {
     padding: 1rem 0.75rem;
     margin: 0 auto;

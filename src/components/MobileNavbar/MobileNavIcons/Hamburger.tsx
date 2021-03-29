@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction, useContext, useMemo } from 'react';
+import { Dispatch, SetStateAction, useContext } from 'react';
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
 import { ThemeContext } from '../../../contexts/ThemeContext';
@@ -9,14 +9,8 @@ interface IProps {
 }
 
 const HamburgerButton = styled.button<{ rtl: boolean }>`
-  z-index: 400;
-  position: fixed;
-  top: 0;
-  /* left: 0; */
-  left: ${props => !props.rtl && 0};
-  right: ${props => props.rtl && 0};
-  padding: 1rem;
-  /* padding-top: 1.5rem; */
+  z-index: 10;
+
   display: flex;
   justify-content: center;
   align-items: center;
@@ -33,23 +27,7 @@ const Hamburger = ({ drawerOpen, setDrawerOpen }: IProps) => {
       setDrawerOpen(true);
     }
   };
-  // useEffect(() => {
-  //   if (drawerOpen) {
-  //     timeline.play();
-  //   } else {
-  //     timeline.reverse();
-  //   }
-  // }, [drawerOpen, timeline]);
-  // useEffect(() => {
-  //   timeline
-  //     .to('#ham_first-bar', { rotate: 45, y: 7, transformOrigin: 'center' }, 0)
-  //     .to('#ham_second-bar', { scale: 0, transformOrigin: 'center' }, 0)
-  //     .to(
-  //       '#ham_third-bar',
-  //       { rotate: -45, y: -7, transformOrigin: 'center' },
-  //       0
-  //     );
-  // }, [timeline]);
+
   return (
     <HamburgerButton rtl={i18n.language === 'ar'} onClick={handleDrawer}>
       <svg
