@@ -43,7 +43,6 @@ const Product = () => {
     }
   );
   const history = useHistory();
-  const location = useLocation();
   const queryClient = useQueryClient();
   const [quantity, setQuantity] = useState<number>(1);
 
@@ -56,11 +55,8 @@ const Product = () => {
     if (product) {
       try {
         await addMutation({
-          // image: product.image,
-          // name: product?.name,
-          price: product.price,
           quantity,
-          slug: product.slug,
+          id: product.id,
         });
         history.push('/cart');
       } catch (error) {

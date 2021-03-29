@@ -13,7 +13,7 @@ const Cart = () => {
       <Container>
         <MobileHeader title="my-basket" />
         <Grid>
-          <CartItems data={data} isLoading={isLoading} />
+          <CartItems data={data?.products} isLoading={isLoading} />
         </Grid>
         <CheckoutSection isLoading={isLoading} data={data} />
       </Container>

@@ -7,11 +7,15 @@ import { useMutation, useQueryClient } from 'react-query';
 
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import { CartItem as CartItemT } from '../../../interfaces/cartitem';
+import {
+  CART_ITEM,
+  DELETE_FROM_CART_RESPONSE,
+  GET_CART_RESPONSE,
+} from '../../../interfaces/Cart';
 import { deleteCartItem } from '../../../utils/queries';
 
 interface Props {
-  product: CartItemT;
+  product: CART_ITEM;
 }
 const addons = [
   { name: 'Extra Cheese', price: '0.500 KD' },
@@ -37,19 +41,20 @@ const CartItem = ({ product }: Props) => {
   const { t, i18n } = useTranslation();
   const queryClient = useQueryClient();
   const { mutateAsync: deleteMutation } = useMutation(deleteCartItem, {
-    onSuccess: () => {
-      queryClient.setQueryData<CartItemT[] | undefined>('cart', prev => {
-        return prev?.filter(i => i.id !== product.id);
-      });
+    onSuccess: data => {
+      queryClient.setQueryData<DELETE_FROM_CART_RESPONSE | undefined>(
+        'cart',
+        data
+      );
     },
   });
-  const { mutateAsync: editItem } = useMutation(deleteCartItem, {
-    onSuccess: () => {
-      queryClient.setQueryData<CartItemT[] | undefined>('cart', prev => {
-        return prev?.filter(i => i.id !== product.id);
-      });
-    },
-  });
+  // const { mutateAsync: editItem } = useMutation(deleteCartItem, {
+  //   onSuccess: () => {
+  //     queryClient.setQueryData<CartItemT[] | undefined>('cart', prev => {
+  //       return prev?.filter(i => i.id !== product.id);
+  //     });
+  //   },
+  // });
   const [quantity, setQuantity] = useState<number>(() => {
     return product.quantity;
   });
@@ -90,13 +95,15 @@ const CartItem = ({ product }: Props) => {
     >
       <ProductContainer>
         <ImageContainer>
-          <Image src={product.image} alt={product.name} />
+          <Image src={product.image} alt={product.name[i18n.language]} />
         </ImageContainer>
         <Details>
           <ProductName to={`products/${product.id}`}>
-            {product.name}
+            {product.name[i18n.language]}
           </ProductName>
-          <Price>{product.price}</Price>
+          <Price>
+            {product.price} {t('kd')}
+          </Price>
           {addons.map(addon => (
             <>
               <AddonName>{addon.name}</AddonName>

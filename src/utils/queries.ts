@@ -1,5 +1,4 @@
 import axios from 'axios';
-import { AddToCartRequest } from '../interfaces/AddRequest';
 import { Address } from '../interfaces/Address';
 import {
   LOGIN_FORM,
@@ -8,16 +7,24 @@ import {
   REGISTER_RESPONSE,
 } from '../interfaces/auth';
 import { Branch } from '../interfaces/branch';
-import { CartItem } from '../interfaces/cartitem';
+import {
+  ADD_TO_CART_REQUEST,
+  ADD_TO_CART_RESPONSE,
+  CART_ITEM,
+  DELETE_FROM_CART_REQUEST,
+  DELETE_FROM_CART_RESPONSE,
+  EDIT_CART_REQUEST,
+  GET_CART_RESPONSE,
+} from '../interfaces/Cart';
 import { Category } from '../interfaces/categories';
 import { DEALS, Init, USER } from '../interfaces/init';
 import { Product } from '../interfaces/product';
 
-// const uri =
-//   process.env.NODE_ENV === 'production'
-//     ? 'https://onow-mock-api.herokuapp.com'
-//     : 'http://localhost:4000';
-const uri = 'https://onow-mock-api.herokuapp.com';
+const uri =
+  process.env.NODE_ENV === 'production'
+    ? 'https://onow-mock-api.herokuapp.com'
+    : 'http://localhost:4000';
+// const uri = 'https://onow-mock-api.herokuapp.com';
 export const getGeneralInfo = async (): Promise<Init> => {
   const res = await axios.get(`${uri}/init`);
 
@@ -35,14 +42,14 @@ export const getCategory = async (id: number | string): Promise<Category> => {
 };
 
 export const addToCart = async (
-  product: AddToCartRequest
-): Promise<CartItem[]> => {
+  product: ADD_TO_CART_REQUEST
+): Promise<ADD_TO_CART_RESPONSE> => {
   const res = await axios.post(`${uri}/cart`, product);
 
   return res.data.items;
 };
 
-export const getCartItems = async (): Promise<CartItem[]> => {
+export const getCartItems = async (): Promise<GET_CART_RESPONSE> => {
   const res = await axios.get(`${uri}/cart`);
   console.log(res.data);
   return res.data;
@@ -51,20 +58,18 @@ export const getCartItems = async (): Promise<CartItem[]> => {
 export const editCartItem = async ({
   product,
 }: {
-  product: CartItem;
-}): Promise<CartItem> => {
+  product: EDIT_CART_REQUEST;
+}): Promise<GET_CART_RESPONSE> => {
   const res = await axios.put(`${uri}/cart/${product.id}`);
 
   return res.data;
 };
 export const deleteCartItem = async ({
   id,
-}: {
-  id: number;
-}): Promise<CartItem> => {
+}: DELETE_FROM_CART_REQUEST): Promise<DELETE_FROM_CART_RESPONSE> => {
   const res = await axios.delete(`${uri}/cart/${id}`);
 
-  return res.data.items;
+  return res.data;
 };
 
 export const getBranches = async (): Promise<Branch[]> => {

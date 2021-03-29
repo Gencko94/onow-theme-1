@@ -4,12 +4,12 @@ import ReactPlaceholder from 'react-placeholder';
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
 import { ThemeContext } from '../../../contexts/ThemeContext';
-import { CartItem as CartItemT } from '../../../interfaces/cartitem';
 import CartItem from './CartItem';
 import { AnimatePresence, AnimateSharedLayout, m } from 'framer-motion';
+import { CART_ITEM } from '../../../interfaces/Cart';
 
 interface IProps {
-  data: CartItemT[] | undefined;
+  data: CART_ITEM[] | undefined;
   isLoading: boolean;
 }
 

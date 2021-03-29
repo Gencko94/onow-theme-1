@@ -5,10 +5,10 @@ import ReactPlaceholder from 'react-placeholder/lib';
 import { Link, useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 import { ApplicationProvider } from '../../contexts/ApplicationContext';
-import { CartItem } from '../../interfaces/cartitem';
+import { GET_CART_RESPONSE } from '../../interfaces/Cart';
 import Modal from '../Modal/Modal';
 interface IProps {
-  data: CartItem[] | undefined;
+  data: GET_CART_RESPONSE | undefined;
   isLoading: boolean;
 }
 
@@ -62,18 +62,18 @@ const CheckoutSection = ({ isLoading, data }: IProps) => {
         <StickyContainer>
           <SmallBlock>
             <BlockText>{t('order-total')}</BlockText>
-            <Number>2.000 KD</Number>
+            <Number>{data.cart_total}</Number>
           </SmallBlock>
           <SmallBlock>
             <BlockText>{t('delivery-cost')}</BlockText>
-            <Number>2.000 KD</Number>
+            <Number>{data.delivery_cost}</Number>
           </SmallBlock>
 
           <hr />
 
           <MediumBlock>
             <BlockText>{t('subtotal')}</BlockText>
-            <Number bold>2.000 KD</Number>
+            <Number bold>{data.cart_subtotal}</Number>
           </MediumBlock>
 
           <CheckoutButtonContainer>
