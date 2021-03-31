@@ -16,7 +16,7 @@ import { useMemo, useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { REGISTER_FORM } from '../interfaces/auth';
 import { userRegister } from '../utils/queries';
-import { useMutation } from 'react-query';
+import { useMutation, useQueryClient } from 'react-query';
 
 const Register = () => {
   const { t, ready, i18n } = useTranslation(['auth']);
@@ -27,12 +27,16 @@ const Register = () => {
           .required('Required Field')
           .min(8, t('phone-validation')),
         password: Yup.string().required('Required Field').min(6, t('min-6')),
+        first_name: Yup.string().required('Required Field').min(3, t('min-3')),
+        last_name: Yup.string().required('Required Field').min(3, t('min-3')),
+
         email: Yup.string().email(),
       }),
     []
   );
   const [phoneKey] = useState('+965');
   const history = useHistory();
+  const queryClient = useQueryClient();
   const {
     register,
     handleSubmit,
@@ -47,6 +51,7 @@ const Register = () => {
     onSuccess: data => {
       if (data.token) {
         localStorage.setItem('tpid', data.token);
+        queryClient.setQueryData('auth', data.user);
         history.replace('/');
       }
     },
@@ -56,7 +61,9 @@ const Register = () => {
       await reg({
         password: data.password,
         phone_number: `${phoneKey}${data.phone_number}`,
-        email: '',
+        email: data.email,
+        first_name: data.first_name,
+        last_name: data.last_name,
       });
     } catch (error) {
       console.log(error.response);
@@ -114,6 +121,18 @@ const Register = () => {
               <Input colored border name="email" ref={register} />
 
               <ErrorMessage>{errors.email?.message}</ErrorMessage>
+            </InputContainer>
+            <InputContainer>
+              <Label>{t('first-name')}</Label>
+              <Input colored border name="first_name" ref={register} />
+
+              <ErrorMessage>{errors.first_name?.message}</ErrorMessage>
+            </InputContainer>
+            <InputContainer>
+              <Label>{t('last-name')}</Label>
+              <Input colored border name="last_name" ref={register} />
+
+              <ErrorMessage>{errors.last_name?.message}</ErrorMessage>
             </InputContainer>
             <InputContainer>
               <Label>{t('password')}</Label>

@@ -4,23 +4,23 @@ import { useTranslation } from 'react-i18next';
 import { FiChevronDown } from 'react-icons/fi';
 import { Link, useHistory } from 'react-router-dom';
 import styled from 'styled-components';
-import { ApplicationProvider } from '../../contexts/ApplicationContext';
+import { AuthProvider } from '../../contexts/AuthContext';
 import { ThemeContext } from '../../contexts/ThemeContext';
 
 const LeftSideIcons = () => {
-  const { user, is_user } = useContext(ApplicationProvider);
+  const { user } = useContext(AuthProvider);
   const { t } = useTranslation();
   const { mode } = useContext(ThemeContext);
   const [menuOpen, setMenuOpen] = useState(false);
   const history = useHistory();
   return (
     <Container>
-      {!is_user && (
+      {!user && (
         <IconContainer mode={mode} to="/login">
           <IconText>{t('login')}</IconText>
         </IconContainer>
       )}
-      {is_user && (
+      {user && (
         <AccountIconContainer
           mode={mode}
           onMouseEnter={() => setMenuOpen(true)}

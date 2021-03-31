@@ -15,6 +15,7 @@ import ThemeToggler from '../../../utils/ThemeToggler';
 import { useTranslation } from 'react-i18next';
 import { ApplicationProvider } from '../../../contexts/ApplicationContext';
 import Hamburger from '../../../components/MobileNavbar/MobileNavIcons/Hamburger';
+import { AuthProvider } from '../../../contexts/AuthContext';
 
 interface IProps {
   setDrawerOpen: Dispatch<SetStateAction<boolean>>;
@@ -22,7 +23,8 @@ interface IProps {
 }
 const Drawer = ({ setDrawerOpen, drawerOpen }: IProps) => {
   const { t, i18n } = useTranslation();
-  const { user, is_user, store_name } = useContext(ApplicationProvider);
+  const { store_name } = useContext(ApplicationProvider);
+  const { user } = useContext(AuthProvider);
   let topSectionRef = useRef<HTMLDivElement | null>(null);
   let linksRef = useRef<HTMLDivElement | null>(null);
 
@@ -32,15 +34,15 @@ const Drawer = ({ setDrawerOpen, drawerOpen }: IProps) => {
         <Hamburger setDrawerOpen={setDrawerOpen} drawerOpen={drawerOpen} />
       </HamburgerContainer>
       <TopSection ref={topSectionRef}>
-        {is_user && (
+        {user && (
           <NameWrapper>
             <Name>
               {t('hello')} {user?.first_name} !
             </Name>
-            <PhoneNumber>{user?.phone}</PhoneNumber>
+            <PhoneNumber>{user?.phone_number}</PhoneNumber>
           </NameWrapper>
         )}
-        {!is_user && (
+        {!user && (
           <NameWrapper>
             <Name>{store_name?.[i18n.language]}</Name>
             <ButtonsContainer>
@@ -67,7 +69,7 @@ const Drawer = ({ setDrawerOpen, drawerOpen }: IProps) => {
           <BiGitBranch size={30} color="#b99e04" />
           <Linkitem to="/branches">{t('common:our-branches')}</Linkitem>
         </LinkContainer>
-        {is_user && (
+        {user && (
           <>
             <LinkContainer>
               <HiUserCircle size={30} color="#dd321b" />

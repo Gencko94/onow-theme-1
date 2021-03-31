@@ -1,10 +1,10 @@
 import { yupResolver } from '@hookform/resolvers/yup';
-import { useContext } from 'react';
+import { useContext, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
 import * as Yup from 'yup';
-import { ApplicationProvider } from '../../../contexts/ApplicationContext';
+import { AuthProvider } from '../../../contexts/AuthContext';
 interface FormProps {
   first_name: string;
   last_name: string;
@@ -14,9 +14,8 @@ const schema = Yup.object().shape({
   password: Yup.string().required('Required Field').min(5),
 });
 const Info = () => {
-  const { user } = useContext(ApplicationProvider);
-  console.log(user);
-  const { register, handleSubmit, errors } = useForm<FormProps>({
+  const { user } = useContext(AuthProvider);
+  const { register, handleSubmit, errors, reset } = useForm<FormProps>({
     resolver: yupResolver(schema),
     defaultValues: {
       first_name: user?.first_name,
@@ -24,6 +23,17 @@ const Info = () => {
     },
   });
   const { t } = useTranslation(['profile']);
+  // useEffect(() => {
+  //   console.log(user);
+  //   if (user) {
+  //     reset({
+  //       first_name: user.first_name,
+  //       last_name: user.last_name,
+  //       email: user.email,
+  //       phone_number: user.phone_number,
+  //     });
+  //   }
+  // }, [user]);
   return (
     <div>
       <Head>
@@ -47,14 +57,20 @@ const Info = () => {
         </InputContainer>
         <InputContainer>
           <Label>{t('email')}</Label>
-          <Input colored border readOnly />
+          <Input colored border readOnly defaultValue={user?.email} />
           {/* {errors.email && (
                 <ErrorMessage>{errors.email.message}</ErrorMessage>
               )} */}
         </InputContainer>
         <InputContainer>
           <Label>{t('phonenumber')}</Label>
-          <Input colored border readOnly disabled defaultValue={user?.phone} />
+          <Input
+            colored
+            border
+            readOnly
+            disabled
+            defaultValue={user?.phone_number}
+          />
           {/* {errors.email && (
                 <ErrorMessage>{errors.email.message}</ErrorMessage>
               )} */}

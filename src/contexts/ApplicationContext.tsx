@@ -68,8 +68,6 @@ const ApplicationContext: React.FC = ({ children }) => {
         payment_methods: data?.payment_methods,
         cart_total: data?.cart_total,
         order_modes: data?.order_modes,
-        user: data?.user,
-        is_user: data?.is_user,
         categories: data?.categories,
         deals: data?.deals,
       }}

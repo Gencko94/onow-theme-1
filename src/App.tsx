@@ -23,6 +23,7 @@ import 'react-placeholder/lib/reactPlaceholder.css';
 import AddAddress from './pages/AddAddress';
 import { AnimatePresence, LazyMotion, domAnimation } from 'framer-motion';
 import MyAddresses from './pages/MyAddresses';
+import AuthContext from './contexts/AuthContext';
 const Aboutus = React.lazy(() => import('./pages/Aboutus'));
 const Home = React.lazy(() => import('./pages/Home'));
 const Menu = React.lazy(() => import('./pages/Menu'));
@@ -57,69 +58,83 @@ function App() {
           <Suspense fallback={<Loading />}>
             <QueryClientProvider client={queryClient}>
               <ApplicationContext>
-                <UserInfoContext>
-                  <ThemeProvider>
-                    <GlobalStyle />
-                    <ScrollToTopOnMount />
-                    <AnimatePresence exitBeforeEnter initial={false}>
-                      <LazyMotion features={domAnimation}>
-                        <Switch location={location} key={location.key}>
-                          <Route exact path="/" component={Home} />
-                          <Route exact path="/menu" component={Menu} />
-                          <Route
-                            exact
-                            path="/categories/:id"
-                            component={Category}
-                          />
-                          <Route
-                            exact
-                            path="/products/:id"
-                            component={Product}
-                          />
+                <AuthContext>
+                  <UserInfoContext>
+                    <ThemeProvider>
+                      <GlobalStyle />
+                      <ScrollToTopOnMount />
+                      <AnimatePresence exitBeforeEnter initial={false}>
+                        <LazyMotion features={domAnimation}>
+                          <Switch location={location} key={location.key}>
+                            <Route exact path="/" component={Home} />
+                            <Route exact path="/menu" component={Menu} />
+                            <Route
+                              exact
+                              path="/categories/:id"
+                              component={Category}
+                            />
+                            <Route
+                              exact
+                              path="/products/:id"
+                              component={Product}
+                            />
 
-                          <Route exact path="/branch/:id" component={Branch} />
-                          <Route
-                            exact
-                            path="/address/edit"
-                            component={EditAddress}
-                          />
+                            <Route
+                              exact
+                              path="/branch/:id"
+                              component={Branch}
+                            />
+                            <Route
+                              exact
+                              path="/address/edit"
+                              component={EditAddress}
+                            />
 
-                          <Route
-                            exact
-                            path="/address/add"
-                            component={AddAddress}
-                          />
+                            <Route
+                              exact
+                              path="/address/add"
+                              component={AddAddress}
+                            />
 
-                          <Route exact path="/aboutus" component={Aboutus} />
-                          {/* <Route exact path="/cart" component={Cart} /> */}
-                          <Route exact path="/branches" component={Branches} />
+                            <Route exact path="/aboutus" component={Aboutus} />
+                            {/* <Route exact path="/cart" component={Cart} /> */}
+                            <Route
+                              exact
+                              path="/branches"
+                              component={Branches}
+                            />
 
-                          <Route exact path="/booking" component={Booking} />
-                          <Route path="/checkout" component={Checkout} />
-                          <Route
-                            exact
-                            path="/location/:edited?"
-                            component={SelectLocation}
-                          />
-                          <Route exact path="/login" component={Login} />
-                          <Route exact path="/register" component={Register} />
-                          <Route
-                            exact
-                            path="/user/profile"
-                            component={MyProfile}
-                          />
+                            <Route exact path="/booking" component={Booking} />
+                            <Route path="/checkout" component={Checkout} />
+                            <Route
+                              exact
+                              path="/location/:edited?"
+                              component={SelectLocation}
+                            />
+                            <Route exact path="/login" component={Login} />
+                            <Route
+                              exact
+                              path="/register"
+                              component={Register}
+                            />
+                            <Route
+                              exact
+                              path="/user/profile"
+                              component={MyProfile}
+                            />
 
-                          <Route
-                            exact
-                            path="/user/addresses"
-                            component={MyAddresses}
-                          />
-                          <Route exact path="/cart" component={Cart} />
-                        </Switch>
-                      </LazyMotion>
-                    </AnimatePresence>
-                  </ThemeProvider>
-                </UserInfoContext>
+                            <Route
+                              exact
+                              path="/user/addresses"
+                              component={MyAddresses}
+                            />
+                            <Route exact path="/cart" component={Cart} />
+                          </Switch>
+                        </LazyMotion>
+                      </AnimatePresence>
+                    </ThemeProvider>
+                  </UserInfoContext>
+                </AuthContext>
               </ApplicationContext>
             </QueryClientProvider>
           </Suspense>

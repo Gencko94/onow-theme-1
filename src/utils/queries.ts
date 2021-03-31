@@ -5,6 +5,7 @@ import {
   LOGIN_RESPONSE,
   REGISTER_FORM,
   REGISTER_RESPONSE,
+  USER,
 } from '../interfaces/auth';
 import { Branch } from '../interfaces/branch';
 import {
@@ -17,7 +18,7 @@ import {
   GET_CART_RESPONSE,
 } from '../interfaces/Cart';
 import { Category } from '../interfaces/categories';
-import { DEALS, Init, USER } from '../interfaces/init';
+import { DEALS, Init } from '../interfaces/init';
 import { Product } from '../interfaces/product';
 
 const uri =
@@ -125,7 +126,8 @@ export const getDeals = async (): Promise<DEALS> => {
 
 // Authentication Section
 
-export const getUser = async (t: string | null): Promise<USER> => {
+export const getUser = async (): Promise<USER> => {
+  const t = localStorage.getItem('tpid');
   const config = {
     headers: {
       Authorization: `Bearer ${t}`,
@@ -133,8 +135,8 @@ export const getUser = async (t: string | null): Promise<USER> => {
   };
 
   const res = await axios.get(`${uri}/user`, config);
-
-  return res.data;
+  console.log(res.data);
+  return res.data.user;
 };
 export const userLogin = async (data: LOGIN_FORM): Promise<LOGIN_RESPONSE> => {
   const res = await axios.post(`${uri}/login`, data);

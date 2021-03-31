@@ -18,12 +18,7 @@ export type PAYMENT_METHOD = {
   };
   logo: string;
 };
-export type USER = {
-  first_name: string;
-  last_name: string;
-  phone: string;
-  payment: string;
-};
+
 export type DEALS = {
   title: { [key: string]: string };
   products: Product[];
@@ -35,8 +30,6 @@ export interface Init {
   payment_methods: PAYMENT_METHOD[];
   order_modes: string[];
   cart_total: string;
-  user: USER;
-  is_user: boolean;
   categories: number[];
   deals: DEALS;
 }
