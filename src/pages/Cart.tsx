@@ -1,21 +1,43 @@
+import { useContext } from 'react';
 import { useQuery } from 'react-query';
 import styled from 'styled-components';
 import CartItems from '../components/Cart/CartItems/CartItems';
 import CheckoutSection from '../components/Cart/CheckoutSection';
 import MobileHeader from '../components/Header/MobileHeader';
+import { AuthProvider } from '../contexts/AuthContext';
 import Layout from '../layout/Layout';
-import { getCartItems } from '../utils/queries';
+import { getCartItems, getGuestCartItems } from '../utils/queries';
 
 const Cart = () => {
-  const { data, isLoading } = useQuery('cart', getCartItems);
+  const { user } = useContext(AuthProvider);
+  const { data: userCart, isLoading: userCartLoading } = useQuery(
+    ['cart', user],
+    getCartItems,
+    {
+      enabled: Boolean(user),
+    }
+  );
+  const { data: guestCart, isLoading: guestCartLoading } = useQuery(
+    'guest-cart',
+    getGuestCartItems,
+    {
+      enabled: !user,
+    }
+  );
   return (
     <Layout>
       <Container>
         <MobileHeader title="my-basket" />
         <Grid>
-          <CartItems data={data?.products} isLoading={isLoading} />
+          <CartItems
+            data={userCart ? userCart.products : guestCart?.products}
+            isLoading={userCartLoading || guestCartLoading}
+          />
         </Grid>
-        <CheckoutSection isLoading={isLoading} data={data} />
+        <CheckoutSection
+          isLoading={userCartLoading || guestCartLoading}
+          data={userCart ? userCart : guestCart}
+        />
       </Container>
     </Layout>
   );

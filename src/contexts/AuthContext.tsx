@@ -1,5 +1,5 @@
 import { createContext } from 'react';
-import { useQuery } from 'react-query';
+import { useQuery, useQueryClient } from 'react-query';
 import { USER } from '../interfaces/auth';
 import { getUser } from '../utils/queries';
 
@@ -13,11 +13,13 @@ export const AuthProvider = createContext<Partial<AuthContextProps>>({
 });
 
 const AuthContext: React.FC = ({ children }) => {
+  const queryClient = useQueryClient();
   const { data: user } = useQuery('auth', getUser, {
     suspense: true,
   });
   const logOut = () => {
     localStorage.removeItem('tpid');
+    queryClient.setQueryData('auth', undefined);
   };
   return (
     <AuthProvider.Provider

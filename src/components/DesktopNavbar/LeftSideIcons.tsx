@@ -8,11 +8,12 @@ import { AuthProvider } from '../../contexts/AuthContext';
 import { ThemeContext } from '../../contexts/ThemeContext';
 
 const LeftSideIcons = () => {
-  const { user } = useContext(AuthProvider);
+  const { user, logOut } = useContext(AuthProvider);
   const { t } = useTranslation();
   const { mode } = useContext(ThemeContext);
   const [menuOpen, setMenuOpen] = useState(false);
   const history = useHistory();
+
   return (
     <Container>
       {!user && (
@@ -43,6 +44,7 @@ const LeftSideIcons = () => {
                 <MenuItem to="/user/profile">{t('my-profile')}</MenuItem>
                 <MenuItem to="/user/addresses">{t('my-addresses')}</MenuItem>
                 <MenuItem to="/user/orders">{t('my-orders')}</MenuItem>
+                <Logout onClick={() => logOut?.()}>{t('logout')}</Logout>
               </AccountMenu>
             )}
           </AnimatePresence>
@@ -118,6 +120,15 @@ const AccountMenu = styled(m.div)<{ mode?: string }>`
   border-radius: 8px;
 `;
 const MenuItem = styled(Link)`
+  display: block;
+  text-align: center;
+  padding: 0.5rem;
+  &:hover {
+    background-color: ${props => props.theme.highlightColor};
+    color: ${props => props.theme.highlightColorText};
+  }
+`;
+const Logout = styled.button`
   display: block;
   text-align: center;
   padding: 0.5rem;

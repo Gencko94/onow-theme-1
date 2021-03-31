@@ -1,18 +1,18 @@
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { AiOutlineMinus, AiOutlinePlus } from 'react-icons/ai';
 import styled from 'styled-components';
 import useResponsive from '../hooks/useResponsive';
 import Layout from '../layout/Layout';
-import color from 'color';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
-import { useLocation, useParams, useHistory } from 'react-router';
-import { addToCart, getProduct } from '../utils/queries';
+import { useParams, useHistory } from 'react-router';
+import { addToCart, addToGuestCart, getProduct } from '../utils/queries';
 import ReactPlaceholder from 'react-placeholder';
 import Loader from 'react-loader-spinner';
 import Hero from '../components/Home/Hero/Hero';
 import LazyImage from '../utils/LazyImage';
 import { m, Variants } from 'framer-motion';
+import { AuthProvider } from '../contexts/AuthContext';
 const containerVariants: Variants = {
   hidden: {
     x: '100%',
@@ -33,15 +33,24 @@ const containerVariants: Variants = {
 const Product = () => {
   const { id } = useParams<{ id: string }>();
   const { isDesktop } = useResponsive();
+  const { user } = useContext(AuthProvider);
   const { data: product } = useQuery(['product', id], () => getProduct(id));
-  const { mutateAsync: addMutation, isLoading: addLoading } = useMutation(
-    addToCart,
-    {
-      onSuccess: () => {
-        queryClient.invalidateQueries('cart');
-      },
-    }
-  );
+  const {
+    mutateAsync: addToUserCartMutation,
+    isLoading: addToUserCartLoading,
+  } = useMutation(addToCart, {
+    onSuccess: () => {
+      queryClient.invalidateQueries('cart');
+    },
+  });
+  const {
+    mutateAsync: addToGuestCartMutation,
+    isLoading: addToGuestCartLoading,
+  } = useMutation(addToGuestCart, {
+    onSuccess: () => {
+      queryClient.invalidateQueries('cart');
+    },
+  });
   const history = useHistory();
   const queryClient = useQueryClient();
   const [quantity, setQuantity] = useState<number>(1);
@@ -53,14 +62,26 @@ const Product = () => {
   };
   const handleAddToCart = async () => {
     if (product) {
-      try {
-        await addMutation({
-          quantity,
-          id: product.id,
-        });
-        history.push('/cart');
-      } catch (error) {
-        console.log(error);
+      if (user) {
+        try {
+          await addToUserCartMutation({
+            quantity,
+            id: product.id,
+          });
+          history.push('/cart');
+        } catch (error) {
+          console.log(error);
+        }
+      } else {
+        try {
+          await addToGuestCartMutation({
+            quantity,
+            id: product.id,
+          });
+          history.push('/cart');
+        } catch (error) {
+          console.log(error);
+        }
       }
     }
   };
@@ -200,7 +221,7 @@ const Product = () => {
                   </QuantityContainer>
                 </QuantityWrapper>
                 <AddButton onClick={() => handleAddToCart()}>
-                  {addLoading ? (
+                  {addToUserCartLoading || addToGuestCartLoading ? (
                     <Loader
                       type="ThreeDots"
                       color="#fff"

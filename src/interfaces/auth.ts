@@ -20,6 +20,7 @@ export type REGISTER_FORM = {
 export type LOGIN_RESPONSE = {
   token?: string;
   message?: string;
+  user?: USER;
 };
 export type REGISTER_RESPONSE = {
   token?: string;

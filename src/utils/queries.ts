@@ -45,13 +45,65 @@ export const getCategory = async (id: number | string): Promise<Category> => {
 export const addToCart = async (
   product: ADD_TO_CART_REQUEST
 ): Promise<ADD_TO_CART_RESPONSE> => {
-  const res = await axios.post(`${uri}/cart`, product);
+  const t = localStorage.getItem('tpid');
+  const config = {
+    headers: {
+      Authorization: t ? `Bearer ${t}` : '',
+    },
+  };
+
+  const res = await axios.post(`${uri}/cart`, product, config);
 
   return res.data.items;
 };
+export const addToGuestCart = async (
+  product: ADD_TO_CART_REQUEST
+): Promise<ADD_TO_CART_RESPONSE> => {
+  const localCart = localStorage.getItem('tlclc');
+  if (localCart) {
+    const newItems = JSON.parse(localCart);
+    newItems.push({
+      ...product,
+    });
+    localStorage.setItem('tlclc', JSON.stringify(newItems));
+    const res = await axios.post(`${uri}/guest-cart`, {
+      items: newItems,
+    });
+    return res.data.items;
+  } else {
+    const newItems = [{ ...product }];
+    localStorage.setItem('tlclc', JSON.stringify(newItems));
+    const res = await axios.post(`${uri}/guest-cart`, {
+      items: newItems,
+    });
+    return res.data.items;
+  }
+};
 
+export const getGuestCartItems = async (): Promise<GET_CART_RESPONSE> => {
+  const localCart = localStorage.getItem('tlclc');
+  if (localCart) {
+    const res = await axios.post(`${uri}/guest-cart`, {
+      items: JSON.parse(localCart),
+    });
+    return res.data;
+  } else {
+    localStorage.setItem('tlclc', JSON.stringify([]));
+    const res = await axios.post(`${uri}/guest-cart`, {
+      items: [],
+    });
+    return res.data;
+  }
+};
 export const getCartItems = async (): Promise<GET_CART_RESPONSE> => {
-  const res = await axios.get(`${uri}/cart`);
+  const t = localStorage.getItem('tpid');
+  const config = {
+    headers: {
+      Authorization: `Bearer ${t}`,
+    },
+  };
+
+  const res = await axios.get(`${uri}/cart`, config);
   console.log(res.data);
   return res.data;
 };
@@ -130,7 +182,7 @@ export const getUser = async (): Promise<USER> => {
   const t = localStorage.getItem('tpid');
   const config = {
     headers: {
-      Authorization: `Bearer ${t}`,
+      Authorization: t ? `Bearer ${t}` : '',
     },
   };
 

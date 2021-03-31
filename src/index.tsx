@@ -4,6 +4,13 @@ import './styles.css';
 import App from './App';
 import './i18n';
 import { BrowserRouter as Router } from 'react-router-dom';
+
+const localCart = localStorage.getItem('tlclc');
+console.log(localCart);
+if (!localCart) {
+  localStorage.setItem('tlclc', JSON.stringify([]));
+}
+
 ReactDOM.render(
   <Router>
     <App />

@@ -16,7 +16,7 @@ import { MdVisibility, MdVisibilityOff } from 'react-icons/md';
 import { useState } from 'react';
 import { useTranslation, Trans } from 'react-i18next/';
 import { LOGIN_FORM } from '../interfaces/auth';
-import { useMutation } from 'react-query';
+import { useMutation, useQueryClient } from 'react-query';
 import { userLogin } from '../utils/queries';
 
 const Login = () => {
@@ -28,6 +28,7 @@ const Login = () => {
       .min(8, t('phone-validation')),
     password: Yup.string().required('Required Field').min(6, t('min-6')),
   });
+  const queryClient = useQueryClient();
   const [showPassword, setShowPassword] = useState(false);
   const history = useHistory();
   const {
@@ -48,6 +49,7 @@ const Login = () => {
     onSuccess: data => {
       if (data.token) {
         localStorage.setItem('tpid', data.token);
+        queryClient.setQueryData('auth', data.user);
         history.replace('/');
       }
     },
