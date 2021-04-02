@@ -4,7 +4,7 @@ import { UserInfoProvider } from '../contexts/UserInfoContext';
 import * as Yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
-import { Address } from '../interfaces/Address';
+import { DELIVERY_ADDRESS } from '../interfaces/Address';
 import { useTranslation } from 'react-i18next';
 import { useHistory } from 'react-router';
 import { useMutation, useQueryClient } from 'react-query';
@@ -32,11 +32,14 @@ const AddAddress = () => {
 
   const { mutateAsync: addNewAddress, isLoading } = useMutation(addAddress, {
     onSuccess: data => {
-      queryClient.setQueryData<Address[] | undefined>('addresses', prev => {
-        if (prev) {
-          return [...prev, data];
+      queryClient.setQueryData<DELIVERY_ADDRESS[] | undefined>(
+        'addresses',
+        prev => {
+          if (prev) {
+            return [...prev, data];
+          }
         }
-      });
+      );
     },
   });
   const history = useHistory();
@@ -57,7 +60,6 @@ const AddAddress = () => {
   const { register, handleSubmit, errors, reset } = useForm<EditedAddressForm>({
     resolver: yupResolver(schema),
     defaultValues: {
-      mapAddress: newAddress.mapAddress,
       block: newAddress.block,
 
       street: newAddress.street,
@@ -96,7 +98,6 @@ const AddAddress = () => {
       block: newAddress?.block,
       building: newAddress?.building,
       floor: newAddress?.floor,
-      mapAddress: newAddress?.mapAddress,
       street: newAddress?.street,
     });
   }, [newAddress]);

@@ -1,4 +1,9 @@
 {
   "cannot-deliver-here": "التوصيل هنا غير متاح",
-  "confirm-location": "تأكيد الموقع"
+  "confirm-location": "تأكيد الموقع",
+  "governorate": "المحافظة",
+  "area": "المنطقة",
+  "block": "القطعة",
+  "street": "الشارع",
+  "additional-directions": "إتجاهات إضافية"
 }

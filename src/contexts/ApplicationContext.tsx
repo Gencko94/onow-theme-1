@@ -1,18 +1,20 @@
 import { createContext, useState } from 'react';
 import { useQuery } from 'react-query';
-import { Address } from '../interfaces/Address';
+import { DELIVERY_ADDRESS } from '../interfaces/Address';
 import { Branch } from '../interfaces/branch';
 import { Init } from '../interfaces/init';
 import { OrderTime, OrderTimeType } from '../interfaces/orderTime';
 import { getGeneralInfo } from '../utils/queries';
 
 interface ContextProps extends Init {
-  selectedOrderMode: OMode;
-  handleOrderModeChange: (mode: OMode) => void;
+  globalOrderMode: OMode | null;
+  handleGlobalOrderModeChange: (mode: OMode) => void;
   handleBranchChange: (branch: Branch) => void;
   branch: Branch | null;
-  deliveryAddress: Address | null;
-  addUserLocation: (location: Address) => void;
+  // selectDeliveryAddress: SELECT_DELIVERY_ADDRESS | null;
+  deliveryAddress: DELIVERY_ADDRESS | null;
+  handleSetDeliveryAddress: (location: DELIVERY_ADDRESS) => void;
+  // handleSetSelectDeliveryAddress: (location: SELECT_DELIVERY_ADDRESS) => void;
   orderTime: OrderTime;
   handleSetOrderTime: (time: OrderTime) => void;
   orderTimeType: OrderTimeType;
@@ -20,44 +22,59 @@ interface ContextProps extends Init {
 }
 export type OMode = 'delivery' | 'pickup';
 export const ApplicationProvider = createContext<Partial<ContextProps>>({
-  selectedOrderMode: 'delivery',
+  globalOrderMode: null,
   orderTime: new Date(),
 });
-
 const ApplicationContext: React.FC = ({ children }) => {
-  const [selectedOrderMode, setOrderMode] = useState<OMode>('delivery');
+  const [globalOrderMode, setGlobalOrderMode] = useState<OMode | null>(null);
   const [branch, setBranch] = useState<Branch | null>(null);
-  const [deliveryAddress, setDeliveryAddress] = useState<Address | null>(null);
+
+  // const [
+  //   selectDeliveryAddress,
+  //   setSelectDeliveryAddress,
+  // ] = useState<SELECT_DELIVERY_ADDRESS | null>(null);
+  const [
+    deliveryAddress,
+    setDeliveryAddress,
+  ] = useState<DELIVERY_ADDRESS | null>(null);
   const [orderTime, setOrderTime] = useState<OrderTime>(new Date());
   const [orderTimeType, setOrderTimeType] = useState<OrderTimeType>('asap');
   const { data } = useQuery('application-data', getGeneralInfo, {
     suspense: true,
   });
 
-  const handleOrderModeChange = (mode: OMode) => {
-    setOrderMode(mode);
+  const handleGlobalOrderModeChange = (mode: OMode) => {
+    setGlobalOrderMode(mode);
   };
   const handleBranchChange = (branch: Branch) => {
     setBranch(branch);
   };
-  const addUserLocation = (location: Address) => {
+  const handleSetDeliveryAddress = (location: DELIVERY_ADDRESS) => {
     setDeliveryAddress(location);
   };
+  // const handleSetSelectDeliveryAddress = (
+  //   location: SELECT_DELIVERY_ADDRESS
+  // ) => {
+  //   setSelectDeliveryAddress(location);
+  // };
   const handleSetOrderTime = (time: OrderTime) => {
     setOrderTime(time);
   };
   const handleSetOrderTimeType = (type: OrderTimeType) => {
     setOrderTimeType(type);
   };
+
   return (
     <ApplicationProvider.Provider
       value={{
-        selectedOrderMode,
-        handleOrderModeChange,
+        globalOrderMode,
+        handleGlobalOrderModeChange,
         branch,
         handleBranchChange,
-        addUserLocation,
         deliveryAddress,
+        handleSetDeliveryAddress,
+        // selectDeliveryAddress,
+        // handleSetSelectDeliveryAddress,
         handleSetOrderTime,
         orderTime,
         handleSetOrderTimeType,

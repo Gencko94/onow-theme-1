@@ -20,7 +20,7 @@ import { ApplicationProvider } from '../../contexts/ApplicationContext';
 import { useHistory } from 'react-router-dom';
 import { ThemeContext } from '../../contexts/ThemeContext';
 import { GoogleMapsResult } from '../../interfaces/googleMaps';
-import { Address } from '../../interfaces/Address';
+import { DELIVERY_ADDRESS } from '../../interfaces/Address';
 import { UserInfoProvider } from '../../contexts/UserInfoContext';
 import { useQueryParams } from '../../hooks/useQueryParams';
 
@@ -39,11 +39,11 @@ const Map = () => {
       };
     } else return null;
   });
-  const [address, setAddress] = useState<Address | null>(null);
+  const [address, setAddress] = useState<DELIVERY_ADDRESS | null>(null);
 
   const [outOfBorder, setOutOfBorder] = useState<boolean>(false);
   const { getCurrentLocation } = useCurrentLocation();
-  const { addUserLocation } = useContext(ApplicationProvider);
+  const { handleSetDeliveryAddress } = useContext(ApplicationProvider);
   const { handleSetEditedAddress, handleSetNewAddress } = useContext(
     UserInfoProvider
   );
@@ -283,7 +283,7 @@ const Map = () => {
         });
       }}
     >
-      <MapSearchbar panTo={panTo} markerAddress={address?.mapAddress} />
+      <MapSearchbar panTo={panTo} markerAddress={address?.street} />
       {marker && <Marker position={{ lat: marker?.lat, lng: marker?.lng }} />}
       {outOfBorder && (
         <OutOfBorderContainer>{t('cannot-deliver-here')}</OutOfBorderContainer>
@@ -307,13 +307,12 @@ const Map = () => {
           outOfBorder={outOfBorder}
           disabled={outOfBorder}
           onClick={() => {
-            if (addUserLocation && marker !== null) {
-              addUserLocation({
+            if (handleSetDeliveryAddress && marker !== null) {
+              handleSetDeliveryAddress({
                 coords: {
                   lat: marker?.lat,
                   lng: marker?.lng,
                 },
-                mapAddress: address?.mapAddress,
                 area: address?.area,
                 street: address?.street,
                 block: address?.block,
@@ -329,7 +328,6 @@ const Map = () => {
                     lat: marker?.lat,
                     lng: marker?.lng,
                   },
-                  mapAddress: address?.mapAddress,
                   area: address?.area,
                   street: address?.street,
                   block: address?.block,

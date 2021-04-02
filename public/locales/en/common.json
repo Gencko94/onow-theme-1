@@ -6,6 +6,7 @@
   "our-menu": "Our Menu",
   "booking": "Booking",
   "login": "Log in",
+  "logout": "Log Out",
   "signup": "Sign up",
   "our-branches": "Our Branches",
   "about-us": "About us",
@@ -34,6 +35,12 @@
   "kd": "KD",
   "off": "OFF",
   "see-all": "See all",
-
-  "dark-mode": "Dark Mode"
+  "dark-mode": "Dark Mode",
+  "select-from-map": "Select From Map",
+  "select-from-list": "Select From List",
+  "select-gov": "Select Governorate",
+  "select-area": "Select Area",
+  "select-order-mode": "Select Your Order Mode",
+  "delivery-to": "Delivery to",
+  "pick-up-from": "Pick up from"
 }

@@ -2,7 +2,6 @@ import Layout from '../layout/Layout';
 import '../styles.css';
 import Hero from '../components/Home/Hero/Hero';
 import Introduction from '../components/Home/Introduction/Introduction';
-import OrderMode from '../components/Home/OrderMode/OrderMode';
 import styled from 'styled-components';
 import HomeCategories from '../components/HomeCategories/HomeCategories';
 import { useContext } from 'react';
@@ -16,7 +15,6 @@ function Home() {
 
       <Container>
         <Introduction />
-        <OrderMode />
         {deals && <Deals />}
         <HomeCategories />
       </Container>

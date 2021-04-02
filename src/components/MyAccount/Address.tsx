@@ -1,10 +1,7 @@
 import { useContext } from 'react';
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
-import {
-  Address as AddressT,
-  Address as AddressInterface,
-} from '../../interfaces/Address';
+import { DELIVERY_ADDRESS } from '../../interfaces/Address';
 import { BsCheckCircle } from 'react-icons/bs';
 import { AiFillDelete, AiTwotoneEdit } from 'react-icons/ai';
 import { useHistory } from 'react-router';
@@ -13,7 +10,7 @@ import { useMutation, useQueryClient } from 'react-query';
 import { deleteAddress } from '../../utils/queries';
 
 interface IProps {
-  address: AddressInterface;
+  address: DELIVERY_ADDRESS;
 }
 
 const Address: React.FC<IProps> = ({ address }) => {
@@ -23,9 +20,12 @@ const Address: React.FC<IProps> = ({ address }) => {
   const { handleSetEditedAddress } = useContext(UserInfoProvider);
   const { mutateAsync } = useMutation(deleteAddress, {
     onSuccess: () => {
-      queryClient.setQueryData<AddressT[] | undefined>('addresses', prev => {
-        return prev?.filter(i => i.id !== address.id);
-      });
+      queryClient.setQueryData<DELIVERY_ADDRESS[] | undefined>(
+        'addresses',
+        prev => {
+          return prev?.filter(i => i.id !== address.id);
+        }
+      );
     },
   });
   const handleDelete = async () => {
@@ -41,7 +41,7 @@ const Address: React.FC<IProps> = ({ address }) => {
     <Container>
       <AddressHeader>
         <div>
-          <AddressTitle>{address.mapAddress}</AddressTitle>
+          <AddressTitle>{`${address.street}, ${address.block}`}</AddressTitle>
           <Label>
             {t('area')} :{address.area}
           </Label>

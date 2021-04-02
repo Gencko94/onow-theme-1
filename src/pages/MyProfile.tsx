@@ -1,15 +1,21 @@
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { Redirect } from 'react-router';
 import styled from 'styled-components';
 import MobileHeader from '../components/Header/MobileHeader';
 import ChangePassword from '../components/MyAccount/profile/ChangePassword';
 import Info from '../components/MyAccount/profile/Info';
+import { AuthProvider } from '../contexts/AuthContext';
 import { paymentMethods } from '../data/paymentMethods';
 import Layout from '../layout/Layout';
 
 const MyProfile = () => {
+  const { user } = useContext(AuthProvider);
   const { t } = useTranslation(['profile']);
   const [paymentMethod, setPaymentMethod] = useState(paymentMethods[0]);
+  if (!user) {
+    return <Redirect to={{ pathname: '/login', state: '/user/profile' }} />;
+  }
   return (
     <Layout>
       <MobileHeader title="my-profile" />

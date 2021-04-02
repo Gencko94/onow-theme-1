@@ -1,14 +1,13 @@
 import { createContext, useState } from 'react';
-import { Address } from '../interfaces/Address';
+import { DELIVERY_ADDRESS } from '../interfaces/Address';
 
 interface UserInfoContextProps {
-  editedAddress: Address | null;
-  handleSetEditedAddress: (address: Address | null) => void;
-  handleSetNewAddress: (address: Address) => void;
-  newAddress: Address;
+  editedAddress: DELIVERY_ADDRESS | null;
+  handleSetEditedAddress: (address: DELIVERY_ADDRESS | null) => void;
+  handleSetNewAddress: (address: DELIVERY_ADDRESS) => void;
+  newAddress: DELIVERY_ADDRESS;
 }
 const address = {
-  mapAddress: 'شارع حمد المبارك,قطعة 4,السالمية',
   block: '4',
   building: '',
   area: 'السالمية',
@@ -26,12 +25,14 @@ export const UserInfoProvider = createContext<UserInfoContextProps>({
 });
 
 const UserInfoContext: React.FC = ({ children }) => {
-  const [editedAddress, setEditedAddress] = useState<Address | null>(null);
-  const [newAddress, setNewAddress] = useState<Address>(address);
-  const handleSetEditedAddress = (address: Address | null) => {
+  const [editedAddress, setEditedAddress] = useState<DELIVERY_ADDRESS | null>(
+    null
+  );
+  const [newAddress, setNewAddress] = useState<DELIVERY_ADDRESS>(address);
+  const handleSetEditedAddress = (address: DELIVERY_ADDRESS | null) => {
     setEditedAddress(address);
   };
-  const handleSetNewAddress = (address: Address) => {
+  const handleSetNewAddress = (address: DELIVERY_ADDRESS) => {
     setNewAddress(address);
   };
   return (

@@ -2,7 +2,7 @@ import * as Yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
 import styled from 'styled-components';
-import { Link, useHistory } from 'react-router-dom';
+import { Link, Redirect, useHistory } from 'react-router-dom';
 import { SocialAuth } from '../interfaces/loginForm';
 import {
   AiFillFacebook,
@@ -12,13 +12,15 @@ import {
 } from 'react-icons/ai';
 import { GrApple } from 'react-icons/gr';
 import { MdVisibility, MdVisibilityOff } from 'react-icons/md';
-import { useMemo, useState } from 'react';
+import { useContext, useMemo, useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { REGISTER_FORM } from '../interfaces/auth';
 import { userRegister } from '../utils/queries';
 import { useMutation, useQueryClient } from 'react-query';
+import { AuthProvider } from '../contexts/AuthContext';
 
 const Register = () => {
+  const { user } = useContext(AuthProvider);
   const { t, ready, i18n } = useTranslation(['auth']);
   const schema = useMemo(
     () =>
@@ -97,6 +99,9 @@ const Register = () => {
       setShowPassword(true);
     }
   };
+  if (user) {
+    return <Redirect to="/" />;
+  }
   return (
     <Container>
       <ContentWrapper>

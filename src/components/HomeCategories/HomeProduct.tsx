@@ -102,6 +102,7 @@ const Description = styled.p(
   ({ theme: { breakpoints, font, subHeading } }) => `
   color:${subHeading};
   font-size:0.7rem;
+  font-weight:${font.regular};
   display: -webkit-box;
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;

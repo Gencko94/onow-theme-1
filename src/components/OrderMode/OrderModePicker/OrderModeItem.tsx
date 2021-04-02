@@ -1,39 +1,30 @@
-import { useContext } from 'react';
+import { Dispatch, SetStateAction } from 'react';
 import styled from 'styled-components';
-import { ApplicationProvider } from '../../../contexts/ApplicationContext';
 import { OMode } from '../../../contexts/ApplicationContext';
 import { BiRadioCircleMarked, BiRadioCircle } from 'react-icons/bi';
 import { OrderMode } from '../../../interfaces/orderModes';
-import { ThemeContext, ThemeMode } from '../../../contexts/ThemeContext';
 import { useTranslation } from 'react-i18next';
 interface IProps {
-  orderMode: OrderMode;
+  item: OrderMode;
   small?: boolean;
+  orderMode: OMode;
+  setOrderMode: Dispatch<SetStateAction<OMode>>;
 }
 
-const OrderModeItem = ({ orderMode, small }: IProps) => {
-  const { selectedOrderMode, handleOrderModeChange } = useContext(
-    ApplicationProvider
-  );
+const OrderModeItem = ({ item, small, orderMode, setOrderMode }: IProps) => {
   const { t } = useTranslation(['common', 'home']);
-  const { mode } = useContext(ThemeContext);
   return (
     <Container
-      mode={mode}
-      small={small}
-      orderMode={selectedOrderMode}
-      selected={selectedOrderMode === orderMode.value}
+      selected={orderMode === item.value}
       onClick={() => {
-        if (handleOrderModeChange) {
-          handleOrderModeChange(orderMode.value);
-        }
+        setOrderMode(item.value);
       }}
     >
       <TitleContainer>
-        <Title>{t(orderMode.title)}</Title>
+        <Title>{t(item.title)}</Title>
       </TitleContainer>
       <IconContainer>
-        {selectedOrderMode === orderMode.value ? (
+        {orderMode === item.value ? (
           <BiRadioCircleMarked size={25} />
         ) : (
           <BiRadioCircle size={25} />
@@ -46,12 +37,9 @@ const OrderModeItem = ({ orderMode, small }: IProps) => {
 export default OrderModeItem;
 
 const Container = styled.button<{
-  orderMode: OMode | undefined;
   selected: boolean;
-  small?: boolean;
-  mode?: ThemeMode;
 }>`
-  padding: ${props => (props.small ? '.5rem .75rem' : '.75rem')};
+  padding: 0.75rem;
   display: flex;
   align-items: center;
   color: #fff;
@@ -63,9 +51,8 @@ const Container = styled.button<{
       : props.theme.headingColor};
   border-radius: 20px 5px;
   font-weight: 500;
-  font-size: ${props => (props.small ? '.9rem' : ' .9rem')};
-  // box-shadow: 6px 6px 11px #bebebe, -6px -6px 11px #ffffff;
-  box-shadow: ${props => props.mode === 'light' && props.theme.shadow};
+  font-size: 0.9rem;
+  box-shadow: ${props => props.theme.shadow};
 `;
 const IconContainer = styled.span`
   margin: 0 0.5rem;

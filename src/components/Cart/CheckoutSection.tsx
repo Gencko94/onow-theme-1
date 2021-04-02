@@ -13,7 +13,7 @@ interface IProps {
 }
 
 const CheckoutSection = ({ isLoading, data }: IProps) => {
-  const { branch, deliveryAddress } = useContext(ApplicationProvider);
+  const { branch, globalOrderMode } = useContext(ApplicationProvider);
 
   const [modalOpen, setModalOpen] = useState(false);
   const { t } = useTranslation();
@@ -23,8 +23,9 @@ const CheckoutSection = ({ isLoading, data }: IProps) => {
       {!data && (
         <StickyContainer>
           <>
-            {[0, 1, 2].map(() => (
+            {[0, 1, 2].map(i => (
               <ReactPlaceholder
+                key={i}
                 type="textRow"
                 style={{
                   width: '100%',
@@ -80,14 +81,12 @@ const CheckoutSection = ({ isLoading, data }: IProps) => {
             <CheckoutButton
               type="button"
               onClick={() => {
-                if (deliveryAddress || branch) {
+                if (globalOrderMode) {
                   history.push('/checkout');
                 }
               }}
             >
-              {deliveryAddress || branch
-                ? 'Checkout'
-                : 'Please Select Order mode'}
+              {globalOrderMode ? 'Checkout' : 'Please Select Order mode'}
             </CheckoutButton>
           </CheckoutButtonContainer>
         </StickyContainer>

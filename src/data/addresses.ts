@@ -1,6 +1,6 @@
-import { Address } from '../interfaces/Address';
+import { DELIVERY_ADDRESS } from '../interfaces/Address';
 
-export const addresses: Address[] = [
+export const addresses: DELIVERY_ADDRESS[] = [
   {
     id: 1,
     coords: {
@@ -11,7 +11,6 @@ export const addresses: Address[] = [
     block: '5',
     additionalDirections: 'Near the Island Embassy',
     default: true,
-    mapAddress: 'Sharq, Bank Bemo',
     area: 'Salmiyah',
     building: '6',
   },
@@ -24,7 +23,6 @@ export const addresses: Address[] = [
     street: 'Street 60',
     block: '1',
     default: false,
-    mapAddress: 'Sharq, Bank Bemo',
     area: 'Hawali',
     building: '4',
   },

@@ -22,3 +22,12 @@ export interface Branch {
   value: string;
   isMain: boolean;
 }
+
+export interface DELIVERY_LOCATION_LIST {
+  province: {
+    name: { [key: string]: string };
+  };
+  areas: {
+    name: { [key: string]: string };
+  }[];
+}

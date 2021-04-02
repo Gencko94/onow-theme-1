@@ -5,7 +5,7 @@ import { UserInfoProvider } from '../contexts/UserInfoContext';
 import * as Yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
-import { Address } from '../interfaces/Address';
+import { DELIVERY_ADDRESS } from '../interfaces/Address';
 import { useTranslation } from 'react-i18next';
 import { Redirect, useHistory } from 'react-router';
 import { useMutation, useQueryClient } from 'react-query';
@@ -65,11 +65,14 @@ const EditAddress = () => {
     editAddress,
     {
       onSuccess: data => {
-        queryClient.setQueryData<Address[] | undefined>('addresses', prev => {
-          const newAddresses = prev?.filter(i => i.id !== data.id);
-          newAddresses?.push(data);
-          return newAddresses;
-        });
+        queryClient.setQueryData<DELIVERY_ADDRESS[] | undefined>(
+          'addresses',
+          prev => {
+            const newAddresses = prev?.filter(i => i.id !== data.id);
+            newAddresses?.push(data);
+            return newAddresses;
+          }
+        );
       },
     }
   );
@@ -78,7 +81,6 @@ const EditAddress = () => {
   const { register, handleSubmit, errors, reset } = useForm<EditedAddressForm>({
     resolver: yupResolver(schema),
     defaultValues: {
-      mapAddress: editedAddress?.mapAddress,
       block: editedAddress?.block,
 
       street: editedAddress?.street,
@@ -120,7 +122,6 @@ const EditAddress = () => {
       block: editedAddress?.block,
       building: editedAddress?.building,
       floor: editedAddress?.floor,
-      mapAddress: editedAddress?.mapAddress,
       street: editedAddress?.street,
     });
   }, [editedAddress]);

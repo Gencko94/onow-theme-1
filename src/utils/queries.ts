@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { Address } from '../interfaces/Address';
+import { DELIVERY_ADDRESS } from '../interfaces/Address';
 import {
   LOGIN_FORM,
   LOGIN_RESPONSE,
@@ -7,7 +7,7 @@ import {
   REGISTER_RESPONSE,
   USER,
 } from '../interfaces/auth';
-import { Branch } from '../interfaces/branch';
+import { Branch, DELIVERY_LOCATION_LIST } from '../interfaces/branch';
 import {
   ADD_TO_CART_REQUEST,
   ADD_TO_CART_RESPONSE,
@@ -135,18 +135,22 @@ export const getBranch = async (id: string): Promise<Branch> => {
 
   return res.data;
 };
-export const getAddresses = async (): Promise<Address[]> => {
+export const getAddresses = async (): Promise<DELIVERY_ADDRESS[]> => {
   const res = await axios.get(`${uri}/addresses`);
 
   return res.data;
 };
 
-export const getSingleAddress = async (id: string): Promise<Address> => {
+export const getSingleAddress = async (
+  id: string
+): Promise<DELIVERY_ADDRESS> => {
   const res = await axios.get(`${uri}/addresses/${id}`);
   return res.data;
 };
 
-export const addAddress = async (address: Address): Promise<Address> => {
+export const addAddress = async (
+  address: DELIVERY_ADDRESS
+): Promise<DELIVERY_ADDRESS> => {
   const res = await axios.post(`${uri}/addresses`, { ...address });
 
   return res.data;
@@ -155,8 +159,8 @@ export const addAddress = async (address: Address): Promise<Address> => {
 export const editAddress = async ({
   address,
 }: {
-  address: Address;
-}): Promise<Address> => {
+  address: DELIVERY_ADDRESS;
+}): Promise<DELIVERY_ADDRESS> => {
   const res = await axios.put(`${uri}/addresses/${address.id}`, { ...address });
   return res.data;
 };
@@ -165,7 +169,7 @@ export const deleteAddress = async ({
   id,
 }: {
   id: number;
-}): Promise<Address[]> => {
+}): Promise<DELIVERY_ADDRESS[]> => {
   const res = await axios.delete(`${uri}/addresses/${id}`);
 
   return res.data;
@@ -200,5 +204,11 @@ export const userRegister = async (
 ): Promise<REGISTER_RESPONSE> => {
   const res = await axios.post(`${uri}/register`, data);
 
+  return res.data;
+};
+export const getDeliveryLocationList = async (): Promise<
+  readonly DELIVERY_LOCATION_LIST[]
+> => {
+  const res = await axios.get(`${uri}/test`);
   return res.data;
 };

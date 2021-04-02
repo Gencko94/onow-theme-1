@@ -1,4 +1,9 @@
 {
   "cannot-deliver-here": "Cannot Deliver Here",
-  "confirm-location": "Confirm Location"
+  "confirm-location": "Confirm Location",
+  "governorate": "Governorate",
+  "area": "Area",
+  "block": "Block",
+  "street": "Street",
+  "additional-directions": "Additional Directions"
 }

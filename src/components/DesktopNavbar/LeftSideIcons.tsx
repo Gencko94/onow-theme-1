@@ -2,17 +2,17 @@ import { AnimatePresence, m } from 'framer-motion';
 import { useContext, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { FiChevronDown } from 'react-icons/fi';
-import { Link, useHistory } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { AuthProvider } from '../../contexts/AuthContext';
 import { ThemeContext } from '../../contexts/ThemeContext';
+import NavOrderMode from './NavOrderMode/NavOrderMode';
 
 const LeftSideIcons = () => {
   const { user, logOut } = useContext(AuthProvider);
   const { t } = useTranslation();
   const { mode } = useContext(ThemeContext);
   const [menuOpen, setMenuOpen] = useState(false);
-  const history = useHistory();
 
   return (
     <Container>
@@ -50,6 +50,7 @@ const LeftSideIcons = () => {
           </AnimatePresence>
         </AccountIconContainer>
       )}
+      <NavOrderMode />
     </Container>
   );
 };
@@ -108,7 +109,7 @@ const AccountIconContainer = styled.div<{ mode?: string }>`
 const AccountMenu = styled(m.div)<{ mode?: string }>`
   width: 100%;
   position: absolute;
-  top: 100%;
+  top: 110%;
   left: 0;
   z-index: 3;
   overflow: hidden;
@@ -121,19 +122,24 @@ const AccountMenu = styled(m.div)<{ mode?: string }>`
 `;
 const MenuItem = styled(Link)`
   display: block;
+  background: ${props => props.theme.overlayColor};
   text-align: center;
   padding: 0.5rem;
+  /* transition: background 75ms ease; */
   &:hover {
-    background-color: ${props => props.theme.highlightColor};
+    background: ${props => props.theme.highlightColor};
     color: ${props => props.theme.highlightColorText};
   }
 `;
 const Logout = styled.button`
   display: block;
+  background: ${props => props.theme.overlayColor};
+  width: 100%;
+  color: inherit;
   text-align: center;
   padding: 0.5rem;
   &:hover {
-    background-color: ${props => props.theme.highlightColor};
+    background: ${props => props.theme.highlightColor};
     color: ${props => props.theme.highlightColorText};
   }
 `;

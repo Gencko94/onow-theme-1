@@ -37,6 +37,7 @@ const SelectLocation = React.lazy(() => import('./pages/SelectLocation'));
 const Login = React.lazy(() => import('./pages/Login'));
 const Register = React.lazy(() => import('./pages/Register'));
 const MyProfile = React.lazy(() => import('./pages/MyProfile'));
+const OrderMode = React.lazy(() => import('./pages/OrderMode'));
 // const MyAddresses = React.lazy(() => import('./pages/MyAddresses'));
 const queryClient = new QueryClient();
 
@@ -129,6 +130,11 @@ function App() {
                               component={MyAddresses}
                             />
                             <Route exact path="/cart" component={Cart} />
+                            <Route
+                              exact
+                              path="/mode/:mode"
+                              component={OrderMode}
+                            />
                           </Switch>
                         </LazyMotion>
                       </AnimatePresence>

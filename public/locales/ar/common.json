@@ -6,6 +6,7 @@
   "our-menu": "قائمتنا",
   "booking": "حجز طاولة",
   "login": "تسجيل الدخول",
+  "logout": "تسجيل الخروج",
   "signup": "إنشاء حساب",
   "our-branches": "فروعنا",
   "about-us": "نبذة عنا",
@@ -34,5 +35,12 @@
   "kd": "د.ك",
   "off": "حسم",
   "see-all": "الكل",
-  "dark-mode": "الوضع الليلي"
+  "dark-mode": "الوضع الليلي",
+  "select-from-map": "اختر من الخريطة",
+  "select-from-list": "اختر من قائمة",
+  "select-gov": "اختر المحافظة",
+  "select-area": "اختر المنطقة",
+  "select-order-mode": "اختر وضع الطلب",
+  "delivery-to": "توصيل إلى",
+  "pick-up-from": "استلام من"
 }

@@ -1,75 +1,36 @@
 import { GoogleMap, Marker, useJsApiLoader } from '@react-google-maps/api';
 import { Libraries } from '@react-google-maps/api/dist/utils/make-load-script-url';
-import {
-  Dispatch,
-  SetStateAction,
-  useCallback,
-  useContext,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from 'react';
-import { BiCurrentLocation } from 'react-icons/bi';
+import axios from 'axios';
+import { useCallback, useContext, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { BiCurrentLocation } from 'react-icons/bi';
+import styled from 'styled-components';
+import { ThemeContext } from '../../../contexts/ThemeContext';
 import useCurrentLocation, {
   MapCoordinates,
-} from '../hooks/useCurrentLocation';
-import styled from 'styled-components';
-import axios from 'axios';
-import { useHistory } from 'react-router-dom';
-import { ThemeContext } from '../contexts/ThemeContext';
-import { GoogleMapsResult } from '../interfaces/googleMaps';
-import { DELIVERY_ADDRESS } from '../interfaces/Address';
-import { UserInfoProvider } from '../contexts/UserInfoContext';
-interface IProps {
-  outOfBorder: boolean;
-  setOutOfBorder: Dispatch<SetStateAction<boolean>>;
-}
+} from '../../../hooks/useCurrentLocation';
+import { DELIVERY_ADDRESS } from '../../../interfaces/Address';
+import { GoogleMapsResult } from '../../../interfaces/googleMaps';
 
-const AddAddressMap = ({ outOfBorder, setOutOfBorder }: IProps) => {
+const DeliveryLocationMap = () => {
+  const [outOfBorder, setOutOfBorder] = useState(false);
+  const [address, setAddress] = useState<DELIVERY_ADDRESS | null>(null);
   const { getCurrentLocation } = useCurrentLocation();
-  const { handleSetNewAddress, newAddress } = useContext(UserInfoProvider);
-  const [address, setAddress] = useState<DELIVERY_ADDRESS | null>(() => {
-    return newAddress;
-  });
+  const { mode } = useContext(ThemeContext);
   const {
     i18n: { language },
     t,
   } = useTranslation(['map']);
-  const { mode } = useContext(ThemeContext);
   const libraries = useMemo<Libraries>(() => ['places'], []);
   const { isLoaded, loadError } = useJsApiLoader({
     googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
     libraries,
     language,
   });
-  const history = useHistory();
 
   const [marker, setMarker] = useState<MapCoordinates | null>(() => {
-    if (newAddress) {
-      return {
-        lat: newAddress.coords?.lat,
-        lng: newAddress.coords?.lng,
-      };
-    } else return null;
+    return null;
   });
-
-  const mapCenter = useMemo(() => {
-    if (newAddress) {
-      return {
-        lat: newAddress.coords?.lat,
-        lng: newAddress.coords?.lng,
-      };
-    } else {
-      return {
-        lat: 29.3759,
-        lng: 47.9774,
-      };
-    }
-  }, []);
-
-  //problem here when changing lng
   const mapOptions: google.maps.MapOptions = useMemo(() => {
     return {
       disableDefaultUI: true,
@@ -170,17 +131,13 @@ const AddAddressMap = ({ outOfBorder, setOutOfBorder }: IProps) => {
   const mapRef = useRef<google.maps.Map<Element>>();
   const onMapLoad = useCallback((map: google.maps.Map<Element>) => {
     mapRef.current = map;
-
-    // getCurrentLocation(
-    //   ({ lat, lng }) => {
-    //     panTo({ lat, lng });
-    //   },
-    //   error => {
-    //     console.log(error);
-    //   }
-    // );
   }, []);
-
+  const mapCenter = useMemo(() => {
+    return {
+      lat: 29.3759,
+      lng: 47.9774,
+    };
+  }, []);
   const panTo = useCallback(({ lat, lng }: { lat: number; lng: number }) => {
     mapRef.current?.panTo({ lat, lng });
     setMarker({ lat, lng });
@@ -201,7 +158,7 @@ const AddAddressMap = ({ outOfBorder, setOutOfBorder }: IProps) => {
 
       const results = res.data.results;
       if (results.length === 0) {
-        setAddress(null);
+        // setAddress(null);
         setOutOfBorder(true);
         return;
       }
@@ -236,62 +193,111 @@ const AddAddressMap = ({ outOfBorder, setOutOfBorder }: IProps) => {
           area = result.address_components[0].long_name;
         }
       });
-      handleSetNewAddress({
-        ...newAddress,
-        coords: {
-          lat,
-          lng,
-        },
-        area,
-        block,
-        street,
-      });
+      // handleSetEditedAddress({
+      //   ...editedAddress,
+      //   coords: {
+      //     lat,
+      //     lng,
+      //   },
+      //   mapAddress: `${street},${block},${area}`,
+      //   area,
+      //   block,
+      //   street,
+      // });
     } catch (error) {
       console.log(error);
     }
   };
-  if (!isLoaded) return <div>loading</div>;
+  if (!isLoaded) return <LoadingContainer>loading</LoadingContainer>;
   return (
-    <GoogleMap
-      mapContainerStyle={{
-        width: '100%',
-        height: '100%',
-      }}
-      zoom={15}
-      center={mapCenter}
-      options={mapOptions}
-      clickableIcons={false}
-      onLoad={onMapLoad}
-      onClick={e =>
-        handleMapClick({ lat: e.latLng.lat(), lng: e.latLng.lng() })
-      }
-    >
-      {marker && <Marker position={{ lat: marker?.lat, lng: marker?.lng }} />}
-      {outOfBorder && (
-        <OutOfBorderContainer>{t('cannot-deliver-here')}</OutOfBorderContainer>
-      )}
-      {/* <ConfirmationContainer> */}
-      <MapIcon
-        onClick={() =>
-          getCurrentLocation(
-            ({ lat, lng }) => {
-              panTo({ lat, lng });
-              handleMapClick({ lat, lng });
-            },
-            error => {
-              console.log(error);
-            }
-          )
+    <Container>
+      <InputsContainer>
+        <InputContainer>
+          <Label>{t('governorate')}</Label>
+          <Input />
+        </InputContainer>
+        <InputContainer>
+          <Label>{t('area')}</Label>
+          <Input />
+        </InputContainer>
+        <InputContainer>
+          <Label>{t('street')}</Label>
+          <Input />
+        </InputContainer>
+        <ConfirmButton>{t('confirm-location')}</ConfirmButton>
+      </InputsContainer>
+      <GoogleMap
+        mapContainerStyle={{
+          width: '100%',
+          height: '100%',
+        }}
+        zoom={15}
+        center={mapCenter}
+        options={mapOptions}
+        clickableIcons={false}
+        onLoad={onMapLoad}
+        onClick={e =>
+          handleMapClick({ lat: e.latLng.lat(), lng: e.latLng.lng() })
         }
       >
-        <BiCurrentLocation size={30} />
-      </MapIcon>
-      {/* </ConfirmationContainer> */}
-    </GoogleMap>
+        {marker && <Marker position={{ lat: marker?.lat, lng: marker?.lng }} />}
+        {outOfBorder && (
+          <OutOfBorderContainer>
+            {t('cannot-deliver-here')}
+          </OutOfBorderContainer>
+        )}
+        <MapIcon
+          onClick={() =>
+            getCurrentLocation(
+              ({ lat, lng }) => {
+                panTo({ lat, lng });
+                handleMapClick({ lat, lng });
+              },
+              error => {
+                console.log(error);
+              }
+            )
+          }
+        >
+          <BiCurrentLocation size={30} />
+        </MapIcon>
+      </GoogleMap>
+    </Container>
   );
 };
 
-export default AddAddressMap;
+export default DeliveryLocationMap;
+const Container = styled.div`
+  height: 375px;
+  padding: 1rem 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.5rem;
+`;
+const InputsContainer = styled.div`
+  align-self: flex-start;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.5rem;
+`;
+const InputContainer = styled.div``;
+const Input = styled.input`
+  border-radius: 6px;
+  background-color: ${props => props.theme.inputColorLight};
+  padding: 0.5rem;
+  width: 100%;
+`;
+const Label = styled.p`
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+`;
+const LoadingContainer = styled.div`
+  height: 100%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
 
 const MapIcon = styled.button`
   position: absolute;
@@ -309,15 +315,22 @@ const MapIcon = styled.button`
 
 const OutOfBorderContainer = styled.div`
   position: absolute;
-  margin: 0 0.5rem;
+  /* margin: 0 0.5rem; */
   padding: 0.5rem;
-  top: 52px;
-  left: 2%;
-  right: 2%;
+  bottom: 5px;
+  left: 50%;
+  transform: translateX(-50%);
+
   background-color: #b72b2b;
   color: #fff;
-  width: 94%;
+
   border-radius: 12px;
   font-size: 0.9rem;
   text-align: center;
+`;
+const ConfirmButton = styled.button`
+  background-color: ${props => props.theme.btnPrimaryLight};
+  color: ${props => props.theme.btnText};
+  border-radius: 6px;
+  padding: 0.5rem;
 `;

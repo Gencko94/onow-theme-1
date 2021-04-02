@@ -104,7 +104,7 @@ const Container = styled.div`
   /* background: #fff; */
   /* box-shadow: ${props => props.theme.shadow}; */
   overflow: hidden;
-  margin: 4rem 0;
+  margin: 2rem 0;
   padding: 0.5rem;
 `;
 const DealsTitleContainer = styled.div`

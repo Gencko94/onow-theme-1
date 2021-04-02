@@ -2,7 +2,7 @@ import * as Yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
 import styled from 'styled-components';
-import { Link, useHistory } from 'react-router-dom';
+import { Link, Redirect, useHistory, useLocation } from 'react-router-dom';
 import { SocialAuth } from '../interfaces/loginForm';
 
 import {
@@ -13,14 +13,16 @@ import {
 } from 'react-icons/ai';
 import { GrApple } from 'react-icons/gr';
 import { MdVisibility, MdVisibilityOff } from 'react-icons/md';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { useTranslation, Trans } from 'react-i18next/';
 import { LOGIN_FORM } from '../interfaces/auth';
 import { useMutation, useQueryClient } from 'react-query';
 import { userLogin } from '../utils/queries';
+import { AuthProvider } from '../contexts/AuthContext';
 
 const Login = () => {
   const { t, ready, i18n } = useTranslation(['auth']);
+  const { user } = useContext(AuthProvider);
   const [phoneKey] = useState('+965');
   const schema = Yup.object().shape({
     phone_number: Yup.string()
@@ -31,6 +33,9 @@ const Login = () => {
   const queryClient = useQueryClient();
   const [showPassword, setShowPassword] = useState(false);
   const history = useHistory();
+  const location = useLocation<string>();
+
+  console.log(location.state, 'state');
   const {
     register,
     handleSubmit,
@@ -50,7 +55,11 @@ const Login = () => {
       if (data.token) {
         localStorage.setItem('tpid', data.token);
         queryClient.setQueryData('auth', data.user);
-        history.replace('/');
+        if (location.state) {
+          history.replace(location.state);
+        } else {
+          history.replace('/');
+        }
       }
     },
   });
@@ -90,6 +99,9 @@ const Login = () => {
       setShowPassword(true);
     }
   };
+  if (user) {
+    return <Redirect to="/" />;
+  }
   return (
     <Container>
       <ContentWrapper>

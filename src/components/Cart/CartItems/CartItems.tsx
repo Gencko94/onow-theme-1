@@ -21,8 +21,9 @@ const CartItems = ({ data, isLoading }: IProps) => {
       <Container layout mode={mode}>
         {!data && (
           <LoadingGrid>
-            {[0, 1, 2].map(() => (
+            {[0, 1, 2].map(i => (
               <ReactPlaceholder
+                key={i}
                 type="textRow"
                 style={{
                   width: '100%',

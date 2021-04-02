@@ -1,5 +1,5 @@
 import { m, Variants } from 'framer-motion';
-import { useState } from 'react';
+import { Fragment, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { AiOutlineMinus, AiOutlinePlus, AiFillDelete } from 'react-icons/ai';
 import { FiPlus, FiMinus } from 'react-icons/fi';
@@ -105,10 +105,10 @@ const CartItem = ({ product }: Props) => {
             {product.price} {t('kd')}
           </Price>
           {addons.map(addon => (
-            <>
+            <Fragment key={addon.name}>
               <AddonName>{addon.name}</AddonName>
               <AddonPrice>+{addon.price}</AddonPrice>
-            </>
+            </Fragment>
           ))}
           {/* <SpecialInstructions>Extra Cheese</SpecialInstructions> */}
         </Details>

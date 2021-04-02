@@ -25,7 +25,7 @@ const Summary = () => {
   const { register, handleSubmit, errors } = useForm<CheckoutFormInputs>({
     resolver: yupResolver(schema),
   });
-  const { selectedOrderMode } = useContext(ApplicationProvider);
+  const { globalOrderMode } = useContext(ApplicationProvider);
   const onSubmit = (data: CheckoutFormInputs) => {
     console.log(data);
   };
@@ -39,7 +39,7 @@ const Summary = () => {
         ))}
       </GridContainer> */}
       <SwitchTransition mode="out-in">
-        {selectedOrderMode === 'delivery' ? (
+        {globalOrderMode === 'delivery' ? (
           <CSSTransition
             classNames="checkout-component"
             key="delivery"

@@ -14,12 +14,10 @@ const LayoutDesktop: React.FC = ({ children }) => {
         curScroll = window.scrollY;
         if (window.scrollY >= 100) {
           setShowNav(false);
-          console.log('down');
         }
       } else if (window.scrollY < curScroll) {
         curScroll = window.scrollY;
         if (window.scrollY >= 100) {
-          console.log('true');
           setShowNav(true);
         } else {
           setShowNav(false);

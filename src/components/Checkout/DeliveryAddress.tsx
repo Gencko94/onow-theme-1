@@ -30,7 +30,7 @@ const DeliveryAddress = ({
       {deliveryAddress && <OrderTime title="delivery-time" />}
       <MapContainer>
         <MapImage
-          src={`https://maps.googleapis.com/maps/api/staticmap?center=${deliveryAddress?.coords.lat},${deliveryAddress?.coords.lng}&zoom=15&size=500x500&key=${process.env.REACT_APP_GOOGLE_MAPS_API_KEY}`}
+          src={`https://maps.googleapis.com/maps/api/staticmap?center=${deliveryAddress?.coords?.lat},${deliveryAddress?.coords?.lng}&zoom=15&size=500x500&key=${process.env.REACT_APP_GOOGLE_MAPS_API_KEY}`}
         />
         <EditButton>Edit Location</EditButton>
       </MapContainer>
@@ -43,7 +43,7 @@ const DeliveryAddress = ({
         )}
       </DeliveryAddressContainer>
       {deliveryAddress && (
-        <AddressText>{deliveryAddress.mapAddress}</AddressText>
+        <AddressText>{`${deliveryAddress.street}, ${deliveryAddress.block}`}</AddressText>
       )}
       <Form onSubmit={handleSubmit(onSubmit)}>
         <InputContainer>

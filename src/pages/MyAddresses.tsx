@@ -2,7 +2,7 @@ import { useContext, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import ReactPlaceholder from 'react-placeholder/lib';
 import { useQuery } from 'react-query';
-import { useHistory } from 'react-router';
+import { Redirect, useHistory } from 'react-router';
 import styled from 'styled-components';
 import MobileHeader from '../components/Header/MobileHeader';
 import Address from '../components/MyAccount/Address';
@@ -11,10 +11,12 @@ import Layout from '../layout/Layout';
 import { getAddresses } from '../utils/queries';
 import { AiOutlinePlus } from 'react-icons/ai';
 import { motion, Variants } from 'framer-motion';
+import { AuthProvider } from '../contexts/AuthContext';
 
 const MyAddresses = () => {
   const { t } = useTranslation(['addresses']);
   const { data, isLoading } = useQuery('addresses', getAddresses);
+  const { user } = useContext(AuthProvider);
   const { handleSetNewAddress, handleSetEditedAddress } = useContext(
     UserInfoProvider
   );
@@ -22,7 +24,6 @@ const MyAddresses = () => {
   useEffect(() => {
     handleSetEditedAddress(null);
     handleSetNewAddress({
-      mapAddress: 'شارع حمد المبارك,قطعة 4,السالمية',
       block: '4',
       building: '',
       area: 'السالمية',
@@ -50,6 +51,9 @@ const MyAddresses = () => {
       opacity: 0,
     },
   };
+  if (!user) {
+    return <Redirect to={{ pathname: '/login', state: '/user/addresses' }} />;
+  }
   return (
     <Layout>
       <MobileHeader title="my-addresses" />

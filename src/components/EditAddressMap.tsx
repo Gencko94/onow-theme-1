@@ -19,7 +19,7 @@ import axios from 'axios';
 import { useHistory } from 'react-router-dom';
 import { ThemeContext } from '../contexts/ThemeContext';
 import { GoogleMapsResult } from '../interfaces/googleMaps';
-import { Address } from '../interfaces/Address';
+import { DELIVERY_ADDRESS } from '../interfaces/Address';
 import { UserInfoProvider } from '../contexts/UserInfoContext';
 
 interface IProps {
@@ -32,21 +32,15 @@ const EditAddressMap = ({ outOfBorder, setOutOfBorder }: IProps) => {
   const { handleSetEditedAddress, editedAddress } = useContext(
     UserInfoProvider
   );
-  const [address, setAddress] = useState<Address | null>(() => {
-    return editedAddress;
-  });
+  const { mode } = useContext(ThemeContext);
+  const libraries = useMemo<Libraries>(() => ['places'], []);
   const {
     i18n: { language },
     t,
   } = useTranslation(['map']);
-  const { mode } = useContext(ThemeContext);
-  const libraries = useMemo<Libraries>(() => ['places'], []);
-  const { isLoaded, loadError } = useJsApiLoader({
-    googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
-    libraries,
-    language,
+  const [address, setAddress] = useState<DELIVERY_ADDRESS | null>(() => {
+    return editedAddress;
   });
-
   const [marker, setMarker] = useState<MapCoordinates | null>(() => {
     if (editedAddress) {
       return {
@@ -54,6 +48,11 @@ const EditAddressMap = ({ outOfBorder, setOutOfBorder }: IProps) => {
         lng: editedAddress.coords.lng,
       };
     } else return null;
+  });
+  const { isLoaded, loadError } = useJsApiLoader({
+    googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
+    libraries,
+    language,
   });
 
   const mapCenter = useMemo(() => {
@@ -234,7 +233,6 @@ const EditAddressMap = ({ outOfBorder, setOutOfBorder }: IProps) => {
           lat,
           lng,
         },
-        mapAddress: `${street},${block},${area}`,
         area,
         block,
         street,
