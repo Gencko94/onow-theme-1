@@ -4,9 +4,9 @@ export type CART_ITEM = {
     [key: string]: string;
   };
   price: string;
-
   image: string;
   quantity: number;
+  // + is Pickup or delivery or both
 };
 
 export type GET_CART_RESPONSE = {

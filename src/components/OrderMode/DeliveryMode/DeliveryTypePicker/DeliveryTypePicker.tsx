@@ -36,7 +36,7 @@ const DeliveryTypePicker = ({
       </DeliveryTypeContainer>
       <OrContainer>
         <SpanLine />
-        <OrText>{t('OR')}</OrText>
+        <OrText>{t('or')}</OrText>
         <SpanLine />
       </OrContainer>
       <DeliveryTypeContainer

@@ -5,5 +5,6 @@
   "area": "المنطقة",
   "block": "القطعة",
   "street": "الشارع",
-  "additional-directions": "إتجاهات إضافية"
+  "additional-directions": "إتجاهات إضافية",
+  "required-field": "حقل مطلوب"
 }

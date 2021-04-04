@@ -42,5 +42,9 @@
   "select-area": "اختر المنطقة",
   "select-order-mode": "اختر وضع الطلب",
   "delivery-to": "توصيل إلى",
-  "pick-up-from": "استلام من"
+  "pick-up-from": "استلام من",
+  "change-mode": "تغيير الوضع",
+  "or": "أو",
+  "confirm-location": "تأكيد",
+  "set-up-order-mode": "تجهيز وضع الطلب"
 }

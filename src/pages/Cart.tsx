@@ -33,11 +33,11 @@ const Cart = () => {
             data={userCart ? userCart.products : guestCart?.products}
             isLoading={userCartLoading || guestCartLoading}
           />
+          <CheckoutSection
+            isLoading={userCartLoading || guestCartLoading}
+            data={userCart ? userCart : guestCart}
+          />
         </Grid>
-        <CheckoutSection
-          isLoading={userCartLoading || guestCartLoading}
-          data={userCart ? userCart : guestCart}
-        />
       </Container>
     </Layout>
   );

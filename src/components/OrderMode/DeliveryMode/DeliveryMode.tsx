@@ -3,10 +3,7 @@ import DeliveryLocationsList from './DeliveryLocationsList';
 import DeliveryTypePicker from '../../../components/OrderMode/DeliveryMode/DeliveryTypePicker/DeliveryTypePicker';
 import { useContext, useState } from 'react';
 import { DELIVERY_LOCATION_LIST } from '../../../interfaces/branch';
-import {
-  ApplicationProvider,
-  OMode,
-} from '../../../contexts/ApplicationContext';
+import { ApplicationProvider } from '../../../contexts/ApplicationContext';
 import DeliveryLocationMap from './DeliveryLocationMap';
 export type DELIVERY_LOCATION_TYPE = 'map' | 'select';
 
@@ -49,8 +46,15 @@ const DeliveryMode = () => {
 
 export default DeliveryMode;
 const Container = styled.div``;
-const Grid = styled.div`
+const Grid = styled.div(
+  ({ theme: { breakpoints } }) => `
   display: grid;
-  grid-template-columns: 0.3fr 1fr;
-  gap: 1rem;
-`;
+  grid-template-columns: 1fr;
+  gap: 0.5rem;
+  @media ${breakpoints.md}{
+    gap: 1rem;
+    
+    grid-template-columns: 0.3fr 1fr;
+  }
+`
+);

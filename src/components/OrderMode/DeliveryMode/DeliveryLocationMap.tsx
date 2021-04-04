@@ -1,26 +1,59 @@
 import { GoogleMap, Marker, useJsApiLoader } from '@react-google-maps/api';
 import { Libraries } from '@react-google-maps/api/dist/utils/make-load-script-url';
 import axios from 'axios';
-import { useCallback, useContext, useMemo, useRef, useState } from 'react';
+import {
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 import { useTranslation } from 'react-i18next';
 import { BiCurrentLocation } from 'react-icons/bi';
 import styled from 'styled-components';
 import { ThemeContext } from '../../../contexts/ThemeContext';
+import * as Yup from 'yup';
 import useCurrentLocation, {
   MapCoordinates,
 } from '../../../hooks/useCurrentLocation';
 import { DELIVERY_ADDRESS } from '../../../interfaces/Address';
 import { GoogleMapsResult } from '../../../interfaces/googleMaps';
+import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { useHistory, useLocation } from 'react-router';
+import { ApplicationProvider } from '../../../contexts/ApplicationContext';
+
+interface ADDRESS_FORM {
+  street: string | undefined;
+  block: string | undefined;
+}
 
 const DeliveryLocationMap = () => {
   const [outOfBorder, setOutOfBorder] = useState(false);
-  const [address, setAddress] = useState<DELIVERY_ADDRESS | null>(null);
+  const [address, setAddress] = useState<Partial<DELIVERY_ADDRESS> | null>(
+    null
+  );
+  const { handleSetDeliveryAddress, handleGlobalOrderModeChange } = useContext(
+    ApplicationProvider
+  );
   const { getCurrentLocation } = useCurrentLocation();
   const { mode } = useContext(ThemeContext);
   const {
     i18n: { language },
     t,
   } = useTranslation(['map']);
+  const schema = useMemo(() => {
+    return Yup.object().shape({
+      block: Yup.string().required(t('required-field')).max(20),
+      street: Yup.string().required(t('required-field')).max(50),
+    });
+  }, []);
+  const history = useHistory();
+  const location = useLocation<string>();
+  const { register, handleSubmit, errors, reset } = useForm<ADDRESS_FORM>({
+    resolver: yupResolver(schema),
+  });
   const libraries = useMemo<Libraries>(() => ['places'], []);
   const { isLoaded, loadError } = useJsApiLoader({
     googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
@@ -35,7 +68,7 @@ const DeliveryLocationMap = () => {
     return {
       disableDefaultUI: true,
       zoomControl: false,
-      gestureHandling: 'greedy',
+      // gestureHandling: 'greedy',
 
       styles:
         mode === 'light'
@@ -152,10 +185,10 @@ const DeliveryLocationMap = () => {
       const res = await axios.get(
         `https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&key=${process.env.REACT_APP_GOOGLE_MAPS_API_KEY}&language=${language}`
       );
+      let governorate: string = '';
       let block: string = '';
       let street: string = '';
       let area: string = '';
-
       const results = res.data.results;
       if (results.length === 0) {
         // setAddress(null);
@@ -176,56 +209,76 @@ const DeliveryLocationMap = () => {
       }
 
       results.forEach((result: GoogleMapsResult) => {
+        if (result.types.includes('administrative_area_level_1')) {
+          if (!governorate) {
+            governorate = result.address_components[0].long_name;
+          }
+        }
         if (
-          result.types.includes('street_address') ||
-          result.types.includes('route')
+          result.types.includes('route') ||
+          result.types.includes('street_address')
         ) {
-          street = result.address_components[0].long_name;
+          if (!street) {
+            street = result.address_components[0].long_name;
+          }
         }
         if (result.types.includes('neighborhood')) {
-          block = result.address_components[0].long_name;
+          if (!block) {
+            block = result.address_components[0].long_name;
+          }
         }
         if (
           result.types.includes('sublocality_level_1') ||
           result.types.includes('sublocality') ||
           result.types.includes('locality')
         ) {
-          area = result.address_components[0].long_name;
+          if (!area) {
+            area = result.address_components[0].long_name;
+          }
         }
       });
-      // handleSetEditedAddress({
-      //   ...editedAddress,
-      //   coords: {
-      //     lat,
-      //     lng,
-      //   },
-      //   mapAddress: `${street},${block},${area}`,
-      //   area,
-      //   block,
-      //   street,
-      // });
+      setAddress({
+        block,
+        area,
+        street,
+        governorate,
+      });
     } catch (error) {
       console.log(error);
+    }
+  };
+  useEffect(() => {
+    reset({
+      block: address?.block,
+      street: address?.street,
+    });
+  }, [address]);
+  const onSubmit = async (data: ADDRESS_FORM) => {
+    if (address?.area && marker?.lat && marker?.lng && !outOfBorder) {
+      handleGlobalOrderModeChange?.('delivery');
+      handleSetDeliveryAddress?.({
+        block: data.block,
+        street: data.street,
+        coords: {
+          lat: marker.lat,
+          lng: marker.lng,
+        },
+        area: address.area,
+        governorate: address.governorate,
+      });
+      if (location.state) {
+        history.replace(location.state);
+      } else {
+        history.goBack();
+      }
+    } else {
+      setOutOfBorder(true);
+      return;
     }
   };
   if (!isLoaded) return <LoadingContainer>loading</LoadingContainer>;
   return (
     <Container>
-      <InputsContainer>
-        <InputContainer>
-          <Label>{t('governorate')}</Label>
-          <Input />
-        </InputContainer>
-        <InputContainer>
-          <Label>{t('area')}</Label>
-          <Input />
-        </InputContainer>
-        <InputContainer>
-          <Label>{t('street')}</Label>
-          <Input />
-        </InputContainer>
-        <ConfirmButton>{t('confirm-location')}</ConfirmButton>
-      </InputsContainer>
       <GoogleMap
         mapContainerStyle={{
           width: '100%',
@@ -262,34 +315,76 @@ const DeliveryLocationMap = () => {
           <BiCurrentLocation size={30} />
         </MapIcon>
       </GoogleMap>
+      <FormContainer onSubmit={handleSubmit(onSubmit)}>
+        <GridContainer>
+          <div>
+            <Label>{t('governorate')}</Label>
+            <Input readOnly value={address?.governorate} />
+          </div>
+          <div>
+            <Label>{t('area')}</Label>
+            <Input readOnly value={address?.area} />
+          </div>
+        </GridContainer>
+        <GridContainer>
+          <div>
+            <Label>{t('block')}</Label>
+            <Input ref={register} name="block" />
+
+            <ErrorMessage>{errors.block?.message}</ErrorMessage>
+          </div>
+          <div>
+            <Label>{t('street')}</Label>
+            <Input name="street" ref={register} />
+
+            <ErrorMessage>{errors.street?.message}</ErrorMessage>
+          </div>
+        </GridContainer>
+        <ConfirmButton type="submit">{t('confirm-location')}</ConfirmButton>
+      </FormContainer>
     </Container>
   );
 };
 
 export default DeliveryLocationMap;
-const Container = styled.div`
-  height: 375px;
-  padding: 1rem 0;
+const Container = styled.div(
+  ({ theme: { breakpoints, headingColor } }) => `
+  height: 500px;
+  padding: 0;
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr;
+  grid-template-rows:250px 200px;
   gap: 0.5rem;
-`;
-const InputsContainer = styled.div`
+  @media ${breakpoints.md}{
+    
+    height: 375px;
+    padding: 1rem 0;
+    grid-template-columns: 1fr 1fr;
+  }
+  `
+);
+const FormContainer = styled.form`
   align-self: flex-start;
   display: grid;
   grid-template-columns: 1fr;
   gap: 0.5rem;
 `;
-const InputContainer = styled.div``;
+const GridContainer = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.25rem;
+`;
 const Input = styled.input`
   border-radius: 6px;
   background-color: ${props => props.theme.inputColorLight};
-  padding: 0.5rem;
+  padding: 0.25rem 0.5rem;
+  color: ${props => props.theme.subHeading};
   width: 100%;
 `;
 const Label = styled.p`
   font-size: 1rem;
-  margin-bottom: 0.5rem;
+  font-weight: ${props => props.theme.font.regular};
+  margin-bottom: 0.4rem;
 `;
 const LoadingContainer = styled.div`
   height: 100%;
@@ -328,9 +423,26 @@ const OutOfBorderContainer = styled.div`
   font-size: 0.9rem;
   text-align: center;
 `;
-const ConfirmButton = styled.button`
-  background-color: ${props => props.theme.btnPrimaryLight};
-  color: ${props => props.theme.btnText};
+const ConfirmButton = styled.button(
+  ({ theme: { breakpoints, btnPrimaryLight, btnText, btnBorder, font } }) => `
+  background-color: ${btnPrimaryLight};
+  color: ${btnText};
   border-radius: 6px;
-  padding: 0.5rem;
+  padding: 0.75rem;
+  font-size:1.1rem;
+  width:100%;
+  font-weight:${font.semibold};
+  border:${btnBorder};
+  @media ${breakpoints.md}{
+    font-size:1rem;
+    padding: 0.5rem;
+    width:auto;
+  }
+`
+);
+const ErrorMessage = styled.p`
+  color: ${props => props.theme.dangerRed};
+  font-size: 0.8rem;
+  margin-top: 0.25rem;
+  height: 19px;
 `;

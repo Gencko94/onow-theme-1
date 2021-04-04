@@ -42,5 +42,9 @@
   "select-area": "Select Area",
   "select-order-mode": "Select Your Order Mode",
   "delivery-to": "Delivery to",
-  "pick-up-from": "Pick up from"
+  "pick-up-from": "Pick up from",
+  "change-mode": "Change Mode",
+  "or": "OR",
+  "confirm-location": "Confirm Location",
+  "set-up-order-mode": "Set up Order Mode"
 }

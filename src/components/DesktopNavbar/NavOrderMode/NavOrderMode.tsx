@@ -66,8 +66,7 @@ const NavOrderMode = () => {
                 exit={{ opacity: 0 }}
                 mode={mode}
               >
-                <MenuItem to="/mode/delivery">{t('delivery')}</MenuItem>
-                <MenuItem to="/mode/pickup">{t('pickup')}</MenuItem>
+                <MenuItem to="/mode/delivery">{t('change-mode')}</MenuItem>
               </Menu>
             )}
           </AnimatePresence>

@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { AiOutlineMinus, AiOutlinePlus } from 'react-icons/ai';
 import styled from 'styled-components';
 import useResponsive from '../hooks/useResponsive';
+import { IoArrowBack, IoArrowForward } from 'react-icons/io5';
 import Layout from '../layout/Layout';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { useParams, useHistory } from 'react-router';
@@ -13,6 +14,7 @@ import Hero from '../components/Home/Hero/Hero';
 import LazyImage from '../utils/LazyImage';
 import { m, Variants } from 'framer-motion';
 import { AuthProvider } from '../contexts/AuthContext';
+import { ApplicationProvider } from '../contexts/ApplicationContext';
 const containerVariants: Variants = {
   hidden: {
     x: '100%',
@@ -34,7 +36,9 @@ const Product = () => {
   const { id } = useParams<{ id: string }>();
   const { isDesktop } = useResponsive();
   const { user } = useContext(AuthProvider);
+  const { deliveryAddress } = useContext(ApplicationProvider);
   const { data: product } = useQuery(['product', id], () => getProduct(id));
+  const history = useHistory();
   const {
     mutateAsync: addToUserCartMutation,
     isLoading: addToUserCartLoading,
@@ -51,7 +55,6 @@ const Product = () => {
       queryClient.invalidateQueries('cart');
     },
   });
-  const history = useHistory();
   const queryClient = useQueryClient();
   const [quantity, setQuantity] = useState<number>(1);
 
@@ -110,6 +113,16 @@ const Product = () => {
             ready={Boolean(product)}
           >
             <ImageContainer>
+              {i18n.language === 'en' && !isDesktop && (
+                <LeftBackButton onClick={() => history.goBack()}>
+                  <IoArrowBack size={30} />
+                </LeftBackButton>
+              )}
+              {i18n.language === 'ar' && !isDesktop && (
+                <RightBackButton onClick={() => history.goBack()}>
+                  <IoArrowForward size={30} />
+                </RightBackButton>
+              )}
               <LazyImage
                 src={product?.image}
                 alt={product?.name[i18n.language]}
@@ -220,18 +233,32 @@ const Product = () => {
                     </QuantityButton>
                   </QuantityContainer>
                 </QuantityWrapper>
-                <AddButton onClick={() => handleAddToCart()}>
-                  {addToUserCartLoading || addToGuestCartLoading ? (
-                    <Loader
-                      type="ThreeDots"
-                      color="#fff"
-                      height={20}
-                      width={30}
-                    />
-                  ) : (
-                    t('add-to-cart')
-                  )}
-                </AddButton>
+                {deliveryAddress && (
+                  <AddButton onClick={() => handleAddToCart()}>
+                    {addToUserCartLoading || addToGuestCartLoading ? (
+                      <Loader
+                        type="ThreeDots"
+                        color="#fff"
+                        height={20}
+                        width={30}
+                      />
+                    ) : (
+                      t('add-to-cart')
+                    )}
+                  </AddButton>
+                )}
+                {!deliveryAddress && (
+                  <OrderModeButton
+                    onClick={() =>
+                      history.push({
+                        pathname: '/mode/delivery',
+                        state: `/products/${id}`,
+                      })
+                    }
+                  >
+                    {t('select-order-mode')}
+                  </OrderModeButton>
+                )}
               </BuyingOptionsContainer>
             )}
           </div>
@@ -279,6 +306,7 @@ const ImageContainer = styled.div(
   ({ theme: { breakpoints } }) => `
   height: 100%;
   width: 100%;
+  position:relative;
   
   @media ${breakpoints.md}{
     margin-bottom:0;
@@ -286,16 +314,40 @@ const ImageContainer = styled.div(
   }
   `
 );
-const Image = styled.img`
-  max-height: 100%;
-  border-radius: 8px;
-  width: 100%;
-  object-fit: cover;
+const LeftBackButton = styled.button`
+  border-radius: 50%;
+  position: absolute;
+  z-index: 3;
+  top: 10px;
+  left: 10px;
+  width: 50px;
+  height: 50px;
+  padding: 0.5rem;
+  background-color: rgba(0, 0, 0, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+`;
+const RightBackButton = styled.button`
+  border-radius: 50%;
+  position: absolute;
+  z-index: 3;
+  top: 10px;
+  right: 10px;
+  width: 50px;
+  height: 50px;
+  padding: 0.5rem;
+  background-color: rgba(0, 0, 0, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
 `;
 const Name = styled.h1(
   ({ theme: { breakpoints, headingColor, font } }) => `
   color: ${headingColor};
-  font-weight: ${font.xbold};
+  font-weight: ${font.bold};
   font-size: 1rem;
   @media ${breakpoints.xs}{
     
@@ -311,7 +363,7 @@ const Description = styled.p`
   padding: 0.5rem 0;
   font-size: 0.8rem;
   color: ${({ theme }) => theme.subHeading};
-  font-weight: ${props => props.theme.font.bold};
+  font-weight: ${props => props.theme.font.semibold};
 `;
 const Price = styled.p`
   font-size: 1.2rem;
@@ -347,14 +399,16 @@ const AdditionalInstructionsText = styled.textarea`
 
 const BuyingOptionsContainer = styled.div(
   ({ theme: { breakpoints, btnBorder } }) => `
-  display: flex;
-  align-items: center;
+  display: grid;
+  grid-template-columns:1fr;
+  gap:1rem;
   @media ${breakpoints.xs}{
     padding: 0.25rem 0 ;
   }
   @media ${breakpoints.md}{
+    gap:0.5rem;
     padding: 0.25rem 0;
-    justify-content:center;
+    grid-template-columns:0.5fr 1fr;
   }
 `
 );
@@ -392,6 +446,16 @@ const AddButton = styled.button`
   border-radius: 6px;
   background-color: ${props => props.theme.btnPrimaryLight};
   color: ${props => props.theme.btnText};
+  padding: 0.5rem;
+  font-weight: ${props => props.theme.font.bold};
+  flex: 1;
+  text-transform: uppercase;
+  border: 1px solid ${props => props.theme.btnBorder};
+`;
+const OrderModeButton = styled.button`
+  border-radius: 6px;
+  background-color: ${props => props.theme.dangerRed};
+  color: #fff;
   padding: 0.5rem;
   font-weight: ${props => props.theme.font.bold};
   flex: 1;

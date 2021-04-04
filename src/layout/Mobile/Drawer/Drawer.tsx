@@ -2,7 +2,7 @@ import { Dispatch, SetStateAction, useContext, useRef } from 'react';
 import styled from 'styled-components';
 import { IoMdListBox } from 'react-icons/io';
 import { BiGitBranch, BiFoodMenu } from 'react-icons/bi';
-import { FaMapMarkerAlt } from 'react-icons/fa';
+import { FaMapMarkerAlt, FaMotorcycle } from 'react-icons/fa';
 import { HiUserCircle } from 'react-icons/hi';
 import { MdMail } from 'react-icons/md';
 import {
@@ -52,7 +52,7 @@ const Drawer = ({ setDrawerOpen, drawerOpen }: IProps) => {
               </Button>
               <Button to="/register">
                 <AiOutlineUserAdd size={20} />
-                <Text>{t('register')}</Text>
+                <Text>{t('signup')}</Text>
               </Button>
             </ButtonsContainer>
           </NameWrapper>
@@ -91,6 +91,12 @@ const Drawer = ({ setDrawerOpen, drawerOpen }: IProps) => {
       <hr />
       <LinksContainer>
         <LinkContainer>
+          <FaMotorcycle size={30} color="#37c0b5" />
+          <Linkitem to="/mode/delivery">
+            {t('common:set-up-order-mode')}
+          </Linkitem>
+        </LinkContainer>
+        <LinkContainer>
           <MdMail size={30} color="#3277f8" />
           <Linkitem to="/">{t('common:contact-us')}</Linkitem>
         </LinkContainer>
@@ -110,7 +116,7 @@ const Drawer = ({ setDrawerOpen, drawerOpen }: IProps) => {
 
 export default Drawer;
 
-const DrawerContainer = styled.div<{ rtl: boolean }>`
+const DrawerContainer = styled.nav<{ rtl: boolean }>`
   position: fixed;
   top: 0;
   left: ${props => !props.rtl && '0'};
@@ -135,7 +141,9 @@ const TopSection = styled.div`
   padding: 1rem;
 `;
 
-const NameWrapper = styled.div``;
+const NameWrapper = styled.div`
+  width: 100%;
+`;
 
 const Name = styled.h4(
   ({ theme: { breakpoints, headingColor } }) => `
@@ -177,28 +185,23 @@ const Toggler = styled.div`
 `;
 const Text = styled.span`
   margin: 0 0.25rem;
-  font-size: 1.2rem;
+  /* font-size: 1.2rem; */
   color: ${props => props.theme.headingColor};
 `;
 const ButtonsContainer = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.25rem;
   margin-top: 0.75rem;
-  /* padding: 1rem; */
 `;
 const Button = styled(Link)`
   display: flex;
   align-items: center;
   justify-content: center;
-  /* margin: 0 0.25rem; */
   border: ${props => props.theme.btnBorder};
-  text-decoration: underline;
-  padding: 0.25rem 0.5rem;
-  font-size: 0.8rem;
-  /* background-color: ${props => props.theme.btnPrimaryLight}; */
+  padding: 0.5rem 0.5rem;
+  font-size: 0.9rem;
   color: ${props => props.theme.subHeading};
   border-radius: 5px;
   font-weight: ${props => props.theme.font.semibold};
-  /* width: 115px; */
 `;

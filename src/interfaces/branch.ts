@@ -13,6 +13,7 @@ export interface Branch {
   openingHours: OPENING_HOUR[];
   openNow: boolean;
   directions: {
+    //address
     [key: string]: string;
   };
   coords: {
@@ -20,7 +21,9 @@ export interface Branch {
     lng: string;
   };
   value: string;
-  isMain: boolean;
+  isMain?: boolean; //is main branch
+  // mobile number
+  // pickupEnabled
 }
 
 export interface DELIVERY_LOCATION_LIST {

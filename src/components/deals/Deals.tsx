@@ -116,7 +116,7 @@ const DealsTitleContainer = styled.div`
 const DealsTitle = styled.h5(
   ({ theme: { breakpoints, headingColor, font } }) => `
   color:${headingColor};
-  font-weight:${font.xbold};
+  font-weight:${font.bold};
   font-size:1.4rem;
   @media ${breakpoints.md}{
     font-size:1.5rem;

@@ -12,6 +12,7 @@ import {
   useMemo,
 } from 'react';
 import { ApplicationProvider } from '../../../contexts/ApplicationContext';
+import { useHistory, useLocation } from 'react-router';
 
 interface IProps {
   option: DELIVERY_LOCATION_LIST | null;
@@ -29,10 +30,11 @@ const DeliveryLocationsList = ({
   const { i18n, t } = useTranslation();
 
   const { data, isLoading } = useQuery('test', getDeliveryLocationList);
+  const history = useHistory();
+  const location = useLocation<string>();
   const {
-    globalOrderMode,
     handleGlobalOrderModeChange,
-    deliveryAddress,
+
     handleSetDeliveryAddress,
   } = useContext(ApplicationProvider);
   const customStyles = useMemo<
@@ -76,6 +78,11 @@ const DeliveryLocationsList = ({
         floor: '',
       });
     }
+    if (location.state) {
+      history.replace(location.state);
+    } else {
+      history.goBack();
+    }
   };
 
   return (
@@ -115,8 +122,8 @@ const DeliveryLocationsList = ({
         </SelectInputContainer>
       </SelectInputsContainer>
       <ConfirmContainer>
-        <ConfirmButton onClick={() => handleSetOrderMode()}>
-          Confirm
+        <ConfirmButton disabled={!data} onClick={() => handleSetOrderMode()}>
+          {t('confirm-location')}
         </ConfirmButton>
       </ConfirmContainer>
     </Container>
@@ -128,13 +135,7 @@ export default DeliveryLocationsList;
 const Container = styled.div`
   padding: 1rem 0;
 `;
-const SearchBarContainer = styled.div``;
-const SearchBar = styled.input`
-  background-color: ${props => props.theme.inputColorLight};
-  width: 100%;
-  border-radius: 5px;
-  padding: 0.5rem;
-`;
+
 const SelectInputsContainer = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -155,9 +156,22 @@ const ConfirmContainer = styled.div(
     }
   `
 );
-const ConfirmButton = styled.button`
-  background-color: ${props => props.theme.btnPrimaryLight};
-  color: ${props => props.theme.btnText};
+const ConfirmButton = styled.button(
+  ({ theme: { breakpoints, btnPrimaryLight, btnText, btnBorder, font } }) => `
+  background-color: ${btnPrimaryLight};
+  color: ${btnText};
   border-radius: 6px;
-  padding: 0.5rem;
-`;
+  padding: 0.75rem;
+  font-size:1.1rem;
+  width:100%;
+  font-weight:${font.bold};
+  border:${btnBorder};
+  @media ${breakpoints.md}{
+    font-weight:${font.semibold};
+    font-size:1rem;
+    padding: 0.5rem;
+    width:auto;
+  }
+  
+`
+);

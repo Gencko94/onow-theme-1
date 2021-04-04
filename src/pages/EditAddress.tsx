@@ -282,7 +282,7 @@ const Input = styled.input<{ border?: boolean; colored?: boolean }>`
 `;
 
 const ErrorMessage = styled.p`
-  color: #b72b2b;
+  color: ${props => props.theme.dangerRed};
   font-size: 0.8rem;
   margin-top: 0.25rem;
 `;

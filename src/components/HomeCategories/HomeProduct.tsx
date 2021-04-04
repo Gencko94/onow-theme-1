@@ -74,8 +74,8 @@ const Content = styled.div`
 `;
 const ProductName = styled.p(
   ({ theme: { breakpoints, font } }) => `
-  font-weight:${font.bold};
-  font-size:1.2rem;
+  font-weight:${font.semibold};
+  font-size:1.1rem;
   @media ${breakpoints.md}{
     font-size:1.1rem;
   }
@@ -83,8 +83,8 @@ const ProductName = styled.p(
 );
 const Price = styled.p`
   /* text-align: center; */
-  font-size: 1.3rem;
-  font-weight: ${props => props.theme.font.bold};
+  font-size: 1.2rem;
+  font-weight: ${props => props.theme.font.semibold};
   /* margin-bottom: 0.25rem; */
   /* color: ${props => props.theme.subHeading}; */
 `;

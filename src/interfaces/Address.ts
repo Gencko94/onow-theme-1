@@ -6,7 +6,7 @@ export type DELIVERY_ADDRESS = {
   };
   area: string | undefined;
   default?: boolean;
-
+  governorate?: string | undefined;
   street: string | undefined;
   floor?: string | undefined;
   block: string | undefined;
