@@ -80,13 +80,13 @@ const ItemsWrapper = styled(m.div)(
   display:grid;
   grid-template-columns:1fr;
   gap:0.5rem;
-  box-shadow:${shadow};
+ 
   @media ${breakpoints.xs}{
     align-content:flex-start;
-    min-height:calc(100vh - 442px);
-    max-height:calc(100vh - 442px);
+    // min-height:calc(100vh - 442px);
+    // max-height:calc(100vh - 442px);
     overflow:auto;
-    padding:0.5rem;
+    padding:0.5rem ;
   }
   @media ${breakpoints.md}{
     min-height:unset;

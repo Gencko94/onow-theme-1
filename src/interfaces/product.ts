@@ -12,3 +12,9 @@ export interface Product {
     [key: string]: string;
   };
 }
+export type ADDON = {
+  name: {
+    [key: string]: string;
+  };
+  price: string;
+};

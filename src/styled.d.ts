@@ -28,12 +28,14 @@ declare module 'styled-components' {
     btnPrimaryLight: string;
     btnPrimaryDark: string;
     inputColorLight: string;
-    inputColorDark: string;
     btnBorder: string;
     btnText: string;
     green: string;
     font: FontWeights;
     dangerRed: string;
     border: string;
+    seperator: string;
+    maxWidthMd: string;
+    maxWidthLg: string;
   }
 }

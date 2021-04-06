@@ -35,7 +35,7 @@ const breakpoints = {
     spaceBetween: 20,
   },
   1100: {
-    slidesPerView: 5.25,
+    slidesPerView: 4.25,
     spaceBetween: 20,
   },
   1440: {
@@ -145,7 +145,7 @@ const SeeAll = styled(Link)(
 const CategoryName = styled.h5(
   ({ theme: { breakpoints, headingColor, font } }) => `
   color:${headingColor};
-  font-weight:${font.xbold};
+  font-weight:${font.bold};
   font-size:1.4rem;
   @media ${breakpoints.md}{
     font-size:1.5rem;

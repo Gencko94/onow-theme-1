@@ -69,7 +69,7 @@ p {
   /* line-height:1 */
 }
 hr{
-  border : 1px solid rgba(0,0,0,0.1)
+  border : 0.3px solid rgba(0,0,0,0.1)
 }
 button {
   cursor: pointer;

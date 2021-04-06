@@ -1,6 +1,6 @@
 export type DELIVERY_ADDRESS = {
   id?: number;
-  coords: {
+  coords?: {
     lat: number;
     lng: number;
   };

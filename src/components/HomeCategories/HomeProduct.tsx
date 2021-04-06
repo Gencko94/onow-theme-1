@@ -45,7 +45,11 @@ const HomeProduct = ({ product }: IProps) => {
 
 export default HomeProduct;
 
-const Container = styled.div``;
+const Container = styled.div`
+  &:hover {
+    box-shadow: ${props => props.theme.shadow};
+  }
+`;
 const ImageContainer = styled(Link)`
   display: block;
   position: relative;
@@ -74,7 +78,7 @@ const Content = styled.div`
 `;
 const ProductName = styled.p(
   ({ theme: { breakpoints, font } }) => `
-  font-weight:${font.semibold};
+  font-weight:${font.regular};
   font-size:1.1rem;
   @media ${breakpoints.md}{
     font-size:1.1rem;

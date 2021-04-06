@@ -24,13 +24,13 @@ const Pickup = () => {
           </Prompt>
         )}
       </PickupContainer>
-      {branch && <PickupBranch>{branch.name}</PickupBranch>}
-      {branch && <OrderTime title="Pickup Time" />}
-      <Modal
+      {/* {branch && <PickupBranch>{branch.name}</PickupBranch>}
+      {branch && <OrderTime title="Pickup Time" />} */}
+      {/* <Modal
         title="Select Pickup Branch"
         closeModal={() => setModalOpen(false)}
         modalOpen={modalOpen}
-      />
+      /> */}
     </Box>
   );
 };

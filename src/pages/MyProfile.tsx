@@ -5,14 +5,18 @@ import styled from 'styled-components';
 import MobileHeader from '../components/Header/MobileHeader';
 import ChangePassword from '../components/MyAccount/profile/ChangePassword';
 import Info from '../components/MyAccount/profile/Info';
+import { ApplicationProvider } from '../contexts/ApplicationContext';
 import { AuthProvider } from '../contexts/AuthContext';
-import { paymentMethods } from '../data/paymentMethods';
+import { PAYMENT_METHOD } from '../interfaces/init';
 import Layout from '../layout/Layout';
 
 const MyProfile = () => {
   const { user } = useContext(AuthProvider);
-  const { t } = useTranslation(['profile']);
-  const [paymentMethod, setPaymentMethod] = useState(paymentMethods[0]);
+  const { payment_methods } = useContext(ApplicationProvider);
+  const { t, i18n } = useTranslation(['profile']);
+  const [paymentMethod, setPaymentMethod] = useState<PAYMENT_METHOD | null>(
+    null
+  );
   if (!user) {
     return <Redirect to={{ pathname: '/login', state: '/user/profile' }} />;
   }
@@ -33,13 +37,16 @@ const MyProfile = () => {
           <Title>{t('preffered-payment')}</Title>
         </BlockHead>
         <PaymentMethodsContainer>
-          {paymentMethods.map(method => (
+          {payment_methods?.map(method => (
             <PaymentMethodItem
-              active={paymentMethod.name === method.name}
+              active={paymentMethod?.id === method.id}
               onClick={() => setPaymentMethod(method)}
-              key={method.name}
+              key={method.id}
             >
-              <PaymentMethodImage src={method.photo} alt={method.name} />
+              <PaymentMethodImage
+                src={method.logo}
+                alt={method.name[i18n.language]}
+              />
               <PaymentMethodName>{method.name}</PaymentMethodName>
             </PaymentMethodItem>
           ))}

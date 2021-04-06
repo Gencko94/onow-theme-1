@@ -31,7 +31,7 @@ const Address: React.FC<IProps> = ({ address }) => {
   const handleDelete = async () => {
     if (address.id) {
       try {
-        const res = await mutateAsync({ id: address.id });
+        await mutateAsync({ id: address.id });
       } catch (error) {
         console.log(error);
       }

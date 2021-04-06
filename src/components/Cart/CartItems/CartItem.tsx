@@ -12,14 +12,18 @@ import {
   DELETE_FROM_CART_RESPONSE,
   GET_CART_RESPONSE,
 } from '../../../interfaces/Cart';
+import { ADDON } from '../../../interfaces/product';
 import { deleteCartItem } from '../../../utils/queries';
 
 interface Props {
   product: CART_ITEM;
 }
-const addons = [
-  { name: 'Extra Cheese', price: '0.500 KD' },
-  { name: 'Extra Onions', price: '0.750 KD' },
+const addons: ADDON[] = [
+  { name: { en: 'Extra Cheese', ar: 'جبنة زيادة' }, price: '0.500 KD' },
+  { name: { en: 'Extra Onions', ar: 'بصل زيادة' }, price: '0.750 KD' },
+  { name: { en: 'Extra Onions', ar: 'بصل زيادة' }, price: '0.750 KD' },
+  { name: { en: 'Extra Onions', ar: 'بصل زيادة' }, price: '0.750 KD' },
+  { name: { en: 'Extra Onions', ar: 'بصل زيادة' }, price: '0.750 KD' },
 ];
 const containerVariants: Variants = {
   hidden: {
@@ -85,6 +89,13 @@ const CartItem = ({ product }: Props) => {
       console.log(error);
     }
   };
+  const generateAddons = (addons: ADDON[]) => {
+    const names = [];
+    for (let addon of addons) {
+      names.push(addon.name[i18n.language]);
+    }
+    return <AddonName>{names.join(', ')}</AddonName>;
+  };
   return (
     <Container
       layout
@@ -93,7 +104,7 @@ const CartItem = ({ product }: Props) => {
       animate="visible"
       exit="exited"
     >
-      <ProductContainer>
+      <TopSection>
         <ImageContainer>
           <Image src={product.image} alt={product.name[i18n.language]} />
         </ImageContainer>
@@ -101,35 +112,34 @@ const CartItem = ({ product }: Props) => {
           <ProductName to={`products/${product.id}`}>
             {product.name[i18n.language]}
           </ProductName>
-          <Price>
-            {product.price} {t('kd')}
-          </Price>
-          {addons.map(addon => (
-            <Fragment key={addon.name}>
-              <AddonName>{addon.name}</AddonName>
-              <AddonPrice>+{addon.price}</AddonPrice>
-            </Fragment>
-          ))}
-          {/* <SpecialInstructions>Extra Cheese</SpecialInstructions> */}
+
+          {generateAddons(addons)}
         </Details>
-        <QuantityWrapper>
-          <QuantityContainer>
-            <QuantityButton onClick={() => handleIncrementQuantity()}>
-              <FiPlus size={17} />
-            </QuantityButton>
-            <QuantityText>{quantity}</QuantityText>
-            <QuantityButton onClick={() => handleSubstractQuantity()}>
-              <FiMinus size={17} />
-            </QuantityButton>
-          </QuantityContainer>
-          <ButtonsContainer>
-            {quantityChanged && <EditButton>Edit</EditButton>}
-            <DeleteButton onClick={() => handleDeleteItem()}>
-              <AiFillDelete size={23} color="#b72b2b" />
-            </DeleteButton>
-          </ButtonsContainer>
-        </QuantityWrapper>
-      </ProductContainer>
+        {/* <SpecialInstructions>Extra Cheese</SpecialInstructions> */}
+      </TopSection>
+      <BottomSection>
+        <Price>
+          {product.price} {t('kd')}
+        </Price>
+        <QuantityContainer>
+          <QuantityButton onClick={() => handleIncrementQuantity()}>
+            <FiPlus size={17} />
+          </QuantityButton>
+          <QuantityText>{quantity}</QuantityText>
+          <QuantityButton onClick={() => handleSubstractQuantity()}>
+            <FiMinus size={17} />
+          </QuantityButton>
+        </QuantityContainer>
+
+        <ButtonsContainer>
+          {quantityChanged && <EditButton>Edit</EditButton>}
+          <DeleteButton onClick={() => handleDeleteItem()}>
+            <AiFillDelete size={23} color="#b72b2b" />
+          </DeleteButton>
+        </ButtonsContainer>
+      </BottomSection>
+      {/* <QuantityWrapper>
+      </QuantityWrapper> */}
     </Container>
   );
 };
@@ -137,21 +147,32 @@ const CartItem = ({ product }: Props) => {
 export default CartItem;
 
 const Container = styled(m.div)(
-  ({ theme: { breakpoints, border, overlayColor, bodyColor, shadow } }) => ` 
-  background:${overlayColor};
+  ({
+    theme: {
+      breakpoints,
+      border,
+      shadow,
+      overlayColor,
+      bodyColor,
+
+      seperator,
+    },
+  }) => ` 
   align-self:flex-start;
   border-radius:6px;
-  box-shadow:${shadow};
   padding: 0.5rem;
+  box-shadow:${shadow};
+  // border-bottom:${seperator};
+  background:${overlayColor};
   @media ${breakpoints.md}{
     background:${overlayColor};
     margin-bottom:1rem;
   }
 `
 );
-const ProductContainer = styled.div(
+const TopSection = styled.div(
   ({ theme: { breakpoints } }) => ` 
-
+  // margin-bottom:0.5rem;
   display: grid;
   gap: 0.5rem;
   @media ${breakpoints.xs}{
@@ -159,9 +180,44 @@ const ProductContainer = styled.div(
    
   }
   @media ${breakpoints.md}{
-    grid-template-columns: 0.3fr 1fr 0.1fr;
+    // grid-template-columns: 0.3fr 1fr 0.1fr;
 
  }
+
+`
+);
+// const BottomSection = styled.div(
+//   ({ theme: { breakpoints } }) => `
+
+//   display: grid;
+//   gap: 0.5rem;
+//   @media ${breakpoints.xs}{
+//     grid-template-columns: 0.3fr 1fr;
+
+//   }
+//   @media ${breakpoints.md}{
+//     // grid-template-columns: 0.3fr 1fr 0.1fr;
+
+//  }
+
+// `
+// );
+const BottomSection = styled.div(
+  ({ theme: { breakpoints } }) => ` 
+
+  display: flex;
+  gap: 0.5rem;
+  align-items:center;
+
+  justify-content:flex-end
+//   @media ${breakpoints.xs}{
+//     grid-template-columns: 0.3fr 1fr;
+   
+//   }
+//   @media ${breakpoints.md}{
+//     // grid-template-columns: 0.3fr 1fr 0.1fr;
+
+//  }
 
 `
 );
@@ -169,6 +225,9 @@ const ImageContainer = styled.div`
   /* display: flex; */
   width: 100%;
   height: 100%;
+  align-self: flex-start;
+  min-height: 75px;
+  max-height: 100px;
   background-color: #fff;
   border-radius: 8px;
   overflow: hidden;
@@ -197,25 +256,20 @@ object-position:center;
 `
 );
 
-const Details = styled.div`
-  display: grid;
-  grid-template-columns: 1fr 0.4fr;
-  gap: 0.25rem;
-  align-self: flex-start;
-`;
+const Details = styled.div``;
 const ProductName = styled(Link)(
   ({ theme: { breakpoints, headingColor, font } }) => ` 
   display: block;
   color: ${headingColor};
-  font-weight: ${font.bold};
-  @media ${breakpoints.xs}{
+  font-weight: ${font.semibold};
+  
     font-size:1rem;
-  }
+  
   @media ${breakpoints.md}{
-    font-size:1rem;
+    font-size:1.1rem;
   }
   @media ${breakpoints.lg}{
-    font-size:1.1rem;
+    font-size:1.2rem;
   }
 `
 );
@@ -241,23 +295,24 @@ const AddonPrice = styled.p(
 `
 );
 const Price = styled.p`
-  /* font-size: 0.9rem; */
+  font-size: 1.1rem;
   color: ${props => props.theme.headingColor};
-  font-weight: ${props => props.theme.font.semibold};
+  font-weight: ${props => props.theme.font.bold};
   display: flex;
+  white-space: nowrap;
   /* align-items: center; */
   justify-content: flex-end;
 `;
 
 const QuantityWrapper = styled.div(
   ({ theme: { breakpoints } }) => ` 
-  display: flex;
+  display: grid;
   
-  align-items: center;
+  grid-template-columns: 0.4fr 1fr;
  
   justify-content: center;
   @media ${breakpoints.xs}{
-    grid-column:span 3;
+    // grid-column:span 3;
     flex-direction: row;
     justify-content: space-between;
   }
@@ -278,6 +333,7 @@ const QuantityContainer = styled.div(
   display: flex;
   align-items: center;
   justify-content: center;
+  // width:100%;
   
   @media ${breakpoints.xs}{
     
@@ -285,7 +341,7 @@ const QuantityContainer = styled.div(
   }
   @media ${breakpoints.md}{
     
-    flex-direction: column;
+    // flex-direction: column;
   }
   `
 );
@@ -295,9 +351,9 @@ const Quantity = styled.p`
   text-align: center;
 `;
 const QuantityButton = styled.button`
-  width: 22px;
-  height: 22px;
-  border-radius: 6px;
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
   background-color: #fff;
   border: 1px solid rgba(0, 0, 0, 0.2);
   box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.1);

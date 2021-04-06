@@ -92,7 +92,7 @@ const EditAddress = () => {
   });
 
   const onSubmit = async (data: EditedAddressForm) => {
-    if (editedAddress) {
+    if (editedAddress && editedAddress.coords) {
       try {
         console.log(data);
         const res = await editUserAddress({
@@ -307,7 +307,7 @@ const AdditionalInstructionsText = styled.textarea`
   border: 1px solid rgba(0, 0, 0, 0.1);
   box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.1);
   width: 100%;
-  background-color: ${props => props.theme.inputColorDark};
+  background-color: ${props => props.theme.inputColorLight};
   color: ${props => props.theme.subHeading};
   border: ${props => `1px solid ${props.theme.btnBorder}`};
 `;

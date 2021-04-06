@@ -106,7 +106,11 @@ function App() {
                             />
 
                             <Route exact path="/booking" component={Booking} />
-                            <Route path="/checkout" component={Checkout} />
+                            <Route
+                              path="/checkout"
+                              exact
+                              component={Checkout}
+                            />
                             <Route
                               exact
                               path="/location/:edited?"

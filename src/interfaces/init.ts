@@ -13,9 +13,9 @@ export type STORE_THEME = {
 };
 export type PAYMENT_METHOD = {
   name: {
-    ar: string;
-    en: string;
+    [key: string]: string;
   };
+  id: number;
   logo: string;
 };
 

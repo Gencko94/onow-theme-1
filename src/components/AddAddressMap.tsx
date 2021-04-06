@@ -47,7 +47,7 @@ const AddAddressMap = ({ outOfBorder, setOutOfBorder }: IProps) => {
   const history = useHistory();
 
   const [marker, setMarker] = useState<MapCoordinates | null>(() => {
-    if (newAddress) {
+    if (newAddress.coords) {
       return {
         lat: newAddress.coords?.lat,
         lng: newAddress.coords?.lng,
@@ -56,7 +56,7 @@ const AddAddressMap = ({ outOfBorder, setOutOfBorder }: IProps) => {
   });
 
   const mapCenter = useMemo(() => {
-    if (newAddress) {
+    if (newAddress.coords) {
       return {
         lat: newAddress.coords?.lat,
         lng: newAddress.coords?.lng,

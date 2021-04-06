@@ -37,6 +37,8 @@ const ThemeProvider: React.FC = ({ children }) => {
     return {
       fontFamily,
       breakpoints: devices,
+      maxWidthMd: '960px',
+      maxWidthLg: '1100px',
       font: {
         light: '300',
         regular: '400',

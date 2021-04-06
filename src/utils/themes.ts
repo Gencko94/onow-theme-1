@@ -1,13 +1,12 @@
 export const lightTheme = {
   accentColor: '#ECECEC', // Inputs
-  bodyColor: '#F4F4F4',
-  inputColorLight: '#e1e1e1',
-  inputColorDark: '#e1e1e1',
+  bodyColor: '#F5F5F5',
+  inputColorLight: '#ececec',
   overlayColor: '#FBFBFB',
   headingColor: '#373737',
   subHeading: '#696969',
   textColor: 'rgba(15,15,15,.7)',
-  shadow: '0px 0px 5px 0px rgb(213,213,213)',
+  shadow: '0px 0px 7px 0px rgb(213,213,213)',
   highlightColor: '#b11e29',
   highlightColorText: '#fff',
   btnPrimaryLight: '#b11e29',
@@ -17,13 +16,13 @@ export const lightTheme = {
   btnText: '#fff',
   dangerRed: '#b72b2b',
   border: '1px solid rgba(0,0,0,0.1)',
+  seperator: '0.3px solid rgba(0,0,0,0.1)',
 };
 
 export const darkTheme = {
   mainColor: '#3B3B3B',
   accentColor: '#5B5B5B',
   inputColorLight: '#505050',
-  inputColorDark: '#6f6f6f',
   btnBorder: '1px solid #FFF',
   bodyColor: '#3B3B3B',
   overlayColor:
@@ -40,4 +39,5 @@ export const darkTheme = {
   btnText: '#fff',
   dangerRed: 'hsl(0, 100%, 69.6%)',
   border: '1px solid #D8D8D8',
+  seperator: '0.3px solid rgba(250,250,250,0.3)',
 };

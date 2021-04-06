@@ -66,16 +66,14 @@ const DeliveryLocationsList = ({
     } else {
       handleGlobalOrderModeChange?.('delivery');
       handleSetDeliveryAddress?.({
-        area: area.name.en,
+        area: area.name[i18n.language],
         street: '',
         block: '',
-        coords: {
-          lat: 0,
-          lng: 0,
-        },
+
         additionalDirections: '',
         building: '',
         floor: '',
+        governorate: option.province.name[i18n.language],
       });
     }
     if (location.state) {

@@ -42,7 +42,7 @@ const EditAddressMap = ({ outOfBorder, setOutOfBorder }: IProps) => {
     return editedAddress;
   });
   const [marker, setMarker] = useState<MapCoordinates | null>(() => {
-    if (editedAddress) {
+    if (editedAddress?.coords) {
       return {
         lat: editedAddress.coords.lat,
         lng: editedAddress.coords.lng,
@@ -56,7 +56,7 @@ const EditAddressMap = ({ outOfBorder, setOutOfBorder }: IProps) => {
   });
 
   const mapCenter = useMemo(() => {
-    if (editedAddress) {
+    if (editedAddress?.coords) {
       return {
         lat: editedAddress.coords.lat,
         lng: editedAddress.coords.lng,

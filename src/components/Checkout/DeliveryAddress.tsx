@@ -1,160 +1,126 @@
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { ApplicationProvider } from '../../contexts/ApplicationContext';
-import { CheckoutFormInputs } from '../../interfaces/checkoutForm';
 import OrderTime from './OrderTime';
-
+import { DeepMap, FieldError } from 'react-hook-form';
+import { CHECKOUT_FORM } from '../../interfaces/checkoutForm';
 interface IProps {
   register: any;
-  errors: any;
-  handleSubmit: any;
-  onSubmit: (data: CheckoutFormInputs) => void;
+  errors: DeepMap<CHECKOUT_FORM, FieldError>;
 }
 
-const DeliveryAddress = ({
-  register,
-  errors,
-  handleSubmit,
-  onSubmit,
-}: IProps) => {
+const DeliveryAddress = ({ errors, register }: IProps) => {
   const { t } = useTranslation(['checkout']);
   const { deliveryAddress } = useContext(ApplicationProvider);
-  return (
-    <Box>
-      <BoxHead>
-        <Title>{t('delivery-details')}</Title>
-      </BoxHead>
 
-      {deliveryAddress && <OrderTime title="delivery-time" />}
-      <MapContainer>
-        <MapImage
-          src={`https://maps.googleapis.com/maps/api/staticmap?center=${deliveryAddress?.coords?.lat},${deliveryAddress?.coords?.lng}&zoom=15&size=500x500&key=${process.env.REACT_APP_GOOGLE_MAPS_API_KEY}`}
-        />
-        <EditButton>Edit Location</EditButton>
-      </MapContainer>
-      <DeliveryAddressContainer>
-        <Subtitle bold>{t('deliver-to')}</Subtitle>
-        {deliveryAddress ? (
-          <ChangeButton to="/location">{t('change')}</ChangeButton>
-        ) : (
-          <LocationPrompt to="/location">{t('delivery-prompt')}</LocationPrompt>
+  const [outOfBorder, setOutOfBorder] = useState(false);
+  return (
+    <Container>
+      {/* <BoxHead> */}
+
+      <SectionTitle>{t('delivery-details')}</SectionTitle>
+      <SectionBody coords={deliveryAddress?.coords ? true : false}>
+        <InputsContainer>
+          <InputContainer>
+            <Label>{t('governorate')}</Label>
+            <Input value={deliveryAddress?.governorate} readOnly />
+            <ErrorMessage>{errors.governorate?.message}</ErrorMessage>
+          </InputContainer>
+          <InputContainer>
+            <Label>{t('area')}</Label>
+            <Input value={deliveryAddress?.area} readOnly />
+            <ErrorMessage>{errors.area?.message}</ErrorMessage>
+          </InputContainer>
+          <InputContainer>
+            <Label>{t('street')}</Label>
+            <Input name="street" ref={register} />
+            <ErrorMessage>{errors.street?.message}</ErrorMessage>
+          </InputContainer>
+          <InputContainer>
+            <Label>{t('block')}</Label>
+            <Input name="block" ref={register} />
+            <ErrorMessage>{errors.block?.message}</ErrorMessage>
+          </InputContainer>
+          <InputContainer>
+            <Label>{t('building')}</Label>
+            <Input name="building" ref={register} />
+            <ErrorMessage>{errors.building?.message}</ErrorMessage>
+          </InputContainer>
+        </InputsContainer>
+        {deliveryAddress?.coords?.lat && (
+          <MapContainer>
+            <MapImage
+              src={`https://maps.googleapis.com/maps/api/staticmap?center=${deliveryAddress?.coords?.lat},${deliveryAddress?.coords?.lng}&zoom=15&size=500x500&key=${process.env.REACT_APP_GOOGLE_MAPS_API_KEY}`}
+            />
+            <EditButton>Edit Location</EditButton>
+          </MapContainer>
         )}
-      </DeliveryAddressContainer>
-      {deliveryAddress && (
-        <AddressText>{`${deliveryAddress.street}, ${deliveryAddress.block}`}</AddressText>
-      )}
-      <Form onSubmit={handleSubmit(onSubmit)}>
-        <InputContainer>
-          <Label>{t('street')}</Label>
-          <Input name="phone" ref={register} />
-          {errors.phone && <ErrorMessage>{errors.phone.message}</ErrorMessage>}
-        </InputContainer>
-        <InputContainer>
-          <Label>{t('block')}</Label>
-          <Input name="phone" ref={register} />
-          {errors.phone && <ErrorMessage>{errors.phone.message}</ErrorMessage>}
-        </InputContainer>
-      </Form>
-    </Box>
+      </SectionBody>
+    </Container>
   );
 };
 
 export default DeliveryAddress;
-const Box = styled.div`
+const Container = styled.div`
   /* background-color: ${props => props.theme.overlayColor}; */
   /* border-radius: 12px; */
-  margin-bottom: 0.5rem;
+  margin: 2rem 0;
   /* padding: 0.5rem; */
-  border: 1px solid rgba(0, 0, 0, 0.1);
+  /* border: 1px solid rgba(0, 0, 0, 0.1); */
   overflow: hidden;
 `;
-const BoxHead = styled.div`
+const InputsContainer = styled.div(
+  ({ theme: { breakpoints, overlayColor } }) => `
+  display:grid;
+  gap:0.5rem;
+  grid-template-columns: 1fr;
+   @media ${breakpoints.md}{
+     grid-template-columns: 1fr 1fr;
+   }
+   `
+);
+const SectionBody = styled.div<{ coords: boolean }>(
+  ({ theme: { breakpoints, overlayColor }, coords }) => `
   padding: 0.5rem;
-
-  background-color: ${props => props.theme.btnPrimaryLight};
-  color: ${props => props.theme.btnText};
-  /* background: #fff; */
-`;
-const Title = styled.h5(
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  background-color: ${overlayColor};
+  display:grid;
+  @media ${breakpoints.md}{
+    grid-template-columns: ${coords ? '1fr 0.5fr' : '1fr'};
+  }
+  `
+);
+const MapContainer = styled.div(
+  ({ theme: { breakpoints } }) => `
+  height: 200px;
+  width: 100%;
+  position: relative;
+  margin-bottom:1rem;
+  @media ${breakpoints.md}{
+    // height: 100%;
+    margin-bottom:0;
+    border-radius:10px;
+    overflow:hidden;
+   
+  }
+`
+);
+const SectionTitle = styled.h5(
   ({ theme: { breakpoints, font, headingColor } }) => `
-  
+  margin-bottom:0.5rem;
   font-weight:${font.bold};
  
  
  
-  @media ${breakpoints.xs} {
+  @media ${breakpoints.md} {
      
     }
   }
 `
 );
-const Subtitle = styled.p<{ bold?: boolean }>`
-  text-align: center;
-  font-size: 1rem;
-  font-weight: ${props =>
-    props.bold ? props.theme.font.bold : props.theme.font.semibold};
-`;
-const LocationTypesContainer = styled.div`
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  gap: 0.5rem;
-  padding: 0.25rem 0.5rem;
-`;
-const LocationType = styled.div<{ active: boolean }>`
-  border: 1px solid rgba(0, 0, 0, 0.1);
-  cursor: pointer;
-  border-radius: 8px;
-  display: flex;
-  padding: 0.25rem;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  background-color: ${props =>
-    props.active ? props.theme.highlightColor : props.theme.inputColorLight};
-  color: ${props =>
-    props.active ? props.theme.highlightColorText : props.theme.subHeading};
-`;
-const LocationTypeName = styled.p`
-  font-size: 0.9rem;
-  font-weight: ${props => props.theme.font.bold};
-`;
-const LocationTypeIcon = styled.span`
-  display: flex;
-  align-items: center;
-  justify-content: center;
 
-  margin: 0.25rem 0;
-`;
-const DeliveryAddressContainer = styled.div`
-  padding: 0.5rem;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-`;
-const LocationPrompt = styled(Link)`
-  font-weight: 500;
-  display: block;
-  font-size: 0.9rem;
-  text-decoration: underline;
-  padding: 0 0.5rem;
-`;
-const ChangeButton = styled(Link)`
-  border-radius: 12px;
-  background-color: ${props => props.theme.mainColor};
-  color: #fff;
-  padding: 0.25rem 0.5rem;
-  font-size: 0.7rem;
-  margin: 0 0.25rem;
-`;
-const AddressText = styled.p`
-  font-size: 0.9rem;
-  padding: 0 0.5rem;
-  font-weight: ${props => props.theme.font.bold};
-`;
 const Form = styled.form`
-  margin-top: 0.5rem;
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 0.25rem;
@@ -172,7 +138,7 @@ const Label = styled.label`
 const Input = styled.input`
   border-radius: 5px;
   border: 1px solid ${props => props.theme.btnBorder};
-  padding: 0.25rem;
+  padding: 0.5rem;
   width: 100%;
   font-size: 0.9rem;
   background-color: ${props => props.theme.inputColorLight};
@@ -182,13 +148,7 @@ const ErrorMessage = styled.p`
   font-size: 0.8rem;
   margin-top: 0.25rem;
 `;
-const MapContainer = styled.div`
-  height: 150px;
-  width: 100%;
-  position: relative;
-  padding: 0.5rem;
-  margin-bottom: 0.5rem;
-`;
+
 const MapImage = styled.img`
   max-height: 100%;
   width: 100%;
