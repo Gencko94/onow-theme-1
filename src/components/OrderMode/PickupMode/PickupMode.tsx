@@ -6,16 +6,24 @@ import { getBranches } from '../../../utils/queries';
 import { useQuery } from 'react-query';
 import { ApplicationProvider } from '../../../contexts/ApplicationContext';
 import { Branch } from '../../../interfaces/branch';
+import { useHistory, useLocation } from 'react-router';
 
 const PickupMode = () => {
   const { t, i18n } = useTranslation();
-  const { data: branches, isLoading } = useQuery('branches', getBranches);
+  const location = useLocation<string>();
+  const history = useHistory();
+  const { data: branches } = useQuery('branches', getBranches);
   const { handlePickupBranchChange, handleGlobalOrderModeChange } = useContext(
     ApplicationProvider
   );
   const handleSelectPickupBranch = (branch: Branch) => {
     handleGlobalOrderModeChange?.('pickup');
     handlePickupBranchChange?.(branch);
+    if (location.state) {
+      history.replace(location.state);
+    } else {
+      history.goBack();
+    }
   };
   return (
     <Container>

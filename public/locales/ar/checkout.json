@@ -7,7 +7,8 @@
   "optional": "إختياري",
   "next": "التالي",
   "contact-info": "معلومات التواصل",
-  "delivery-details": "تفاصيل الموقع",
+  "delivery-details-time": "معلومات التوصيل وتوقيت التوصيل",
+  "pickup-details-time": "معلومات الإستلام وتوقيت الإستلام",
   "location-type": "نوع الموقع",
   "building": "رقم البناء",
   "area": "المنطقة",
@@ -28,5 +29,10 @@
   "date-time": "الوقت والتاريخ",
   "pickup-time": "زمن الاستلام",
   "hide": "إخفاء",
-  "show-all": "إظهار الكل"
+  "show-all": "إظهار الكل",
+  "go-to-payment": "إكمال الدفع",
+  "order-total": "مجموع الطلب",
+  "delivery-cost": "كلفة التوصيل",
+  "subtotal": "الإجمالي",
+  "required-field": "حقل مطلوب"
 }

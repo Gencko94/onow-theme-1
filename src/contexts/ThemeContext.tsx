@@ -77,5 +77,6 @@ export default ThemeProvider;
 const Container = styled.div<{ lang: string }>`
   font-family: ${props => props.theme.fontFamily};
   direction: ${props => (props.lang === 'ar' ? 'rtl' : 'ltr')};
-  overflow: hidden;
+  /* overflow: hidden; */
+  /* min-height: 100vh; */
 `;

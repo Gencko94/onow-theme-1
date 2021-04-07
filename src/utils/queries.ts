@@ -21,11 +21,11 @@ import { Category } from '../interfaces/categories';
 import { DEALS, Init } from '../interfaces/init';
 import { Product } from '../interfaces/product';
 
-const uri =
-  process.env.NODE_ENV === 'production'
-    ? 'https://onow-mock-api.herokuapp.com'
-    : 'http://localhost:4000';
-// const uri = 'https://onow-mock-api.herokuapp.com';
+// const uri =
+//   process.env.NODE_ENV === 'production'
+//     ? 'https://onow-mock-api.herokuapp.com'
+//     : 'http://localhost:4000';
+const uri = 'https://onow-mock-api.herokuapp.com';
 export const getGeneralInfo = async (): Promise<Init> => {
   const res = await axios.get(`${uri}/init`);
 

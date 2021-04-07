@@ -7,7 +7,8 @@
   "optional": "Optional",
   "next": "Next",
   "contact-info": "Contact Information",
-  "delivery-details": "Delivery Details",
+  "delivery-details-time": "Delivery Details & Delivery Time",
+  "pickup-details-time": "Pickup Details & Delivery Time",
   "location-type": "Location Type",
   "building": "Building Number",
   "governorate": "Governorate",
@@ -28,5 +29,10 @@
   "date-time": "Date & Time",
   "pickup-time": "Pick up time",
   "hide": "Hide",
-  "show-all": "Show all"
+  "show-all": "Show all",
+  "go-to-payment": "Proceed to Payment",
+  "order-total": "Order Total",
+  "delivery-cost": "Delivery Cost",
+  "subtotal": "Subtotal",
+  "required-field": "Required Field"
 }

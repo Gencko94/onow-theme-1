@@ -39,7 +39,13 @@ const Register = React.lazy(() => import('./pages/Register'));
 const MyProfile = React.lazy(() => import('./pages/MyProfile'));
 const OrderMode = React.lazy(() => import('./pages/OrderMode'));
 // const MyAddresses = React.lazy(() => import('./pages/MyAddresses'));
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      refetchOnWindowFocus: false,
+    },
+  },
+});
 
 function App() {
   const location = useLocation();

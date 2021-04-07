@@ -5,63 +5,58 @@ import { ApplicationProvider } from '../../contexts/ApplicationContext';
 import OrderTime from './OrderTime';
 import { DeepMap, FieldError } from 'react-hook-form';
 import { CHECKOUT_FORM } from '../../interfaces/checkoutForm';
+import Calendar from 'react-calendar';
+import 'react-calendar/dist/Calendar.css';
+import {
+  FaAngleDoubleLeft,
+  FaAngleDoubleRight,
+  FaAngleLeft,
+  FaAngleRight,
+} from 'react-icons/fa';
+import { ThemeContext } from '../../contexts/ThemeContext';
 interface IProps {
   register: any;
   errors: DeepMap<CHECKOUT_FORM, FieldError>;
 }
 
-const DeliveryAddress = ({ errors, register }: IProps) => {
+const PickupDetails = ({ errors, register }: IProps) => {
   const { t, i18n } = useTranslation(['checkout']);
-  const { deliveryAddress } = useContext(ApplicationProvider);
+  const { pickupBranch } = useContext(ApplicationProvider);
+  const { mode } = useContext(ThemeContext);
+  const [date, setDate] = useState<Date | Date[]>(new Date());
 
-  const [outOfBorder, setOutOfBorder] = useState(false);
   return (
     <Container>
       <StepNumber>2</StepNumber>
-      <SectionTitle>{t('delivery-details-time')}</SectionTitle>
+      <SectionTitle>{t('pickup-details-time')}</SectionTitle>
       <DashedLine rtl={i18n.language === 'ar'} />
-      <SectionBody coords={deliveryAddress?.coords ? true : false}>
-        <InputsContainer>
-          <InputContainer>
-            <Label>{t('governorate')}</Label>
-            <Input value={deliveryAddress?.governorate} readOnly />
-            <ErrorMessage>{errors.governorate?.message}</ErrorMessage>
-          </InputContainer>
-          <InputContainer>
-            <Label>{t('area')}</Label>
-            <Input value={deliveryAddress?.area} readOnly />
-            <ErrorMessage>{errors.area?.message}</ErrorMessage>
-          </InputContainer>
-          <InputContainer>
-            <Label>{t('street')}</Label>
-            <Input name="street" ref={register} />
-            <ErrorMessage>{errors.street?.message}</ErrorMessage>
-          </InputContainer>
-          <InputContainer>
-            <Label>{t('block')}</Label>
-            <Input name="block" ref={register} />
-            <ErrorMessage>{errors.block?.message}</ErrorMessage>
-          </InputContainer>
-          <InputContainer>
-            <Label>{t('building')}</Label>
-            <Input name="building" ref={register} />
-            <ErrorMessage>{errors.building?.message}</ErrorMessage>
-          </InputContainer>
-        </InputsContainer>
-        {deliveryAddress?.coords?.lat && (
-          <MapContainer>
-            <MapImage
-              src={`https://maps.googleapis.com/maps/api/staticmap?center=${deliveryAddress?.coords?.lat},${deliveryAddress?.coords?.lng}&zoom=15&size=500x500&key=${process.env.REACT_APP_GOOGLE_MAPS_API_KEY}`}
-            />
-            <EditButton>Edit Location</EditButton>
-          </MapContainer>
-        )}
+      <SectionBody>
+        <Text>Pickup Branch : {pickupBranch?.name[i18n.language]}</Text>
+        <CalendarContainer>
+          <Calendar
+            className={mode === 'dark' ? 'calendar-dark' : 'calendar-light'}
+            value={date}
+            onChange={date => setDate(date)}
+            // calendarType="Arabic"
+            locale="ar"
+            tileClassName="tile"
+            minDate={new Date()}
+            prev2Label={<FaAngleDoubleLeft size={20} />}
+            next2Label={<FaAngleDoubleRight size={20} />}
+            prevLabel={<FaAngleLeft size={20} />}
+            nextLabel={<FaAngleRight size={20} />}
+            // showNavigation={false}
+            showNeighboringMonth={false}
+            // showFixedNumberOfWeeks={true}
+            // tileContent={<Sample />}
+          />
+        </CalendarContainer>
       </SectionBody>
     </Container>
   );
 };
 
-export default DeliveryAddress;
+export default PickupDetails;
 const StepNumber = styled.span`
   padding: 0.5rem;
   width: 25px;
@@ -99,19 +94,18 @@ const InputsContainer = styled.div(
    }
    `
 );
-const SectionBody = styled.div<{ coords: boolean }>(
-  ({ theme: { breakpoints, overlayColor }, coords }) => `
+const SectionBody = styled.div(
+  ({ theme: { breakpoints, overlayColor } }) => `
   padding: 0.5rem;
   padding-top: 0.75rem;
   border: 1px solid rgba(0, 0, 0, 0.1);
   background-color: ${overlayColor};
-  display:grid;
   border-radius:6px;
   @media ${breakpoints.md}{
-    grid-template-columns: ${coords ? '1fr 0.5fr' : '1fr'};
   }
   `
 );
+const Text = styled.h6``;
 const MapContainer = styled.div(
   ({ theme: { breakpoints } }) => `
   height: 200px;
@@ -140,29 +134,6 @@ const SectionTitle = styled.h5(
 `
 );
 
-const InputContainer = styled.div`
-  margin-bottom: 0.5rem;
-`;
-const Label = styled.label`
-  margin-bottom: 0.25rem;
-  display: block;
-  font-size: 0.9rem;
-  font-weight: ${props => props.theme.font.bold};
-`;
-const Input = styled.input`
-  border-radius: 5px;
-  border: 1px solid ${props => props.theme.btnBorder};
-  padding: 0.5rem;
-  width: 100%;
-  font-size: 0.9rem;
-  background-color: ${props => props.theme.inputColorLight};
-`;
-const ErrorMessage = styled.p`
-  color: #b72b2b;
-  font-size: 0.8rem;
-  margin-top: 0.25rem;
-`;
-
 const MapImage = styled.img`
   max-height: 100%;
   width: 100%;
@@ -179,4 +150,8 @@ const EditButton = styled.button`
   color: ${props => props.theme.btnText};
   padding: 0.25rem 0.5rem;
   z-index: 999px;
+`;
+const CalendarContainer = styled.div`
+  width: 300px;
+  direction: ltr;
 `;

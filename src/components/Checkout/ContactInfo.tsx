@@ -9,11 +9,13 @@ interface IProps {
 }
 
 const ContactInfo = ({ register, errors }: IProps) => {
-  const { t } = useTranslation(['checkout']);
-
+  const { t, i18n } = useTranslation(['checkout']);
+  console.log(errors);
   return (
     <Container>
+      <StepNumber>1</StepNumber>
       <SectionTitle>{t('contact-info')}</SectionTitle>
+      <DashedLine rtl={i18n.language === 'ar'} />
       <SectionBody>
         <InputContainer>
           <Label>{t('first-name')}</Label>
@@ -44,10 +46,28 @@ const ContactInfo = ({ register, errors }: IProps) => {
 };
 
 export default ContactInfo;
-
+const StepNumber = styled.span`
+  padding: 0.5rem;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  background-color: ${props => props.theme.mainColor};
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+const DashedLine = styled.span<{ rtl: boolean }>`
+  border-right: ${props =>
+    props.rtl ? 'none' : '2px dashed rgba(0, 0, 0, 0.1)'};
+  border-left: ${props =>
+    props.rtl ? '2px dashed rgba(0, 0, 0, 0.1)' : 'none'};
+  margin-right: ${props => (props.rtl ? '0' : '17px')};
+  margin-left: ${props => (props.rtl ? '17px' : '0')};
+`;
 const SectionTitle = styled.h5(
   ({ theme: { breakpoints, font, headingColor } }) => `
-  margin-bottom:0.5rem;
+  // margin-bottom:0.5rem;
   font-weight:${font.bold};
  
  
@@ -59,7 +79,10 @@ const SectionTitle = styled.h5(
 `
 );
 const Container = styled.div`
-  /* padding: 0.75rem 0.5rem; */
+  display: grid;
+  grid-template-columns: 30px 1fr;
+  gap: 0.5rem;
+  row-gap: 1rem;
 `;
 
 const InputContainer = styled.div`
@@ -97,11 +120,11 @@ const ErrorMessage = styled.p`
 const SectionBody = styled.div(
   ({ theme: { breakpoints, overlayColor } }) => `
   padding: 0.5rem;
-  padding-top:1rem;
+  padding-top:0.75rem;
   border: 1px solid rgba(0, 0, 0, 0.1);
   background-color: ${overlayColor};
   display:grid;
-  gap:0.5rem;
+  gap:0.5rem;border-radius:6px;
   grid-template-columns:1fr;
   @media ${breakpoints.md}{
     

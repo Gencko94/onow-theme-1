@@ -12,18 +12,23 @@ import { useTranslation } from 'react-i18next';
 import { CHECKOUT_FORM } from '../interfaces/checkoutForm';
 import { PAYMENT_METHOD } from '../interfaces/init';
 import PaymentMethods from '../components/Checkout/PaymentMethods';
+import CheckoutSummary from '../components/Checkout/CheckoutSummary';
+import PickupDetails from '../components/Checkout/PickupDetails';
 
 const Checkout = () => {
-  const { deliveryAddress } = useContext(ApplicationProvider);
-  const { t } = useTranslation();
+  const { deliveryAddress, globalOrderMode, pickupBranch } = useContext(
+    ApplicationProvider
+  );
+  const { t } = useTranslation(['checkout']);
   const [paymentMethod, setPaymentMethod] = useState<PAYMENT_METHOD | null>(
     null
   );
   const schema = useMemo(
     () =>
       yup.object().shape({
-        name: yup.string().required(t('required-field')).min(5),
-        phone: yup.string().required(t('required-field')).min(5),
+        first_name: yup.string().required(t('required-field')).min(5),
+        last_name: yup.string().required(t('required-field')).min(5),
+        phone_number: yup.string().required(t('required-field')).min(5),
       }),
     []
   );
@@ -37,17 +42,29 @@ const Checkout = () => {
       street: deliveryAddress?.street,
     },
   });
+  // console.log(errors);
+  const onSubmit = (data: CHECKOUT_FORM) => {
+    console.log(data);
+  };
   return (
     <Layout>
       <MobileHeader title="checkout" />
       <Container>
-        <Form>
-          <ContactInfo register={register} errors={errors} />
-          <DeliveryAddress register={register} errors={errors} />
-          <PaymentMethods
-            paymentMethod={paymentMethod}
-            setPaymentMethod={setPaymentMethod}
-          />
+        <Form onSubmit={handleSubmit(onSubmit)}>
+          <SectionsContainer>
+            <ContactInfo register={register} errors={errors} />
+            {globalOrderMode === 'delivery' && (
+              <DeliveryAddress register={register} errors={errors} />
+            )}
+            {globalOrderMode === 'pickup' && (
+              <PickupDetails register={register} errors={errors} />
+            )}
+            <PaymentMethods
+              paymentMethod={paymentMethod}
+              setPaymentMethod={setPaymentMethod}
+            />
+          </SectionsContainer>
+          <CheckoutSummary />
         </Form>
       </Container>
     </Layout>
@@ -57,12 +74,9 @@ const Checkout = () => {
 export default Checkout;
 const Container = styled.div(
   ({ theme: { breakpoints, maxWidthLg, maxWidthMd } }) => `
-  min-height: calc(100vh - 66px);
   position: relative;
-  display:grid;
-  grid-template-columns:1fr 0.4fr;
-   padding: 1rem 0; 
-  overflow-x: hidden;
+  // overflow:auto;
+  min-height:calc(100vh - 150px);
   @media ${breakpoints.md}{
     max-width:${maxWidthMd};
     margin: 0 auto;
@@ -70,6 +84,17 @@ const Container = styled.div(
   @media ${breakpoints.lg}{
     max-width:${maxWidthLg};
   }
+  `
+);
+const Form = styled.form(
+  ({ theme: { breakpoints, maxWidthLg, maxWidthMd } }) => `
+  position: relative;
+  display:flex;
+  grid-template-columns:1fr 0.4fr;
+  padding: 1rem 0.5rem;
+  // gap:1rem;
+  // overflow-x: hidden;
+ 
   `
 );
 const Title = styled.h1(
@@ -86,4 +111,9 @@ const Title = styled.h1(
   }
 `
 );
-const Form = styled.form``;
+
+const SectionsContainer = styled.div`
+  width: 70%;
+  flex: 1;
+  margin: 0 0.75rem;
+`;
