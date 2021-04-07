@@ -9,8 +9,8 @@ import { getGeneralInfo } from '../utils/queries';
 interface ContextProps extends Init {
   globalOrderMode: OMode | null;
   handleGlobalOrderModeChange: (mode: OMode) => void;
-  handleBranchChange: (branch: Branch) => void;
-  branch: Branch | null;
+  handlePickupBranchChange: (branch: Branch) => void;
+  pickupBranch: Branch | null;
   // selectDeliveryAddress: SELECT_DELIVERY_ADDRESS | null;
   deliveryAddress: DELIVERY_ADDRESS | null;
   handleSetDeliveryAddress: (location: DELIVERY_ADDRESS) => void;
@@ -27,7 +27,7 @@ export const ApplicationProvider = createContext<Partial<ContextProps>>({
 });
 const ApplicationContext: React.FC = ({ children }) => {
   const [globalOrderMode, setGlobalOrderMode] = useState<OMode | null>(null);
-  const [branch, setBranch] = useState<Branch | null>(null);
+  const [pickupBranch, setPickupBranch] = useState<Branch | null>(null);
 
   // const [
   //   selectDeliveryAddress,
@@ -46,8 +46,8 @@ const ApplicationContext: React.FC = ({ children }) => {
   const handleGlobalOrderModeChange = (mode: OMode) => {
     setGlobalOrderMode(mode);
   };
-  const handleBranchChange = (branch: Branch) => {
-    setBranch(branch);
+  const handlePickupBranchChange = (branch: Branch) => {
+    setPickupBranch(branch);
   };
   const handleSetDeliveryAddress = (location: DELIVERY_ADDRESS) => {
     setDeliveryAddress(location);
@@ -69,8 +69,8 @@ const ApplicationContext: React.FC = ({ children }) => {
       value={{
         globalOrderMode,
         handleGlobalOrderModeChange,
-        branch,
-        handleBranchChange,
+        pickupBranch,
+        handlePickupBranchChange,
         deliveryAddress,
         handleSetDeliveryAddress,
         // selectDeliveryAddress,

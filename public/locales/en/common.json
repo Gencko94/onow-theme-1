@@ -2,6 +2,7 @@
   "delivery": "Delivery",
   "pickup": "Pick Up",
   "select-delivery-destination": "Select your Delivery Destination",
+  "select-pickup-branch": "Select Pickup Branch",
   "order-mode": "Order Mode",
   "our-menu": "Our Menu",
   "booking": "Booking",
@@ -46,5 +47,6 @@
   "change-mode": "Change Mode",
   "or": "OR",
   "confirm-location": "Confirm Location",
-  "set-up-order-mode": "Set up Order Mode"
+  "set-up-order-mode": "Set up Order Mode",
+  "main-branch": "Main Branch"
 }

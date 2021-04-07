@@ -357,7 +357,7 @@ const Container = styled.div(
   gap: 0.5rem;
   @media ${breakpoints.md}{
     
-    height: 375px;
+    height: 275px;
     padding: 1rem 0;
     grid-template-columns: 1fr 1fr;
   }

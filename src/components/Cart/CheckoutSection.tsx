@@ -12,7 +12,7 @@ interface IProps {
 }
 
 const CheckoutSection = ({ isLoading, data }: IProps) => {
-  const { branch, globalOrderMode } = useContext(ApplicationProvider);
+  const { globalOrderMode } = useContext(ApplicationProvider);
 
   const [modalOpen, setModalOpen] = useState(false);
   const { t } = useTranslation();

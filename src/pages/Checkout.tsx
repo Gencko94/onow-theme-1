@@ -59,7 +59,8 @@ const Container = styled.div(
   ({ theme: { breakpoints, maxWidthLg, maxWidthMd } }) => `
   min-height: calc(100vh - 66px);
   position: relative;
-  
+  display:grid;
+  grid-template-columns:1fr 0.4fr;
    padding: 1rem 0; 
   overflow-x: hidden;
   @media ${breakpoints.md}{

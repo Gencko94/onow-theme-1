@@ -8,9 +8,11 @@ import { ApplicationProvider } from '../../../contexts/ApplicationContext';
 import { ThemeContext } from '../../../contexts/ThemeContext';
 
 const NavOrderMode = () => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const { mode } = useContext(ThemeContext);
-  const { globalOrderMode, deliveryAddress } = useContext(ApplicationProvider);
+  const { globalOrderMode, deliveryAddress, pickupBranch } = useContext(
+    ApplicationProvider
+  );
   const [orderModeOpen, setOrderModeOpen] = useState(false);
   return (
     <>
@@ -52,7 +54,7 @@ const NavOrderMode = () => {
           )}
           {globalOrderMode === 'pickup' && (
             <IconText>
-              {t('pick-up-from')} {deliveryAddress?.area}
+              {t('pick-up-from')} {pickupBranch?.name[i18n.language]}
             </IconText>
           )}
           <Icon>

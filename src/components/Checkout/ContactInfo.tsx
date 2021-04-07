@@ -97,6 +97,7 @@ const ErrorMessage = styled.p`
 const SectionBody = styled.div(
   ({ theme: { breakpoints, overlayColor } }) => `
   padding: 0.5rem;
+  padding-top:1rem;
   border: 1px solid rgba(0, 0, 0, 0.1);
   background-color: ${overlayColor};
   display:grid;

@@ -2,6 +2,7 @@
   "delivery": "توصيل",
   "pickup": "استلام",
   "select-delivery-destination": "اختر منطقة التوصيل",
+  "select-pickup-branch": "اختر الفرع الذي تود الإستلام منه",
   "order-mode": "وضع الطلب",
   "our-menu": "قائمتنا",
   "booking": "حجز طاولة",
@@ -46,5 +47,6 @@
   "change-mode": "تغيير الوضع",
   "or": "أو",
   "confirm-location": "تأكيد",
-  "set-up-order-mode": "تجهيز وضع الطلب"
+  "set-up-order-mode": "تجهيز وضع الطلب",
+  "main-branch": "الفرع الرئيسي"
 }

@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import MobileHeader from '../components/Header/MobileHeader';
 import DeliveryMode from '../components/OrderMode/DeliveryMode/DeliveryMode';
 import OrderModePicker from '../components/OrderMode/OrderModePicker/OrderModePicker';
+import PickupMode from '../components/OrderMode/PickupMode/PickupMode';
 import { OMode } from '../contexts/ApplicationContext';
 import Layout from '../layout/Layout';
 
@@ -22,6 +23,7 @@ const OrderMode = () => {
       <Container>
         <OrderModePicker orderMode={orderMode} setOrderMode={setOrderMode} />
         {orderMode === 'delivery' && <DeliveryMode />}
+        {orderMode === 'pickup' && <PickupMode />}
       </Container>
     </Layout>
   );
