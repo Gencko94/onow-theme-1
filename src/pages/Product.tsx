@@ -36,7 +36,7 @@ const Product = () => {
   const { id } = useParams<{ id: string }>();
   const { isDesktop } = useResponsive();
   const { user } = useContext(AuthProvider);
-  const { deliveryAddress } = useContext(ApplicationProvider);
+  const { globalOrderMode } = useContext(ApplicationProvider);
   const { data: product } = useQuery(['product', id], () => getProduct(id));
   const history = useHistory();
   const {
@@ -233,7 +233,7 @@ const Product = () => {
                     </QuantityButton>
                   </QuantityContainer>
                 </QuantityWrapper>
-                {deliveryAddress && (
+                {globalOrderMode && (
                   <AddButton onClick={() => handleAddToCart()}>
                     {addToUserCartLoading || addToGuestCartLoading ? (
                       <Loader
@@ -247,7 +247,7 @@ const Product = () => {
                     )}
                   </AddButton>
                 )}
-                {!deliveryAddress && (
+                {!globalOrderMode && (
                   <OrderModeButton
                     onClick={() =>
                       history.push({

@@ -15,7 +15,7 @@ const CheckoutSection = ({ isLoading, data }: IProps) => {
   const { globalOrderMode } = useContext(ApplicationProvider);
 
   const [modalOpen, setModalOpen] = useState(false);
-  const { t } = useTranslation();
+  const { t } = useTranslation(['checkout']);
   const history = useHistory();
   return (
     <>
@@ -84,7 +84,7 @@ const CheckoutSection = ({ isLoading, data }: IProps) => {
                 history.push('/checkout');
               }}
             >
-              Checkout
+              {t('checkout')}
             </CheckoutButton>
           </CheckoutButtonContainer>
           {/* </ContentContainer> */}

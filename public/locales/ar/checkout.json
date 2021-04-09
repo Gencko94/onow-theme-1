@@ -25,7 +25,7 @@
   "change": "تغيير",
   "delivery-time": "وقت التوصيل",
   "asap": "اسرع وقت",
-  "schedule": "تحديد الوقت",
+  "schedule": "جدولة الطلب",
   "date-time": "الوقت والتاريخ",
   "pickup-time": "زمن الاستلام",
   "hide": "إخفاء",
@@ -34,5 +34,9 @@
   "order-total": "مجموع الطلب",
   "delivery-cost": "كلفة التوصيل",
   "subtotal": "الإجمالي",
-  "required-field": "حقل مطلوب"
+  "required-field": "حقل مطلوب",
+  "pickup-branch": "استلام من فرع",
+  "asap-note": "طريقة حساب زمن التوصيل : زمن تحضير الطلب + زمن الدليفري",
+  "date": "التاريخ",
+  "time": "التوقيت"
 }

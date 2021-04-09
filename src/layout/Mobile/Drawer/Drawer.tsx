@@ -23,7 +23,7 @@ interface IProps {
 }
 const Drawer = ({ setDrawerOpen, drawerOpen }: IProps) => {
   const { t, i18n } = useTranslation();
-  const { store_name } = useContext(ApplicationProvider);
+  const { store_name, globalOrderMode } = useContext(ApplicationProvider);
   const { user } = useContext(AuthProvider);
   let topSectionRef = useRef<HTMLDivElement | null>(null);
   let linksRef = useRef<HTMLDivElement | null>(null);

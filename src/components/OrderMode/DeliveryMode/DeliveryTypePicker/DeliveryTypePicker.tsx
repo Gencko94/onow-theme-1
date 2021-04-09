@@ -18,6 +18,7 @@ const DeliveryTypePicker = ({
   return (
     <Container>
       <DeliveryTypeContainer
+        type="button"
         selected={deliveryLocationType === 'select'}
         onClick={() => {
           setDeliveryLocationType('select');
@@ -40,6 +41,7 @@ const DeliveryTypePicker = ({
         <SpanLine />
       </OrContainer>
       <DeliveryTypeContainer
+        type="button"
         selected={deliveryLocationType === 'map'}
         onClick={() => {
           setDeliveryLocationType('map');
@@ -78,6 +80,7 @@ const DeliveryTypeContainer = styled.button<{
   display: flex;
   align-items: center;
   color: #fff;
+  border: ${props => props.theme.border};
   background-color: ${props =>
     props.selected ? props.theme.highlightColor : props.theme.accentColor};
   color: ${props =>

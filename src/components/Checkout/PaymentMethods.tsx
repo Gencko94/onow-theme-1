@@ -2,6 +2,7 @@ import { Dispatch, SetStateAction, useContext } from 'react';
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
 import { ApplicationProvider } from '../../contexts/ApplicationContext';
+import { ThemeContext } from '../../contexts/ThemeContext';
 import { PAYMENT_METHOD } from '../../interfaces/init';
 interface IProps {
   paymentMethod: PAYMENT_METHOD | null;
@@ -11,10 +12,11 @@ interface IProps {
 const PaymentMethods = ({ paymentMethod, setPaymentMethod }: IProps) => {
   const { t, i18n } = useTranslation(['checkout']);
   const { payment_methods } = useContext(ApplicationProvider);
+  const { mode } = useContext(ThemeContext);
 
   return (
     <Container>
-      <StepNumber>3</StepNumber>
+      <StepNumber isDark={mode === 'dark'}>3</StepNumber>
       <SectionTitle>{t('payment')}</SectionTitle>
       <DashedLine rtl={i18n.language === 'ar'} />
       <SectionBody>
@@ -41,12 +43,13 @@ const PaymentMethods = ({ paymentMethod, setPaymentMethod }: IProps) => {
 };
 
 export default PaymentMethods;
-const StepNumber = styled.span`
+const StepNumber = styled.span<{ isDark: boolean }>`
   padding: 0.5rem;
   width: 25px;
   height: 25px;
   border-radius: 50%;
-  background-color: ${props => props.theme.mainColor};
+  background: ${props =>
+    props.isDark ? props.theme.overlayColor : props.theme.mainColor};
   color: #fff;
   display: flex;
   align-items: center;
@@ -54,26 +57,32 @@ const StepNumber = styled.span`
 `;
 const DashedLine = styled.span<{ rtl: boolean }>`
   border-right: ${props =>
-    props.rtl ? 'none' : '2px dashed rgba(0, 0, 0, 0.1)'};
+    props.rtl ? 'none' : `2px dashed ${props.theme.seperator}`};
   border-left: ${props =>
-    props.rtl ? '2px dashed rgba(0, 0, 0, 0.1)' : 'none'};
+    props.rtl ? `2px dashed ${props.theme.seperator}` : 'none'};
   margin-right: ${props => (props.rtl ? '0' : '17px')};
   margin-left: ${props => (props.rtl ? '17px' : '0')};
 `;
-const Container = styled.div`
+const Container = styled.div(
+  ({ theme: { breakpoints } }) => `
   display: grid;
   grid-template-columns: 30px 1fr;
-  gap: 0.5rem;
-  row-gap: 1rem;
-  margin: 2rem 0;
-
-  overflow: hidden;
-`;
+  gap: 0.25rem;
+  row-gap: 0.5rem;
+  margin: 2rem 0 ;
+  @media ${breakpoints.md}{
+    
+    row-gap: 1rem;
+    gap: 0.5rem;
+  }
+  `
+);
 const SectionBody = styled.div(
-  ({ theme: { breakpoints, overlayColor } }) => `
+  ({ theme: { breakpoints, overlayColor, border, shadow } }) => `
   padding: 1rem 0.5rem;
-  border: 1px solid rgba(0, 0, 0, 0.1);
-  background-color: ${overlayColor};
+  background: ${overlayColor};
+ border: ${border};
+  box-shadow:${shadow};
   border-radius:6px;
 
   `
@@ -84,13 +93,13 @@ const ItemsContainer = styled.div`
   gap: 0.5rem;
 `;
 const SectionTitle = styled.h5(
-  ({ theme: { breakpoints, font, headingColor } }) => `
+  ({ theme: { breakpoints, font } }) => `
   font-weight:${font.bold};
  
  
- 
+ font-size:1.05rem;
   @media ${breakpoints.md} {
-     
+    font-size:1.25rem;
     }
   }
 `

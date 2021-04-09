@@ -19,7 +19,7 @@ export type GET_CART_RESPONSE = {
 export type ADD_TO_CART_REQUEST = {
   id: number;
   quantity: number;
-  extras?: string;
+  extras?: string; // or Variations
 };
 export type ADD_TO_CART_RESPONSE = {
   cart_total: string;
@@ -39,4 +39,5 @@ export type DELETE_FROM_CART_RESPONSE = {
 };
 export type EDIT_CART_REQUEST = {
   id: number;
+  quantity: number;
 };

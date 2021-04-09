@@ -34,5 +34,9 @@
   "order-total": "Order Total",
   "delivery-cost": "Delivery Cost",
   "subtotal": "Subtotal",
-  "required-field": "Required Field"
+  "required-field": "Required Field",
+  "pickup-branch": "Pick up Branch",
+  "asap-note": "Delivery Time is Calculated by adding Order Preperation Time + Delivery Time",
+  "date": "Date",
+  "time": "Time"
 }

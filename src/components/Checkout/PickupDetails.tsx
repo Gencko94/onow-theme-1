@@ -23,46 +23,32 @@ const PickupDetails = ({ errors, register }: IProps) => {
   const { t, i18n } = useTranslation(['checkout']);
   const { pickupBranch } = useContext(ApplicationProvider);
   const { mode } = useContext(ThemeContext);
-  const [date, setDate] = useState<Date | Date[]>(new Date());
 
   return (
     <Container>
-      <StepNumber>2</StepNumber>
+      <StepNumber isDark={mode === 'dark'}>2</StepNumber>
       <SectionTitle>{t('pickup-details-time')}</SectionTitle>
       <DashedLine rtl={i18n.language === 'ar'} />
       <SectionBody>
-        <Text>Pickup Branch : {pickupBranch?.name[i18n.language]}</Text>
-        <CalendarContainer>
-          <Calendar
-            className={mode === 'dark' ? 'calendar-dark' : 'calendar-light'}
-            value={date}
-            onChange={date => setDate(date)}
-            // calendarType="Arabic"
-            locale="ar"
-            tileClassName="tile"
-            minDate={new Date()}
-            prev2Label={<FaAngleDoubleLeft size={20} />}
-            next2Label={<FaAngleDoubleRight size={20} />}
-            prevLabel={<FaAngleLeft size={20} />}
-            nextLabel={<FaAngleRight size={20} />}
-            // showNavigation={false}
-            showNeighboringMonth={false}
-            // showFixedNumberOfWeeks={true}
-            // tileContent={<Sample />}
-          />
-        </CalendarContainer>
+        <div>
+          <Text>
+            {t('pickup-branch')} : {pickupBranch?.name[i18n.language]}
+          </Text>
+        </div>
+        <OrderTime title="pickup-time" />
       </SectionBody>
     </Container>
   );
 };
 
 export default PickupDetails;
-const StepNumber = styled.span`
+const StepNumber = styled.span<{ isDark: boolean }>`
   padding: 0.5rem;
   width: 25px;
   height: 25px;
   border-radius: 50%;
-  background-color: ${props => props.theme.mainColor};
+  background: ${props =>
+    props.isDark ? props.theme.overlayColor : props.theme.mainColor};
   color: #fff;
   display: flex;
   align-items: center;
@@ -70,20 +56,26 @@ const StepNumber = styled.span`
 `;
 const DashedLine = styled.span<{ rtl: boolean }>`
   border-right: ${props =>
-    props.rtl ? 'none' : '2px dashed rgba(0, 0, 0, 0.1)'};
+    props.rtl ? 'none' : `2px dashed ${props.theme.seperator}`};
   border-left: ${props =>
-    props.rtl ? '2px dashed rgba(0, 0, 0, 0.1)' : 'none'};
+    props.rtl ? `2px dashed ${props.theme.seperator}` : 'none'};
   margin-right: ${props => (props.rtl ? '0' : '17px')};
   margin-left: ${props => (props.rtl ? '17px' : '0')};
 `;
-const Container = styled.div`
+const Container = styled.div(
+  ({ theme: { breakpoints } }) => `
   display: grid;
   grid-template-columns: 30px 1fr;
-  gap: 0.5rem;
-  margin: 2rem 0;
-  row-gap: 1rem;
-  overflow: hidden;
-`;
+  gap: 0.25rem;
+  row-gap: 0.5rem;
+  margin: 2rem 0 ;
+  @media ${breakpoints.md}{
+    
+    row-gap: 1rem;
+    gap: 0.5rem;
+  }
+  `
+);
 const InputsContainer = styled.div(
   ({ theme: { breakpoints, overlayColor } }) => `
   display:grid;
@@ -95,63 +87,31 @@ const InputsContainer = styled.div(
    `
 );
 const SectionBody = styled.div(
-  ({ theme: { breakpoints, overlayColor } }) => `
+  ({ theme: { breakpoints, overlayColor, border, shadow } }) => `
   padding: 0.5rem;
   padding-top: 0.75rem;
-  border: 1px solid rgba(0, 0, 0, 0.1);
-  background-color: ${overlayColor};
+  border: ${border};
+  box-shadow:${shadow};
+  background: ${overlayColor};
   border-radius:6px;
+  display:grid;
+  gap:0.5rem;
   @media ${breakpoints.md}{
+    grid-template-columns:1fr 1fr;
   }
   `
 );
 const Text = styled.h6``;
-const MapContainer = styled.div(
-  ({ theme: { breakpoints } }) => `
-  height: 200px;
-  width: 100%;
-  position: relative;
-  margin-bottom:1rem;
-  @media ${breakpoints.md}{
-    // height: 100%;
-    margin-bottom:0;
-    border-radius:10px;
-    overflow:hidden;
-   
-  }
-`
-);
+
 const SectionTitle = styled.h5(
   ({ theme: { breakpoints, font } }) => `
   font-weight:${font.bold};
  
  
- 
+ font-size:1.05rem;
   @media ${breakpoints.md} {
-     
+    font-size:1.25rem;
     }
   }
 `
 );
-
-const MapImage = styled.img`
-  max-height: 100%;
-  width: 100%;
-  object-fit: cover;
-  border-radius: 12px;
-`;
-const EditButton = styled.button`
-  position: absolute;
-  left: 50%;
-  top: 100%;
-  transform: translate(-50%, -50%);
-  border-radius: 12px;
-  background-color: ${props => props.theme.btnPrimaryLight};
-  color: ${props => props.theme.btnText};
-  padding: 0.25rem 0.5rem;
-  z-index: 999px;
-`;
-const CalendarContainer = styled.div`
-  width: 300px;
-  direction: ltr;
-`;

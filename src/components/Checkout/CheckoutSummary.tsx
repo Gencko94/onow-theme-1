@@ -41,7 +41,13 @@ const Container = styled.div(
   top:10px;
   margin-top:25px;
   align-self:flex-start;
-  width:30%;
+  width:100%;
+  padding:0 1.25rem;
+  @media ${breakpoints.md}{
+    
+    padding:0;
+    width:30%;
+  }
   
 `
 );

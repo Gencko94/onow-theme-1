@@ -5,6 +5,7 @@ import { ApplicationProvider } from '../../contexts/ApplicationContext';
 import OrderTime from './OrderTime';
 import { DeepMap, FieldError } from 'react-hook-form';
 import { CHECKOUT_FORM } from '../../interfaces/checkoutForm';
+import { ThemeContext } from '../../contexts/ThemeContext';
 interface IProps {
   register: any;
   errors: DeepMap<CHECKOUT_FORM, FieldError>;
@@ -13,11 +14,12 @@ interface IProps {
 const DeliveryAddress = ({ errors, register }: IProps) => {
   const { t, i18n } = useTranslation(['checkout']);
   const { deliveryAddress } = useContext(ApplicationProvider);
-
+  const { mode } = useContext(ThemeContext);
+  console.log(mode);
   const [outOfBorder, setOutOfBorder] = useState(false);
   return (
     <Container>
-      <StepNumber>2</StepNumber>
+      <StepNumber isDark={mode === 'dark'}>2</StepNumber>
       <SectionTitle>{t('delivery-details-time')}</SectionTitle>
       <DashedLine rtl={i18n.language === 'ar'} />
       <SectionBody coords={deliveryAddress?.coords ? true : false}>
@@ -48,6 +50,8 @@ const DeliveryAddress = ({ errors, register }: IProps) => {
             <ErrorMessage>{errors.building?.message}</ErrorMessage>
           </InputContainer>
         </InputsContainer>
+        <hr />
+        <OrderTime title="delivery-time" />
         {deliveryAddress?.coords?.lat && (
           <MapContainer>
             <MapImage
@@ -62,12 +66,13 @@ const DeliveryAddress = ({ errors, register }: IProps) => {
 };
 
 export default DeliveryAddress;
-const StepNumber = styled.span`
+const StepNumber = styled.span<{ isDark: boolean }>`
   padding: 0.5rem;
   width: 25px;
   height: 25px;
   border-radius: 50%;
-  background-color: ${props => props.theme.mainColor};
+  background: ${props =>
+    props.isDark ? props.theme.overlayColor : props.theme.mainColor};
   color: #fff;
   display: flex;
   align-items: center;
@@ -75,20 +80,26 @@ const StepNumber = styled.span`
 `;
 const DashedLine = styled.span<{ rtl: boolean }>`
   border-right: ${props =>
-    props.rtl ? 'none' : '2px dashed rgba(0, 0, 0, 0.1)'};
+    props.rtl ? 'none' : `2px dashed ${props.theme.seperator}`};
   border-left: ${props =>
-    props.rtl ? '2px dashed rgba(0, 0, 0, 0.1)' : 'none'};
+    props.rtl ? `2px dashed ${props.theme.seperator}` : 'none'};
   margin-right: ${props => (props.rtl ? '0' : '17px')};
   margin-left: ${props => (props.rtl ? '17px' : '0')};
 `;
-const Container = styled.div`
+const Container = styled.div(
+  ({ theme: { breakpoints } }) => `
   display: grid;
   grid-template-columns: 30px 1fr;
-  gap: 0.5rem;
-  margin: 2rem 0;
-  row-gap: 1rem;
-  overflow: hidden;
-`;
+  gap: 0.25rem;
+  row-gap: 0.5rem;
+  margin: 2rem 0 ;
+  @media ${breakpoints.md}{
+    
+    row-gap: 1rem;
+    gap: 0.5rem;
+  }
+  `
+);
 const InputsContainer = styled.div(
   ({ theme: { breakpoints, overlayColor } }) => `
   display:grid;
@@ -100,11 +111,12 @@ const InputsContainer = styled.div(
    `
 );
 const SectionBody = styled.div<{ coords: boolean }>(
-  ({ theme: { breakpoints, overlayColor }, coords }) => `
+  ({ theme: { breakpoints, overlayColor, border, shadow }, coords }) => `
   padding: 0.5rem;
   padding-top: 0.75rem;
-  border: 1px solid rgba(0, 0, 0, 0.1);
-  background-color: ${overlayColor};
+  border: ${border};
+  box-shadow:${shadow};
+  background: ${overlayColor};
   display:grid;
   border-radius:6px;
   @media ${breakpoints.md}{
@@ -132,9 +144,9 @@ const SectionTitle = styled.h5(
   font-weight:${font.bold};
  
  
- 
+ font-size:1.05rem;
   @media ${breakpoints.md} {
-     
+    font-size:1.25rem;
     }
   }
 `
@@ -147,7 +159,7 @@ const Label = styled.label`
   margin-bottom: 0.25rem;
   display: block;
   font-size: 0.9rem;
-  font-weight: ${props => props.theme.font.bold};
+  font-weight: ${props => props.theme.font.semibold};
 `;
 const Input = styled.input`
   border-radius: 5px;
@@ -156,6 +168,7 @@ const Input = styled.input`
   width: 100%;
   font-size: 0.9rem;
   background-color: ${props => props.theme.inputColorLight};
+  color: ${props => props.theme.subHeading};
 `;
 const ErrorMessage = styled.p`
   color: #b72b2b;

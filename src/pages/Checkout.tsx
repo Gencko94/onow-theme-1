@@ -75,7 +75,6 @@ export default Checkout;
 const Container = styled.div(
   ({ theme: { breakpoints, maxWidthLg, maxWidthMd } }) => `
   position: relative;
-  // overflow:auto;
   min-height:calc(100vh - 150px);
   @media ${breakpoints.md}{
     max-width:${maxWidthMd};
@@ -90,10 +89,12 @@ const Form = styled.form(
   ({ theme: { breakpoints, maxWidthLg, maxWidthMd } }) => `
   position: relative;
   display:flex;
-  grid-template-columns:1fr 0.4fr;
-  padding: 1rem 0.5rem;
-  // gap:1rem;
-  // overflow-x: hidden;
+  flex-wrap:wrap;
+  padding: 0.5rem .25rem;
+  @media ${breakpoints.md}{
+    
+    padding: 1rem 0.5rem;
+  }
  
   `
 );
@@ -112,8 +113,14 @@ const Title = styled.h1(
 `
 );
 
-const SectionsContainer = styled.div`
-  width: 70%;
+const SectionsContainer = styled.div(
+  ({ theme: { breakpoints } }) => `
+  width: 100%;
   flex: 1;
-  margin: 0 0.75rem;
-`;
+  margin: 0 0.5rem;
+  @media ${breakpoints.md} {
+    margin: 0 0.75rem;
+    width: 70%;
+  }
+  `
+);

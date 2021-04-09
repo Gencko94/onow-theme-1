@@ -16,7 +16,7 @@ export const lightTheme = {
   btnText: '#fff',
   dangerRed: '#b72b2b',
   border: '1px solid rgba(0,0,0,0.1)',
-  seperator: '0.3px solid rgba(0,0,0,0.1)',
+  seperator: 'rgba(0,0,0,0.1)',
 };
 
 export const darkTheme = {
@@ -39,5 +39,5 @@ export const darkTheme = {
   btnText: '#fff',
   dangerRed: 'hsl(0, 100%, 69.6%)',
   border: '1px solid #D8D8D8',
-  seperator: '0.3px solid rgba(250,250,250,0.3)',
+  seperator: 'rgba(250,250,250,0.3)',
 };
