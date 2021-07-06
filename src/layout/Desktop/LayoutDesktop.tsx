@@ -1,9 +1,9 @@
-import { AnimatePresence } from 'framer-motion';
-import React, { useEffect, useState } from 'react';
+import { AnimatePresence } from "framer-motion";
+import React, { useEffect, useState } from "react";
 
-import styled from 'styled-components';
-import DesktopNavbar from '../../components/DesktopNavbar/DesktopNavbar';
-import SecondDesktopNavbar from '../../components/DesktopNavbar/SecondDesktopNavbar';
+import styled from "styled-components";
+import DesktopNavbar from "../../components/DesktopNavbar/DesktopNavbar";
+import SecondDesktopNavbar from "../../components/DesktopNavbar/SecondDesktopNavbar";
 let curScroll = 0;
 
 const LayoutDesktop: React.FC = ({ children }) => {
@@ -24,9 +24,9 @@ const LayoutDesktop: React.FC = ({ children }) => {
         }
       }
     };
-    window.addEventListener('scroll', checkScrolling);
+    window.addEventListener("scroll", checkScrolling);
     return () => {
-      window.removeEventListener('scroll', checkScrolling);
+      window.removeEventListener("scroll", checkScrolling);
     };
   }, []);
   return (
@@ -41,5 +41,5 @@ const LayoutDesktop: React.FC = ({ children }) => {
 export default LayoutDesktop;
 const Wrapper = styled.div`
   position: relative;
-  font-family: ${props => props.theme.fontFamily};
+  font-family: ${(props) => props.theme.fontFamily};
 `;

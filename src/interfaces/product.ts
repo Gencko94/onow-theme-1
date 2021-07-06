@@ -3,12 +3,20 @@ export interface Product {
   name: {
     [key: string]: string;
   };
+  gallery: string[];
+  category: {
+    name: {
+      [key: string]: string;
+    };
+    id: number;
+    image: string;
+  };
   id: number;
   price: string;
   slug: string;
   sale: boolean;
   discount: number | null;
-  description?: {
+  description: {
     [key: string]: string;
   };
 }
