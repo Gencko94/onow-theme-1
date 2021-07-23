@@ -1,5 +1,6 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
+import { BiHomeAlt } from "react-icons/bi";
 import { FiChevronRight } from "react-icons/fi";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
@@ -8,11 +9,11 @@ interface IProps {
   /**
    * The name of the current component.
    */
-  childLabel: string;
+
   children: { target: string; name: { [key: string]: string } }[];
 }
 
-const Breadcrumbs = ({ childLabel, children }: IProps) => {
+const Breadcrumbs = ({ children }: IProps) => {
   const {
     t,
     i18n: { language },
@@ -20,7 +21,10 @@ const Breadcrumbs = ({ childLabel, children }: IProps) => {
   return (
     <Container>
       <div className="links-container">
-        <StyledLink to="/">{t("Home")}</StyledLink>
+        <HomeLink to="/">
+          <BiHomeAlt size={16} />
+          {t("Home")}
+        </HomeLink>
         <span className="chevron">
           <FiChevronRight size={16} />
         </span>
@@ -49,10 +53,11 @@ const Breadcrumbs = ({ childLabel, children }: IProps) => {
 
 export default Breadcrumbs;
 
-const Container = styled.aside(
-  ({ theme: { breakpoints, font, headingColor } }) => `
-  border-radius: 6px;
-  margin-bottom:1rem;
+const Container = styled.nav(
+  ({ theme: { breakpoints, font, headingColor, border } }) => `
+  
+  padding:0 0 0.5rem 0;
+  border-bottom:${border};
   .links-container {
       p {
           color:${headingColor};
@@ -85,4 +90,9 @@ const StyledLink = styled(Link)`
   &:hover {
     color: ${(props) => props.theme.mainColor};
   }
+`;
+const HomeLink = styled(StyledLink)`
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
 `;

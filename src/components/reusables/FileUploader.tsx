@@ -47,7 +47,7 @@ const FileUploader = ({
   return (
     <Container>
       <DragFileInputContainer>
-        <img className="upload-img" src="/images/upload.png" alt="upload" />
+        {/* <img className="upload-img" src="/images/upload.png" alt="upload" /> */}
         <DragDropText>Drag and drop your files anywhere or</DragDropText>
         <button
           className="upload-btn"
@@ -94,7 +94,7 @@ const DragFileInputContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  flex-direction: column;
+  /* flex-direction: column; */
   .upload-img {
     width: 70px;
     height: 100px;
@@ -104,8 +104,8 @@ const DragFileInputContainer = styled.div`
     position: relative;
     padding: 0.5rem;
     color: #fff;
-    border-radius: 5px;
-    margin: 0.5rem 0;
+    border-radius: 6px;
+    margin: 0 0.5rem;
     background-color: ${(props) => props.theme.green};
   }
   .desc {

@@ -1,8 +1,8 @@
-import { Dispatch, SetStateAction } from 'react';
-import styled from 'styled-components';
-import Hamburger from './MobileNavIcons/Hamburger';
-import MobileNavIcons from './MobileNavIcons/MobileNavIcons';
-import { m } from 'framer-motion';
+import { Dispatch, SetStateAction } from "react";
+import styled from "styled-components";
+import Hamburger from "./MobileNavIcons/Hamburger";
+import MobileNavIcons from "./MobileNavIcons/MobileNavIcons";
+import { m } from "framer-motion";
 
 interface IProps {
   drawerOpen: boolean;
@@ -15,9 +15,9 @@ const SecondMobileNavbar = ({ setDrawerOpen, drawerOpen }: IProps) => {
       initial={{ y: -100 }}
       animate={{ y: 0 }}
       exit={{ y: -100 }}
-      transition={{ type: 'tween' }}
+      transition={{ type: "tween" }}
     >
-      <Hamburger setDrawerOpen={setDrawerOpen} drawerOpen={drawerOpen} />
+      <Hamburger />
       <MobileNavIcons />
     </Container>
   );
@@ -35,5 +35,5 @@ const Container = styled(m.header)`
   width: 100%;
   padding: 0.5rem;
   z-index: 9;
-  background-color: ${props => props.theme.mainColor};
+  background-color: ${(props) => props.theme.mainColor};
 `;

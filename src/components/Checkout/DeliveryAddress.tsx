@@ -1,51 +1,51 @@
-import { useContext, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import styled from 'styled-components';
-import { ApplicationProvider } from '../../contexts/ApplicationContext';
-import OrderTime from './OrderTime';
-import { DeepMap, FieldError } from 'react-hook-form';
-import { CHECKOUT_FORM } from '../../interfaces/checkoutForm';
-import { ThemeContext } from '../../contexts/ThemeContext';
+import { useContext, useState } from "react";
+import { useTranslation } from "react-i18next";
+import styled from "styled-components";
+import OrderTime from "./OrderTime";
+import { DeepMap, FieldError } from "react-hook-form";
+import { CHECKOUT_FORM } from "../../interfaces/checkoutForm";
+import { ThemeContext } from "../../contexts/ThemeContext";
+import { OrderProvider } from "../../contexts/OrderContext";
 interface IProps {
   register: any;
   errors: DeepMap<CHECKOUT_FORM, FieldError>;
 }
 
 const DeliveryAddress = ({ errors, register }: IProps) => {
-  const { t, i18n } = useTranslation(['checkout']);
-  const { deliveryAddress } = useContext(ApplicationProvider);
+  const { t, i18n } = useTranslation(["checkout"]);
+  const { deliveryAddress } = useContext(OrderProvider);
   const { mode } = useContext(ThemeContext);
   console.log(mode);
   const [outOfBorder, setOutOfBorder] = useState(false);
   return (
     <Container>
-      <StepNumber isDark={mode === 'dark'}>2</StepNumber>
-      <SectionTitle>{t('delivery-details-time')}</SectionTitle>
-      <DashedLine rtl={i18n.language === 'ar'} />
+      <StepNumber isDark={mode === "dark"}>2</StepNumber>
+      <SectionTitle>{t("delivery-details-time")}</SectionTitle>
+      <DashedLine rtl={i18n.language === "ar"} />
       <SectionBody coords={deliveryAddress?.coords ? true : false}>
         <InputsContainer>
           <InputContainer>
-            <Label>{t('governorate')}</Label>
+            <Label>{t("governorate")}</Label>
             <Input value={deliveryAddress?.governorate} readOnly />
             <ErrorMessage>{errors.governorate?.message}</ErrorMessage>
           </InputContainer>
           <InputContainer>
-            <Label>{t('area')}</Label>
+            <Label>{t("area")}</Label>
             <Input value={deliveryAddress?.area} readOnly />
             <ErrorMessage>{errors.area?.message}</ErrorMessage>
           </InputContainer>
           <InputContainer>
-            <Label>{t('street')}</Label>
+            <Label>{t("street")}</Label>
             <Input name="street" ref={register} />
             <ErrorMessage>{errors.street?.message}</ErrorMessage>
           </InputContainer>
           <InputContainer>
-            <Label>{t('block')}</Label>
+            <Label>{t("block")}</Label>
             <Input name="block" ref={register} />
             <ErrorMessage>{errors.block?.message}</ErrorMessage>
           </InputContainer>
           <InputContainer>
-            <Label>{t('building')}</Label>
+            <Label>{t("building")}</Label>
             <Input name="building" ref={register} />
             <ErrorMessage>{errors.building?.message}</ErrorMessage>
           </InputContainer>
@@ -71,7 +71,7 @@ const StepNumber = styled.span<{ isDark: boolean }>`
   width: 25px;
   height: 25px;
   border-radius: 50%;
-  background: ${props =>
+  background: ${(props) =>
     props.isDark ? props.theme.overlayColor : props.theme.mainColor};
   color: #fff;
   display: flex;
@@ -79,12 +79,12 @@ const StepNumber = styled.span<{ isDark: boolean }>`
   justify-content: center;
 `;
 const DashedLine = styled.span<{ rtl: boolean }>`
-  border-right: ${props =>
-    props.rtl ? 'none' : `2px dashed ${props.theme.seperator}`};
-  border-left: ${props =>
-    props.rtl ? `2px dashed ${props.theme.seperator}` : 'none'};
-  margin-right: ${props => (props.rtl ? '0' : '17px')};
-  margin-left: ${props => (props.rtl ? '17px' : '0')};
+  border-right: ${(props) =>
+    props.rtl ? "none" : `2px dashed ${props.theme.seperator}`};
+  border-left: ${(props) =>
+    props.rtl ? `2px dashed ${props.theme.seperator}` : "none"};
+  margin-right: ${(props) => (props.rtl ? "0" : "17px")};
+  margin-left: ${(props) => (props.rtl ? "17px" : "0")};
 `;
 const Container = styled.div(
   ({ theme: { breakpoints } }) => `
@@ -120,7 +120,7 @@ const SectionBody = styled.div<{ coords: boolean }>(
   display:grid;
   border-radius:6px;
   @media ${breakpoints.md}{
-    grid-template-columns: ${coords ? '1fr 0.5fr' : '1fr'};
+    grid-template-columns: ${coords ? "1fr 0.5fr" : "1fr"};
   }
   `
 );
@@ -159,16 +159,16 @@ const Label = styled.label`
   margin-bottom: 0.25rem;
   display: block;
   font-size: 0.9rem;
-  font-weight: ${props => props.theme.font.semibold};
+  font-weight: ${(props) => props.theme.font.semibold};
 `;
 const Input = styled.input`
   border-radius: 5px;
-  border: 1px solid ${props => props.theme.btnBorder};
+  border: 1px solid ${(props) => props.theme.btnBorder};
   padding: 0.5rem;
   width: 100%;
   font-size: 0.9rem;
-  background-color: ${props => props.theme.inputColorLight};
-  color: ${props => props.theme.subHeading};
+  background-color: ${(props) => props.theme.inputColorLight};
+  color: ${(props) => props.theme.subHeading};
 `;
 const ErrorMessage = styled.p`
   color: #b72b2b;
@@ -188,8 +188,8 @@ const EditButton = styled.button`
   top: 100%;
   transform: translate(-50%, -50%);
   border-radius: 12px;
-  background-color: ${props => props.theme.btnPrimaryLight};
-  color: ${props => props.theme.btnText};
+  background-color: ${(props) => props.theme.btnPrimaryLight};
+  color: ${(props) => props.theme.btnText};
   padding: 0.25rem 0.5rem;
   z-index: 999px;
 `;

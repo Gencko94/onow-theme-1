@@ -1,6 +1,6 @@
 import { Product } from "../interfaces/product";
 
-export const products: Product[] = [
+export const products = [
   {
     id: 1,
     sale: false,

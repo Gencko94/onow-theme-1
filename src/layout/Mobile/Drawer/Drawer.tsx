@@ -1,43 +1,40 @@
-import { Dispatch, SetStateAction, useContext, useRef } from 'react';
-import styled from 'styled-components';
-import { IoMdListBox } from 'react-icons/io';
-import { BiGitBranch, BiFoodMenu } from 'react-icons/bi';
-import { FaMapMarkerAlt, FaMotorcycle } from 'react-icons/fa';
-import { HiUserCircle } from 'react-icons/hi';
-import { MdMail } from 'react-icons/md';
+import { Dispatch, SetStateAction, useContext, useRef } from "react";
+import styled from "styled-components";
+import { IoMdListBox } from "react-icons/io";
+import { BiGitBranch, BiFoodMenu } from "react-icons/bi";
+import { FaMapMarkerAlt, FaMotorcycle } from "react-icons/fa";
+import { HiUserCircle } from "react-icons/hi";
+import { MdMail } from "react-icons/md";
 import {
   AiFillInfoCircle,
   AiOutlinePoweroff,
   AiOutlineUserAdd,
-} from 'react-icons/ai';
-import { Link } from 'react-router-dom';
-import ThemeToggler from '../../../utils/ThemeToggler';
-import { useTranslation } from 'react-i18next';
-import { ApplicationProvider } from '../../../contexts/ApplicationContext';
-import Hamburger from '../../../components/MobileNavbar/MobileNavIcons/Hamburger';
-import { AuthProvider } from '../../../contexts/AuthContext';
+} from "react-icons/ai";
+import { Link } from "react-router-dom";
+import ThemeToggler from "../../../utils/ThemeToggler";
+import { useTranslation } from "react-i18next";
+import { ApplicationProvider } from "../../../contexts/ApplicationContext";
+import Hamburger from "../../../components/MobileNavbar/MobileNavIcons/Hamburger";
+import { AuthProvider } from "../../../contexts/AuthContext";
 
-interface IProps {
-  setDrawerOpen: Dispatch<SetStateAction<boolean>>;
-  drawerOpen: boolean;
-}
-const Drawer = ({ setDrawerOpen, drawerOpen }: IProps) => {
+const Drawer = () => {
   const { t, i18n } = useTranslation();
-  const { store_name, globalOrderMode } = useContext(ApplicationProvider);
+  const { store_name, drawerOpen, handleToggleDrawer } =
+    useContext(ApplicationProvider);
   const { user } = useContext(AuthProvider);
   let topSectionRef = useRef<HTMLDivElement | null>(null);
   let linksRef = useRef<HTMLDivElement | null>(null);
 
   return (
-    <DrawerContainer rtl={i18n.language === 'ar'}>
+    <DrawerContainer rtl={i18n.language === "ar"}>
       <HamburgerContainer>
-        <Hamburger setDrawerOpen={setDrawerOpen} drawerOpen={drawerOpen} />
+        <Hamburger />
       </HamburgerContainer>
       <TopSection ref={topSectionRef}>
         {user && (
           <NameWrapper>
             <Name>
-              {t('hello')} {user?.first_name} !
+              {t("hello")} {user?.first_name} !
             </Name>
             <PhoneNumber>{user?.phone_number}</PhoneNumber>
           </NameWrapper>
@@ -48,11 +45,11 @@ const Drawer = ({ setDrawerOpen, drawerOpen }: IProps) => {
             <ButtonsContainer>
               <Button to="/login">
                 <AiOutlinePoweroff size={20} />
-                <Text>{t('login')}</Text>
+                <Text>{t("login")}</Text>
               </Button>
               <Button to="/register">
                 <AiOutlineUserAdd size={20} />
-                <Text>{t('signup')}</Text>
+                <Text>{t("signup")}</Text>
               </Button>
             </ButtonsContainer>
           </NameWrapper>
@@ -63,26 +60,26 @@ const Drawer = ({ setDrawerOpen, drawerOpen }: IProps) => {
         <LinkContainer>
           <BiFoodMenu size={30} color="#04b9aa" />
 
-          <Linkitem to="/menu">{t('common:our-menu')}</Linkitem>
+          <Linkitem to="/menu">{t("common:our-menu")}</Linkitem>
         </LinkContainer>
         <LinkContainer>
           <BiGitBranch size={30} color="#b99e04" />
-          <Linkitem to="/branches">{t('common:our-branches')}</Linkitem>
+          <Linkitem to="/branches">{t("common:our-branches")}</Linkitem>
         </LinkContainer>
         {user && (
           <>
             <LinkContainer>
               <HiUserCircle size={30} color="#dd321b" />
-              <Linkitem to="/user/profile">{t('common:my-profile')}</Linkitem>
+              <Linkitem to="/user/profile">{t("common:my-profile")}</Linkitem>
             </LinkContainer>
             <LinkContainer>
               <IoMdListBox size={30} color="#04b922" />
-              <Linkitem to="/">{t('common:my-orders')}</Linkitem>
+              <Linkitem to="/">{t("common:my-orders")}</Linkitem>
             </LinkContainer>
             <LinkContainer>
               <FaMapMarkerAlt size={30} color="#c11ce2" />
               <Linkitem to="/user/addresses">
-                {t('common:my-addresses')}
+                {t("common:my-addresses")}
               </Linkitem>
             </LinkContainer>
           </>
@@ -93,21 +90,21 @@ const Drawer = ({ setDrawerOpen, drawerOpen }: IProps) => {
         <LinkContainer>
           <FaMotorcycle size={30} color="#37c0b5" />
           <Linkitem to="/mode/delivery">
-            {t('common:set-up-order-mode')}
+            {t("common:set-up-order-mode")}
           </Linkitem>
         </LinkContainer>
         <LinkContainer>
           <MdMail size={30} color="#3277f8" />
-          <Linkitem to="/">{t('common:contact-us')}</Linkitem>
+          <Linkitem to="/">{t("common:contact-us")}</Linkitem>
         </LinkContainer>
         <LinkContainer>
           <AiFillInfoCircle size={30} color="#29affc" />
-          <Linkitem to="/">{t('common:about-us')}</Linkitem>
+          <Linkitem to="/">{t("common:about-us")}</Linkitem>
         </LinkContainer>
       </LinksContainer>
       <hr />
       <Toggler>
-        <Text>{t('dark-mode')}</Text>
+        <Text>{t("dark-mode")}</Text>
         <ThemeToggler />
       </Toggler>
     </DrawerContainer>
@@ -119,11 +116,11 @@ export default Drawer;
 const DrawerContainer = styled.nav<{ rtl: boolean }>`
   position: fixed;
   top: 0;
-  left: ${props => !props.rtl && '0'};
-  right: ${props => props.rtl && '0'};
+  left: ${(props) => !props.rtl && "0"};
+  right: ${(props) => props.rtl && "0"};
   overflow: hidden;
   z-index: 300;
-  background-color: ${props => props.theme.bodyColor};
+  background-color: ${(props) => props.theme.bodyColor};
   height: 100%;
   width: 85%;
 `;
@@ -131,7 +128,7 @@ const HamburgerContainer = styled.div`
   padding: 1rem;
 `;
 const TopSection = styled.div`
-  /* background-color: ${props => props.theme.mainColor}; */
+  /* background-color: ${(props) => props.theme.mainColor}; */
   color: #fff;
   /* margin-top: 3rem; */
   display: flex;
@@ -156,8 +153,8 @@ const Name = styled.h4(
 );
 
 const PhoneNumber = styled.p`
-  color: ${props => props.theme.subHeading};
-  font-weight: ${props => props.theme.font.regular};
+  color: ${(props) => props.theme.subHeading};
+  font-weight: ${(props) => props.theme.font.regular};
 `;
 const LinksContainer = styled.div`
   padding: 1rem;
@@ -166,10 +163,10 @@ const LinksContainer = styled.div`
   gap: 0.5rem;
 `;
 const LinkContainer = styled.div`
-  color: ${props => props.theme.headingColor};
+  color: ${(props) => props.theme.headingColor};
   display: flex;
   align-items: center;
-  font-weight: ${props => props.theme.font.regular};
+  font-weight: ${(props) => props.theme.font.regular};
   margin: 0.25rem 0;
 `;
 const Linkitem = styled(Link)`
@@ -186,7 +183,7 @@ const Toggler = styled.div`
 const Text = styled.span`
   margin: 0 0.25rem;
   /* font-size: 1.2rem; */
-  color: ${props => props.theme.headingColor};
+  color: ${(props) => props.theme.headingColor};
 `;
 const ButtonsContainer = styled.div`
   display: grid;
@@ -198,10 +195,10 @@ const Button = styled(Link)`
   display: flex;
   align-items: center;
   justify-content: center;
-  border: ${props => props.theme.btnBorder};
+  border: ${(props) => props.theme.btnBorder};
   padding: 0.5rem 0.5rem;
   font-size: 0.9rem;
-  color: ${props => props.theme.subHeading};
+  color: ${(props) => props.theme.subHeading};
   border-radius: 5px;
-  font-weight: ${props => props.theme.font.semibold};
+  font-weight: ${(props) => props.theme.font.semibold};
 `;

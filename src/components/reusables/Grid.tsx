@@ -24,10 +24,21 @@ interface IProps {
    */
   p?: number;
   margin?: string;
+  borderB?: boolean;
 }
-const Grid: FC<IProps> = ({ children, rows, cols, gap, items, p, margin }) => {
+const Grid: FC<IProps> = ({
+  children,
+  rows,
+  cols,
+  gap,
+  items,
+  p,
+  margin,
+  borderB,
+}) => {
   return (
     <GridWrapper
+      borderb={borderB}
       style={
         {
           "--cols": cols,
@@ -45,8 +56,8 @@ const Grid: FC<IProps> = ({ children, rows, cols, gap, items, p, margin }) => {
 };
 
 export default Grid;
-export const GridWrapper = styled.div(
-  ({ theme: { breakpoints, font } }) => `
+export const GridWrapper = styled.div<{ borderb?: boolean }>(
+  ({ theme: { breakpoints, border }, borderb }) => `
 
   display: grid;
   grid-template-columns: var(--cols);
@@ -55,6 +66,7 @@ export const GridWrapper = styled.div(
   align-items: var(--items, normal);
   padding: var(--padding, 0);
   margin: var(--margin, 0);
+  border-bottom:${borderb && border};
   @media ${breakpoints.md}{
     
   }

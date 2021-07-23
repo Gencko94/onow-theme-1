@@ -1,84 +1,94 @@
-import { createContext, useState } from 'react';
-import { useQuery } from 'react-query';
-import { DELIVERY_ADDRESS } from '../interfaces/Address';
-import { Branch } from '../interfaces/branch';
-import { Init } from '../interfaces/init';
-import { OrderTime, OrderTimeType } from '../interfaces/orderTime';
-import { getGeneralInfo } from '../utils/queries';
+import { createContext, useCallback, useState } from "react";
+import { useQuery } from "react-query";
 
+import { Init } from "../interfaces/init";
+import { getGeneralInfo } from "../utils/queries";
+
+export type TOAST_STATUS = {
+  open: boolean;
+  text: string;
+  fn: () => void;
+  type: "success" | "error";
+};
 interface ContextProps extends Init {
-  globalOrderMode: OMode | null;
-  handleGlobalOrderModeChange: (mode: OMode) => void;
-  handlePickupBranchChange: (branch: Branch) => void;
-  pickupBranch: Branch | null;
-  // selectDeliveryAddress: SELECT_DELIVERY_ADDRESS | null;
-  deliveryAddress: DELIVERY_ADDRESS | null;
-  handleSetDeliveryAddress: (location: DELIVERY_ADDRESS) => void;
-  // handleSetSelectDeliveryAddress: (location: SELECT_DELIVERY_ADDRESS) => void;
-  orderTime: OrderTime;
-  handleSetOrderTime: (time: OrderTime) => void;
-  orderTimeType: OrderTimeType;
-  handleSetOrderTimeType: (type: OrderTimeType) => void;
+  drawerOpen: boolean;
+  handleToggleDrawer: () => void;
+  productsView: "grid" | "list" | "bar";
+  handleToggleProductsView: (mode: "grid" | "list" | "bar") => void;
+  toastStatus: TOAST_STATUS;
+  setToastStatus: React.Dispatch<React.SetStateAction<TOAST_STATUS>>;
+  handleCloseToast: () => void;
+  handleCloseAuthModal: () => void;
+  authModalStatus: AuthModalStatus;
+  setAuthModalStatus: React.Dispatch<React.SetStateAction<AuthModalStatus>>;
+  profileModalOpen: boolean;
+  handleToggleProfileModal: () => void;
+  handleToggleCartModal: () => void;
+  cartModalOpen: boolean;
 }
-export type OMode = 'delivery' | 'pickup';
-export const ApplicationProvider = createContext<Partial<ContextProps>>({
-  globalOrderMode: null,
-  orderTime: new Date(),
-});
+export type OMode = "delivery" | "pickup";
+export type AuthModalStatus = {
+  open: boolean;
+  mode: "login" | "register" | "reset";
+};
+export const ApplicationProvider = createContext<Partial<ContextProps>>({});
 const ApplicationContext: React.FC = ({ children }) => {
-  const [globalOrderMode, setGlobalOrderMode] = useState<OMode | null>(null);
-  const [pickupBranch, setPickupBranch] = useState<Branch | null>(null);
+  const [drawerOpen, setDrawerOpen] = useState(false);
 
-  // const [
-  //   selectDeliveryAddress,
-  //   setSelectDeliveryAddress,
-  // ] = useState<SELECT_DELIVERY_ADDRESS | null>(null);
-  const [
-    deliveryAddress,
-    setDeliveryAddress,
-  ] = useState<DELIVERY_ADDRESS | null>(null);
-  const [orderTime, setOrderTime] = useState<OrderTime>(new Date());
-  const [orderTimeType, setOrderTimeType] = useState<OrderTimeType>('asap');
-  const { data } = useQuery('application-data', getGeneralInfo, {
-    suspense: true,
+  const [authModalStatus, setAuthModalStatus] = useState<AuthModalStatus>({
+    open: false,
+    mode: "login",
+  });
+  const [profileModalOpen, setProfileModalOpen] = useState(false);
+  const [cartModalOpen, setCartModalOpen] = useState(false);
+  const [toastStatus, setToastStatus] = useState<TOAST_STATUS>({
+    open: false,
+    text: "",
+    fn: () => {},
+    type: "success",
   });
 
-  const handleGlobalOrderModeChange = (mode: OMode) => {
-    setGlobalOrderMode(mode);
+  const [productsView, setProductsView] = useState<"grid" | "list" | "bar">(
+    "bar"
+  );
+  const { data } = useQuery("application-data", getGeneralInfo, {
+    suspense: true,
+  });
+  const handleCloseToast = useCallback(() => {
+    setToastStatus((prev) => ({
+      ...prev,
+      open: false,
+    }));
+  }, []);
+
+  const handleCloseAuthModal = () => {
+    setAuthModalStatus((prev) => ({
+      open: false,
+      mode: prev.mode,
+    }));
   };
-  const handlePickupBranchChange = (branch: Branch) => {
-    setPickupBranch(branch);
+  const handleToggleProductsView = (mode: "grid" | "list" | "bar") => {
+    setProductsView(mode);
   };
-  const handleSetDeliveryAddress = (location: DELIVERY_ADDRESS) => {
-    setDeliveryAddress(location);
+
+  const handleToggleDrawer = () => {
+    setDrawerOpen(!drawerOpen);
   };
   // const handleSetSelectDeliveryAddress = (
   //   location: SELECT_DELIVERY_ADDRESS
   // ) => {
   //   setSelectDeliveryAddress(location);
   // };
-  const handleSetOrderTime = (time: OrderTime) => {
-    setOrderTime(time);
+  const handleToggleProfileModal = () => {
+    setProfileModalOpen(!profileModalOpen);
   };
-  const handleSetOrderTimeType = (type: OrderTimeType) => {
-    setOrderTimeType(type);
+  const handleToggleCartModal = () => {
+    setCartModalOpen(!cartModalOpen);
   };
 
   return (
     <ApplicationProvider.Provider
       value={{
-        globalOrderMode,
-        handleGlobalOrderModeChange,
-        pickupBranch,
-        handlePickupBranchChange,
-        deliveryAddress,
-        handleSetDeliveryAddress,
-        // selectDeliveryAddress,
-        // handleSetSelectDeliveryAddress,
-        handleSetOrderTime,
-        orderTime,
-        handleSetOrderTimeType,
-        orderTimeType,
         store_theme: data?.store_theme,
         store_images: data?.store_images,
         store_name: data?.store_name,
@@ -87,6 +97,20 @@ const ApplicationContext: React.FC = ({ children }) => {
         order_modes: data?.order_modes,
         categories: data?.categories,
         deals: data?.deals,
+        drawerOpen,
+        handleToggleDrawer,
+        handleToggleProductsView,
+        productsView,
+        handleCloseToast,
+        setToastStatus,
+        toastStatus,
+        authModalStatus,
+        handleCloseAuthModal,
+        setAuthModalStatus,
+        handleToggleProfileModal,
+        profileModalOpen,
+        cartModalOpen,
+        handleToggleCartModal,
       }}
     >
       {children}

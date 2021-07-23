@@ -2,6 +2,7 @@ import { SetStateAction } from "react";
 import { Dispatch } from "react";
 import styled from "styled-components";
 import Button from "../reusables/Button";
+import FileUploader from "../reusables/FileUploader";
 import Flex, { FlexWrapper } from "../reusables/Flex";
 import Heading from "../reusables/Heading";
 import Paragraph from "../reusables/Paragraph";
@@ -15,6 +16,8 @@ interface IProps {
   loading: boolean;
   quantity: number;
   setQuantity: Dispatch<SetStateAction<number>>;
+  files: File[];
+  setFiles: Dispatch<SetStateAction<File[]>>;
 }
 
 const ProductOrdering = ({
@@ -23,12 +26,20 @@ const ProductOrdering = ({
   setQuantity,
   loading,
   quantity,
+  files,
+  setFiles,
 }: IProps) => {
   return (
     <div>
       <div>
+        <Heading tag="h6" margin="1rem 0">
+          Upload your files
+        </Heading>
+        <FileUploader accept=".png, .jpg, .jpeg" onChange={(files) => {}} />
+      </div>
+      <div>
         <Placeholder height="28px" ready={!loading}>
-          <Heading tag="h6" mb="1rem">
+          <Heading tag="h6" margin="1rem 0">
             Optional Notes
           </Heading>
         </Placeholder>

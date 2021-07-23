@@ -1,38 +1,39 @@
-import { useContext, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import styled from 'styled-components';
-import { ApplicationProvider } from '../../contexts/ApplicationContext';
-import OrderTime from './OrderTime';
-import { DeepMap, FieldError } from 'react-hook-form';
-import { CHECKOUT_FORM } from '../../interfaces/checkoutForm';
-import Calendar from 'react-calendar';
-import 'react-calendar/dist/Calendar.css';
+import { useContext, useState } from "react";
+import { useTranslation } from "react-i18next";
+import styled from "styled-components";
+import { ApplicationProvider } from "../../contexts/ApplicationContext";
+import OrderTime from "./OrderTime";
+import { DeepMap, FieldError } from "react-hook-form";
+import { CHECKOUT_FORM } from "../../interfaces/checkoutForm";
+import Calendar from "react-calendar";
+import "react-calendar/dist/Calendar.css";
 import {
   FaAngleDoubleLeft,
   FaAngleDoubleRight,
   FaAngleLeft,
   FaAngleRight,
-} from 'react-icons/fa';
-import { ThemeContext } from '../../contexts/ThemeContext';
+} from "react-icons/fa";
+import { ThemeContext } from "../../contexts/ThemeContext";
+import { OrderProvider } from "../../contexts/OrderContext";
 interface IProps {
   register: any;
   errors: DeepMap<CHECKOUT_FORM, FieldError>;
 }
 
 const PickupDetails = ({ errors, register }: IProps) => {
-  const { t, i18n } = useTranslation(['checkout']);
-  const { pickupBranch } = useContext(ApplicationProvider);
+  const { t, i18n } = useTranslation(["checkout"]);
+  const { pickupBranch } = useContext(OrderProvider);
   const { mode } = useContext(ThemeContext);
 
   return (
     <Container>
-      <StepNumber isDark={mode === 'dark'}>2</StepNumber>
-      <SectionTitle>{t('pickup-details-time')}</SectionTitle>
-      <DashedLine rtl={i18n.language === 'ar'} />
+      <StepNumber isDark={mode === "dark"}>2</StepNumber>
+      <SectionTitle>{t("pickup-details-time")}</SectionTitle>
+      <DashedLine rtl={i18n.language === "ar"} />
       <SectionBody>
         <div>
           <Text>
-            {t('pickup-branch')} : {pickupBranch?.name[i18n.language]}
+            {t("pickup-branch")} : {pickupBranch?.name[i18n.language]}
           </Text>
         </div>
         <OrderTime title="pickup-time" />
@@ -47,7 +48,7 @@ const StepNumber = styled.span<{ isDark: boolean }>`
   width: 25px;
   height: 25px;
   border-radius: 50%;
-  background: ${props =>
+  background: ${(props) =>
     props.isDark ? props.theme.overlayColor : props.theme.mainColor};
   color: #fff;
   display: flex;
@@ -55,12 +56,12 @@ const StepNumber = styled.span<{ isDark: boolean }>`
   justify-content: center;
 `;
 const DashedLine = styled.span<{ rtl: boolean }>`
-  border-right: ${props =>
-    props.rtl ? 'none' : `2px dashed ${props.theme.seperator}`};
-  border-left: ${props =>
-    props.rtl ? `2px dashed ${props.theme.seperator}` : 'none'};
-  margin-right: ${props => (props.rtl ? '0' : '17px')};
-  margin-left: ${props => (props.rtl ? '17px' : '0')};
+  border-right: ${(props) =>
+    props.rtl ? "none" : `2px dashed ${props.theme.seperator}`};
+  border-left: ${(props) =>
+    props.rtl ? `2px dashed ${props.theme.seperator}` : "none"};
+  margin-right: ${(props) => (props.rtl ? "0" : "17px")};
+  margin-left: ${(props) => (props.rtl ? "17px" : "0")};
 `;
 const Container = styled.div(
   ({ theme: { breakpoints } }) => `

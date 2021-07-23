@@ -1,7 +1,7 @@
-import { useContext } from 'react';
-import { Link } from 'react-router-dom';
-import styled from 'styled-components';
-import { ApplicationProvider } from '../../../contexts/ApplicationContext';
+import { useContext } from "react";
+import { Link } from "react-router-dom";
+import styled from "styled-components";
+import { ApplicationProvider } from "../../../contexts/ApplicationContext";
 
 const Hero = () => {
   const { store_images } = useContext(ApplicationProvider);
@@ -55,7 +55,7 @@ const LogoContainer = styled(Link)`
   position: absolute;
   display: block;
   top: 100%;
-  left: 50%;
+  left: 20%;
   transform: translate(-50%, -50%);
   width: 125px;
   height: 125px;

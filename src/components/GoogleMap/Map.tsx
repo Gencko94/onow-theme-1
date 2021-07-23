@@ -1,5 +1,5 @@
-import { GoogleMap, Marker, useJsApiLoader } from '@react-google-maps/api';
-import { Libraries } from '@react-google-maps/api/dist/utils/make-load-script-url';
+import { GoogleMap, Marker, useJsApiLoader } from "@react-google-maps/api";
+import { Libraries } from "@react-google-maps/api/dist/utils/make-load-script-url";
 import {
   useCallback,
   useContext,
@@ -7,32 +7,33 @@ import {
   useMemo,
   useRef,
   useState,
-} from 'react';
-import { BiCurrentLocation } from 'react-icons/bi';
-import { useTranslation } from 'react-i18next';
+} from "react";
+import { BiCurrentLocation } from "react-icons/bi";
+import { useTranslation } from "react-i18next";
 import useCurrentLocation, {
   MapCoordinates,
-} from '../../hooks/useCurrentLocation';
-import styled from 'styled-components';
-import MapSearchbar from './MapSearchbar';
-import axios from 'axios';
-import { ApplicationProvider } from '../../contexts/ApplicationContext';
-import { useHistory } from 'react-router-dom';
-import { ThemeContext } from '../../contexts/ThemeContext';
-import { GoogleMapsResult } from '../../interfaces/googleMaps';
-import { DELIVERY_ADDRESS } from '../../interfaces/Address';
-import { UserInfoProvider } from '../../contexts/UserInfoContext';
-import { useQueryParams } from '../../hooks/useQueryParams';
+} from "../../hooks/useCurrentLocation";
+import styled from "styled-components";
+import MapSearchbar from "./MapSearchbar";
+import axios from "axios";
+import { ApplicationProvider } from "../../contexts/ApplicationContext";
+import { useHistory } from "react-router-dom";
+import { ThemeContext } from "../../contexts/ThemeContext";
+import { GoogleMapsResult } from "../../interfaces/googleMaps";
+import { DELIVERY_ADDRESS } from "../../interfaces/Address";
+import { UserInfoProvider } from "../../contexts/UserInfoContext";
+import { useQueryParams } from "../../hooks/useQueryParams";
+import { OrderProvider } from "../../contexts/OrderContext";
 
 const Map = () => {
   const {
     i18n: { language },
     t,
-  } = useTranslation(['map']);
+  } = useTranslation(["map"]);
   const query = useQueryParams();
 
   const [marker, setMarker] = useState<MapCoordinates | null>(() => {
-    if (typeof query.lt === 'string' && typeof query.lg === 'string') {
+    if (typeof query.lt === "string" && typeof query.lg === "string") {
       return {
         lat: parseFloat(query.lt),
         lng: parseFloat(query.lg),
@@ -43,16 +44,15 @@ const Map = () => {
 
   const [outOfBorder, setOutOfBorder] = useState<boolean>(false);
   const { getCurrentLocation } = useCurrentLocation();
-  const { handleSetDeliveryAddress } = useContext(ApplicationProvider);
-  const { handleSetEditedAddress, handleSetNewAddress } = useContext(
-    UserInfoProvider
-  );
+  const { handleSetDeliveryAddress } = useContext(OrderProvider);
+  const { handleSetEditedAddress, handleSetNewAddress } =
+    useContext(UserInfoProvider);
   const { mode } = useContext(ThemeContext);
-  const libraries = useMemo<Libraries>(() => ['places'], []);
+  const libraries = useMemo<Libraries>(() => ["places"], []);
   const history = useHistory();
   console.log(query);
   const mapCenter = useMemo(() => {
-    if (typeof query.lt == 'string' && typeof query.lg === 'string') {
+    if (typeof query.lt == "string" && typeof query.lg === "string") {
       return {
         lat: parseFloat(query.lt),
         lng: parseFloat(query.lg),
@@ -74,95 +74,95 @@ const Map = () => {
     return {
       disableDefaultUI: true,
       zoomControl: false,
-      gestureHandling: 'greedy',
+      gestureHandling: "greedy",
 
       styles:
-        mode === 'light'
+        mode === "light"
           ? []
           : [
-              { elementType: 'geometry', stylers: [{ color: '#242f3e' }] },
+              { elementType: "geometry", stylers: [{ color: "#242f3e" }] },
               {
-                elementType: 'labels.text.stroke',
-                stylers: [{ color: '#242f3e' }],
+                elementType: "labels.text.stroke",
+                stylers: [{ color: "#242f3e" }],
               },
               {
-                elementType: 'labels.text.fill',
-                stylers: [{ color: '#746855' }],
+                elementType: "labels.text.fill",
+                stylers: [{ color: "#746855" }],
               },
               {
-                featureType: 'administrative.locality',
-                elementType: 'labels.text.fill',
-                stylers: [{ color: '#d59563' }],
+                featureType: "administrative.locality",
+                elementType: "labels.text.fill",
+                stylers: [{ color: "#d59563" }],
               },
               {
-                featureType: 'poi',
-                elementType: 'labels.text.fill',
-                stylers: [{ color: '#d59563' }],
+                featureType: "poi",
+                elementType: "labels.text.fill",
+                stylers: [{ color: "#d59563" }],
               },
               {
-                featureType: 'poi.park',
-                elementType: 'geometry',
-                stylers: [{ color: '#263c3f' }],
+                featureType: "poi.park",
+                elementType: "geometry",
+                stylers: [{ color: "#263c3f" }],
               },
               {
-                featureType: 'poi.park',
-                elementType: 'labels.text.fill',
-                stylers: [{ color: '#6b9a76' }],
+                featureType: "poi.park",
+                elementType: "labels.text.fill",
+                stylers: [{ color: "#6b9a76" }],
               },
               {
-                featureType: 'road',
-                elementType: 'geometry',
-                stylers: [{ color: '#38414e' }],
+                featureType: "road",
+                elementType: "geometry",
+                stylers: [{ color: "#38414e" }],
               },
               {
-                featureType: 'road',
-                elementType: 'geometry.stroke',
-                stylers: [{ color: '#212a37' }],
+                featureType: "road",
+                elementType: "geometry.stroke",
+                stylers: [{ color: "#212a37" }],
               },
               {
-                featureType: 'road',
-                elementType: 'labels.text.fill',
-                stylers: [{ color: '#9ca5b3' }],
+                featureType: "road",
+                elementType: "labels.text.fill",
+                stylers: [{ color: "#9ca5b3" }],
               },
               {
-                featureType: 'road.highway',
-                elementType: 'geometry',
-                stylers: [{ color: '#746855' }],
+                featureType: "road.highway",
+                elementType: "geometry",
+                stylers: [{ color: "#746855" }],
               },
               {
-                featureType: 'road.highway',
-                elementType: 'geometry.stroke',
-                stylers: [{ color: '#1f2835' }],
+                featureType: "road.highway",
+                elementType: "geometry.stroke",
+                stylers: [{ color: "#1f2835" }],
               },
               {
-                featureType: 'road.highway',
-                elementType: 'labels.text.fill',
-                stylers: [{ color: '#f3d19c' }],
+                featureType: "road.highway",
+                elementType: "labels.text.fill",
+                stylers: [{ color: "#f3d19c" }],
               },
               {
-                featureType: 'transit',
-                elementType: 'geometry',
-                stylers: [{ color: '#2f3948' }],
+                featureType: "transit",
+                elementType: "geometry",
+                stylers: [{ color: "#2f3948" }],
               },
               {
-                featureType: 'transit.station',
-                elementType: 'labels.text.fill',
-                stylers: [{ color: '#d59563' }],
+                featureType: "transit.station",
+                elementType: "labels.text.fill",
+                stylers: [{ color: "#d59563" }],
               },
               {
-                featureType: 'water',
-                elementType: 'geometry',
-                stylers: [{ color: '#17263c' }],
+                featureType: "water",
+                elementType: "geometry",
+                stylers: [{ color: "#17263c" }],
               },
               {
-                featureType: 'water',
-                elementType: 'labels.text.fill',
-                stylers: [{ color: '#515c6d' }],
+                featureType: "water",
+                elementType: "labels.text.fill",
+                stylers: [{ color: "#515c6d" }],
               },
               {
-                featureType: 'water',
-                elementType: 'labels.text.stroke',
-                stylers: [{ color: '#17263c' }],
+                featureType: "water",
+                elementType: "labels.text.stroke",
+                stylers: [{ color: "#17263c" }],
               },
             ],
     };
@@ -175,7 +175,7 @@ const Map = () => {
       ({ lat, lng }) => {
         panTo({ lat, lng });
       },
-      error => {
+      (error) => {
         console.log(error);
       }
     );
@@ -193,10 +193,10 @@ const Map = () => {
         .get(
           `https://maps.googleapis.com/maps/api/geocode/json?latlng=${marker.lat},${marker.lng}&key=${process.env.REACT_APP_GOOGLE_MAPS_API_KEY}&language=${language}`
         )
-        .then(res => {
-          let block: string = '';
-          let street: string = '';
-          let area: string = '';
+        .then((res) => {
+          let block: string = "";
+          let street: string = "";
+          let area: string = "";
 
           const results = res.data.results;
           if (results.length === 0) {
@@ -206,8 +206,8 @@ const Map = () => {
           }
           if (
             results[0].address_components.find((address: any) =>
-              address.types.includes('country')
-            ).short_name !== 'KW' ||
+              address.types.includes("country")
+            ).short_name !== "KW" ||
             results.length === 0
           ) {
             setOutOfBorder(true);
@@ -219,23 +219,23 @@ const Map = () => {
 
           results.forEach((result: GoogleMapsResult) => {
             if (
-              result.types.includes('street_address') ||
-              result.types.includes('route')
+              result.types.includes("street_address") ||
+              result.types.includes("route")
             ) {
               street = result.address_components[0].long_name;
             }
-            if (result.types.includes('neighborhood')) {
+            if (result.types.includes("neighborhood")) {
               block = result.address_components[0].long_name;
             }
             if (
-              result.types.includes('sublocality_level_1') ||
-              result.types.includes('sublocality') ||
-              result.types.includes('locality')
+              result.types.includes("sublocality_level_1") ||
+              result.types.includes("sublocality") ||
+              result.types.includes("locality")
             ) {
               area = result.address_components[0].long_name;
             }
           });
-          setAddress(prev => ({
+          setAddress((prev) => ({
             ...prev,
             coords: {
               lat: marker.lat,
@@ -247,7 +247,7 @@ const Map = () => {
             street,
           }));
         })
-        .catch(err => {});
+        .catch((err) => {});
     } else {
       setAddress(null);
       // setMarkerInfoWindowDetails(null);
@@ -258,8 +258,8 @@ const Map = () => {
   return (
     <GoogleMap
       mapContainerStyle={{
-        width: '100%',
-        height: '100%',
+        width: "100%",
+        height: "100%",
       }}
       // onCenterChanged={() => {
       //   mapRef.current?.getCenter().lat();
@@ -276,7 +276,7 @@ const Map = () => {
       options={mapOptions}
       clickableIcons={false}
       onLoad={onMapLoad}
-      onClick={e => {
+      onClick={(e) => {
         setMarker({
           lat: e.latLng.lat(),
           lng: e.latLng.lng(),
@@ -286,7 +286,7 @@ const Map = () => {
       <MapSearchbar panTo={panTo} markerAddress={address?.street} />
       {marker && <Marker position={{ lat: marker?.lat, lng: marker?.lng }} />}
       {outOfBorder && (
-        <OutOfBorderContainer>{t('cannot-deliver-here')}</OutOfBorderContainer>
+        <OutOfBorderContainer>{t("cannot-deliver-here")}</OutOfBorderContainer>
       )}
       <ConfirmationContainer>
         <MapIcon
@@ -295,7 +295,7 @@ const Map = () => {
               ({ lat, lng }) => {
                 panTo({ lat, lng });
               },
-              error => {
+              (error) => {
                 console.log(error);
               }
             )
@@ -316,13 +316,13 @@ const Map = () => {
                 area: address?.area,
                 street: address?.street,
                 block: address?.block,
-                building: '3',
+                building: "3",
               });
-              if (query.m === 'e') {
-                history.push('/address/edit');
+              if (query.m === "e") {
+                history.push("/address/edit");
                 handleSetEditedAddress(address);
-              } else if (query.m === 'a') {
-                history.push('/address/add');
+              } else if (query.m === "a") {
+                history.push("/address/add");
                 handleSetNewAddress({
                   coords: {
                     lat: marker?.lat,
@@ -331,7 +331,7 @@ const Map = () => {
                   area: address?.area,
                   street: address?.street,
                   block: address?.block,
-                  building: '3',
+                  building: "3",
                 });
               } else {
                 history.goBack();
@@ -339,7 +339,7 @@ const Map = () => {
             }
           }}
         >
-          {t('confirm-location')}
+          {t("confirm-location")}
         </ConfirmButton>
       </ConfirmationContainer>
     </GoogleMap>
@@ -370,7 +370,7 @@ const ConfirmButton = styled.button<{ outOfBorder: boolean }>(
 
   border-radius: 12px;
   font-size: 1rem;
-  background-color: ${outOfBorder ? 'gray' : btnPrimaryLight};
+  background-color: ${outOfBorder ? "gray" : btnPrimaryLight};
   color: ${btnText};
   padding: 0.5rem 0.5rem;
   font-weight: ${font.bold};
@@ -385,10 +385,10 @@ const MapIcon = styled.button`
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: ${props => props.theme.dangerRed};
+  background-color: ${(props) => props.theme.dangerRed};
   padding: 0.25rem;
   border-radius: 50%;
-  color: ${props => props.theme.btnText};
+  color: ${(props) => props.theme.btnText};
 `;
 
 const OutOfBorderContainer = styled.div`

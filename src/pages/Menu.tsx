@@ -1,27 +1,23 @@
-import { useContext } from 'react';
-import { useTranslation } from 'react-i18next';
-import styled from 'styled-components';
-import Hero from '../components/Home/Hero/Hero';
-import HomeCategories from '../components/HomeCategories/HomeCategories';
-import HomeCategory from '../components/HomeCategories/HomeCategory';
-import { ApplicationProvider } from '../contexts/ApplicationContext';
-import { categories } from '../data/categories';
-import Layout from '../layout/Layout';
+import { useContext } from "react";
+import { useTranslation } from "react-i18next";
+import styled from "styled-components";
+import Hero from "../components/Home/Hero/Hero";
+import HomeCategories from "../components/HomeCategories/HomeCategories";
+import { ApplicationProvider } from "../contexts/ApplicationContext";
+import { categories } from "../data/categories";
+import Layout from "../layout/Layout";
 
 const Menu = () => {
   const { t } = useTranslation();
   const { categories } = useContext(ApplicationProvider);
   return (
-    <Layout>
-      <Hero />
-      <Container>
-        {/* <Title>{t('our-menu')}</Title> */}
-        {/* {categories?.map(category => (
+    <Container>
+      {/* <Title>{t('our-menu')}</Title> */}
+      {/* {categories?.map(category => (
           <HomeCategory key={category} id={category} />
         ))} */}
-        <HomeCategories />
-      </Container>
-    </Layout>
+      <HomeCategories />
+    </Container>
   );
 };
 

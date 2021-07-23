@@ -1,33 +1,33 @@
-import { useTranslation } from 'react-i18next';
-import { useQueryClient } from 'react-query';
+import { useTranslation } from "react-i18next";
+import { useQueryClient } from "react-query";
 
-import styled from 'styled-components';
-import { GET_CART_RESPONSE } from '../../interfaces/Cart';
+import styled from "styled-components";
+import { GET_CART_RESPONSE } from "../../interfaces/Cart";
 interface IProps {}
 const CheckoutSummary = ({}: IProps) => {
   const queryCache = useQueryClient();
-  const { t } = useTranslation(['checkout']);
-  const data = queryCache.getQueryData<GET_CART_RESPONSE>('guest-cart');
+  const { t } = useTranslation(["checkout"]);
+  const data = queryCache.getQueryData<GET_CART_RESPONSE>("guest-cart");
   return (
     <Container>
       <Block>
-        <BlockText>{t('order-total')}</BlockText>
+        <BlockText>{t("order-total")}</BlockText>
         <Number>{data?.cart_total}</Number>
       </Block>
       <Block>
-        <BlockText>{t('delivery-cost')}</BlockText>
+        <BlockText>{t("delivery-cost")}</BlockText>
         <Number>{data?.delivery_cost}</Number>
       </Block>
 
       <hr />
 
       <Block>
-        <BlockText>{t('subtotal')}</BlockText>
+        <BlockText>{t("subtotal")}</BlockText>
         <Number bold>{data?.cart_subtotal}</Number>
       </Block>
 
       <CheckoutButtonContainer>
-        <CheckoutButton type="submit">{t('go-to-payment')}</CheckoutButton>
+        <CheckoutButton type="submit">{t("go-to-payment")}</CheckoutButton>
       </CheckoutButtonContainer>
     </Container>
   );
@@ -91,7 +91,7 @@ const Number = styled.h5<{ bold?: boolean }>(
   ({ theme: { breakpoints, font, headingColor, subHeading }, bold }) => ` 
   font-weight: ${bold ? font.xbold : font.bold};
   // color:${bold ? headingColor : subHeading};
-  font-size:${bold ? '1.2rem' : '1.1rem'};
+  font-size:${bold ? "1.2rem" : "1.1rem"};
   @media ${breakpoints.md}{
     font-size:1.1rem;
   }
@@ -102,11 +102,11 @@ const CheckoutButtonContainer = styled.div`
   padding: 0.5rem 0 0.25rem 0;
 `;
 const CheckoutButton = styled.button`
-  background-color: ${props => props.theme.green};
-  color: ${props => props.theme.btnText};
-  border: ${props => `1px solid ${props.theme.btnBorder}`};
+  background-color: ${(props) => props.theme.green};
+  color: ${(props) => props.theme.btnText};
+  border: ${(props) => `1px solid ${props.theme.btnBorder}`};
   padding: 0.7em;
-  font-weight: ${props => props.theme.font.semibold};
+  font-weight: ${(props) => props.theme.font.semibold};
   /* text-transform: uppercase; */
   font-size: 1rem;
   letter-spacing: 1px;

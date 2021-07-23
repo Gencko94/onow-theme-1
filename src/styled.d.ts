@@ -24,7 +24,7 @@ declare module "styled-components" {
     textColor: string;
     shadow: string;
     overlayColor: string;
-    // navColor: string;
+
     borderHovered: string;
     btnPrimaryLight: string;
     btnPrimaryDark: string;
@@ -40,10 +40,19 @@ declare module "styled-components" {
     maxWidthLg: string;
 
     // New Colors
-
+    primary: string;
+    primaryLighter: string;
+    primaryDarker: string;
     textPrimary: string;
     textPrimaryContrast: string;
     textSecondary: string;
     textSecondaryContrast: string;
+    blue: string;
+    yellow: string;
+
+    // New Accents
+    accent1: string;
+    accent2: string;
+    accent3: string;
   }
 }

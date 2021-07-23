@@ -1,79 +1,76 @@
-import styled from 'styled-components';
-import Layout from '../layout/Layout';
-import MapLazyImage from '../utils/MapLazyImage';
-import { Link, useHistory } from 'react-router-dom';
-import { useTranslation } from 'react-i18next';
-import MobileHeader from '../components/Header/MobileHeader';
-import { BsCheckCircle } from 'react-icons/bs';
-import ReactPlaceholder from 'react-placeholder/lib';
-import { useQuery } from 'react-query';
-import { getBranches } from '../utils/queries';
+import styled from "styled-components";
+import Layout from "../layout/Layout";
+import MapLazyImage from "../utils/MapLazyImage";
+import { Link, useHistory } from "react-router-dom";
+import { useTranslation } from "react-i18next";
+import MobileHeader from "../components/Header/MobileHeader";
+import { BsCheckCircle } from "react-icons/bs";
+import ReactPlaceholder from "react-placeholder/lib";
+import { useQuery } from "react-query";
+import { getBranches } from "../utils/queries";
 
 const Branches = () => {
-  const { t, i18n } = useTranslation(['branches']);
-  const { data: branches, isLoading } = useQuery('branches', getBranches);
+  const { t, i18n } = useTranslation(["branches"]);
+  const { data: branches, isLoading } = useQuery("branches", getBranches);
   const { push } = useHistory();
   console.log(branches);
   return (
-    <Layout>
-      <MobileHeader title="our-branches" />
-      <Container>
-        <ReactPlaceholder
-          type="textRow"
-          style={{
-            width: '100%',
-            height: '27px',
-            borderRadius: '6px',
-            marginTop: 0,
-            margin: '0.8rem 0',
-          }}
-          color="#E0E0E0"
-          showLoadingAnimation
-          ready={Boolean(branches)}
-        >
-          <></>
-        </ReactPlaceholder>
-        <BranchesContainer>
-          {branches?.map(branch => (
-            <BranchItem key={branch.id}>
-              <MapLazyImage
-                height="200"
-                width="200"
-                lat={branch.coords?.lat}
-                lng={branch.coords?.lng}
-                alt={branch.name[i18n.language]}
-              />
-              <BranchDetails>
-                <BranchNameContainer>
-                  <BranchName>{branch.name[i18n.language]}</BranchName>
-                  {branch.isMain && (
-                    <MainBranchContainer>
-                      <MainBranch>{t('main-branch')}</MainBranch>
-                      <Icon>
-                        <BsCheckCircle size={20} />
-                      </Icon>
-                    </MainBranchContainer>
-                  )}
-                </BranchNameContainer>
-                <Directions>{branch.directions[i18n.language]}</Directions>
-                {/* <OpeningHours>{branch.openingHours}</OpeningHours> */}
-                <ButtonsContainer>
-                  <DetailsButton to={`/branch/${branch.id}`}>
-                    {t('branch-details')}
-                  </DetailsButton>
-                  {/* <OpenNow isOpen={branch.openNow}>
+    <Container>
+      <ReactPlaceholder
+        type="textRow"
+        style={{
+          width: "100%",
+          height: "27px",
+          borderRadius: "6px",
+          marginTop: 0,
+          margin: "0.8rem 0",
+        }}
+        color="#E0E0E0"
+        showLoadingAnimation
+        ready={Boolean(branches)}
+      >
+        <></>
+      </ReactPlaceholder>
+      <BranchesContainer>
+        {branches?.map((branch) => (
+          <BranchItem key={branch.id}>
+            <MapLazyImage
+              height="200"
+              width="200"
+              lat={branch.coords?.lat}
+              lng={branch.coords?.lng}
+              alt={branch.name[i18n.language]}
+            />
+            <BranchDetails>
+              <BranchNameContainer>
+                <BranchName>{branch.name[i18n.language]}</BranchName>
+                {branch.isMain && (
+                  <MainBranchContainer>
+                    <MainBranch>{t("main-branch")}</MainBranch>
+                    <Icon>
+                      <BsCheckCircle size={20} />
+                    </Icon>
+                  </MainBranchContainer>
+                )}
+              </BranchNameContainer>
+              <Directions>{branch.directions[i18n.language]}</Directions>
+              {/* <OpeningHours>{branch.openingHours}</OpeningHours> */}
+              <ButtonsContainer>
+                <DetailsButton to={`/branch/${branch.id}`}>
+                  {t("branch-details")}
+                </DetailsButton>
+                {/* <OpenNow isOpen={branch.openNow}>
                     {branch.openNow ? t('open-now') : t('closed')}
                   </OpenNow> */}
-                  {/* <BookButton onClick={() => push('/booking')}>
+                {/* <BookButton onClick={() => push('/booking')}>
                     {t('book-here')}
                   </BookButton> */}
-                </ButtonsContainer>
-              </BranchDetails>
-            </BranchItem>
-          ))}
-        </BranchesContainer>
-      </Container>
-    </Layout>
+              </ButtonsContainer>
+            </BranchDetails>
+          </BranchItem>
+        ))}
+      </BranchesContainer>
+    </Container>
   );
 };
 
@@ -157,15 +154,16 @@ const BranchName = styled.h6(
 `
 );
 const OpeningHours = styled.p`
-  color: ${props => props.theme.subHeading};
+  color: ${(props) => props.theme.subHeading};
   font-size: 0.9rem;
-  font-weight: ${props => props.theme.font.semibold};
+  font-weight: ${(props) => props.theme.font.semibold};
 `;
 const OpenNow = styled.p<{ isOpen: boolean }>`
-  color: ${props => (props.isOpen ? props.theme.green : props.theme.dangerRed)};
+  color: ${(props) =>
+    props.isOpen ? props.theme.green : props.theme.dangerRed};
   font-size: 0.9rem;
   /* margin-bottom: 0.5rem; */
-  font-weight: ${props => props.theme.font.bold};
+  font-weight: ${(props) => props.theme.font.bold};
 `;
 const ButtonsContainer = styled.div`
   display: flex;
@@ -208,7 +206,7 @@ const DetailsButton = styled(Link)(
 const BookButton = styled.button`
   /* display: block; */
   margin: 0 0.25rem;
-  background-color: ${props => props.theme.mainColor};
+  background-color: ${(props) => props.theme.mainColor};
   padding: 0.5rem;
   border-radius: 20px;
   color: #fff;
@@ -235,7 +233,7 @@ const Icon = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  color: ${props => props.theme.green};
+  color: ${(props) => props.theme.green};
 `;
 const Directions = styled.p(
   ({ theme: { breakpoints, subHeading, font } }) => `

@@ -1,7 +1,10 @@
+import { useContext, useMemo } from "react";
 import { ImSpinner2 } from "react-icons/im";
 import { IconType } from "react-icons/lib";
 import styled, { css } from "styled-components";
+import { ThemeContext } from "../../contexts/ThemeContext";
 import useResponsive from "../../hooks/useResponsive";
+import Color from "color";
 import Ripple from "./Ripple";
 
 interface IProps {
@@ -40,7 +43,14 @@ interface IProps {
   /**
    * Button Background color , There are presets but you can pass customer hex value
    */
-  bg: "primary" | "danger" | "blue" | "green" | "white" | string;
+  bg:
+    | "primary"
+    | "danger"
+    | "blue"
+    | "green"
+    | "accent1"
+    | "accent2"
+    | "accent3";
   /**
    * Button Text color , defaults to White.
    */
@@ -82,6 +92,7 @@ interface IProps {
    * button Width
    */
   width?: string;
+  noRadius?: boolean;
   uppercase?: boolean;
 }
 
@@ -92,7 +103,7 @@ const Button = ({
   type = "button",
   text,
   Icon,
-  color = "#fff",
+  color,
   iconSize = 30,
   withTransition,
   margin = "none",
@@ -105,26 +116,74 @@ const Button = ({
   isLoading,
   disabled,
   width,
+  noRadius,
   uppercase,
 }: IProps) => {
   const { isDesktop } = useResponsive();
+  const { currentTheme } = useContext(ThemeContext);
+
+  const background = useMemo(() => {
+    switch (bg) {
+      case "blue":
+        return currentTheme.blue;
+      case "danger":
+        return currentTheme.dangerRed;
+      case "primary":
+        return currentTheme.primary;
+      case "green":
+        return currentTheme.green;
+      case "accent1":
+        return currentTheme.accent1;
+      case "accent2":
+        return currentTheme.accent2;
+      case "accent3":
+        return currentTheme.accent3;
+    }
+  }, [
+    bg,
+    currentTheme.blue,
+    currentTheme.dangerRed,
+    currentTheme.primary,
+    currentTheme.green,
+    currentTheme.accent1,
+    currentTheme.accent2,
+  ]);
+  const hover = useMemo(() => {
+    return Color(background).darken(0.1).hex();
+  }, [background]);
+  const textColor = useMemo(() => {
+    if (background === currentTheme.primary) {
+      return currentTheme.textPrimaryContrast;
+    }
+    if (Color(background).isDark()) {
+      return currentTheme.textPrimaryContrast;
+    } else {
+      return currentTheme.textPrimary;
+    }
+  }, [
+    background,
+    currentTheme.primary,
+    currentTheme.textPrimary,
+    currentTheme.textPrimaryContrast,
+  ]);
   return (
     <ButtonWrapper
       textSize={textSize}
       margin={margin}
       withTransition={withTransition}
-      bg={bg}
+      bg={background}
       padding={padding}
-      color={color}
+      color={color ?? textColor}
       onClick={onClick}
       type={type}
-      hoverBg={hoverBg}
+      hoverBg={hoverBg ?? hover}
       hoverColor={hoverColor}
       shadow={shadow}
       border={border}
       disabled={disabled}
       width={width}
       uppercase={uppercase}
+      noRadius={noRadius}
     >
       {!isLoading && Icon && (
         <span className="icon">
@@ -146,7 +205,7 @@ export default Button;
 export const ButtonWrapper = styled.button<{
   padding: string;
   color: string;
-  bg: "primary" | "danger" | "blue" | "green" | "white" | string;
+  bg: "primary" | "danger" | "blue" | "green";
   withTransition?: boolean;
   margin: string;
   textSize: string;
@@ -156,16 +215,18 @@ export const ButtonWrapper = styled.button<{
   border?: boolean;
   width?: string;
   uppercase?: boolean;
+  noRadius?: boolean;
 }>(
   ({
     theme: {
       breakpoints,
-      green,
+
       shadow,
       mainColor,
-      dangerRed,
+
       border: themeBorder,
       font,
+      primaryDarker,
     },
     padding,
     color,
@@ -180,32 +241,21 @@ export const ButtonWrapper = styled.button<{
     disabled,
     uppercase,
     width,
+    noRadius,
   }) => `
-      background: ${
-        bg === "primary"
-          ? mainColor
-          : bg === "blue"
-          ? "#2e87fc"
-          : bg === "danger"
-          ? dangerRed
-          : bg === "green"
-          ? green
-          : bg === "white"
-          ? "#fff"
-          : bg
-      };
+      background: ${bg};
       width:${width};
       box-shadow: ${boxShadow && shadow};
       display: flex;
       margin:${margin};
       justify-content:center;
       align-items: center;
-      border-radius: 6px;
+      border-radius: ${!noRadius && "6px"};
       padding: ${padding};
       text-transform:${uppercase && "uppercase"};
       position: relative;
       overflow:hidden;
-      color: ${color === "primary" ? mainColor : color};
+      color: ${color};
       border:${border && themeBorder};
       transition: all 100ms ease;
     .loading {

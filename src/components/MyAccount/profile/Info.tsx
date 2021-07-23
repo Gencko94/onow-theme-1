@@ -1,28 +1,32 @@
-import { yupResolver } from '@hookform/resolvers/yup';
-import { useContext } from 'react';
-import { useForm } from 'react-hook-form';
-import { useTranslation } from 'react-i18next';
-import styled from 'styled-components';
-import * as Yup from 'yup';
-import { AuthProvider } from '../../../contexts/AuthContext';
+import { useContext } from "react";
+import { Controller, useForm } from "react-hook-form";
+import { useTranslation } from "react-i18next";
+import { MdSubtitles } from "react-icons/md";
+import styled from "styled-components";
+import { AuthProvider } from "../../../contexts/AuthContext";
+import Grid from "../../reusables/Grid";
+import Heading from "../../reusables/Heading";
+import IconedInput from "../../reusables/Inputs/IconedInput";
 interface FormProps {
   first_name: string;
   last_name: string;
 }
-const schema = Yup.object().shape({
-  phoneNumber: Yup.string().required('Required Field').min(5),
-  password: Yup.string().required('Required Field').min(5),
-});
+
 const Info = () => {
   const { user } = useContext(AuthProvider);
-  const { register, handleSubmit, errors, reset } = useForm<FormProps>({
-    resolver: yupResolver(schema),
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset,
+    control,
+  } = useForm<FormProps>({
     defaultValues: {
       first_name: user?.first_name,
       last_name: user?.last_name,
     },
   });
-  const { t } = useTranslation(['profile']);
+  const { t } = useTranslation(["profile"]);
   // useEffect(() => {
   //   console.log(user);
   //   if (user) {
@@ -36,34 +40,40 @@ const Info = () => {
   // }, [user]);
   return (
     <div>
-      <Head>
-        <Title>{t('your-info')}</Title>
-        <Button>{t('update-info')}</Button>
-      </Head>
-      <Body>
-        <InputContainer>
-          <Label>{t('first-name')}</Label>
+      <Heading tag="h4" color="textPrimary">
+        {t("your-info")}
+      </Heading>
+      <Grid cols="1fr 1fr" gap="2rem">
+        <Controller
+          name="first_name"
+          control={control}
+          render={({ field: { value, onChange } }) => {
+            return (
+              <IconedInput
+                value={value}
+                onChange={onChange}
+                Icon={MdSubtitles}
+                label={t("first-name")}
+              />
+            );
+          }}
+        />
+        {/* <InputContainer>
+          <Label>{t("first-name")}</Label>
           <Input colored border name="first_name" ref={register} />
-          {/* {errors.email && (
-                <ErrorMessage>{errors.email.message}</ErrorMessage>
-              )} */}
-        </InputContainer>
-        <InputContainer>
-          <Label>{t('last-name')}</Label>
+        </InputContainer> */}
+        {/* <InputContainer>
+          <Label>{t("last-name")}</Label>
           <Input colored border name="last_name" ref={register} />
-          {/* {errors.email && (
-                <ErrorMessage>{errors.email.message}</ErrorMessage>
-              )} */}
+         
         </InputContainer>
         <InputContainer>
-          <Label>{t('email')}</Label>
+          <Label>{t("email")}</Label>
           <Input colored border readOnly defaultValue={user?.email} />
-          {/* {errors.email && (
-                <ErrorMessage>{errors.email.message}</ErrorMessage>
-              )} */}
+        
         </InputContainer>
         <InputContainer>
-          <Label>{t('phonenumber')}</Label>
+          <Label>{t("phonenumber")}</Label>
           <Input
             colored
             border
@@ -71,11 +81,9 @@ const Info = () => {
             disabled
             defaultValue={user?.phone_number}
           />
-          {/* {errors.email && (
-                <ErrorMessage>{errors.email.message}</ErrorMessage>
-              )} */}
-        </InputContainer>
-      </Body>
+        
+        </InputContainer> */}
+      </Grid>
     </div>
   );
 };
@@ -94,8 +102,8 @@ const Body = styled.div`
   gap: 1rem;
 `;
 const Title = styled.h5`
-  color: ${props => props.theme.headingColor};
-  font-weight: ${props => props.theme.font.bold};
+  color: ${(props) => props.theme.headingColor};
+  font-weight: ${(props) => props.theme.font.bold};
 `;
 const Button = styled.button(
   ({ theme: { breakpoints, font, btnBorder, btnPrimaryLight, btnText } }) => `
@@ -122,15 +130,15 @@ const Input = styled.input<{ border?: boolean; colored?: boolean }>`
   width: 100%;
   font-size: 0.9rem;
 
-  color: ${props => props.theme.subHeading};
-  border: ${props => props.border && `1px solid ${props.theme.btnBorder}`};
-  border-radius: ${props => props.border && '5px'};
-  background-color: ${props => props.colored && props.theme.inputColorLight};
+  color: ${(props) => props.theme.subHeading};
+  border: ${(props) => props.border && `1px solid ${props.theme.btnBorder}`};
+  border-radius: ${(props) => props.border && "5px"};
+  background-color: ${(props) => props.colored && props.theme.inputColorLight};
 `;
 const Label = styled.label`
   color: ${({ theme }) => theme.subHeading};
   margin-bottom: 0.4rem;
   font-size: 0.9rem;
-  font-weight: ${props => props.theme.font.bold};
+  font-weight: ${(props) => props.theme.font.bold};
   display: block;
 `;

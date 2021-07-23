@@ -19,7 +19,7 @@ const ProductPrice = ({ price, discount, sale }: IProps) => {
     >
       {sale ? (
         <Flex>
-          <Heading tag="h4" color="green" weight="bold" margin="1rem 0">
+          <Heading tag="h4" color="green" weight="bold" margin="0.5rem 0">
             {price} {t("kd")}
           </Heading>
           <Heading
@@ -27,13 +27,13 @@ const ProductPrice = ({ price, discount, sale }: IProps) => {
             color="textSecondary"
             decoration="line-through"
             weight="bold"
-            margin="1rem 0.5rem"
+            margin="0 0.5rem"
           >
             {price} {t("kd")}
           </Heading>
         </Flex>
       ) : (
-        <Heading tag="h4" color="green" weight="bold" margin="1rem 0">
+        <Heading tag="h4" color="green" weight="bold">
           {price} {t("kd")}
         </Heading>
       )}

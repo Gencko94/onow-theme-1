@@ -1,20 +1,18 @@
-import { useContext, useEffect, useMemo, useState } from 'react';
-import styled from 'styled-components';
-import BackNav from '../components/BackNav/BackNav';
-import { UserInfoProvider } from '../contexts/UserInfoContext';
-import * as Yup from 'yup';
-import { yupResolver } from '@hookform/resolvers/yup';
-import { useForm } from 'react-hook-form';
-import { DELIVERY_ADDRESS } from '../interfaces/Address';
-import { useTranslation } from 'react-i18next';
-import { Redirect, useHistory } from 'react-router';
-import { useMutation, useQueryClient } from 'react-query';
-import { editAddress } from '../utils/queries';
-import Loader from 'react-loader-spinner';
-import EditAddressMap from '../components/EditAddressMap';
-import MobileHeader from '../components/Header/MobileHeader';
-import Layout from '../layout/Layout';
-import { m, Variants } from 'framer-motion';
+import { useContext, useEffect, useMemo, useState } from "react";
+import styled from "styled-components";
+import BackNav from "../components/BackNav/BackNav";
+import { UserInfoProvider } from "../contexts/UserInfoContext";
+import { useForm } from "react-hook-form";
+import { DELIVERY_ADDRESS } from "../interfaces/Address";
+import { useTranslation } from "react-i18next";
+import { Redirect, useHistory } from "react-router";
+import { useMutation, useQueryClient } from "react-query";
+import { editAddress } from "../utils/queries";
+import Loader from "react-loader-spinner";
+import EditAddressMap from "../components/EditAddressMap";
+import MobileHeader from "../components/Header/MobileHeader";
+import Layout from "../layout/Layout";
+import { m, Variants } from "framer-motion";
 
 interface EditedAddressForm {
   area: string | undefined;
@@ -27,48 +25,35 @@ interface EditedAddressForm {
 }
 const containerVariants: Variants = {
   hidden: {
-    x: '100%',
+    x: "100%",
     opacity: 0,
   },
   visible: {
     x: 0,
     opacity: 1,
     transition: {
-      type: 'tween',
+      type: "tween",
     },
   },
   exit: {
-    x: '100%',
+    x: "100%",
     opacity: 0,
   },
 };
 const EditAddress = () => {
-  const { t } = useTranslation(['addresses']);
+  const { t } = useTranslation(["addresses"]);
   const queryClient = useQueryClient();
   const { editedAddress } = useContext(UserInfoProvider);
   const [outOfBorder, setOutOfBorder] = useState<boolean>(false);
 
-  const schema = useMemo(() => {
-    return Yup.object().shape({
-      mapAddress: Yup.string().required(t('required-field')).max(200),
-      avenue: Yup.string().max(20),
-      floor: Yup.string().max(20),
-      block: Yup.string().required(t('required-field')).max(20),
-      street: Yup.string().required(t('required-field')).max(50),
-      additionalDirections: Yup.string().max(100),
-      building: Yup.string().required(t('required-field')).max(20),
-      area: Yup.string().required(t('required-field')).max(20),
-    });
-  }, []);
-
   const { mutateAsync: editUserAddress, isLoading: editLoading } = useMutation(
     editAddress,
     {
-      onSuccess: data => {
+      onSuccess: (data) => {
         queryClient.setQueryData<DELIVERY_ADDRESS[] | undefined>(
-          'addresses',
-          prev => {
-            const newAddresses = prev?.filter(i => i.id !== data.id);
+          "addresses",
+          (prev) => {
+            const newAddresses = prev?.filter((i) => i.id !== data.id);
             newAddresses?.push(data);
             return newAddresses;
           }
@@ -78,8 +63,12 @@ const EditAddress = () => {
   );
   const history = useHistory();
 
-  const { register, handleSubmit, errors, reset } = useForm<EditedAddressForm>({
-    resolver: yupResolver(schema),
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset,
+  } = useForm<EditedAddressForm>({
     defaultValues: {
       block: editedAddress?.block,
 
@@ -107,7 +96,7 @@ const EditAddress = () => {
         });
         console.log(res);
 
-        history.push('/user/addresses');
+        history.push("/user/addresses");
       } catch (error) {
         console.log(error);
       }
@@ -146,8 +135,8 @@ const EditAddress = () => {
           />
         </MapContainer>
         <Form onSubmit={handleSubmit(onSubmit)}>
-          <InputContainer>
-            <Label>{t('address')}*</Label>
+          {/* <InputContainer>
+            <Label>{t("address")}*</Label>
             <Input colored border name="mapAddress" ref={register} />
             {errors.mapAddress && (
               <ErrorMessage>{errors.mapAddress.message}</ErrorMessage>
@@ -155,14 +144,14 @@ const EditAddress = () => {
           </InputContainer>
           <InputsContainer flex>
             <InputContainer>
-              <Label>{t('area')}*</Label>
+              <Label>{t("area")}*</Label>
               <Input colored border name="area" ref={register} />
               {errors.area && (
                 <ErrorMessage>{errors.area.message}</ErrorMessage>
               )}
             </InputContainer>
             <InputContainer>
-              <Label>{t('block')}*</Label>
+              <Label>{t("block")}*</Label>
               <Input colored border name="block" ref={register} />
               {errors.block && (
                 <ErrorMessage>{errors.block.message}</ErrorMessage>
@@ -170,7 +159,7 @@ const EditAddress = () => {
             </InputContainer>
           </InputsContainer>
           <InputContainer>
-            <Label>{t('street')}*</Label>
+            <Label>{t("street")}*</Label>
             <Input colored border name="street" ref={register} />
             {errors.street && (
               <ErrorMessage>{errors.street.message}</ErrorMessage>
@@ -178,14 +167,14 @@ const EditAddress = () => {
           </InputContainer>
           <InputsContainer flex>
             <InputContainer>
-              <Label>{t('building')}*</Label>
+              <Label>{t("building")}*</Label>
               <Input colored border name="building" ref={register} />
               {errors.building && (
                 <ErrorMessage>{errors.building.message}</ErrorMessage>
               )}
             </InputContainer>
             <InputContainer>
-              <Label>{t('floor')}</Label>
+              <Label>{t("floor")}</Label>
               <Input colored border name="floor" ref={register} />
               {errors.floor && (
                 <ErrorMessage>{errors.floor.message}</ErrorMessage>
@@ -193,7 +182,7 @@ const EditAddress = () => {
             </InputContainer>
           </InputsContainer>
           <InputContainer>
-            <Label>{t('additional-directions')}</Label>
+            <Label>{t("additional-directions")}</Label>
             <AdditionalInstructionsText
               name="additionalDirections"
               ref={register}
@@ -201,7 +190,7 @@ const EditAddress = () => {
             {errors.additionalDirections && (
               <ErrorMessage>{errors.additionalDirections.message}</ErrorMessage>
             )}
-          </InputContainer>
+          </InputContainer> */}
           <SubmitButton
             outOfBorder={outOfBorder}
             disabled={outOfBorder}
@@ -210,7 +199,7 @@ const EditAddress = () => {
             {editLoading ? (
               <Loader type="ThreeDots" color="#fff" height={20} width={30} />
             ) : (
-              t('save')
+              t("save")
             )}
           </SubmitButton>
         </Form>
@@ -256,7 +245,7 @@ const MapContainer = styled.div(
 
 const Form = styled.form``;
 const InputsContainer = styled.div<{ flex?: boolean }>`
-  display: ${props => (props.flex ? 'grid' : 'block')};
+  display: ${(props) => (props.flex ? "grid" : "block")};
   grid-template-columns: 1fr 1fr;
   gap: 0.25rem;
 `;
@@ -267,7 +256,7 @@ const Label = styled.label`
   color: ${({ theme }) => theme.subHeading};
   margin-bottom: 0.4rem;
   font-size: 0.9rem;
-  font-weight: ${props => props.theme.font.bold};
+  font-weight: ${(props) => props.theme.font.bold};
   display: block;
 `;
 const Input = styled.input<{ border?: boolean; colored?: boolean }>`
@@ -275,30 +264,30 @@ const Input = styled.input<{ border?: boolean; colored?: boolean }>`
   width: 100%;
   font-size: 0.9rem;
 
-  color: ${props => props.theme.subHeading};
-  border: ${props => props.border && `1px solid ${props.theme.btnBorder}`};
-  border-radius: ${props => props.border && '5px'};
-  background-color: ${props => props.colored && props.theme.inputColorLight};
+  color: ${(props) => props.theme.subHeading};
+  border: ${(props) => props.border && `1px solid ${props.theme.btnBorder}`};
+  border-radius: ${(props) => props.border && "5px"};
+  background-color: ${(props) => props.colored && props.theme.inputColorLight};
 `;
 
 const ErrorMessage = styled.p`
-  color: ${props => props.theme.dangerRed};
+  color: ${(props) => props.theme.dangerRed};
   font-size: 0.8rem;
   margin-top: 0.25rem;
 `;
 const SubmitButton = styled.button<{ outOfBorder: boolean }>`
   padding: 0.5rem;
-  background-color: ${props =>
-    props.outOfBorder ? 'gray' : props.theme.btnPrimaryLight};
-  color: ${props => props.theme.btnText};
+  background-color: ${(props) =>
+    props.outOfBorder ? "gray" : props.theme.btnPrimaryLight};
+  color: ${(props) => props.theme.btnText};
   width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
   border-radius: 6px;
   margin-top: 1rem;
-  border: 1px solid ${props => props.theme.btnBorder};
-  font-weight: ${props => props.theme.font.bold};
+  border: 1px solid ${(props) => props.theme.btnBorder};
+  font-weight: ${(props) => props.theme.font.bold};
 `;
 const AdditionalInstructionsText = styled.textarea`
   border-radius: 5px;
@@ -307,7 +296,7 @@ const AdditionalInstructionsText = styled.textarea`
   border: 1px solid rgba(0, 0, 0, 0.1);
   box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.1);
   width: 100%;
-  background-color: ${props => props.theme.inputColorLight};
-  color: ${props => props.theme.subHeading};
-  border: ${props => `1px solid ${props.theme.btnBorder}`};
+  background-color: ${(props) => props.theme.inputColorLight};
+  color: ${(props) => props.theme.subHeading};
+  border: ${(props) => `1px solid ${props.theme.btnBorder}`};
 `;

@@ -1,13 +1,13 @@
-import axios from 'axios';
-import { DELIVERY_ADDRESS } from '../interfaces/Address';
+import axios from "axios";
+import { DELIVERY_ADDRESS } from "../interfaces/Address";
 import {
   LOGIN_FORM,
   LOGIN_RESPONSE,
   REGISTER_FORM,
   REGISTER_RESPONSE,
   USER,
-} from '../interfaces/auth';
-import { Branch, DELIVERY_LOCATION_LIST } from '../interfaces/branch';
+} from "../interfaces/auth";
+import { Branch, DELIVERY_LOCATION_LIST } from "../interfaces/branch";
 import {
   ADD_TO_CART_REQUEST,
   ADD_TO_CART_RESPONSE,
@@ -16,16 +16,16 @@ import {
   DELETE_FROM_CART_RESPONSE,
   EDIT_CART_REQUEST,
   GET_CART_RESPONSE,
-} from '../interfaces/Cart';
-import { Category } from '../interfaces/categories';
-import { DEALS, Init } from '../interfaces/init';
-import { Product } from '../interfaces/product';
+} from "../interfaces/Cart";
+import { Category } from "../interfaces/categories";
+import { DEALS, Init } from "../interfaces/init";
+import { Product } from "../interfaces/product";
 
 // const uri =
 //   process.env.NODE_ENV === 'production'
 //     ? 'https://onow-mock-api.herokuapp.com'
 //     : 'http://localhost:4000';
-const uri = 'https://onow-mock-api.herokuapp.com';
+export const uri = "https://onow-mock-api.herokuapp.com";
 export const getGeneralInfo = async (): Promise<Init> => {
   const res = await axios.get(`${uri}/init`);
 
@@ -41,14 +41,19 @@ export const getCategory = async (id: number | string): Promise<Category> => {
 
   return res.data;
 };
+export const getCategories = async (): Promise<Category[]> => {
+  const res = await axios.get(`${uri}/categories`);
+
+  return res.data;
+};
 
 export const addToCart = async (
   product: ADD_TO_CART_REQUEST
 ): Promise<ADD_TO_CART_RESPONSE> => {
-  const t = localStorage.getItem('tpid');
+  const t = localStorage.getItem("tpid");
   const config = {
     headers: {
-      Authorization: t ? `Bearer ${t}` : '',
+      Authorization: t ? `Bearer ${t}` : "",
     },
   };
 
@@ -59,20 +64,20 @@ export const addToCart = async (
 export const addToGuestCart = async (
   product: ADD_TO_CART_REQUEST
 ): Promise<ADD_TO_CART_RESPONSE> => {
-  const localCart = localStorage.getItem('tlclc');
+  const localCart = localStorage.getItem("tlclc");
   if (localCart) {
     const newItems = JSON.parse(localCart);
     newItems.push({
       ...product,
     });
-    localStorage.setItem('tlclc', JSON.stringify(newItems));
+    localStorage.setItem("tlclc", JSON.stringify(newItems));
     const res = await axios.post(`${uri}/guest-cart`, {
       items: newItems,
     });
     return res.data.items;
   } else {
     const newItems = [{ ...product }];
-    localStorage.setItem('tlclc', JSON.stringify(newItems));
+    localStorage.setItem("tlclc", JSON.stringify(newItems));
     const res = await axios.post(`${uri}/guest-cart`, {
       items: newItems,
     });
@@ -81,14 +86,14 @@ export const addToGuestCart = async (
 };
 
 export const getGuestCartItems = async (): Promise<GET_CART_RESPONSE> => {
-  const localCart = localStorage.getItem('tlclc');
+  const localCart = localStorage.getItem("tlclc");
   if (localCart) {
     const res = await axios.post(`${uri}/guest-cart`, {
       items: JSON.parse(localCart),
     });
     return res.data;
   } else {
-    localStorage.setItem('tlclc', JSON.stringify([]));
+    localStorage.setItem("tlclc", JSON.stringify([]));
     const res = await axios.post(`${uri}/guest-cart`, {
       items: [],
     });
@@ -96,7 +101,7 @@ export const getGuestCartItems = async (): Promise<GET_CART_RESPONSE> => {
   }
 };
 export const getCartItems = async (): Promise<GET_CART_RESPONSE> => {
-  const t = localStorage.getItem('tpid');
+  const t = localStorage.getItem("tpid");
   const config = {
     headers: {
       Authorization: `Bearer ${t}`,
@@ -183,10 +188,10 @@ export const getDeals = async (): Promise<DEALS> => {
 // Authentication Section
 
 export const getUser = async (): Promise<USER> => {
-  const t = localStorage.getItem('tpid');
+  const t = localStorage.getItem("tpid");
   const config = {
     headers: {
-      Authorization: t ? `Bearer ${t}` : '',
+      Authorization: t ? `Bearer ${t}` : "",
     },
   };
 

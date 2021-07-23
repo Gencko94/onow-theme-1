@@ -1,8 +1,14 @@
 export interface Product {
-  image: string;
+  id: number;
   name: {
     [key: string]: string;
   };
+  description: {
+    [key: string]: string;
+  };
+  image: string;
+  qty: number | null;
+  max_qty_allowed: number;
   gallery: string[];
   category: {
     name: {
@@ -10,19 +16,34 @@ export interface Product {
     };
     id: number;
     image: string;
+    slug: string;
   };
-  id: number;
-  price: string;
   slug: string;
+  price: string;
   sale: boolean;
   discount: number | null;
-  description: {
+  options: PRODUCT_OPTION[];
+  prep_time: string;
+  allow_upload: boolean;
+  allow_side_notes: boolean;
+}
+export type PRODUCT_OPTION = {
+  id: number;
+  select_type: "single" | "multiple";
+  max_picks: number | undefined;
+  name: {
     [key: string]: string;
   };
-}
-export type ADDON = {
+  required: boolean;
+  values: OPTION_VALUE[];
+};
+
+export type OPTION_VALUE = {
+  id: number;
   name: {
     [key: string]: string;
   };
   price: string;
+  qty: number | null;
+  sku: string;
 };

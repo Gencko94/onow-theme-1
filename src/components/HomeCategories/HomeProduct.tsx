@@ -1,7 +1,11 @@
-import { useTranslation } from 'react-i18next';
-import { Link } from 'react-router-dom';
-import styled from 'styled-components';
-import { Product } from '../../interfaces/product';
+import { useTranslation } from "react-i18next";
+import { IoMdTime } from "react-icons/io";
+import { Link } from "react-router-dom";
+import styled from "styled-components";
+import { Product } from "../../interfaces/product";
+import Flex from "../reusables/Flex";
+import Heading from "../reusables/Heading";
+import Paragraph from "../reusables/Paragraph";
 
 interface IProps {
   product: Product;
@@ -17,28 +21,68 @@ const HomeProduct = ({ product }: IProps) => {
       <ImageContainer to={`/products/${product.id}`}>
         {product.sale && (
           <DiscountIcon>
-            <DiscountText>
-              {product.discount}% {t('off')}
-            </DiscountText>
+            <Flex items="center">
+              <Paragraph color="textPrimaryContrast" fontSize="0.7rem">
+                {t("off")}
+              </Paragraph>
+              <Paragraph
+                color="textPrimaryContrast"
+                fontSize="0.7rem"
+                margin="0 0.25rem"
+              >
+                %{product.discount}
+              </Paragraph>
+            </Flex>
           </DiscountIcon>
         )}
-        <Image src={product.image} alt={product.name[language]} />
+        {/* <PrepTime>
+          <Flex items="center">
+            <IoMdTime size={18} />
+            <Paragraph
+              margin="0 0.25rem"
+              color="textPrimaryContrast"
+              fontSize="0.7rem"
+            >
+              00:20
+            </Paragraph>
+          </Flex>
+        </PrepTime> */}
+        <img src={product.image} alt={product.name[language]} />
       </ImageContainer>
-      <Content>
-        <ProductName>{product.name[language]}</ProductName>
-
-        <Description>{product.description?.[language]}</Description>
-        <PriceContainer>
-          <Price>
-            {product.price} {t('kd')}
-          </Price>
-          {product.sale && (
-            <DiscountPrice>
-              {product.price} {t('kd')}
-            </DiscountPrice>
-          )}
-        </PriceContainer>
-      </Content>
+      <div className="details">
+        <Heading tag="h6">{product.name[language]}</Heading>
+        <PrepTime>
+          <Flex items="center" justify="flex-start">
+            <IoMdTime size={17} />
+            <Paragraph margin="0 0.15rem" fontSize="0.9rem">
+              00:20
+            </Paragraph>
+          </Flex>
+        </PrepTime>
+        <Paragraph color="textSecondary" fontSize="0.8rem" margin="0.25rem 0">
+          {product.description![language]}
+        </Paragraph>
+        {product.sale ? (
+          <Flex>
+            <Heading tag="h5" color="green" weight="bold">
+              {product.price} {t("kd")}
+            </Heading>
+            <Heading
+              tag="h6"
+              color="textSecondary"
+              decoration="line-through"
+              weight="bold"
+              margin="0 0.5rem"
+            >
+              {product.price} {t("kd")}
+            </Heading>
+          </Flex>
+        ) : (
+          <Heading tag="h5" color="green" weight="bold">
+            {product.price} {t("kd")}
+          </Heading>
+        )}
+      </div>
     </Container>
   );
 };
@@ -47,7 +91,14 @@ export default HomeProduct;
 
 const Container = styled.div`
   &:hover {
-    box-shadow: ${props => props.theme.shadow};
+    /* box-shadow: ${(props) => props.theme.shadow}; */
+  }
+  background-color: ${(props) => props.theme.accent1};
+  border: ${(props) => props.theme.border};
+  border-radius: 6px;
+  overflow: hidden;
+  .details {
+    padding: 0.5rem;
   }
 `;
 const ImageContainer = styled(Link)`
@@ -55,85 +106,27 @@ const ImageContainer = styled(Link)`
   position: relative;
   overflow: hidden;
   height: 175px;
-  border-radius: 6px;
   background: #fff;
-`;
-const Image = styled.img`
-  object-fit: contain;
-  object-position: center;
-  height: 100%;
-  width: 100%;
-`;
-const Content = styled.div`
-  display: block;
-  color: ${props => props.theme.headingColor};
-  /* background: ${props => props.theme.overlayColor}; */
-  padding: 0.25rem;
-  /* height: 56px; */
-  font-size: 1.1rem;
-  font-weight: ${props => props.theme.font.semibold};
-  /* display: flex; */
-  /* justify-content: center; */
-  /* align-items: center; */
-`;
-const ProductName = styled.p(
-  ({ theme: { breakpoints, font } }) => `
-  font-weight:${font.regular};
-  font-size:1.1rem;
-  @media ${breakpoints.md}{
-    font-size:1.1rem;
+  img {
+    object-fit: contain;
+    object-position: center;
+    height: 100%;
+    width: 100%;
   }
-  `
-);
-const Price = styled.p`
-  /* text-align: center; */
-  font-size: 1.2rem;
-  font-weight: ${props => props.theme.font.semibold};
-  /* margin-bottom: 0.25rem; */
-  /* color: ${props => props.theme.subHeading}; */
 `;
-const DiscountPrice = styled.p(
-  ({ theme: { breakpoints, font, subHeading } }) => `
-  text-decoration:line-through;
-  color:#838383;
-  font-size:1rem;
-  @media ${breakpoints.md}{
-    font-size:1rem;
-  }
-  `
-);
-const Description = styled.p(
-  ({ theme: { breakpoints, font, subHeading } }) => `
-  color:${subHeading};
-  font-size:0.7rem;
-  font-weight:${font.regular};
-  display: -webkit-box;
-  -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical;
-  margin: 0.25rem 0;
-  overflow: hidden;
-  @media ${breakpoints.md}{
-    font-size:0.8rem;
-  }
-  `
-);
+
 const DiscountIcon = styled.div`
   border-radius: 50px;
   padding: 0.25rem 0.5rem;
 
-  background-color: #b72b2b;
-  color: #fff;
+  background-color: ${(props) => props.theme.green};
+
   position: absolute;
   top: 5px;
   left: 5px;
 `;
-const DiscountText = styled.p`
-  font-size: 0.7rem;
-`;
 
-const PriceContainer = styled.div`
-  display: flex;
-
-  align-items: center;
-  justify-content: space-between;
+const PrepTime = styled.div`
+  color: ${(props) => props.theme.yellow};
+  margin: 0.25rem 0;
 `;

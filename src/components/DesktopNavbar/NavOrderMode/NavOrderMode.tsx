@@ -1,18 +1,18 @@
-import { AnimatePresence, m } from 'framer-motion';
-import { useContext, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import { FiChevronDown } from 'react-icons/fi';
-import { Link } from 'react-router-dom';
-import styled from 'styled-components';
-import { ApplicationProvider } from '../../../contexts/ApplicationContext';
-import { ThemeContext } from '../../../contexts/ThemeContext';
+import { AnimatePresence, m } from "framer-motion";
+import { useContext, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { FiChevronDown } from "react-icons/fi";
+import { Link } from "react-router-dom";
+import styled from "styled-components";
+import { ApplicationProvider } from "../../../contexts/ApplicationContext";
+import { OrderProvider } from "../../../contexts/OrderContext";
+import { ThemeContext } from "../../../contexts/ThemeContext";
 
 const NavOrderMode = () => {
   const { t, i18n } = useTranslation();
   const { mode } = useContext(ThemeContext);
-  const { globalOrderMode, deliveryAddress, pickupBranch } = useContext(
-    ApplicationProvider
-  );
+  const { globalOrderMode, deliveryAddress, pickupBranch } =
+    useContext(OrderProvider);
   const [orderModeOpen, setOrderModeOpen] = useState(false);
   return (
     <>
@@ -22,7 +22,7 @@ const NavOrderMode = () => {
           onMouseEnter={() => setOrderModeOpen(true)}
           onMouseLeave={() => setOrderModeOpen(false)}
         >
-          <IconText>{t('select-order-mode')}</IconText>
+          <IconText>{t("select-order-mode")}</IconText>
           <Icon>
             <FiChevronDown size={20} />
           </Icon>
@@ -34,8 +34,8 @@ const NavOrderMode = () => {
                 exit={{ opacity: 0 }}
                 mode={mode}
               >
-                <MenuItem to="/mode/delivery">{t('delivery')}</MenuItem>
-                <MenuItem to="/mode/pickup">{t('pickup')}</MenuItem>
+                <MenuItem to="/mode/delivery">{t("delivery")}</MenuItem>
+                <MenuItem to="/mode/pickup">{t("pickup")}</MenuItem>
               </Menu>
             )}
           </AnimatePresence>
@@ -47,14 +47,14 @@ const NavOrderMode = () => {
           onMouseEnter={() => setOrderModeOpen(true)}
           onMouseLeave={() => setOrderModeOpen(false)}
         >
-          {globalOrderMode === 'delivery' && (
+          {globalOrderMode === "delivery" && (
             <IconText>
-              {t('delivery-to')} {deliveryAddress?.area}
+              {t("delivery-to")} {deliveryAddress?.area}
             </IconText>
           )}
-          {globalOrderMode === 'pickup' && (
+          {globalOrderMode === "pickup" && (
             <IconText>
-              {t('pick-up-from')} {pickupBranch?.name[i18n.language]}
+              {t("pick-up-from")} {pickupBranch?.name[i18n.language]}
             </IconText>
           )}
           <Icon>
@@ -68,7 +68,7 @@ const NavOrderMode = () => {
                 exit={{ opacity: 0 }}
                 mode={mode}
               >
-                <MenuItem to="/mode/delivery">{t('change-mode')}</MenuItem>
+                <MenuItem to="/mode/delivery">{t("change-mode")}</MenuItem>
               </Menu>
             )}
           </AnimatePresence>
@@ -84,8 +84,8 @@ const Container = styled.div<{ mode?: string }>`
   align-items: center;
   justify-content: center;
   position: relative;
-  background-color: ${props =>
-    props.mode === 'dark' ? 'rgba(0, 0, 0, 0.2)' : 'none'};
+  background-color: ${(props) =>
+    props.mode === "dark" ? "rgba(0, 0, 0, 0.2)" : "none"};
   border-radius: 15px;
   padding: 0.5rem;
   margin: 0 0.25rem;
@@ -102,22 +102,22 @@ const Menu = styled(m.div)<{ mode?: string }>`
   left: 0;
   z-index: 3;
   overflow: hidden;
-  border: ${props =>
-    props.mode === 'dark' ? `1px solid ${props.theme.btnBorder}` : 'none'};
-  box-shadow: ${props =>
-    props.mode === 'light' ? `${props.theme.shadow}` : 'none'};
-  background-color: ${props => props.theme.overlayColor};
+  border: ${(props) =>
+    props.mode === "dark" ? `1px solid ${props.theme.btnBorder}` : "none"};
+  box-shadow: ${(props) =>
+    props.mode === "light" ? `${props.theme.shadow}` : "none"};
+  background-color: ${(props) => props.theme.overlayColor};
   border-radius: 8px;
 `;
 const MenuItem = styled(Link)`
   display: block;
-  background: ${props => props.theme.overlayColor};
+  background: ${(props) => props.theme.overlayColor};
   text-align: center;
   padding: 0.5rem;
   /* transition: background 75ms ease; */
   &:hover {
-    background: ${props => props.theme.highlightColor};
-    color: ${props => props.theme.highlightColorText};
+    background: ${(props) => props.theme.highlightColor};
+    color: ${(props) => props.theme.highlightColorText};
   }
 `;
 const Icon = styled.span`
@@ -125,14 +125,14 @@ const Icon = styled.span`
   display: flex;
   align-items: center;
   justify-content: center;
-  color: ${props => props.theme.btnText};
+  color: ${(props) => props.theme.btnText};
 `;
 const IconContainer = styled(Link)<{ mode?: string }>`
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: ${props =>
-    props.mode === 'dark' ? 'rgba(0, 0, 0, 0.2)' : 'none'};
+  background-color: ${(props) =>
+    props.mode === "dark" ? "rgba(0, 0, 0, 0.2)" : "none"};
   border-radius: 15px;
   padding: 0.5rem;
   margin: 0 0.25rem;

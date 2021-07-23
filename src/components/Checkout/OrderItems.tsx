@@ -1,21 +1,21 @@
-import { useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import styled from 'styled-components';
-import { products } from '../../data/products';
-import LazyImage from '../../utils/LazyImage';
+import { useState } from "react";
+import { useTranslation } from "react-i18next";
+import styled from "styled-components";
+import { products } from "../../data/products";
+import LazyImage from "../../utils/LazyImage";
 
 const OrderItems = () => {
-  const { t, i18n } = useTranslation(['checkout']);
+  const { t, i18n } = useTranslation(["checkout"]);
   const [expand, setExpand] = useState(false);
   return (
     <Box expand={expand}>
       <BoxHead>
         <Title>
-          {t('order-items')} ({products.length})
+          {t("order-items")} ({products.length})
         </Title>
       </BoxHead>
       <OrderItemsContainer>
-        {products.map(product => (
+        {products.map((product: any) => (
           <OrderItem key={product.slug}>
             <DetailsContainer>
               <LazyImage
@@ -30,11 +30,11 @@ const OrderItems = () => {
             </DetailsContainer>
             <PricingContainer>
               <SmallContainer>
-                <Paragraph>{t('qty')} : </Paragraph>
+                <Paragraph>{t("qty")} : </Paragraph>
                 <Quantity>2 * {product.price}</Quantity>
               </SmallContainer>
               <SmallContainer>
-                <Paragraph bold>{t('total')} </Paragraph>
+                <Paragraph bold>{t("total")} </Paragraph>
                 <Price> {product.price}</Price>
               </SmallContainer>
             </PricingContainer>
@@ -42,7 +42,7 @@ const OrderItems = () => {
         ))}
       </OrderItemsContainer>
       <ExpandButtonContainer onClick={() => setExpand(!expand)}>
-        {expand ? t('hide') : t('show-all')}
+        {expand ? t("hide") : t("show-all")}
       </ExpandButtonContainer>
     </Box>
   );
@@ -50,12 +50,12 @@ const OrderItems = () => {
 
 export default OrderItems;
 const Box = styled.div<{ expand: boolean }>`
-  background-color: ${props => props.theme.overlayColor};
+  background-color: ${(props) => props.theme.overlayColor};
   border-radius: 12px;
   margin-bottom: 0.5rem;
   border: 1px solid rgba(0, 0, 0, 0.1);
-  max-height: ${props => (props.expand ? '700px' : '265px')};
-  overflow: ${props => (props.expand ? 'auto' : 'hidden')};
+  max-height: ${(props) => (props.expand ? "700px" : "265px")};
+  overflow: ${(props) => (props.expand ? "auto" : "hidden")};
   transition: max-height 300ms;
 `;
 const BoxHead = styled.div`
@@ -63,8 +63,8 @@ const BoxHead = styled.div`
   position: sticky;
   top: 0;
   z-index: 2;
-  background: ${props => props.theme.btnPrimaryLight};
-  color: ${props => props.theme.btnText};
+  background: ${(props) => props.theme.btnPrimaryLight};
+  color: ${(props) => props.theme.btnText};
 `;
 const Title = styled.h5(
   ({ theme: { breakpoints } }) => `
@@ -98,12 +98,12 @@ const Details = styled.div`
 const ProductName = styled.p`
   font-size: 0.8rem;
   margin-bottom: 0.25rem;
-  font-weight: ${props => props.theme.font.xbold};
+  font-weight: ${(props) => props.theme.font.xbold};
 `;
 const SpecialInstructions = styled.p`
-  color: ${props => props.theme.subHeading};
+  color: ${(props) => props.theme.subHeading};
   font-size: 0.8rem;
-  font-weight: ${props => props.theme.font.bold};
+  font-weight: ${(props) => props.theme.font.bold};
 `;
 const PricingContainer = styled.div`
   padding: 0.5em;
@@ -118,18 +118,18 @@ const SmallContainer = styled.div`
 
 const Paragraph = styled.p<{ bold?: boolean }>`
   font-size: 0.9rem;
-  font-weight: ${props =>
+  font-weight: ${(props) =>
     props.bold ? props.theme.font.xbold : props.theme.font.semibold};
 `;
 const Quantity = styled.p`
   margin: 0 0.25rem;
   font-size: 0.8rem;
-  font-weight: ${props => props.theme.font.semibold};
+  font-weight: ${(props) => props.theme.font.semibold};
 `;
 const Price = styled.p`
   margin: 0 0.25rem;
   font-size: 1rem;
-  font-weight: ${props => props.theme.font.xbold};
+  font-weight: ${(props) => props.theme.font.xbold};
 `;
 
 const ExpandButtonContainer = styled.button`

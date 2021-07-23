@@ -1,12 +1,12 @@
 export const lightTheme = {
   accentColor: "#ECECEC", // Inputs
-  bodyColor: "#F5F5F5",
+  bodyColor: "#fff",
   inputColorLight: "#ececec",
   overlayColor: "#FBFBFB",
   headingColor: "#373737",
   subHeading: "#696969",
   textColor: "rgba(15,15,15,.7)",
-  shadow: "0px 0px 7px 0px rgb(213,213,213)",
+  shadow: "0px 4px 7px 2px rgb(213,213,213)",
   highlightColor: "#b11e29",
   highlightColorText: "#fff",
   btnPrimaryLight: "#b11e29",
@@ -23,6 +23,13 @@ export const lightTheme = {
   textPrimaryContrast: "#fff",
   textSecondary: "#737373",
   textSecondaryContrast: "#fbfbfb",
+  // New Accents
+  accent1: "#fafafa",
+  // accent2: "#eaeaea",
+  accent2: "#f1f1f1",
+  // accent3: "#999",
+  accent3: "#eaeaea",
+  blue: "#2e87fc",
 };
 
 export const darkTheme = {
@@ -30,7 +37,7 @@ export const darkTheme = {
   accentColor: "#5B5B5B",
   inputColorLight: "#505050",
   btnBorder: "1px solid #FFF",
-  bodyColor: "#3B3B3B",
+  bodyColor: "#fff",
   overlayColor:
     "linear-gradient(128deg,rgba(102, 102, 102, 1) 0%,rgba(91, 91, 91, 1) 100%)",
   headingColor: "#FFF",
@@ -52,4 +59,9 @@ export const darkTheme = {
   textPrimaryContrast: "#fff",
   textSecondary: "#ececec",
   textSecondaryContrast: "#fbfbfb",
+  // New Accents
+  accent1: "#111",
+  accent2: "#333",
+  accent3: "#444",
+  blue: "#2e87fc",
 };

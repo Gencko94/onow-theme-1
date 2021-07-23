@@ -1,23 +1,23 @@
-import styled from 'styled-components';
-import { useContext, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import { BsCheckCircle } from 'react-icons/bs';
-import { getBranches } from '../../../utils/queries';
-import { useQuery } from 'react-query';
-import { ApplicationProvider } from '../../../contexts/ApplicationContext';
-import { Branch } from '../../../interfaces/branch';
-import { useHistory, useLocation } from 'react-router';
+import styled from "styled-components";
+import { useContext, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { BsCheckCircle } from "react-icons/bs";
+import { getBranches } from "../../../utils/queries";
+import { useQuery } from "react-query";
+import { ApplicationProvider } from "../../../contexts/ApplicationContext";
+import { Branch } from "../../../interfaces/branch";
+import { useHistory, useLocation } from "react-router";
+import { OrderProvider } from "../../../contexts/OrderContext";
 
 const PickupMode = () => {
   const { t, i18n } = useTranslation();
   const location = useLocation<string>();
   const history = useHistory();
-  const { data: branches } = useQuery('branches', getBranches);
-  const { handlePickupBranchChange, handleGlobalOrderModeChange } = useContext(
-    ApplicationProvider
-  );
+  const { data: branches } = useQuery("branches", getBranches);
+  const { handlePickupBranchChange, handleGlobalOrderModeChange } =
+    useContext(OrderProvider);
   const handleSelectPickupBranch = (branch: Branch) => {
-    handleGlobalOrderModeChange?.('pickup');
+    handleGlobalOrderModeChange?.("pickup");
     handlePickupBranchChange?.(branch);
     if (location.state) {
       history.replace(location.state);
@@ -27,9 +27,9 @@ const PickupMode = () => {
   };
   return (
     <Container>
-      <Title>{t('select-pickup-branch')}</Title>
+      <Title>{t("select-pickup-branch")}</Title>
       <BranchesContainer>
-        {branches?.map(branch => (
+        {branches?.map((branch) => (
           <BranchItem
             key={branch.id}
             onClick={() => handleSelectPickupBranch(branch)}
@@ -45,7 +45,7 @@ const PickupMode = () => {
                 <BranchName>{branch.name[i18n.language]}</BranchName>
                 {branch.isMain && (
                   <MainBranchContainer>
-                    <MainBranch>{t('main-branch')}</MainBranch>
+                    <MainBranch>{t("main-branch")}</MainBranch>
                     <Icon>
                       <BsCheckCircle size={20} />
                     </Icon>
@@ -162,7 +162,7 @@ const Icon = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  color: ${props => props.theme.green};
+  color: ${(props) => props.theme.green};
 `;
 const Directions = styled.p(
   ({ theme: { breakpoints, subHeading, font } }) => `

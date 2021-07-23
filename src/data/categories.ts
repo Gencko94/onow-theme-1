@@ -1,6 +1,6 @@
 import { Category } from "../interfaces/categories";
 
-export const categories: Category[] = [
+export const categories = [
   {
     id: 1,
     image: "/images/cheese.jpg",
@@ -8,188 +8,496 @@ export const categories: Category[] = [
       ar: "تشيز برغر",
       en: "Cheese Burgers",
     },
-    slug: "cheese-burgers",
     products: [
       {
         id: 1,
-        sale: false,
-        discount: 1,
-        gallery: [
-          "/images/blackburger/jpg",
-          "/images/burger.jpg",
-          "/images/icecream.jpg",
-          "/images/combo.jpg",
-        ],
-        image: "/images/blackburger.jpg",
+        image: "/images/cheese.jpg",
         name: {
+          en: "Cheese Burger",
           ar: "تشيز برغر",
-          en: "Cheese Burgers",
         },
-        price: "3.000",
-        category: {
-          id: 1,
-          image: "/images/cheese.jpg",
-          name: {
-            ar: "تشيز برغر",
-            en: "Cheese Burgers",
-          },
-        },
-        slug: "black-bun",
+        price: "2.000",
+        sale: false,
+        discount: null,
         description: {
-          en: "1 SPICY BUFFALO MAPLE DONUT - 1 ORIGINAL SLIDER - 1 SIDE CHICKS - 1 FRIES",
-          ar: "بلابلا",
+          en: "Angus Beef Patty - Chopped Jalapenos - Beef Bacon Bits - American Cheddar Cheese - Frizzled Onions",
+          ar: "قطعتين من لحمة الأنجوس - جبنة الشيدر الأمريكية - بصل مقطع - كاتشب - ماسترد - بيكلز",
         },
       },
       {
-        id: 1,
-        sale: false,
-        discount: 1,
-        gallery: [
-          "/images/blackburger/jpg",
-          "/images/burger.jpg",
-          "/images/icecream.jpg",
-          "/images/combo.jpg",
-        ],
-        image: "/images/meal.jpg",
-        name: {
-          ar: "تشيز برغر",
-          en: "Cheese Burgers",
-        },
-        price: "5.000",
-        slug: "big-daddy",
-        category: {
-          id: 1,
-          image: "/images/cheese.jpg",
-          name: {
-            ar: "تشيز برغر",
-            en: "Cheese Burgers",
-          },
-        },
-
-        description: {
-          en: "1 SPICY BUFFALO MAPLE DONUT - 1 ORIGINAL SLIDER - 1 SIDE CHICKS - 1 FRIES",
-          ar: "بلابلا",
-        },
-      },
-      {
-        id: 1,
-        sale: false,
-        gallery: [
-          "/images/blackburger/jpg",
-          "/images/burger.jpg",
-          "/images/icecream.jpg",
-          "/images/combo.jpg",
-        ],
-        discount: 1,
-        image: "/images/combo.jpg",
-        name: {
-          ar: "تشيز برغر",
-          en: "Cheese Burgers",
-        },
-        price: "7.000",
-        slug: "combo-meal",
-        category: {
-          id: 1,
-          image: "/images/cheese.jpg",
-          name: {
-            ar: "تشيز برغر",
-            en: "Cheese Burgers",
-          },
-        },
-        description: {
-          en: "1 SPICY BUFFALO MAPLE DONUT - 1 ORIGINAL SLIDER - 1 SIDE CHICKS - 1 FRIES",
-          ar: "بلابلا",
-        },
-      },
-      {
-        id: 1,
-        sale: false,
-        discount: 1,
+        id: 2,
         image: "/images/burger.jpg",
         name: {
-          ar: "تشيز برغر",
-          en: "Cheese Burgers",
+          en: "Big Mac Burger",
+          ar: "برغر بيكغ ماك",
         },
-        gallery: [
-          "/images/blackburger/jpg",
-          "/images/burger.jpg",
-          "/images/icecream.jpg",
-          "/images/combo.jpg",
-        ],
         price: "2.000",
-        slug: "s-burger",
-        category: {
-          id: 1,
-          image: "/images/cheese.jpg",
-          name: {
-            ar: "تشيز برغر",
-            en: "Cheese Burgers",
-          },
-        },
+        sale: false,
+        discount: null,
         description: {
-          en: "1 SPICY BUFFALO MAPLE DONUT - 1 ORIGINAL SLIDER - 1 SIDE CHICKS - 1 FRIES",
-          ar: "بلابلا",
+          en: "Angus Beef Patty - Chopped Jalapenos - Beef Bacon Bits - American Cheddar Cheese - Frizzled Onions",
+          ar: "لحم الأنجوس - صلصة الأوريجينال الخاصة - جبنة امريكان - بيكلز - ريليش - خس - بصل  - طماطم",
         },
       },
       {
-        id: 1,
-        gallery: [
-          "/images/blackburger/jpg",
-          "/images/burger.jpg",
-          "/images/icecream.jpg",
-          "/images/combo.jpg",
-        ],
-        sale: false,
-        discount: 1,
-        category: {
-          id: 1,
-          image: "/images/cheese.jpg",
-          name: {
-            ar: "تشيز برغر",
-            en: "Cheese Burgers",
-          },
-        },
-        image: "/images/icecream.jpg",
+        id: 3,
+        image: "/images/meal.jpg",
         name: {
-          ar: "تشيز برغر",
-          en: "Cheese Burgers",
+          en: "Big Daddy Rockar Meal",
+          ar: "بيغ دادي ميل",
         },
-        price: "2.000",
-        slug: "greek-cream",
+        price: "5.000",
+        sale: true,
+        discount: 18,
         description: {
-          en: "1 SPICY BUFFALO MAPLE DONUT - 1 ORIGINAL SLIDER - 1 SIDE CHICKS - 1 FRIES",
-          ar: "بلابلا",
+          en: "Angus Beef Patty - Chopped Jalapenos - Beef Bacon Bits - American Cheddar Cheese - Frizzled Onions",
+          ar: "قطعتين من لحمة الأنجوس - جبنة الشيدر الأمريكية - بصل مقطع - كاتشب - ماسترد - بيكلز",
         },
       },
       {
-        id: 1,
-        sale: false,
-        category: {
-          id: 1,
-          image: "/images/cheese.jpg",
-          name: {
-            ar: "تشيز برغر",
-            en: "Cheese Burgers",
-          },
-        },
-        discount: 1,
-        image: "/images/wings.jpg",
+        id: 4,
+        image: "/images/classic-cheese.jpg",
         name: {
-          ar: "تشيز برغر",
-          en: "Cheese Burgers",
+          en: "Classic Cheese Burger",
+          ar: "تشيز برغر كلاسيك",
         },
-        price: "4.000",
-        slug: "spicy-wings",
+        price: "3.750",
+        sale: true,
+        discount: 18,
         description: {
-          en: "1 SPICY BUFFALO MAPLE DONUT - 1 ORIGINAL SLIDER - 1 SIDE CHICKS - 1 FRIES",
-          ar: "بلابلا",
+          en: "Angus Beef Patty - Chopped Jalapenos - Beef Bacon Bits - American Cheddar Cheese - Frizzled Onions",
+          ar: "قطعتين من لحمة الأنجوس - جبنة الشيدر الأمريكية - بصل مقطع - كاتشب - ماسترد - بيكلز",
         },
-        gallery: [
-          "/images/blackburger/jpg",
-          "/images/burger.jpg",
-          "/images/icecream.jpg",
-          "/images/combo.jpg",
-        ],
+      },
+      {
+        id: 5,
+        image: "/images/mushroom.jpg",
+        name: {
+          en: "Mushroom Burger",
+          ar: "بيف برغر بالفطر",
+        },
+        price: "5.000",
+        sale: false,
+        discount: null,
+        description: {
+          en: "Angus Beef Patty - Chopped Jalapenos - Beef Bacon Bits - American Cheddar Cheese - Frizzled Onions",
+          ar: "قطعتين من لحمة الأنجوس - جبنة الشيدر الأمريكية - بصل مقطع - كاتشب - ماسترد - بيكلز",
+        },
+      },
+      {
+        id: 6,
+        image: "/images/mushroom-cheese.jpg",
+        name: {
+          en: "Mushroom Cheese Burger",
+          ar: "تشيز برغر بالفطر",
+        },
+        price: "2.900",
+        sale: false,
+        discount: null,
+        description: {
+          en: "Angus Beef Patty - Chopped Jalapenos - Beef Bacon Bits - American Cheddar Cheese - Frizzled Onions",
+          ar: "لحم الأنجوس - صلصة الأوريجينال الخاصة - جبنة امريكان - بيكلز - ريليش - خس - بصل  - طماطم",
+        },
+      },
+    ],
+  },
+  {
+    id: 2,
+    image: "/images/steak.jpg",
+    name: {
+      ar: "برغر بقري",
+      en: "Beef Burgers",
+    },
+    products: [
+      {
+        id: 1,
+        image: "/images/cheese.jpg",
+        name: {
+          en: "Cheese Burger",
+          ar: "تشيز برغر",
+        },
+        price: "2.000",
+        sale: false,
+        discount: null,
+        description: {
+          en: "Angus Beef Patty - Chopped Jalapenos - Beef Bacon Bits - American Cheddar Cheese - Frizzled Onions",
+          ar: "قطعتين من لحمة الأنجوس - جبنة الشيدر الأمريكية - بصل مقطع - كاتشب - ماسترد - بيكلز",
+        },
+      },
+      {
+        id: 2,
+        image: "/images/burger.jpg",
+        name: {
+          en: "Big Mac Burger",
+          ar: "برغر بيكغ ماك",
+        },
+        price: "2.000",
+        sale: false,
+        discount: null,
+        description: {
+          en: "Angus Beef Patty - Chopped Jalapenos - Beef Bacon Bits - American Cheddar Cheese - Frizzled Onions",
+          ar: "قطعتين من لحمة الأنجوس - جبنة الشيدر الأمريكية - بصل مقطع - كاتشب - ماسترد - بيكلز",
+        },
+      },
+      {
+        id: 3,
+        image: "/images/meal.jpg",
+        name: {
+          en: "Big Daddy Rockar Meal",
+          ar: "بيغ دادي ميل",
+        },
+        price: "5.000",
+        sale: true,
+        discount: 18,
+        description: {
+          en: "Angus Beef Patty - Chopped Jalapenos - Beef Bacon Bits - American Cheddar Cheese - Frizzled Onions",
+          ar: "قطعتين من لحمة الأنجوس - جبنة الشيدر الأمريكية - بصل مقطع - كاتشب - ماسترد - بيكلز",
+        },
+      },
+      {
+        id: 4,
+        image: "/images/classic-cheese.jpg",
+        name: {
+          en: "Classic Cheese Burger",
+          ar: "تشيز برغر كلاسيك",
+        },
+        price: "3.750",
+        sale: true,
+        discount: 18,
+        description: {
+          en: "Angus Beef Patty - Chopped Jalapenos - Beef Bacon Bits - American Cheddar Cheese - Frizzled Onions",
+          ar: "قطعتين من لحمة الأنجوس - جبنة الشيدر الأمريكية - بصل مقطع - كاتشب - ماسترد - بيكلز",
+        },
+      },
+      {
+        id: 5,
+        image: "/images/mushroom.jpg",
+        name: {
+          en: "Mushroom Burger",
+          ar: "بيف برغر بالفطر",
+        },
+        price: "5.000",
+        sale: false,
+        discount: null,
+        description: {
+          en: "Angus Beef Patty - Chopped Jalapenos - Beef Bacon Bits - American Cheddar Cheese - Frizzled Onions",
+          ar: "قطعتين من لحمة الأنجوس - جبنة الشيدر الأمريكية - بصل مقطع - كاتشب - ماسترد - بيكلز",
+        },
+      },
+      {
+        id: 6,
+        image: "/images/mushroom-cheese.jpg",
+        name: {
+          en: "Mushroom Cheese Burger",
+          ar: "تشيز برغر بالفطر",
+        },
+        price: "2.900",
+        sale: false,
+        discount: null,
+        description: {
+          en: "Angus Beef Patty - Chopped Jalapenos - Beef Bacon Bits - American Cheddar Cheese - Frizzled Onions",
+          ar: "قطعتين من لحمة الأنجوس - جبنة الشيدر الأمريكية - بصل مقطع - كاتشب - ماسترد - بيكلز",
+        },
+      },
+    ],
+  },
+  {
+    id: 3,
+    image: "/images/steak.jpg",
+    name: {
+      ar: "اوريجنال سلايدرز",
+      en: "Original Sliders",
+    },
+    products: [
+      {
+        id: 1,
+        image: "/images/cheese.jpg",
+        name: {
+          en: "Cheese Burger",
+          ar: "تشيز برغر",
+        },
+        price: "2.000",
+        sale: false,
+        discount: null,
+        description: {
+          en: "Angus Beef Patty - Chopped Jalapenos - Beef Bacon Bits - American Cheddar Cheese - Frizzled Onions",
+          ar: "قطعتين من لحمة الأنجوس - جبنة الشيدر الأمريكية - بصل مقطع - كاتشب - ماسترد - بيكلز",
+        },
+      },
+      {
+        id: 2,
+        image: "/images/burger.jpg",
+        name: {
+          en: "Big Mac Burger",
+          ar: "برغر بيكغ ماك",
+        },
+        price: "2.000",
+        sale: false,
+        discount: null,
+        description: {
+          en: "Angus Beef Patty - Chopped Jalapenos - Beef Bacon Bits - American Cheddar Cheese - Frizzled Onions",
+          ar: "قطعتين من لحمة الأنجوس - جبنة الشيدر الأمريكية - بصل مقطع - كاتشب - ماسترد - بيكلز",
+        },
+      },
+      {
+        id: 3,
+        image: "/images/meal.jpg",
+        name: {
+          en: "Big Daddy Rockar Meal",
+          ar: "بيغ دادي ميل",
+        },
+        price: "5.000",
+        sale: true,
+        discount: 18,
+        description: {
+          en: "Angus Beef Patty - Chopped Jalapenos - Beef Bacon Bits - American Cheddar Cheese - Frizzled Onions",
+          ar: "قطعتين من لحمة الأنجوس - جبنة الشيدر الأمريكية - بصل مقطع - كاتشب - ماسترد - بيكلز",
+        },
+      },
+      {
+        id: 4,
+        image: "/images/classic-cheese.jpg",
+        name: {
+          en: "Classic Cheese Burger",
+          ar: "تشيز برغر كلاسيك",
+        },
+        price: "3.750",
+        sale: true,
+        discount: 18,
+        description: {
+          en: "Angus Beef Patty - Chopped Jalapenos - Beef Bacon Bits - American Cheddar Cheese - Frizzled Onions",
+          ar: "قطعتين من لحمة الأنجوس - جبنة الشيدر الأمريكية - بصل مقطع - كاتشب - ماسترد - بيكلز",
+        },
+      },
+      {
+        id: 5,
+        image: "/images/mushroom.jpg",
+        name: {
+          en: "Mushroom Burger",
+          ar: "بيف برغر بالفطر",
+        },
+        price: "5.000",
+        sale: false,
+        discount: null,
+        description: {
+          en: "Angus Beef Patty - Chopped Jalapenos - Beef Bacon Bits - American Cheddar Cheese - Frizzled Onions",
+          ar: "قطعتين من لحمة الأنجوس - جبنة الشيدر الأمريكية - بصل مقطع - كاتشب - ماسترد - بيكلز",
+        },
+      },
+      {
+        id: 6,
+        image: "/images/mushroom-cheese.jpg",
+        name: {
+          en: "Mushroom Cheese Burger",
+          ar: "تشيز برغر بالفطر",
+        },
+        price: "2.900",
+        sale: false,
+        discount: null,
+        description: {
+          en: "Angus Beef Patty - Chopped Jalapenos - Beef Bacon Bits - American Cheddar Cheese - Frizzled Onions",
+          ar: "قطعتين من لحمة الأنجوس - جبنة الشيدر الأمريكية - بصل مقطع - كاتشب - ماسترد - بيكلز",
+        },
+      },
+    ],
+  },
+  {
+    id: 3,
+    image: "/images/steak.jpg",
+    name: {
+      ar: "اوريجنال سلايدرز",
+      en: "Original Sliders",
+    },
+    products: [
+      {
+        id: 1,
+        image: "/images/cheese.jpg",
+        name: {
+          en: "Cheese Burger",
+          ar: "تشيز برغر",
+        },
+        price: "2.000",
+        sale: false,
+        discount: null,
+        description: {
+          en: "Angus Beef Patty - Chopped Jalapenos - Beef Bacon Bits - American Cheddar Cheese - Frizzled Onions",
+          ar: "قطعتين من لحمة الأنجوس - جبنة الشيدر الأمريكية - بصل مقطع - كاتشب - ماسترد - بيكلز",
+        },
+      },
+      {
+        id: 2,
+        image: "/images/burger.jpg",
+        name: {
+          en: "Big Mac Burger",
+          ar: "برغر بيكغ ماك",
+        },
+        price: "2.000",
+        sale: false,
+        discount: null,
+        description: {
+          en: "Angus Beef Patty - Chopped Jalapenos - Beef Bacon Bits - American Cheddar Cheese - Frizzled Onions",
+          ar: "قطعتين من لحمة الأنجوس - جبنة الشيدر الأمريكية - بصل مقطع - كاتشب - ماسترد - بيكلز",
+        },
+      },
+      {
+        id: 3,
+        image: "/images/meal.jpg",
+        name: {
+          en: "Big Daddy Rockar Meal",
+          ar: "بيغ دادي ميل",
+        },
+        price: "5.000",
+        sale: true,
+        discount: 18,
+        description: {
+          en: "Angus Beef Patty - Chopped Jalapenos - Beef Bacon Bits - American Cheddar Cheese - Frizzled Onions",
+          ar: "قطعتين من لحمة الأنجوس - جبنة الشيدر الأمريكية - بصل مقطع - كاتشب - ماسترد - بيكلز",
+        },
+      },
+      {
+        id: 4,
+        image: "/images/classic-cheese.jpg",
+        name: {
+          en: "Classic Cheese Burger",
+          ar: "تشيز برغر كلاسيك",
+        },
+        price: "3.750",
+        sale: true,
+        discount: 18,
+        description: {
+          en: "Angus Beef Patty - Chopped Jalapenos - Beef Bacon Bits - American Cheddar Cheese - Frizzled Onions",
+          ar: "قطعتين من لحمة الأنجوس - جبنة الشيدر الأمريكية - بصل مقطع - كاتشب - ماسترد - بيكلز",
+        },
+      },
+      {
+        id: 5,
+        image: "/images/mushroom.jpg",
+        name: {
+          en: "Mushroom Burger",
+          ar: "بيف برغر بالفطر",
+        },
+        price: "5.000",
+        sale: false,
+        discount: null,
+        description: {
+          en: "Angus Beef Patty - Chopped Jalapenos - Beef Bacon Bits - American Cheddar Cheese - Frizzled Onions",
+          ar: "قطعتين من لحمة الأنجوس - جبنة الشيدر الأمريكية - بصل مقطع - كاتشب - ماسترد - بيكلز",
+        },
+      },
+      {
+        id: 6,
+        image: "/images/mushroom-cheese.jpg",
+        name: {
+          en: "Mushroom Cheese Burger",
+          ar: "تشيز برغر بالفطر",
+        },
+        price: "2.900",
+        sale: false,
+        discount: null,
+        description: {
+          en: "Angus Beef Patty - Chopped Jalapenos - Beef Bacon Bits - American Cheddar Cheese - Frizzled Onions",
+          ar: "قطعتين من لحمة الأنجوس - جبنة الشيدر الأمريكية - بصل مقطع - كاتشب - ماسترد - بيكلز",
+        },
+      },
+    ],
+  },
+  {
+    id: 3,
+    image: "/images/steak.jpg",
+    name: {
+      ar: "اوريجنال سلايدرز",
+      en: "Original Sliders",
+    },
+    products: [
+      {
+        id: 1,
+        image: "/images/cheese.jpg",
+        name: {
+          en: "Cheese Burger",
+          ar: "تشيز برغر",
+        },
+        price: "2.000",
+        sale: false,
+        discount: null,
+        description: {
+          en: "Angus Beef Patty - Chopped Jalapenos - Beef Bacon Bits - American Cheddar Cheese - Frizzled Onions",
+          ar: "قطعتين من لحمة الأنجوس - جبنة الشيدر الأمريكية - بصل مقطع - كاتشب - ماسترد - بيكلز",
+        },
+      },
+      {
+        id: 2,
+        image: "/images/burger.jpg",
+        name: {
+          en: "Big Mac Burger",
+          ar: "برغر بيكغ ماك",
+        },
+        price: "2.000",
+        sale: false,
+        discount: null,
+        description: {
+          en: "Angus Beef Patty - Chopped Jalapenos - Beef Bacon Bits - American Cheddar Cheese - Frizzled Onions",
+          ar: "قطعتين من لحمة الأنجوس - جبنة الشيدر الأمريكية - بصل مقطع - كاتشب - ماسترد - بيكلز",
+        },
+      },
+      {
+        id: 3,
+        image: "/images/meal.jpg",
+        name: {
+          en: "Big Daddy Rockar Meal",
+          ar: "بيغ دادي ميل",
+        },
+        price: "5.000",
+        sale: true,
+        discount: 18,
+        description: {
+          en: "Angus Beef Patty - Chopped Jalapenos - Beef Bacon Bits - American Cheddar Cheese - Frizzled Onions",
+          ar: "قطعتين من لحمة الأنجوس - جبنة الشيدر الأمريكية - بصل مقطع - كاتشب - ماسترد - بيكلز",
+        },
+      },
+      {
+        id: 4,
+        image: "/images/classic-cheese.jpg",
+        name: {
+          en: "Classic Cheese Burger",
+          ar: "تشيز برغر كلاسيك",
+        },
+        price: "3.750",
+        sale: true,
+        discount: 18,
+        description: {
+          en: "Angus Beef Patty - Chopped Jalapenos - Beef Bacon Bits - American Cheddar Cheese - Frizzled Onions",
+          ar: "قطعتين من لحمة الأنجوس - جبنة الشيدر الأمريكية - بصل مقطع - كاتشب - ماسترد - بيكلز",
+        },
+      },
+      {
+        id: 5,
+        image: "/images/mushroom.jpg",
+        name: {
+          en: "Mushroom Burger",
+          ar: "بيف برغر بالفطر",
+        },
+        price: "5.000",
+        sale: false,
+        discount: null,
+        description: {
+          en: "Angus Beef Patty - Chopped Jalapenos - Beef Bacon Bits - American Cheddar Cheese - Frizzled Onions",
+          ar: "قطعتين من لحمة الأنجوس - جبنة الشيدر الأمريكية - بصل مقطع - كاتشب - ماسترد - بيكلز",
+        },
+      },
+      {
+        id: 6,
+        image: "/images/mushroom-cheese.jpg",
+        name: {
+          en: "Mushroom Cheese Burger",
+          ar: "تشيز برغر بالفطر",
+        },
+        price: "2.900",
+        sale: false,
+        discount: null,
+        description: {
+          en: "Angus Beef Patty - Chopped Jalapenos - Beef Bacon Bits - American Cheddar Cheese - Frizzled Onions",
+          ar: "قطعتين من لحمة الأنجوس - جبنة الشيدر الأمريكية - بصل مقطع - كاتشب - ماسترد - بيكلز",
+        },
       },
     ],
   },

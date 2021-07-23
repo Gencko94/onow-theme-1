@@ -1,18 +1,19 @@
-import styled from 'styled-components';
-import { useTranslation } from 'react-i18next';
-import { useQuery } from 'react-query';
-import { getDeliveryLocationList } from '../../../utils/queries';
-import Select, { GroupTypeBase, Styles } from 'react-select';
-import { DELIVERY_LOCATION_LIST } from '../../../interfaces/branch';
+import styled from "styled-components";
+import { useTranslation } from "react-i18next";
+import { useQuery } from "react-query";
+import { getDeliveryLocationList } from "../../../utils/queries";
+import Select, { GroupTypeBase, Styles } from "react-select";
+import { DELIVERY_LOCATION_LIST } from "../../../interfaces/branch";
 import {
   Dispatch,
   SetStateAction,
   useContext,
   useEffect,
   useMemo,
-} from 'react';
-import { ApplicationProvider } from '../../../contexts/ApplicationContext';
-import { useHistory, useLocation } from 'react-router';
+} from "react";
+import { ApplicationProvider } from "../../../contexts/ApplicationContext";
+import { useHistory, useLocation } from "react-router";
+import { OrderProvider } from "../../../contexts/OrderContext";
 
 interface IProps {
   option: DELIVERY_LOCATION_LIST | null;
@@ -29,14 +30,14 @@ const DeliveryLocationsList = ({
 }: IProps) => {
   const { i18n, t } = useTranslation();
 
-  const { data, isLoading } = useQuery('test', getDeliveryLocationList);
+  const { data, isLoading } = useQuery("test", getDeliveryLocationList);
   const history = useHistory();
   const location = useLocation<string>();
   const {
     handleGlobalOrderModeChange,
 
     handleSetDeliveryAddress,
-  } = useContext(ApplicationProvider);
+  } = useContext(OrderProvider);
   const customStyles = useMemo<
     | Partial<
         Styles<
@@ -64,15 +65,15 @@ const DeliveryLocationsList = ({
     if (!area || !option) {
       return;
     } else {
-      handleGlobalOrderModeChange?.('delivery');
+      handleGlobalOrderModeChange?.("delivery");
       handleSetDeliveryAddress?.({
         area: area.name[i18n.language],
-        street: '',
-        block: '',
+        street: "",
+        block: "",
 
-        additionalDirections: '',
-        building: '',
-        floor: '',
+        additionalDirections: "",
+        building: "",
+        floor: "",
         governorate: option.province.name[i18n.language],
       });
     }
@@ -87,41 +88,41 @@ const DeliveryLocationsList = ({
     <Container>
       <SelectInputsContainer>
         <SelectInputContainer>
-          <Label>{t('select-gov')}</Label>
+          <Label>{t("select-gov")}</Label>
 
           <Select
             styles={customStyles}
             value={option}
-            onChange={value => {
+            onChange={(value) => {
               setOption(value);
               if (value) {
                 setArea(value.areas[0]);
               }
             }}
-            loadingMessage={() => 'Loading'}
+            loadingMessage={() => "Loading"}
             isLoading={isLoading}
             options={data}
-            getOptionLabel={zone => zone.province.name[i18n.language]}
-            getOptionValue={zone => zone.province.name[i18n.language]}
+            getOptionLabel={(zone) => zone.province.name[i18n.language]}
+            getOptionValue={(zone) => zone.province.name[i18n.language]}
           />
         </SelectInputContainer>
         <SelectInputContainer>
-          <Label>{t('select-area')} </Label>
+          <Label>{t("select-area")} </Label>
           <Select
             options={option?.areas}
             isLoading={isLoading}
             value={area}
-            onChange={value => {
+            onChange={(value) => {
               setArea(value);
             }}
-            getOptionLabel={option => option.name[i18n.language]}
-            getOptionValue={option => option.name[i18n.language]}
+            getOptionLabel={(option) => option.name[i18n.language]}
+            getOptionValue={(option) => option.name[i18n.language]}
           />
         </SelectInputContainer>
       </SelectInputsContainer>
       <ConfirmContainer>
         <ConfirmButton disabled={!data} onClick={() => handleSetOrderMode()}>
-          {t('confirm-location')}
+          {t("confirm-location")}
         </ConfirmButton>
       </ConfirmContainer>
     </Container>

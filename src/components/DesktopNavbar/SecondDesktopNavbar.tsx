@@ -1,7 +1,7 @@
-import { m } from 'framer-motion';
-import styled from 'styled-components';
-import LeftSideIcons from './LeftSideIcons';
-import RightSideIcons from './RightSideIcons';
+import { m } from "framer-motion";
+import styled from "styled-components";
+import LeftSideIcons from "./LeftSideIcons";
+import RightSideIcons from "./NavIcons";
 
 const SecondDesktopNavbar = () => {
   return (
@@ -9,7 +9,7 @@ const SecondDesktopNavbar = () => {
       initial={{ y: -100 }}
       animate={{ y: 0 }}
       exit={{ y: -100 }}
-      transition={{ type: 'tween' }}
+      transition={{ type: "tween" }}
     >
       <LeftSideIcons />
       <RightSideIcons />
@@ -19,7 +19,7 @@ const SecondDesktopNavbar = () => {
 
 export default SecondDesktopNavbar;
 const Container = styled(m.header)`
-  font-weight: ${props => props.theme.font.regular};
+  font-weight: ${(props) => props.theme.font.regular};
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -34,5 +34,5 @@ const Container = styled(m.header)`
   z-index: 9;
   transition: all 100ms ease;
 
-  background-color: ${props => props.theme.mainColor};
+  background-color: ${(props) => props.theme.mainColor};
 `;

@@ -14,6 +14,7 @@ interface IProps {
   margin?: string;
   weight?: "light" | "regular" | "semibold" | "bold" | "xbold";
   decoration?: "line-through" | "underline";
+  align?: "center" | "right" | "left";
 }
 
 const Heading: FC<IProps> = ({
@@ -25,6 +26,7 @@ const Heading: FC<IProps> = ({
   margin,
   weight = "regular",
   decoration,
+  align,
 }) => {
   return (
     <Wrapper
@@ -41,6 +43,7 @@ const Heading: FC<IProps> = ({
       mb={mb}
       weight={weight}
       decoration={decoration}
+      align={align}
     >
       {children}
     </Wrapper>
@@ -58,6 +61,7 @@ export const Wrapper = styled.h1<{
   mb?: string;
   weight: "light" | "regular" | "semibold" | "bold" | "xbold";
   decoration?: "line-through" | "underline";
+  align?: "center" | "right" | "left";
 }>(
   ({
     theme: {
@@ -73,6 +77,7 @@ export const Wrapper = styled.h1<{
     mb,
     weight,
     decoration,
+    align,
   }) => `
   color: ${
     color === "textPrimary"
@@ -92,5 +97,6 @@ export const Wrapper = styled.h1<{
   margin-bottom: ${mb ? mb : ""};
   padding:var(--padding,0);
   text-decoration:${decoration};
+  text-align:${align};
   `
 );

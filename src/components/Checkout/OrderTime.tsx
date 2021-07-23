@@ -1,26 +1,26 @@
-import { useContext, useState } from 'react';
-import Calendar from 'react-calendar';
-import { useTranslation } from 'react-i18next';
-import { format } from 'date-fns';
-import { BiRadioCircle, BiRadioCircleMarked } from 'react-icons/bi';
+import { useContext, useState } from "react";
+import Calendar from "react-calendar";
+import { useTranslation } from "react-i18next";
+import { format } from "date-fns";
+import { BiRadioCircle, BiRadioCircleMarked } from "react-icons/bi";
 import {
   FaAngleDoubleLeft,
   FaAngleDoubleRight,
   FaAngleLeft,
   FaAngleRight,
-} from 'react-icons/fa';
-import { FiCalendar } from 'react-icons/fi';
-import styled from 'styled-components';
-import { ApplicationProvider } from '../../contexts/ApplicationContext';
-import { ThemeContext } from '../../contexts/ThemeContext';
-import { AnimatePresence, m } from 'framer-motion';
+} from "react-icons/fa";
+import { FiCalendar } from "react-icons/fi";
+import styled from "styled-components";
+import { ThemeContext } from "../../contexts/ThemeContext";
+import { AnimatePresence, m } from "framer-motion";
+import { OrderProvider } from "../../contexts/OrderContext";
 
 interface IProps {
   title: string;
 }
 
 const OrderTime = ({ title }: IProps) => {
-  const { t, i18n } = useTranslation(['checkout']);
+  const { t, i18n } = useTranslation(["checkout"]);
   const { mode } = useContext(ThemeContext);
   const [date, setDate] = useState<Date | Date[]>(new Date());
   const [calendarOpen, setCalendarOpen] = useState(false);
@@ -30,23 +30,23 @@ const OrderTime = ({ title }: IProps) => {
     orderTimeType,
     handleSetOrderTimeType,
     handleSetOrderTime,
-  } = useContext(ApplicationProvider);
+  } = useContext(OrderProvider);
   return (
     <Container>
       <Title>{t(title)} :</Title>
       <PickerContainer>
         <Option
           type="button"
-          selected={orderTimeType === 'asap'}
+          selected={orderTimeType === "asap"}
           onClick={() => {
-            handleSetOrderTimeType?.('asap');
+            handleSetOrderTimeType?.("asap");
           }}
         >
           <TitleContainer>
-            <OptionTitle>{t('asap')}</OptionTitle>
+            <OptionTitle>{t("asap")}</OptionTitle>
           </TitleContainer>
           <IconContainer>
-            {orderTimeType === 'asap' ? (
+            {orderTimeType === "asap" ? (
               <BiRadioCircleMarked size={25} />
             ) : (
               <BiRadioCircle size={25} />
@@ -56,16 +56,16 @@ const OrderTime = ({ title }: IProps) => {
 
         <Option
           type="button"
-          selected={orderTimeType === 'schedule'}
+          selected={orderTimeType === "schedule"}
           onClick={() => {
-            handleSetOrderTimeType?.('schedule');
+            handleSetOrderTimeType?.("schedule");
           }}
         >
           <TitleContainer>
-            <OptionTitle>{t('schedule')}</OptionTitle>
+            <OptionTitle>{t("schedule")}</OptionTitle>
           </TitleContainer>
           <IconContainer>
-            {orderTimeType === 'schedule' ? (
+            {orderTimeType === "schedule" ? (
               <BiRadioCircleMarked size={25} />
             ) : (
               <BiRadioCircle size={25} />
@@ -73,17 +73,17 @@ const OrderTime = ({ title }: IProps) => {
           </IconContainer>
         </Option>
       </PickerContainer>
-      {orderTimeType === 'asap' && <Subtitle>{t('asap-note')} </Subtitle>}
-      {orderTimeType === 'schedule' && (
+      {orderTimeType === "asap" && <Subtitle>{t("asap-note")} </Subtitle>}
+      {orderTimeType === "schedule" && (
         <>
-          <Title>{t('date-time')} :</Title>
+          <Title>{t("date-time")} :</Title>
           <InputsContainer>
             <InputContainer>
-              <Label>{t('date')}</Label>
+              <Label>{t("date")}</Label>
               <Input>
                 <DateInput
                   readOnly
-                  value={format(date as Date, 'yyyy-MM-dd')}
+                  value={format(date as Date, "yyyy-MM-dd")}
                 />
                 <Icon
                   type="button"
@@ -102,7 +102,7 @@ const OrderTime = ({ title }: IProps) => {
                       >
                         <Calendar
                           className={
-                            mode === 'dark' ? 'calendar-dark' : 'calendar-light'
+                            mode === "dark" ? "calendar-dark" : "calendar-light"
                           }
                           value={date as Date | Date[]}
                           onChange={(date: Date | Date[]) => {
@@ -133,7 +133,7 @@ const OrderTime = ({ title }: IProps) => {
               </Input>
             </InputContainer>
             <InputContainer>
-              <Label>{t('time')}</Label>
+              <Label>{t("time")}</Label>
               <Input>
                 <DateInput />
               </Input>
@@ -151,16 +151,16 @@ const Container = styled.div``;
 
 const Title = styled.p<{ bold?: boolean; center?: boolean }>`
   font-size: 1rem;
-  font-weight: ${props =>
+  font-weight: ${(props) =>
     props.bold ? props.theme.font.bold : props.theme.font.bold};
-  text-align: ${props => props.center && 'center'};
+  text-align: ${(props) => props.center && "center"};
 `;
 const Subtitle = styled.p<{ bold?: boolean; center?: boolean }>`
   font-size: 0.8rem;
-  color: ${props => props.theme.subHeading};
-  font-weight: ${props =>
+  color: ${(props) => props.theme.subHeading};
+  font-weight: ${(props) =>
     props.bold ? props.theme.font.bold : props.theme.font.semibold};
-  text-align: ${props => props.center && 'center'};
+  text-align: ${(props) => props.center && "center"};
 `;
 
 const PickerContainer = styled.div`
@@ -177,17 +177,17 @@ const Option = styled.button<{
   padding: 0.5rem;
   display: flex;
   align-items: center;
-  border: ${props => props.theme.border};
-  background: ${props =>
+  border: ${(props) => props.theme.border};
+  background: ${(props) =>
     props.selected ? props.theme.highlightColor : props.theme.overlayColor};
-  color: ${props =>
+  color: ${(props) =>
     props.selected
-      ? props => props.theme.highlightColorText
+      ? (props) => props.theme.highlightColorText
       : props.theme.headingColor};
   border-radius: 5px;
   font-weight: 500;
   font-size: 0.9rem;
-  box-shadow: ${props => props.theme.shadow};
+  box-shadow: ${(props) => props.theme.shadow};
 `;
 const IconContainer = styled.span`
   margin: 0 0.5rem;
@@ -204,7 +204,7 @@ const TitleContainer = styled.div`
 const OptionTitle = styled.p`
   text-align: center;
   font-size: 0.9rem;
-  font-weight: ${props => props.theme.font.semibold};
+  font-weight: ${(props) => props.theme.font.semibold};
   white-space: nowrap;
 `;
 const InputsContainer = styled.div(
@@ -227,17 +227,17 @@ const Input = styled.div`
   position: relative;
   align-items: center;
   justify-content: space-between;
-  border: ${props => props.theme.border};
-  background: ${props => props.theme.overlayColor};
-  color: ${props => props.theme.headingColor};
+  border: ${(props) => props.theme.border};
+  background: ${(props) => props.theme.overlayColor};
+  color: ${(props) => props.theme.headingColor};
   border-radius: 5px;
   font-weight: 500;
   font-size: 0.9rem;
-  box-shadow: ${props => props.theme.shadow};
+  box-shadow: ${(props) => props.theme.shadow};
 `;
 const DateInput = styled.input`
   width: 100%;
-  color: ${props => props.theme.subHeading};
+  color: ${(props) => props.theme.subHeading};
   display: block;
 `;
 const CalendarContainer = styled(m.div)`
@@ -258,10 +258,10 @@ const Icon = styled.button`
   height: 30px;
   padding: 0.25rem;
   transition: all 75ms ease;
-  color: ${props => props.theme.subHeading};
+  color: ${(props) => props.theme.subHeading};
   &:hover {
     background-color: gray;
-    color: ${props => props.theme.highlightColorText};
+    color: ${(props) => props.theme.highlightColorText};
   }
 `;
 const Backdrop = styled.span`
