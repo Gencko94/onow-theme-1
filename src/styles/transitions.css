@@ -1,32 +1,3 @@
-.drawer_en--enter {
-  transform: translateX(-100%);
-}
-.drawer_en--enter-active {
-  transform: translateX(0);
-  transition: all 300ms;
-}
-.drawer_en--exit {
-  transform: translateX(0);
-}
-.drawer_en--exit-active {
-  transform: translateX(-100%);
-  transition: all 300ms;
-}
-.drawer_ar--enter {
-  transform: translateX(100%);
-}
-.drawer_ar--enter-active {
-  transform: translateX(0);
-  transition: all 300ms;
-}
-.drawer_ar--exit {
-  transform: translateX(0);
-}
-.drawer_ar--exit-active {
-  transform: translateX(100%);
-  transition: all 300ms;
-}
-
 .product-modal-enter {
   opacity: 0.01;
   transform: translateX(100%);
@@ -45,38 +16,7 @@
   transform: translateY(100%);
   transition: all 300ms ease-in-out;
 }
-.modal-enter {
-  opacity: 0.01;
-  /* transform: translateY(100%); */
-}
-.modal-enter-active {
-  opacity: 1;
-  /* transform: translateY(0); */
-  transition: all 200ms ease-in-out;
-}
-.modal-exit {
-  opacity: 1;
-  /* transform: translateY(0); */
-}
-.modal-exit-active {
-  opacity: 0.01;
-  /* transform: translateY(100%); */
-  transition: all 300ms ease-in-out;
-}
-.backdrop-enter {
-  opacity: 0.01;
-}
-.backdrop-enter-active {
-  opacity: 1;
-  transition: opacity 200ms ease-in-out;
-}
-.backdrop-exit {
-  opacity: 1;
-}
-.backdrop-exit-active {
-  opacity: 0.01;
-  transition: opacity 300ms ease-in-out;
-}
+
 .pages-enter {
   opacity: 0;
   transform: translateX(100%);

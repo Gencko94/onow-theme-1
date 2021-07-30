@@ -1,6 +1,7 @@
-import styled from 'styled-components';
-import BackNav from '../components/BackNav/BackNav';
-import Map from '../components/GoogleMap/Map';
+import styled from "styled-components";
+import BackNav from "../components/BackNav/BackNav";
+import Map from "../components/GoogleMap/Map";
+import { up } from "../utils/themes";
 
 const SelectLocation = () => {
   return (
@@ -17,10 +18,10 @@ const Container = styled.div(
   height: calc(100vh - 50px);
   position: relative;
   margin: 0 auto;
-  @media ${breakpoints.md}{
+  ${up(breakpoints.md)}{
     max-width:960px;
   }
-  @media ${breakpoints.lg}{
+  ${up(breakpoints.lg)}{
     max-width:1100px;
   }
   `

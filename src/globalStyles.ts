@@ -1,15 +1,14 @@
 import { createGlobalStyle } from "styled-components";
+import { up } from "./utils/themes";
 
 const GlobalStyle = createGlobalStyle(
   ({
     theme: {
       breakpoints,
-      shadow,
+
       bodyColor,
       textColor,
       borderHovered,
-      fontFamily,
-      accent1,
     },
   }) => `
 
@@ -128,78 +127,10 @@ input:focus, textarea:focus {
   border-color:${borderHovered} !important;
 
 }
-.ReactModal__Overlay {
-  opacity: 0;
-  transition: opacity 200ms ease-in-out;
-  z-index: 19;
-  background-color:rgba(0,0,0,0.4) !important;
-}
 
-.ReactModal__Overlay--after-open {
-  opacity: 1;
-}
 
-.ReactModal__Overlay--before-close {
-  opacity: 0;
-}
-.ReactModal__Content {
-  // transition: transform 200ms ease-in-out;
-  // border-radius: 12px !important;
-  // transform: translateY(100%);
-  // padding: 0 !important;
-  
 
-}
-
-.ReactModal__Content--after-open {
-  // transform: translateY(0);
-}
-.modal {
-  position:fixed;
-  border:none;
-  outline:none;
-  box-shadow:${shadow};
-  font-family: ${fontFamily};
-  z-index:20;
-  
-
-}
-.auth-modal {
-  inset:100px 20px;
-}
-.profile-modal {
-  inset:100px 20px;
-}
-.cart-modal {
-
-  transition:all 150ms ease;
-  animation-name: slidefromBottom;
-  animation-duration:250ms;
-  width:100%;
-  
-  top:50px;
-  
-}
-@keyframes slidefromLeft {
-  from {
-    left: -100%;
-
-  };
-  to {
-    left: 0;
-    
-  }
-}
-@keyframes slidefromBottom {
-  from {
-    bottom: -100%;
-  };
-  to {
-    bottom: 0;
-    
-  }
-}
-@media ${breakpoints.md}{
+${up(breakpoints.md)}{
   h1 {
     font-size:2.25rem;
     line-height:2.5rem; 
@@ -225,40 +156,11 @@ input:focus, textarea:focus {
     font-size:1rem;
     line-height:1.25rem; 
   }
-  .auth-modal {
-    inset:200px 250px;
-    min-width:350px;
-  }
-  .profile-modal {
-    inset:200px 250px;
-    min-width:350px;
-  }
-  .cart-modal {
-    right:auto;
-    top:0;
-    animation-name: slidefromLeft;
-    animation-duration:250ms;
-    min-width: 350px;
-    max-width: 600px;
-    
-  }
+  
+  
+  
 }
-@media ${breakpoints.lg}{
-  .auth-modal {
-    inset:200px 350px;
-  }
-  .profile-modal {
-    inset:224px 350px;
-  }
-}
-@media ${breakpoints.xl}{
-  .auth-modal {
-    inset:200px 550px;
-  }
-  .profile-modal {
-    inset:225px 550px;
-  }
-}
+
 `
 );
 

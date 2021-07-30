@@ -67,8 +67,6 @@ export const GridWrapper = styled.div<{ borderb?: boolean }>(
   padding: var(--padding, 0);
   margin: var(--margin, 0);
   border-bottom:${borderb && border};
-  @media ${breakpoints.md}{
-    
-  }
+ 
   `
 );

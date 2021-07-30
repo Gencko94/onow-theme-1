@@ -5,6 +5,7 @@ import { CgPassword } from "react-icons/cg";
 import { MdVisibility, MdVisibilityOff } from "react-icons/md";
 
 import styled, { css } from "styled-components";
+import { up } from "../../../utils/themes";
 import InputErrorMessage from "./InputErrorMessage";
 interface BaseInput {
   /**
@@ -179,7 +180,7 @@ const Container = styled.div<{ rtl: boolean; error: boolean }>(
       
       color: ${textSecondary};
     }
-    @media  ${breakpoints.md}{
+    ${up(breakpoints.md)}{
       label {
         font-size: 0.9rem;
         margin-bottom: 0.75rem;
@@ -194,7 +195,7 @@ const Input = styled.input(
   padding: 0.4rem;
   font-size: 0.8rem;
   width: 50px;
-  @media  ${breakpoints.md}{
+  ${up(breakpoints.md)}{
   
       
       input {

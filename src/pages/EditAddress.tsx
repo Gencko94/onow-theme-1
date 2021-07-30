@@ -13,6 +13,7 @@ import EditAddressMap from "../components/EditAddressMap";
 import MobileHeader from "../components/Header/MobileHeader";
 import Layout from "../layout/Layout";
 import { m, Variants } from "framer-motion";
+import { up } from "../utils/themes";
 
 interface EditedAddressForm {
   area: string | undefined;
@@ -216,13 +217,13 @@ const ContentContainer = styled(m.div)(
   display:grid;
   grid-template-columns:1fr;
   margin:0 auto;
-  @media ${breakpoints.md}{
+  ${up(breakpoints.md)}{
     max-width:960px;
     gap:1rem;
     grid-template-columns:0.5fr 1fr;
     margin-top:0.5rem;
   }
-  @media ${breakpoints.lg}{
+  ${up(breakpoints.lg)}{
     max-width:1100px;
   }
   `
@@ -233,7 +234,7 @@ const MapContainer = styled.div(
   width: 100%;
   position: relative;
   margin-bottom:1rem;
-  @media ${breakpoints.md}{
+  ${up(breakpoints.md)}{
     height: 100%;
     margin-bottom:0;
     border-radius:10px;

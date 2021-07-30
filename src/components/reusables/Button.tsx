@@ -6,6 +6,7 @@ import { ThemeContext } from "../../contexts/ThemeContext";
 import useResponsive from "../../hooks/useResponsive";
 import Color from "color";
 import Ripple from "./Ripple";
+import { up } from "../../utils/themes";
 
 interface IProps {
   /**
@@ -296,10 +297,10 @@ export const ButtonWrapper = styled.button<{
           color: #fff;
         `
       };
-    @media ${breakpoints.md}{
-    p {
+    ${up(breakpoints.md)}{
+     p {
       font-size:${textSize};
-    }
+     }
   }
     `
 );

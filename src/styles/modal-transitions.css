@@ -1,0 +1,107 @@
+.modal-overlay-enter {
+  opacity: 0.01;
+}
+.modal-overlay-enter-active {
+  opacity: 1;
+  transition: opacity 200ms ease-in-out;
+}
+.modal-overlay-exit {
+  opacity: 1;
+}
+.modal-overlay-exit-active {
+  opacity: 0.01;
+  transition: opacity 200ms ease-in-out;
+}
+
+/* .transition-down-up--before {
+  transform: translateY(-100%);
+}
+.transition-down-up--after {
+  transform: translateY(0);
+} */
+
+/* Profile Modal */
+.profile-modal-enter {
+  transform: translateY(-50%);
+  opacity: 0;
+}
+.profile-modal-enter-active {
+  opacity: 1;
+  transform: translateY(0);
+  transition: all 200ms ease-in-out;
+}
+.profile-modal-exit {
+  transform: translateY(0);
+  opacity: 1;
+}
+.profile-modal-exit-active {
+  opacity: 0;
+  transform: translateY(-50%);
+  transition: all 200ms ease-in-out;
+}
+/* Cart Modal */
+.cart-modal-desktop-enter {
+  transform: translateX(-100%);
+}
+.cart-modal-desktop-enter-active {
+  transform: translateX(0);
+  transition: all 200ms ease-in-out;
+}
+.cart-modal-desktop-exit {
+  transform: translateX(0);
+}
+.cart-modal-desktop-exit-active {
+  transform: translateX(-100%);
+  transition: all 200ms ease-in-out;
+}
+.cart-modal-mobile-enter {
+  transform: translateY(100%);
+  will-change: transform;
+}
+.cart-modal-mobile-enter-active {
+  transform: translateY(0);
+  transition: all 200ms ease-in-out;
+  will-change: transform;
+}
+.cart-modal-mobile-exit {
+  transform: translateY(0);
+  will-change: transform;
+}
+.cart-modal-mobile-exit-active {
+  transform: translateY(100%);
+  transition: all 200ms ease-in-out;
+  will-change: transform;
+}
+/* Drawer */
+
+/* LTR */
+.drawer-ltr-enter {
+  transform: translateX(-100%);
+}
+.drawer-ltr-enter-active {
+  transform: translateX(0);
+  transition: all 200ms ease-in-out;
+}
+.drawer-ltr-exit {
+  transform: translateX(0);
+}
+.drawer-ltr-exit-active {
+  transform: translateX(-100%);
+  transition: all 200ms ease-in-out;
+}
+
+/* RTL */
+.drawer-rtl-enter {
+  transform: translateX(100%);
+}
+.drawer-rtl-enter-active {
+  transform: translateX(0);
+  transition: all 200ms ease-in-out;
+}
+.drawer-rtl-exit {
+  transform: translateX(0);
+}
+.drawer-rtl-exit-active {
+  transform: translateX(100%);
+  transition: all 200ms ease-in-out;
+}

@@ -8,6 +8,7 @@ import { BsCheckCircle } from "react-icons/bs";
 import ReactPlaceholder from "react-placeholder/lib";
 import { useQuery } from "react-query";
 import { getBranches } from "../utils/queries";
+import { up } from "../utils/themes";
 
 const Branches = () => {
   const { t, i18n } = useTranslation(["branches"]);
@@ -224,7 +225,7 @@ const MainBranch = styled.p(
     margin: 0 .25rem;
     font-size: 0.8rem;
     font-weight:${font.regular};
-    @media ${breakpoints.md}{
+    ${up(breakpoints.md)}{
       font-size: 0.8rem;
     }
 `
@@ -241,7 +242,7 @@ color:${subHeading};
 font-size:.9rem;
 font-weight:${font.regular};
 margin: .25rem 0;
-@media ${breakpoints.md}{
+${up(breakpoints.md)}{
 font-size:0.9rem;
 }
 `

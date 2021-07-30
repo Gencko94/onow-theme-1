@@ -21,6 +21,7 @@ import Hr from "../components/reusables/Hr";
 import ProductOptions from "../components/ProductComponents/ProductOptions";
 import ProductImage from "../components/ProductComponents/ProductImage";
 import { OrderProvider } from "../contexts/OrderContext";
+import { up } from "../utils/themes";
 const containerVariants: Variants = {
   hidden: {
     x: "100%",
@@ -176,7 +177,7 @@ const Container = styled(m.div)(
   
   
   
-  @media ${breakpoints.md}{
+  ${up(breakpoints.md)}{
   min-height:calc(100vh - 200px);
     
   
@@ -187,12 +188,12 @@ const Container = styled(m.div)(
 const ContentContainer = styled.div(
   ({ theme: { breakpoints, btnBorder } }) => `
   display:grid;
-  @media ${breakpoints.xs}{
+  
    
     grid-template-columns:1fr;
     row-gap:1rem;
-  }
-  @media ${breakpoints.md}{
+  
+  ${up(breakpoints.md)}{
    
     grid-template-columns:1fr 1fr;
     gap:1rem;

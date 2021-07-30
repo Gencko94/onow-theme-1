@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import useResponsive from "../../hooks/useResponsive";
+import { up } from "../../utils/themes";
 import NavIcons from "../DesktopNavbar/NavIcons";
 import Hamburger from "../MobileNavbar/MobileNavIcons/Hamburger";
 import Flex, { FlexWrapper } from "../reusables/Flex";
@@ -41,7 +42,7 @@ const Container = styled.div(
     .logo img {
       max-height: 50px;
     }
-    @media ${breakpoints.md}{
+    ${up(breakpoints.md)}{
       gap:1.5rem;
       grid-template-columns:150px 1fr 0.5fr;
         .logo img {

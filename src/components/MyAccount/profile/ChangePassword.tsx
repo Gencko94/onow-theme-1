@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { MdVisibility, MdVisibilityOff } from "react-icons/md";
 import styled from "styled-components";
+import { up } from "../../../utils/themes";
 import Heading from "../../reusables/Heading";
 interface FormProps {
   password: string;
@@ -122,7 +123,7 @@ const Button = styled.button(
   // text-decoration:underline;
   font-weight: ${font.bold};
   letter-spacing:0.5px;
-  @media ${breakpoints.md}{
+  ${up(breakpoints.md)}{
     font-size:0.8rem;
     // padding: 0.25rem 0.5rem;
   }

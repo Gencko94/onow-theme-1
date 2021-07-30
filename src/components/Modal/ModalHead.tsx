@@ -33,7 +33,7 @@ const Container = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  /* background-color: ${(props) => props.theme.accent1}; */
+  background-color: ${(props) => props.theme.accent1};
   border-bottom: ${(props) => props.theme.border};
 
   .close {

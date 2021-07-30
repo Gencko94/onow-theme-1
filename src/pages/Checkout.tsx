@@ -14,6 +14,7 @@ import CheckoutSummary from "../components/Checkout/CheckoutSummary";
 import PickupDetails from "../components/Checkout/PickupDetails";
 import CartStepper from "../components/Cart/CartStepper";
 import { OrderProvider } from "../contexts/OrderContext";
+import { up } from "../utils/themes";
 
 const Checkout = () => {
   const { deliveryAddress, globalOrderMode, pickupBranch } =
@@ -77,7 +78,7 @@ const Form = styled.form(
   display:flex;
   flex-wrap:wrap;
   // padding: 0.5rem .25rem;
-  @media ${breakpoints.md}{
+  ${up(breakpoints.md)}{
     
     // padding: 1rem 0.5rem;
   }
@@ -90,7 +91,7 @@ const SectionsContainer = styled.div(
   width: 100%;
   flex: 1;
   // margin: 0 0.5rem;
-  @media ${breakpoints.md} {
+  ${up(breakpoints.md)}{
     // margin: 0 0.75rem;
     width: 70%;
   }

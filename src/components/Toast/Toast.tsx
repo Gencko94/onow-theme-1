@@ -2,6 +2,7 @@ import { IoIosCheckmarkCircleOutline } from "react-icons/io";
 import { RiErrorWarningLine } from "react-icons/ri";
 import styled from "styled-components";
 import useResponsive from "../../hooks/useResponsive";
+import { up } from "../../utils/themes";
 import Button from "../reusables/Button";
 import Flex from "../reusables/Flex";
 import Heading from "../reusables/Heading";
@@ -68,7 +69,7 @@ const Container = styled.div<{ type: "error" | "success" }>(
       font-size: 0.8rem;
       font-weight: ${font.regular};
     }
-    @media ${breakpoints.md}{
+    ${up(breakpoints.md)}{
       h6 {
         font-weight: ${font.semibold};
       }

@@ -1,204 +1,192 @@
-import { Dispatch, SetStateAction, useContext, useRef } from "react";
+import { useContext, useRef } from "react";
 import styled from "styled-components";
 import { IoMdListBox } from "react-icons/io";
 import { BiGitBranch, BiFoodMenu } from "react-icons/bi";
 import { FaMapMarkerAlt, FaMotorcycle } from "react-icons/fa";
 import { HiUserCircle } from "react-icons/hi";
 import { MdMail } from "react-icons/md";
+import { CSSTransition } from "react-transition-group";
+
 import {
   AiFillInfoCircle,
   AiOutlinePoweroff,
   AiOutlineUserAdd,
 } from "react-icons/ai";
-import { Link } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import ThemeToggler from "../../../utils/ThemeToggler";
 import { useTranslation } from "react-i18next";
 import { ApplicationProvider } from "../../../contexts/ApplicationContext";
 import Hamburger from "../../../components/MobileNavbar/MobileNavIcons/Hamburger";
 import { AuthProvider } from "../../../contexts/AuthContext";
+import ModalOverlay from "../../../components/Modal/ModalOverlay";
+import Heading from "../../../components/reusables/Heading";
+import Flex from "../../../components/reusables/Flex";
+import Button from "../../../components/reusables/Button";
+import Hr from "../../../components/reusables/Hr";
+import Grid from "../../../components/reusables/Grid";
+import Paragraph from "../../../components/reusables/Paragraph";
 
 const Drawer = () => {
-  const { t, i18n } = useTranslation();
-  const { store_name, drawerOpen, handleToggleDrawer } =
-    useContext(ApplicationProvider);
+  const {
+    t,
+    i18n: { language },
+  } = useTranslation();
+  const {
+    store_name,
+    drawerOpen,
+    handleToggleDrawer,
+    setAuthModalStatus,
+    handleToggleProfileModal,
+  } = useContext(ApplicationProvider);
   const { user } = useContext(AuthProvider);
-  let topSectionRef = useRef<HTMLDivElement | null>(null);
   let linksRef = useRef<HTMLDivElement | null>(null);
+  const history = useHistory();
 
   return (
-    <DrawerContainer rtl={i18n.language === "ar"}>
-      <HamburgerContainer>
-        <Hamburger />
-      </HamburgerContainer>
-      <TopSection ref={topSectionRef}>
-        {user && (
-          <NameWrapper>
-            <Name>
-              {t("hello")} {user?.first_name} !
-            </Name>
-            <PhoneNumber>{user?.phone_number}</PhoneNumber>
-          </NameWrapper>
-        )}
-        {!user && (
-          <NameWrapper>
-            <Name>{store_name?.[i18n.language]}</Name>
-            <ButtonsContainer>
-              <Button to="/login">
-                <AiOutlinePoweroff size={20} />
-                <Text>{t("login")}</Text>
-              </Button>
-              <Button to="/register">
-                <AiOutlineUserAdd size={20} />
-                <Text>{t("signup")}</Text>
-              </Button>
-            </ButtonsContainer>
-          </NameWrapper>
-        )}
-      </TopSection>
-      <hr />
-      <LinksContainer ref={linksRef}>
-        <LinkContainer>
-          <BiFoodMenu size={30} color="#04b9aa" />
-
-          <Linkitem to="/menu">{t("common:our-menu")}</Linkitem>
-        </LinkContainer>
-        <LinkContainer>
-          <BiGitBranch size={30} color="#b99e04" />
-          <Linkitem to="/branches">{t("common:our-branches")}</Linkitem>
-        </LinkContainer>
-        {user && (
-          <>
-            <LinkContainer>
-              <HiUserCircle size={30} color="#dd321b" />
-              <Linkitem to="/user/profile">{t("common:my-profile")}</Linkitem>
-            </LinkContainer>
-            <LinkContainer>
-              <IoMdListBox size={30} color="#04b922" />
-              <Linkitem to="/">{t("common:my-orders")}</Linkitem>
-            </LinkContainer>
-            <LinkContainer>
-              <FaMapMarkerAlt size={30} color="#c11ce2" />
-              <Linkitem to="/user/addresses">
+    <>
+      <ModalOverlay open={drawerOpen!} handleClose={handleToggleDrawer!} />
+      <CSSTransition
+        classNames={language === "en" ? "drawer-ltr" : "drawer-rtl"}
+        timeout={200}
+        unmountOnExit
+        in={drawerOpen}
+      >
+        <Container rtl={language === "ar"}>
+          <div className="hamburger-container">
+            <Hamburger />
+          </div>
+          <div>
+            {user && (
+              <div>
+                <Heading tag="h3" weight="semibold">
+                  {t("hello")} {user?.first_name} !
+                </Heading>
+                <Paragraph
+                  margin="0 0.5rem"
+                  color="textSecondary"
+                  fontSize="1.2rem"
+                >
+                  {user?.phone_number}
+                </Paragraph>
+              </div>
+            )}
+            {!user && (
+              <div>
+                <Heading tag="h3" align="center" weight="semibold">
+                  {store_name?.[language]}
+                </Heading>
+                <Flex justify="center" margin="1rem 0">
+                  <Button
+                    text={t("login")}
+                    bg="primary"
+                    textSize="0.9rem"
+                    onClick={() => {
+                      setAuthModalStatus?.({ mode: "login", open: true });
+                    }}
+                    padding="0.4rem"
+                  />
+                </Flex>
+              </div>
+            )}
+          </div>
+          <Hr />
+          <Grid cols="1fr" gap="1.5rem">
+            <Flex
+              onClick={() => {
+                history.push("/menu");
+              }}
+            >
+              <BiFoodMenu size={25} color="#04b9aa" />
+              <Paragraph margin="0 0.5rem" fontSize="1.1rem">
+                {t("common:our-menu")}
+              </Paragraph>
+            </Flex>
+            <Flex
+              onClick={() => {
+                history.push("/branches");
+              }}
+            >
+              <BiGitBranch size={25} color="#b99e04" />
+              <Paragraph margin="0 0.5rem" fontSize="1.1rem">
+                {t("common:our-branches")}
+              </Paragraph>
+            </Flex>
+            {/* {user && (
+              <> */}
+            <Flex
+              onClick={() => {
+                handleToggleDrawer?.();
+                handleToggleProfileModal?.();
+              }}
+            >
+              <HiUserCircle size={25} color="#dd321b" />
+              <Paragraph margin="0 0.5rem" fontSize="1.1rem">
+                {t("common:my-profile")}
+              </Paragraph>
+            </Flex>
+            <Flex>
+              <IoMdListBox size={25} color="#04b922" />
+              <Paragraph margin="0 0.5rem" fontSize="1.1rem">
+                {t("common:my-orders")}
+              </Paragraph>
+            </Flex>
+            <Flex>
+              <FaMapMarkerAlt size={25} color="#c11ce2" />
+              <Paragraph margin="0 0.5rem" fontSize="1.1rem">
                 {t("common:my-addresses")}
-              </Linkitem>
-            </LinkContainer>
-          </>
-        )}
-      </LinksContainer>
-      <hr />
-      <LinksContainer>
-        <LinkContainer>
-          <FaMotorcycle size={30} color="#37c0b5" />
-          <Linkitem to="/mode/delivery">
-            {t("common:set-up-order-mode")}
-          </Linkitem>
-        </LinkContainer>
-        <LinkContainer>
-          <MdMail size={30} color="#3277f8" />
-          <Linkitem to="/">{t("common:contact-us")}</Linkitem>
-        </LinkContainer>
-        <LinkContainer>
-          <AiFillInfoCircle size={30} color="#29affc" />
-          <Linkitem to="/">{t("common:about-us")}</Linkitem>
-        </LinkContainer>
-      </LinksContainer>
-      <hr />
-      <Toggler>
-        <Text>{t("dark-mode")}</Text>
-        <ThemeToggler />
-      </Toggler>
-    </DrawerContainer>
+              </Paragraph>
+            </Flex>
+            {/* </>
+            )} */}
+          </Grid>
+          <Hr />
+          <Grid cols="1fr" gap="1.5rem" margin="0">
+            <Flex>
+              <FaMotorcycle size={25} color="#37c0b5" />
+              <Paragraph margin="0 0.5rem" fontSize="1.1rem">
+                {t("common:set-up-order-mode")}
+              </Paragraph>
+            </Flex>
+            <Flex>
+              <MdMail size={25} color="#3277f8" />
+              <Paragraph margin="0 0.5rem" fontSize="1.1rem">
+                {t("common:contact-us")}
+              </Paragraph>
+            </Flex>
+            <Flex>
+              <AiFillInfoCircle size={25} color="#29affc" />
+              <Paragraph margin="0 0.5rem" fontSize="1.1rem">
+                {t("common:about-us")}
+              </Paragraph>
+            </Flex>
+          </Grid>
+          <Hr />
+          <Flex justify="space-between">
+            <Paragraph margin="0 0.5rem" fontSize="1.2rem">
+              {t("dark-mode")}
+            </Paragraph>
+
+            <ThemeToggler />
+          </Flex>
+        </Container>
+      </CSSTransition>
+    </>
   );
 };
 
 export default Drawer;
 
-const DrawerContainer = styled.nav<{ rtl: boolean }>`
+const Container = styled.nav<{ rtl: boolean }>`
   position: fixed;
-  top: 0;
-  left: ${(props) => !props.rtl && "0"};
-  right: ${(props) => props.rtl && "0"};
+  height: 100vh;
+  left: ${(props) => (props.rtl ? "auto" : "0")};
+  right: ${(props) => (props.rtl ? "0" : "auto")};
   overflow: hidden;
-  z-index: 300;
+  z-index: 20;
+  padding: 0.5rem;
+  width: 65%;
   background-color: ${(props) => props.theme.bodyColor};
-  height: 100%;
-  width: 85%;
-`;
-const HamburgerContainer = styled.div`
-  padding: 1rem;
-`;
-const TopSection = styled.div`
-  /* background-color: ${(props) => props.theme.mainColor}; */
-  color: #fff;
-  /* margin-top: 3rem; */
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  /* height: 200px; */
-  padding: 1rem;
-`;
-
-const NameWrapper = styled.div`
-  width: 100%;
-`;
-
-const Name = styled.h4(
-  ({ theme: { breakpoints, headingColor } }) => `
-
-  font-size:1.3rem;
-  color: ${headingColor};
-  margin-bottom: 0.25rem;
-  
-`
-);
-
-const PhoneNumber = styled.p`
-  color: ${(props) => props.theme.subHeading};
-  font-weight: ${(props) => props.theme.font.regular};
-`;
-const LinksContainer = styled.div`
-  padding: 1rem;
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 0.5rem;
-`;
-const LinkContainer = styled.div`
-  color: ${(props) => props.theme.headingColor};
-  display: flex;
-  align-items: center;
-  font-weight: ${(props) => props.theme.font.regular};
-  margin: 0.25rem 0;
-`;
-const Linkitem = styled(Link)`
-  display: block;
-  font-size: 1.2rem;
-  margin: 0 1rem;
-`;
-const Toggler = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 1rem;
-`;
-const Text = styled.span`
-  margin: 0 0.25rem;
-  /* font-size: 1.2rem; */
-  color: ${(props) => props.theme.headingColor};
-`;
-const ButtonsContainer = styled.div`
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 0.25rem;
-  margin-top: 0.75rem;
-`;
-const Button = styled(Link)`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border: ${(props) => props.theme.btnBorder};
-  padding: 0.5rem 0.5rem;
-  font-size: 0.9rem;
-  color: ${(props) => props.theme.subHeading};
-  border-radius: 5px;
-  font-weight: ${(props) => props.theme.font.semibold};
+  .hamburger-container {
+    padding: 1rem;
+  }
 `;

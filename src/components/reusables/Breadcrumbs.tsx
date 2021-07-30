@@ -4,6 +4,7 @@ import { BiHomeAlt } from "react-icons/bi";
 import { FiChevronRight } from "react-icons/fi";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
+import { up } from "../../utils/themes";
 
 interface IProps {
   /**
@@ -75,7 +76,7 @@ const Container = styled.nav(
       margin: 0 0.75rem;
     }
   };
-  @media ${breakpoints.md} {
+  ${up(breakpoints.md)}{
     .links-container {
       font-size:0.9rem;
       

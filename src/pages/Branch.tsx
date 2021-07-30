@@ -7,6 +7,7 @@ import { getBranch } from "../utils/queries";
 import { useQuery } from "react-query";
 import MobileHeader from "../components/Header/MobileHeader";
 import { getDayStringFromNumber } from "../utils/getDayStringFromNumber";
+import { up } from "../utils/themes";
 const Branch = () => {
   const { t, i18n } = useTranslation(["branches"]);
   const { id } = useParams<{ id: string }>();
@@ -82,7 +83,7 @@ const ImageContainer = styled.div(
   overflow:hidden;
   
   
-  @media ${breakpoints.md}{
+  ${up(breakpoints.md)}{
       max-height:100%;
     }
   `
@@ -96,7 +97,7 @@ const Image = styled.img`
 const ContentContainer = styled.div(
   ({ theme: { breakpoints, overlayColor, btnBorder } }) => `
   padding: 0.5rem 0;
-  @media ${breakpoints.md}{
+  ${up(breakpoints.md)}{
     
     padding: 0;
   }
@@ -120,7 +121,7 @@ color:${subHeading};
 font-size:0.9rem;
 font-weight:${font.regular};
 margin: .25rem 0;
-@media ${breakpoints.md}{
+${up(breakpoints.md)}{
 font-size:1rem;
 }
 `

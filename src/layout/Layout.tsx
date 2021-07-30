@@ -11,6 +11,7 @@ import useResponsive from "../hooks/useResponsive";
 import AuthModal from "../Modals/AuthModal";
 import CartModal from "../Modals/CartModal";
 import ProfileModal from "../Modals/ProfileModal";
+import { up } from "../utils/themes";
 import Drawer from "./Mobile/Drawer/Drawer";
 
 let curScroll = 0;
@@ -64,15 +65,9 @@ const LayoutDesktop: React.FC = ({ children }) => {
 
       <CartModal />
       {!isDesktop && <CartToast />}
-      <CSSTransition
-        in={drawerOpen}
-        classNames={`drawer_${language}-`}
-        unmountOnExit
-        mountOnEnter
-        timeout={300}
-      >
-        <Drawer />
-      </CSSTransition>
+
+      <Drawer />
+
       <Navbar />
       <div className="content-container">{children}</div>
     </Wrapper>
@@ -89,7 +84,7 @@ const Wrapper = styled.div(
     max-width: 1240px;
     margin: 0 auto;
   }
-  @media ${breakpoints.md}{
+  ${up(breakpoints.md)}{
     .content-container {
       padding:1rem 0;
       

@@ -122,10 +122,10 @@ const Title = styled.h1(
   text-align: center;
   margin-bottom: 2rem;
   color:${accentColor};
-  @media ${breakpoints.xs} {
+
       font-size: 1.5rem;
       line-height: 2rem;
-    }
+    
   }
 `
 );

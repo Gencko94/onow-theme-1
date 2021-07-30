@@ -1,6 +1,7 @@
 import { useContext } from "react";
 
-import ReactModal from "react-modal";
+import ModalOverlay from "../components/Modal/ModalOverlay";
+import { CSSTransition } from "react-transition-group";
 
 import { ApplicationProvider } from "../contexts/ApplicationContext";
 
@@ -12,20 +13,26 @@ const AuthModal = () => {
     useContext(ApplicationProvider);
 
   return (
-    <ReactModal
-      isOpen={authModalStatus!.open}
-      onRequestClose={handleCloseAuthModal!}
-      closeTimeoutMS={200}
-      className="modal auth-modal"
-    >
-      {authModalStatus?.mode === "login" ? (
-        <LoginModal />
-      ) : authModalStatus?.mode === "register" ? (
-        <RegisterModal />
-      ) : (
-        ""
-      )}
-    </ReactModal>
+    <>
+      <ModalOverlay
+        open={authModalStatus!.open}
+        handleClose={handleCloseAuthModal!}
+      />
+      <CSSTransition
+        classNames="profile-modal"
+        timeout={200}
+        unmountOnExit
+        in={authModalStatus!.open}
+      >
+        {authModalStatus?.mode === "login" ? (
+          <LoginModal />
+        ) : authModalStatus?.mode === "register" ? (
+          <RegisterModal />
+        ) : (
+          ""
+        )}
+      </CSSTransition>
+    </>
   );
 };
 

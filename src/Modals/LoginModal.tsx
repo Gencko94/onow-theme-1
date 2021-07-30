@@ -7,6 +7,7 @@ import { useMutation, useQueryClient } from "react-query";
 import { useHistory, useLocation } from "react-router-dom";
 import styled from "styled-components";
 import ModalHead from "../components/Modal/ModalHead";
+import { ModalWrapper } from "../components/Modal/ModalWrapper";
 import Button from "../components/reusables/Button";
 import Flex from "../components/reusables/Flex";
 import Grid from "../components/reusables/Grid";
@@ -18,6 +19,7 @@ import { ApplicationProvider } from "../contexts/ApplicationContext";
 import { LOGIN_FORM } from "../interfaces/auth";
 import extractError from "../utils/extractError";
 import { userLogin } from "../utils/queries";
+import { up } from "../utils/themes";
 
 const LoginModal = () => {
   const {
@@ -89,7 +91,7 @@ const LoginModal = () => {
     await login(data);
   };
   return (
-    <>
+    <Modal>
       <ModalHead closeFunction={handleCloseAuthModal!} title="Log in" />
       <Form onSubmit={handleSubmit(onSubmit)}>
         <Grid cols="1fr" gap="1rem">
@@ -200,11 +202,34 @@ const LoginModal = () => {
           />
         </Flex>
       </Form>
-    </>
+    </Modal>
   );
 };
 
 export default LoginModal;
+const Modal = styled(ModalWrapper)(
+  ({ theme: { breakpoints, shadow, accent1 } }) => `
+  position: fixed;
+  z-index: 20;
+  inset:100px 20px;
+  position:fixed;
+  border:none;
+  outline:none;
+  z-index:20;
+  background-color:${accent1};
+
+  ${up(breakpoints.md)}{
+    inset:200px 250px;
+    min-width:350px;
+  }
+  ${up(breakpoints.lg)}{
+      inset:200px 350px;
+  }
+  ${up(breakpoints.xl)}{
+    inset:200px 550px;
+  }
+  `
+);
 const Form = styled.form`
   background-color: ${(props) => props.theme.accent1};
   padding: 1rem;

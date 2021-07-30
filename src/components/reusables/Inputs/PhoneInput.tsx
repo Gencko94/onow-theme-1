@@ -4,6 +4,7 @@ import { IconType } from "react-icons/lib";
 import Input from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
 import styled, { css } from "styled-components";
+import { up } from "../../../utils/themes";
 import InputErrorMessage from "./InputErrorMessage";
 type CountryData = {
   countryCode: string;
@@ -101,7 +102,7 @@ const Container = styled.div<{ rtl: boolean; error: boolean }>(
     
     color: ${textSecondary};
   }
-  @media ${breakpoints.md}{
+  ${up(breakpoints.md)}{
     
     font-size: 0.9rem;
   }

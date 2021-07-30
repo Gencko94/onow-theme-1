@@ -55,8 +55,8 @@ export const darkTheme = {
   seperator: "rgba(250,250,250,0.3)",
   borderHovered: "rgba(0,0,0,0.3)",
   // New Color
-  textPrimary: "#252525",
-  textPrimaryContrast: "#fff",
+  textPrimary: "#fff",
+  textPrimaryContrast: "#252525",
   textSecondary: "#ececec",
   textSecondaryContrast: "#fbfbfb",
   // New Accents
@@ -65,3 +65,5 @@ export const darkTheme = {
   accent3: "#444",
   blue: "#2e87fc",
 };
+export const up = (breakpoint: string) => `@media (min-width: ${breakpoint})`;
+export const down = (breakpoint: string) => `@media (max-width: ${breakpoint})`;

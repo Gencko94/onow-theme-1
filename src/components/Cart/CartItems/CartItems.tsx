@@ -7,6 +7,7 @@ import { ThemeContext } from "../../../contexts/ThemeContext";
 import CartItem from "./CartItem";
 import { CART_ITEM } from "../../../interfaces/Cart";
 import Grid, { GridWrapper } from "../../reusables/Grid";
+import { up } from "../../../utils/themes";
 
 interface IProps {
   data: CART_ITEM[] | undefined;
@@ -65,9 +66,9 @@ const Container = styled.div<{ mode: string | undefined }>(
   overflow-y:auto;
   // flex:1;
   height:100%;
-  min-height:calc(100vh - 310px);
-  max-height:calc(100vh - 310px);
-  @media ${breakpoints.md}{
+  min-height:calc(100vh - 285px);
+  max-height:calc(100vh - 285px);
+${up(breakpoints.md)}{
     
     margin: 1rem 0 ;
     min-height:calc(100vh - 261px);
@@ -83,7 +84,7 @@ const LoadingGrid = styled.div(
     grid-template-columns: 1fr;
     gap: 0.5rem;
     padding: 0.5rem;
-    @media ${breakpoints.md}{
+   ${up(breakpoints.md)}{
     padding: 0 0.5rem;
     
   }

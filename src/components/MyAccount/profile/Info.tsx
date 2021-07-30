@@ -4,6 +4,7 @@ import { useTranslation } from "react-i18next";
 import { MdSubtitles } from "react-icons/md";
 import styled from "styled-components";
 import { AuthProvider } from "../../../contexts/AuthContext";
+import { up } from "../../../utils/themes";
 import Grid from "../../reusables/Grid";
 import Heading from "../../reusables/Heading";
 import IconedInput from "../../reusables/Inputs/IconedInput";
@@ -105,23 +106,7 @@ const Title = styled.h5`
   color: ${(props) => props.theme.headingColor};
   font-weight: ${(props) => props.theme.font.bold};
 `;
-const Button = styled.button(
-  ({ theme: { breakpoints, font, btnBorder, btnPrimaryLight, btnText } }) => `
-  border-radius: 6px;
-  background-color: ${btnPrimaryLight};
-  border:${btnBorder};
-  color: ${btnText};
-  padding: 0.5rem;
-  font-size:.8rem;
-  // text-decoration:underline;
-  font-weight: ${font.bold};
-  letter-spacing:0.5px;
-  @media ${breakpoints.md}{
-    font-size:0.8rem;
-    // padding: 0.25rem 0.5rem;
-  }
-`
-);
+
 const InputContainer = styled.div`
   margin-bottom: 0.5rem;
 `;
