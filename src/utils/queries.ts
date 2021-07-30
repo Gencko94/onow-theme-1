@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios, { AxiosRequestConfig } from "axios";
 import { DELIVERY_ADDRESS } from "../interfaces/Address";
 import {
   LOGIN_FORM,
@@ -25,16 +25,23 @@ import { Product } from "../interfaces/product";
 //   process.env.NODE_ENV === 'production'
 //     ? 'https://onow-mock-api.herokuapp.com'
 //     : 'http://localhost:4000';
+export const clientURI = "https://new-version.o-now.net/client-api";
 export const uri = "https://onow-mock-api.herokuapp.com";
 export const getGeneralInfo = async (): Promise<Init> => {
-  const res = await axios.get(`${uri}/init`);
+  const config: AxiosRequestConfig = {
+    headers: {
+      domain: "spp.test.co",
+    },
+  };
+  const res = await axios.get(`${clientURI}/store`, config);
 
-  return res.data;
+  return res.data.results;
 };
-export const getProduct = async (id: string): Promise<Product> => {
+export const getProduct = async (id: string) => {
+  // export const getProduct = async (id: string): Promise<Product> => {
   const res = await axios.get(`${uri}/products/${id}`);
 
-  return res.data;
+  return res.data.resuts;
 };
 export const getCategory = async (id: number | string): Promise<Category> => {
   const res = await axios.get(`${uri}/categories/${id}`);

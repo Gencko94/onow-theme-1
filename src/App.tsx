@@ -20,7 +20,7 @@ import UserInfoContext from "./contexts/UserInfoContext";
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 import "react-placeholder/lib/reactPlaceholder.css";
 import AddAddress from "./pages/AddAddress";
-import { AnimatePresence, LazyMotion, domAnimation } from "framer-motion";
+// import { AnimatePresence, LazyMotion, domAnimation } from "framer-motion";
 import MyAddresses from "./pages/MyAddresses";
 import AuthContext from "./contexts/AuthContext";
 import Layout from "./layout/Layout";
@@ -56,7 +56,7 @@ function App() {
         <ErrorBoundary
           fallbackRender={({ error, resetErrorBoundary }) => (
             <div>
-              There was an error!{" "}
+              There was an error!
               <button onClick={() => resetErrorBoundary()}>Try again</button>
               <pre style={{ whiteSpace: "normal" }}>{error.message}</pre>
             </div>
@@ -73,80 +73,72 @@ function App() {
                         <GlobalStyle />
                         <ScrollToTopOnMount />
                         <Layout>
-                          <AnimatePresence exitBeforeEnter initial={false}>
-                            <LazyMotion features={domAnimation}>
-                              <Switch location={location} key={location.key}>
-                                <Route exact path="/" component={Home} />
-                                <Route exact path="/menu" component={Menu} />
-                                <Route
-                                  exact
-                                  path="/categories/:id"
-                                  component={Category}
-                                />
-                                <Route
-                                  exact
-                                  path="/products/:id"
-                                  component={Product}
-                                />
+                          {/* <AnimatePresence exitBeforeEnter initial={false}> */}
+                          {/* <LazyMotion features={domAnimation}> */}
+                          <Switch location={location} key={location.key}>
+                            <Route exact path="/" component={Home} />
+                            <Route exact path="/menu" component={Menu} />
+                            <Route
+                              exact
+                              path="/categories/:id"
+                              component={Category}
+                            />
+                            <Route
+                              exact
+                              path="/products/:id"
+                              component={Product}
+                            />
 
-                                <Route
-                                  exact
-                                  path="/branch/:id"
-                                  component={Branch}
-                                />
-                                <Route
-                                  exact
-                                  path="/address/edit"
-                                  component={EditAddress}
-                                />
+                            <Route
+                              exact
+                              path="/branch/:id"
+                              component={Branch}
+                            />
+                            <Route
+                              exact
+                              path="/address/edit"
+                              component={EditAddress}
+                            />
 
-                                <Route
-                                  exact
-                                  path="/address/add"
-                                  component={AddAddress}
-                                />
+                            <Route
+                              exact
+                              path="/address/add"
+                              component={AddAddress}
+                            />
 
-                                <Route
-                                  exact
-                                  path="/aboutus"
-                                  component={Aboutus}
-                                />
-                                {/* <Route exact path="/cart" component={Cart} /> */}
-                                <Route
-                                  exact
-                                  path="/branches"
-                                  component={Branches}
-                                />
+                            <Route exact path="/aboutus" component={Aboutus} />
 
-                                <Route
-                                  exact
-                                  path="/booking"
-                                  component={Booking}
-                                />
-                                <Route
-                                  path="/checkout"
-                                  exact
-                                  component={Checkout}
-                                />
-                                <Route
-                                  exact
-                                  path="/location/:edited?"
-                                  component={SelectLocation}
-                                />
+                            <Route
+                              exact
+                              path="/branches"
+                              component={Branches}
+                            />
 
-                                <Route
-                                  exact
-                                  path="/user/addresses"
-                                  component={MyAddresses}
-                                />
-                                <Route
-                                  exact
-                                  path="/mode/:mode"
-                                  component={OrderMode}
-                                />
-                              </Switch>
-                            </LazyMotion>
-                          </AnimatePresence>
+                            <Route exact path="/booking" component={Booking} />
+                            <Route
+                              path="/checkout"
+                              exact
+                              component={Checkout}
+                            />
+                            <Route
+                              exact
+                              path="/location/:edited?"
+                              component={SelectLocation}
+                            />
+
+                            <Route
+                              exact
+                              path="/user/addresses"
+                              component={MyAddresses}
+                            />
+                            <Route
+                              exact
+                              path="/mode/:mode"
+                              component={OrderMode}
+                            />
+                          </Switch>
+                          {/* </LazyMotion> */}
+                          {/* </AnimatePresence> */}
                         </Layout>
                       </ThemeProvider>
                     </OrderContext>

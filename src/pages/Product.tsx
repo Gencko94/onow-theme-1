@@ -22,6 +22,7 @@ import ProductOptions from "../components/ProductComponents/ProductOptions";
 import ProductImage from "../components/ProductComponents/ProductImage";
 import { OrderProvider } from "../contexts/OrderContext";
 import { up } from "../utils/themes";
+import Placeholder from "../components/reusables/Placeholder";
 const containerVariants: Variants = {
   hidden: {
     x: "100%",
@@ -54,7 +55,7 @@ const Product = () => {
   const [files, setFiles] = useState<File[]>([]);
   const [options, setOptions] = useState([]);
   const { data: product } = useQuery(["product", id], () => getProduct(id), {
-    suspense: true,
+    // suspense: true,
   });
   const history = useHistory();
   const {
@@ -104,34 +105,41 @@ const Product = () => {
   };
   return (
     <Container
-      variants={containerVariants}
-      initial="hidden"
-      animate="visible"
-      exit="exit"
+    // variants={containerVariants}
+    // initial="hidden"
+    // animate="visible"
+    // exit="exit"
     >
-      <Breadcrumbs
-        children={[
-          { name: product!.category!.name!, target: "/category" },
-          { name: product!.name!, target: "" },
-        ]}
-      />
+      <Placeholder
+        height="30px"
+        width="60%"
+        ready={Boolean(product)}
+        margin="1rem 0"
+      >
+        <Breadcrumbs
+          children={[
+            { name: product?.category?.name!, target: "/category" },
+            { name: product?.name!, target: "" },
+          ]}
+        />
+      </Placeholder>
       <ContentContainer>
-        <ProductImage image={product!.image} gallery={product!.gallery} />
+        <ProductImage image={product?.image} gallery={product?.gallery} />
 
         {/* content */}
         <div>
-          <ProductName name={product!.name} />
+          <ProductName name={product?.name} />
 
           <ProductPrice
-            price={product!.price}
-            discount={product!.discount}
-            sale={product!.sale}
+            price={product?.price}
+            discount={product?.discount}
+            sale={product?.sale}
           />
-          <ProductDescription description={product!.description} />
-          <Hr />
-          <ProductOptions options={product!.options} />
-          <Hr />
-          <ProductOrdering
+          <ProductDescription description={product?.description} />
+          {product && <Hr />}
+          <ProductOptions options={product?.options} />
+          {product && <Hr />}
+          {/* <ProductOrdering
             setQuantity={setQuantity}
             quantity={quantity}
             loading={!product}
@@ -139,7 +147,7 @@ const Product = () => {
             setOptionalNotes={setOptionalNotes}
             files={files}
             setFiles={setFiles}
-          />
+          /> */}
         </div>
       </ContentContainer>
     </Container>
@@ -172,7 +180,7 @@ const Product = () => {
 //   </OrderModeButton>
 // )}
 export default Product;
-const Container = styled(m.div)(
+const Container = styled.div(
   ({ theme: { breakpoints } }) => `
   
   

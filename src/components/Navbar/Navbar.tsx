@@ -1,4 +1,6 @@
+import { useContext } from "react";
 import styled from "styled-components";
+import { ApplicationProvider } from "../../contexts/ApplicationContext";
 import useResponsive from "../../hooks/useResponsive";
 import { up } from "../../utils/themes";
 import NavIcons from "../DesktopNavbar/NavIcons";
@@ -8,6 +10,7 @@ import DeliveryLocationBar from "./DeliveryLocationBar";
 
 const Navbar = () => {
   const { isDesktop } = useResponsive();
+  const { store_images } = useContext(ApplicationProvider);
   return (
     <>
       <Container>
@@ -15,7 +18,7 @@ const Navbar = () => {
           {!isDesktop && <Hamburger />}
           {isDesktop && (
             <div className="logo">
-              <img src="/images/logo.png" />
+              <img src={store_images?.logo} />
             </div>
           )}
         </Flex>

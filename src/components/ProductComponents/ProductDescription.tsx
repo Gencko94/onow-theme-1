@@ -5,15 +5,20 @@ import Placeholder from "../reusables/Placeholder";
 const ProductDescription = ({
   description,
 }: {
-  description: { [key: string]: string };
+  description?: { [key: string]: string };
 }) => {
   const {
     i18n: { language },
   } = useTranslation();
   return (
-    <Placeholder height="60px" ready={Boolean(description)} margin="1rem 0">
+    <Placeholder
+      type="text"
+      height="70px"
+      ready={Boolean(description)}
+      margin="1rem 0"
+    >
       <Paragraph color="textSecondary" fontSize="0.9rem" margin="1rem 0">
-        {description![language]}
+        {description?.[language]}
       </Paragraph>
     </Placeholder>
   );

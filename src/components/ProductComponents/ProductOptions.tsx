@@ -6,7 +6,7 @@ import SingleSelectOption from "../reusables/ProductOptions/SingleSelectOption";
 import { useTranslation } from "react-i18next";
 
 interface IProps {
-  options: PRODUCT_OPTION[];
+  options?: PRODUCT_OPTION[];
 }
 
 const ProductOptions = ({ options }: IProps) => {
@@ -15,7 +15,7 @@ const ProductOptions = ({ options }: IProps) => {
   } = useTranslation();
   return (
     <div>
-      {options.map((option) => {
+      {options?.map((option) => {
         if (option.select_type === "single") {
           return (
             <>

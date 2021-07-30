@@ -4,15 +4,15 @@ import Heading from "../reusables/Heading";
 import Placeholder from "../reusables/Placeholder";
 
 interface IProps {
-  price: string;
-  sale: boolean;
-  discount: number | null;
+  price?: string;
+  sale?: boolean;
+  discount?: number | null;
 }
 const ProductPrice = ({ price, discount, sale }: IProps) => {
   const { t } = useTranslation();
   return (
     <Placeholder
-      height="28px"
+      height="25px"
       width="25%"
       ready={Boolean(price)}
       margin="1rem 0"

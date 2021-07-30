@@ -45,6 +45,7 @@ const LayoutDesktop: React.FC = ({ children }) => {
     };
   }, []);
   const { isDesktop } = useResponsive();
+  console.log(children);
   return (
     <Wrapper>
       <CSSTransition
@@ -86,10 +87,8 @@ const Wrapper = styled.div(
   }
   ${up(breakpoints.md)}{
     .content-container {
-      padding:1rem 0;
-      
+      padding:1rem 0; 
     }
-    
   }
   `
 );

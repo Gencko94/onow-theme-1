@@ -226,7 +226,7 @@ const Modal = styled(ModalWrapper)(
       inset:200px 350px;
   }
   ${up(breakpoints.xl)}{
-    inset:200px 550px;
+    inset:180px 550px;
   }
   `
 );

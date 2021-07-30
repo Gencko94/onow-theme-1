@@ -20,7 +20,7 @@ const Route = ({ component, path, exact }: IProps) => {
           onReset={reset}
         >
           <Suspense fallback={<div>Loading</div>}>
-            <RouterRoute exact={exact} component={component} path={path} />;
+            <RouterRoute exact={exact} component={component} path={path} />
           </Suspense>
         </ErrorBoundary>
       )}

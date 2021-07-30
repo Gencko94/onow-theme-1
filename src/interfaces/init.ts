@@ -1,4 +1,4 @@
-import { Product } from './product';
+import { Product } from "./product";
 
 export type STORE_NAME = {
   [key: string]: string;
@@ -10,6 +10,8 @@ export type STORE_IMAGES = {
 };
 export type STORE_THEME = {
   primary_color: string;
+  header_type: "photo";
+  product_view: "bar" | "grid" | "list";
 };
 export type PAYMENT_METHOD = {
   name: {
