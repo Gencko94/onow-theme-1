@@ -57,7 +57,7 @@ export default Breadcrumbs;
 const Container = styled.nav(
   ({ theme: { breakpoints, font, headingColor, border } }) => `
   
-  padding:0 0 0.5rem 0;
+  padding:0.5rem;
   border-bottom:${border};
   .links-container {
       p {

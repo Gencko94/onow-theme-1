@@ -4,7 +4,6 @@ import ReactPlaceholder from "react-placeholder/lib";
 import { useQuery } from "react-query";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
-import Hero from "../components/Home/Hero/Hero";
 import HomeProduct from "../components/HomeCategories/HomeProduct";
 import Breadcrumbs from "../components/reusables/Breadcrumbs";
 import Grid from "../components/reusables/Grid";

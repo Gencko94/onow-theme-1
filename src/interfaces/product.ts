@@ -9,7 +9,7 @@ export interface Product {
   image: string;
   qty: number | null;
   max_qty_allowed: number;
-  gallery: string[];
+  gallery: { id: number; link: string }[];
   category: {
     name: {
       [key: string]: string;

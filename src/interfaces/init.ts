@@ -5,12 +5,14 @@ export type STORE_NAME = {
 };
 export type STORE_IMAGES = {
   logo: string;
-  heroImage_desktop: string;
-  heroImage_mobile: string;
+  favIcon: string;
 };
 export type STORE_THEME = {
   primary_color: string;
-  header_type: "photo";
+  header_type: "photo" | "slider" | "video";
+  photo_url: string;
+  images_url: string[];
+  video_url: string;
   product_view: "bar" | "grid" | "list";
 };
 export type PAYMENT_METHOD = {
@@ -20,7 +22,11 @@ export type PAYMENT_METHOD = {
   id: number;
   logo: string;
 };
-
+export type STORE_COUNTRY = {
+  id: number;
+  name: { [key: string]: string };
+  currency: { [key: string]: string };
+};
 export type DEALS = {
   title: { [key: string]: string };
   products: Product[];
@@ -31,7 +37,7 @@ export interface Init {
   store_theme: STORE_THEME;
   payment_methods: PAYMENT_METHOD[];
   order_modes: string[];
-  cart_total: string;
+  country: STORE_COUNTRY;
   categories: number[];
   deals: DEALS;
 }

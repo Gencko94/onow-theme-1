@@ -17,7 +17,7 @@ import {
   EDIT_CART_REQUEST,
   GET_CART_RESPONSE,
 } from "../interfaces/Cart";
-import { Category } from "../interfaces/categories";
+import { Category, CATEGORY_WITH_PRODUCTS } from "../interfaces/categories";
 import { DEALS, Init } from "../interfaces/init";
 import { Product } from "../interfaces/product";
 
@@ -37,21 +37,33 @@ export const getGeneralInfo = async (): Promise<Init> => {
 
   return res.data.results;
 };
-export const getProduct = async (id: string) => {
-  // export const getProduct = async (id: string): Promise<Product> => {
-  const res = await axios.get(`${uri}/products/${id}`);
+// export const getProduct = async (id: string): => {
+export const getProduct = async (id: string): Promise<Product> => {
+  const config: AxiosRequestConfig = {
+    headers: {
+      domain: "spp.test.co",
+    },
+  };
+  const res = await axios.get(`${clientURI}/products/${id}`, config);
 
-  return res.data.resuts;
+  return res.data.results;
 };
 export const getCategory = async (id: number | string): Promise<Category> => {
-  const res = await axios.get(`${uri}/categories/${id}`);
+  const res = await axios.get(`${clientURI}/categories/${id}`);
 
-  return res.data;
+  return res.data.results;
 };
-export const getCategories = async (): Promise<Category[]> => {
-  const res = await axios.get(`${uri}/categories`);
+export const getCategoriesWithProducts = async (): Promise<
+  CATEGORY_WITH_PRODUCTS[]
+> => {
+  const config: AxiosRequestConfig = {
+    headers: {
+      domain: "spp.test.co",
+    },
+  };
+  const res = await axios.get(`${clientURI}/categories`, config);
 
-  return res.data;
+  return res.data.results;
 };
 
 export const addToCart = async (

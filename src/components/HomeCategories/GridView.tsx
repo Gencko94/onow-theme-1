@@ -1,7 +1,7 @@
 import { useTranslation } from "react-i18next";
 import { useHistory } from "react-router-dom";
 import styled from "styled-components";
-import { Category } from "../../interfaces/categories";
+import { Category, CATEGORY_WITH_PRODUCTS } from "../../interfaces/categories";
 import { Product } from "../../interfaces/product";
 import Button from "../reusables/Button";
 import Flex from "../reusables/Flex";
@@ -9,7 +9,7 @@ import Grid from "../reusables/Grid";
 import Heading from "../reusables/Heading";
 import HomeProduct from "./HomeProduct";
 interface IProps {
-  categories: Category[];
+  categories: CATEGORY_WITH_PRODUCTS[];
 }
 const GridView = ({ categories }: IProps) => {
   const history = useHistory();
@@ -18,7 +18,7 @@ const GridView = ({ categories }: IProps) => {
   } = useTranslation();
   return (
     <Container>
-      {categories.map((category: any) => {
+      {categories.map((category) => {
         return (
           <div className="category">
             <Flex margin="2rem 0" items="center" justify="space-between">
@@ -36,7 +36,7 @@ const GridView = ({ categories }: IProps) => {
                 }}
               />
             </Flex>
-            <Grid cols="repeat(auto-fit,minmax(275px,1fr))" gap="2rem">
+            <Grid cols="repeat(auto-fill,minmax(275px,1fr))" gap="2rem">
               {category.products.map((product: any) => (
                 <HomeProduct key={product.id} product={product} />
               ))}

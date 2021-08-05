@@ -17,7 +17,7 @@ const ProductDescription = ({
       ready={Boolean(description)}
       margin="1rem 0"
     >
-      <Paragraph color="textSecondary" fontSize="0.9rem" margin="1rem 0">
+      <Paragraph color="textSecondary" fontSize="1rem" margin="2rem 0 ">
         {description?.[language]}
       </Paragraph>
     </Placeholder>

@@ -1,4 +1,6 @@
+import { useContext } from "react";
 import { useTranslation } from "react-i18next";
+import { ApplicationProvider } from "../../contexts/ApplicationContext";
 import Flex from "../reusables/Flex";
 import Heading from "../reusables/Heading";
 import Placeholder from "../reusables/Placeholder";
@@ -9,7 +11,11 @@ interface IProps {
   discount?: number | null;
 }
 const ProductPrice = ({ price, discount, sale }: IProps) => {
-  const { t } = useTranslation();
+  const { country } = useContext(ApplicationProvider);
+  const {
+    t,
+    i18n: { language },
+  } = useTranslation();
   return (
     <Placeholder
       height="25px"
@@ -20,7 +26,7 @@ const ProductPrice = ({ price, discount, sale }: IProps) => {
       {sale ? (
         <Flex>
           <Heading tag="h4" color="green" weight="bold" margin="0.5rem 0">
-            {price} {t("kd")}
+            {price} {country?.currency[language]}
           </Heading>
           <Heading
             tag="h6"
@@ -29,12 +35,12 @@ const ProductPrice = ({ price, discount, sale }: IProps) => {
             weight="bold"
             margin="0 0.5rem"
           >
-            {price} {t("kd")}
+            {price} {country?.currency[language]}
           </Heading>
         </Flex>
       ) : (
         <Heading tag="h4" color="green" weight="bold">
-          {price} {t("kd")}
+          {price} {country?.currency[language]}
         </Heading>
       )}
     </Placeholder>

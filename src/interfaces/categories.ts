@@ -10,7 +10,7 @@ export interface Category {
   products: Product[];
 }
 
-export interface CATEGORY_WITH_ {
+export interface CATEGORY_WITH_PRODUCTS {
   name: {
     [key: string]: string;
   };

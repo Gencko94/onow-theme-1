@@ -1,7 +1,9 @@
+import { useContext } from "react";
 import { useTranslation } from "react-i18next";
 import { IoMdTime } from "react-icons/io";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
+import { ApplicationProvider } from "../../contexts/ApplicationContext";
 import { Product } from "../../interfaces/product";
 import Flex from "../reusables/Flex";
 import Heading from "../reusables/Heading";
@@ -12,6 +14,7 @@ interface IProps {
 }
 
 const HomeProduct = ({ product }: IProps) => {
+  const { country } = useContext(ApplicationProvider);
   const {
     i18n: { language },
   } = useTranslation();
@@ -65,7 +68,7 @@ const HomeProduct = ({ product }: IProps) => {
         {product.sale ? (
           <Flex>
             <Heading tag="h5" color="green" weight="bold">
-              {product.price} {t("kd")}
+              {product.price} {country?.currency[language]}
             </Heading>
             <Heading
               tag="h6"
@@ -74,12 +77,12 @@ const HomeProduct = ({ product }: IProps) => {
               weight="bold"
               margin="0 0.5rem"
             >
-              {product.price} {t("kd")}
+              {product.price} {country?.currency[language]}
             </Heading>
           </Flex>
         ) : (
           <Heading tag="h5" color="green" weight="bold">
-            {product.price} {t("kd")}
+            {product.price} {country?.currency[language]}
           </Heading>
         )}
       </div>

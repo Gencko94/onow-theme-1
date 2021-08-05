@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { Dispatch, SetStateAction, useContext, useState } from "react";
 import { useTranslation } from "react-i18next";
 import styled from "styled-components";
 import useResponsive from "../hooks/useResponsive";
@@ -7,7 +7,6 @@ import { useMutation, useQuery, useQueryClient } from "react-query";
 import { useParams, useHistory } from "react-router";
 import { addToCart, addToGuestCart, getProduct } from "../utils/queries";
 
-import { m, Variants } from "framer-motion";
 import { AuthProvider } from "../contexts/AuthContext";
 import { ApplicationProvider } from "../contexts/ApplicationContext";
 
@@ -23,41 +22,42 @@ import ProductImage from "../components/ProductComponents/ProductImage";
 import { OrderProvider } from "../contexts/OrderContext";
 import { up } from "../utils/themes";
 import Placeholder from "../components/reusables/Placeholder";
-const containerVariants: Variants = {
-  hidden: {
-    x: "100%",
-    opacity: 0,
-  },
-  visible: {
-    x: 0,
-    opacity: 1,
-    transition: {
-      type: "tween",
-    },
-  },
-  exit: {
-    x: "-100%",
-    opacity: 0,
-  },
-};
+import { createContext } from "react";
+
+export interface ADD_TO_CART {
+  quantity: number;
+  optionalNotes: string;
+  files: File[];
+  options: any;
+}
+export const ProductProvider = createContext<
+  Partial<{
+    formValues: ADD_TO_CART;
+    setFormValues: Dispatch<SetStateAction<ADD_TO_CART>>;
+  }>
+>({});
 const Product = () => {
   const { id } = useParams<{ id: string }>();
   const { user } = useContext(AuthProvider);
   const { globalOrderMode } = useContext(OrderProvider);
-  const [formValues, setFormValues] = useState({
-    quantity: 1,
-    optionalNotes: "",
-    files: [],
-    options: [],
+  const [formValues, setFormValues] = useState<ADD_TO_CART>(() => {
+    return {
+      quantity: 1,
+      optionalNotes: "",
+      files: [],
+      options: [],
+    };
   });
-  const [quantity, setQuantity] = useState(1);
-  const [optionalNotes, setOptionalNotes] = useState("");
-  const [files, setFiles] = useState<File[]>([]);
-  const [options, setOptions] = useState([]);
-  const { data: product } = useQuery(["product", id], () => getProduct(id), {
-    // suspense: true,
-  });
+
+  const { data: product } = useQuery(
+    ["product", parseInt(id)],
+    () => getProduct(id),
+    {
+      // suspense: true,
+    }
+  );
   const history = useHistory();
+
   const {
     mutateAsync: addToUserCartMutation,
     isLoading: addToUserCartLoading,
@@ -83,7 +83,7 @@ const Product = () => {
       if (user) {
         try {
           await addToUserCartMutation({
-            quantity,
+            quantity: formValues.quantity,
             id: product.id,
           });
           history.push("/cart");
@@ -93,7 +93,7 @@ const Product = () => {
       } else {
         try {
           await addToGuestCartMutation({
-            quantity,
+            quantity: formValues.quantity,
             id: product.id,
           });
           history.push("/cart");
@@ -104,53 +104,42 @@ const Product = () => {
     }
   };
   return (
-    <Container
-    // variants={containerVariants}
-    // initial="hidden"
-    // animate="visible"
-    // exit="exit"
-    >
-      <Placeholder
-        height="30px"
-        width="60%"
-        ready={Boolean(product)}
-        margin="1rem 0"
-      >
-        <Breadcrumbs
-          children={[
-            { name: product?.category?.name!, target: "/category" },
-            { name: product?.name!, target: "" },
-          ]}
-        />
-      </Placeholder>
-      <ContentContainer>
-        <ProductImage image={product?.image} gallery={product?.gallery} />
-
-        {/* content */}
-        <div>
-          <ProductName name={product?.name} />
-
-          <ProductPrice
-            price={product?.price}
-            discount={product?.discount}
-            sale={product?.sale}
+    <ProductProvider.Provider value={{ formValues, setFormValues }}>
+      <Container>
+        <Placeholder
+          height="30px"
+          width="60%"
+          ready={Boolean(product)}
+          margin="1rem 0"
+        >
+          <Breadcrumbs
+            children={[
+              { name: product?.category?.name!, target: "/category" },
+              { name: product?.name!, target: "" },
+            ]}
           />
-          <ProductDescription description={product?.description} />
-          {product && <Hr />}
-          <ProductOptions options={product?.options} />
-          {product && <Hr />}
-          {/* <ProductOrdering
-            setQuantity={setQuantity}
-            quantity={quantity}
-            loading={!product}
-            optionalNotes={optionalNotes}
-            setOptionalNotes={setOptionalNotes}
-            files={files}
-            setFiles={setFiles}
-          /> */}
-        </div>
-      </ContentContainer>
-    </Container>
+        </Placeholder>
+        <ContentContainer>
+          <ProductImage image={product?.image} gallery={product?.gallery} />
+
+          {/* content */}
+          <div>
+            <ProductName name={product?.name} />
+
+            <ProductPrice
+              price={product?.price}
+              discount={product?.discount}
+              sale={product?.sale}
+            />
+            <ProductDescription description={product?.description} />
+
+            <ProductOptions options={product?.options} />
+
+            <ProductOrdering loading={!product} />
+          </div>
+        </ContentContainer>
+      </Container>
+    </ProductProvider.Provider>
   );
 };
 // {globalOrderMode && (
@@ -186,7 +175,7 @@ const Container = styled.div(
   
   
   ${up(breakpoints.md)}{
-  min-height:calc(100vh - 200px);
+  // min-height:calc(100vh - 200px);
     
   
   }

@@ -5,16 +5,16 @@ import styled from "styled-components";
 
 interface IProps {
   quantity: number;
-  setQuantity: Dispatch<SetStateAction<number>>;
+  onChange: (q: number) => void;
 }
 
-const QuantityButtons = ({ quantity, setQuantity }: IProps) => {
+const QuantityButtons = ({ quantity, onChange }: IProps) => {
   const increment = () => {
-    setQuantity((prev) => prev + 1);
+    onChange(quantity + 1);
   };
   const decrement = () => {
     if (quantity === 1) return;
-    setQuantity((prev) => prev - 1);
+    onChange(quantity - 1);
   };
   return (
     <Container>

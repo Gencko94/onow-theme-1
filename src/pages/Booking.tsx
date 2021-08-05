@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import Hero from "../components/Home/Hero/Hero";
 import Layout from "../layout/Layout";
 import Select from "react-select";
 import { branches } from "../data/branches";
@@ -54,7 +53,6 @@ const Booking = () => {
 
   return (
     <Layout>
-      <Hero />
       <Container>
         <Title>Booking</Title>
         <ContentContainer>

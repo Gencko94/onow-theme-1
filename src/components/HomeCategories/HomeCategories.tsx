@@ -5,7 +5,7 @@ import "swiper/swiper-bundle.css";
 import { useContext } from "react";
 import { ApplicationProvider } from "../../contexts/ApplicationContext";
 import { useQuery } from "react-query";
-import { getCategories } from "../../utils/queries";
+import { getCategoriesWithProducts } from "../../utils/queries";
 import Flex from "../reusables/Flex";
 import Button from "../reusables/Button";
 import BarView from "./BarView";
@@ -13,12 +13,18 @@ import GridView from "./GridView";
 import ListView from "./ListView";
 import Heading from "../reusables/Heading";
 import { categories } from "../../data/categories";
+import { CATEGORY_WITH_PRODUCTS } from "../../interfaces/categories";
+import { FaDatabase } from "react-icons/fa";
 
 const HomeCategories = () => {
   const { t } = useTranslation();
   const { handleToggleProductsView, productsView } =
     useContext(ApplicationProvider);
-  const { data } = useQuery("categories", getCategories, { suspense: true });
+  const { data } = useQuery<CATEGORY_WITH_PRODUCTS[]>(
+    "categories",
+    getCategoriesWithProducts,
+    { suspense: true }
+  );
 
   return (
     <Container>
@@ -57,11 +63,11 @@ const HomeCategories = () => {
         />
       </Flex>
       {productsView === "bar" ? (
-        <BarView categories={categories as any} />
+        <BarView categories={data!} />
       ) : productsView === "grid" ? (
-        <GridView categories={categories as any} />
+        <GridView categories={data!} />
       ) : productsView === "list" ? (
-        <ListView categories={categories as any} />
+        <ListView categories={data!} />
       ) : null}
       {/* {data?.map((category) => (
         <HomeCategory key={category.id} category={category} />

@@ -1,7 +1,6 @@
 import { useContext } from "react";
 import { useTranslation } from "react-i18next";
 import styled from "styled-components";
-import Hero from "../components/Home/Hero/Hero";
 import HomeCategories from "../components/HomeCategories/HomeCategories";
 import { ApplicationProvider } from "../contexts/ApplicationContext";
 import { categories } from "../data/categories";

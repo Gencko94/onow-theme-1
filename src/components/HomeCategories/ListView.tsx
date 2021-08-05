@@ -3,7 +3,7 @@ import { Product } from "../../interfaces/product";
 import { Swiper, SwiperSlide } from "swiper/react";
 import SwiperCore, { Navigation } from "swiper";
 import HomeProduct from "./HomeProduct";
-import { Category } from "../../interfaces/categories";
+import { Category, CATEGORY_WITH_PRODUCTS } from "../../interfaces/categories";
 import Flex from "../reusables/Flex";
 import Button from "../reusables/Button";
 import Heading from "../reusables/Heading";
@@ -12,7 +12,7 @@ import { useTranslation } from "react-i18next";
 import Grid from "../reusables/Grid";
 SwiperCore.use([Navigation]);
 interface IProps {
-  categories: Category[];
+  categories: CATEGORY_WITH_PRODUCTS[];
 }
 const breakpoints = {
   // when window width is >= 320px
@@ -50,7 +50,7 @@ const ListView = ({ categories }: IProps) => {
   } = useTranslation();
   return (
     <Container>
-      {categories.map((category: any) => {
+      {categories.map((category) => {
         return (
           <div className="category">
             <Flex margin="2rem 0" items="center" justify="space-between">

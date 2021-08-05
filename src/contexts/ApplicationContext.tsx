@@ -33,6 +33,9 @@ export type AuthModalStatus = {
 };
 export const ApplicationProvider = createContext<Partial<ContextProps>>({});
 const ApplicationContext: React.FC = ({ children }) => {
+  const { data } = useQuery("application-data", getGeneralInfo, {
+    suspense: true,
+  });
   const [drawerOpen, setDrawerOpen] = useState(false);
 
   const [authModalStatus, setAuthModalStatus] = useState<AuthModalStatus>({
@@ -49,11 +52,11 @@ const ApplicationContext: React.FC = ({ children }) => {
   });
 
   const [productsView, setProductsView] = useState<"grid" | "list" | "bar">(
-    "bar"
+    () => {
+      return data!.store_theme.product_view;
+    }
   );
-  const { data } = useQuery("application-data", getGeneralInfo, {
-    suspense: true,
-  });
+
   const handleCloseToast = useCallback(() => {
     setToastStatus((prev) => ({
       ...prev,
@@ -93,10 +96,11 @@ const ApplicationContext: React.FC = ({ children }) => {
         store_images: data?.store_images,
         store_name: data?.store_name,
         payment_methods: data?.payment_methods,
-        cart_total: data?.cart_total,
+
         order_modes: data?.order_modes,
         categories: data?.categories,
         deals: data?.deals,
+        country: data?.country,
         drawerOpen,
         handleToggleDrawer,
         handleToggleProductsView,

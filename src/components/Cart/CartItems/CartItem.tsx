@@ -110,7 +110,7 @@ const CartItem = ({}: Props) => {
             <QuantityContainer>
               <Paragraph>{quantity}</Paragraph>
             </QuantityContainer>
-            <QuantityButtons quantity={quantity} setQuantity={setQuantity} />
+            <QuantityButtons quantity={quantity} onChange={(q) => {}} />
           </Flex>
           <Paragraph fontSize="1.1rem" weight="bold">
             3.000 {t("kd")}

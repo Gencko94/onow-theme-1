@@ -1,6 +1,7 @@
-import { SetStateAction } from "react";
-import { Dispatch } from "react";
+import { useContext } from "react";
+
 import styled from "styled-components";
+import { ProductProvider } from "../../pages/Product";
 import Button from "../reusables/Button";
 import FileUploader from "../reusables/FileUploader";
 import Flex, { FlexWrapper } from "../reusables/Flex";
@@ -11,24 +12,11 @@ import QuantityButtons from "../reusables/QuantityButtons";
 import Textarea from "../reusables/Textarea";
 
 interface IProps {
-  optionalNotes: string;
-  setOptionalNotes: Dispatch<SetStateAction<string>>;
   loading: boolean;
-  quantity: number;
-  setQuantity: Dispatch<SetStateAction<number>>;
-  files: File[];
-  setFiles: Dispatch<SetStateAction<File[]>>;
 }
 
-const ProductOrdering = ({
-  optionalNotes,
-  setOptionalNotes,
-  setQuantity,
-  loading,
-  quantity,
-  files,
-  setFiles,
-}: IProps) => {
+const ProductOrdering = ({ loading }: IProps) => {
+  const { formValues, setFormValues } = useContext(ProductProvider);
   return (
     <div>
       <div>
@@ -44,16 +32,36 @@ const ProductOrdering = ({
           </Heading>
         </Placeholder>
         <Placeholder height="28px" ready={!loading}>
-          <Textarea setValue={setOptionalNotes} value={optionalNotes} />
+          <Textarea
+            onChange={(val) => {
+              setFormValues?.((prev) => {
+                return {
+                  ...prev,
+                  optionalNotes: val,
+                };
+              });
+            }}
+            value={formValues!.optionalNotes}
+          />
         </Placeholder>
       </div>
       <Flex items="center" justify="space-between" margin="1rem 0">
         <Flex items="center" justify="center" margin="0">
           <Paragraph>Quantity</Paragraph>
           <QuantityContainer>
-            <Paragraph>{quantity}</Paragraph>
+            <Paragraph>{formValues?.quantity}</Paragraph>
           </QuantityContainer>
-          <QuantityButtons quantity={quantity} setQuantity={setQuantity} />
+          <QuantityButtons
+            quantity={formValues!.quantity}
+            onChange={(quantity) =>
+              setFormValues?.((prev) => {
+                return {
+                  ...prev,
+                  quantity,
+                };
+              })
+            }
+          />
         </Flex>
         <Button text="Select Order Mode" bg="danger" padding="0.5rem" />
       </Flex>

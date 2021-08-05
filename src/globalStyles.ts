@@ -2,15 +2,7 @@ import { createGlobalStyle } from "styled-components";
 import { up } from "./utils/themes";
 
 const GlobalStyle = createGlobalStyle(
-  ({
-    theme: {
-      breakpoints,
-
-      bodyColor,
-      textColor,
-      borderHovered,
-    },
-  }) => `
+  ({ theme: { breakpoints, bodyColor, textColor, borderHovered } }) => `
 
 
 * ,*::before,*::after{
@@ -119,7 +111,6 @@ input , textarea {
  min-width:0;
  transition:200ms all ease;
  &:hover {
-
   border-color:${borderHovered} !important;
  }
 }
@@ -156,9 +147,6 @@ ${up(breakpoints.md)}{
     font-size:1rem;
     line-height:1.25rem; 
   }
-  
-  
-  
 }
 
 `

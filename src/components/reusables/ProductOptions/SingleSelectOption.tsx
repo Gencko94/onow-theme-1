@@ -1,6 +1,8 @@
+import { useContext } from "react";
 import { useTranslation } from "react-i18next";
 import styled from "styled-components";
 import { PRODUCT_OPTION } from "../../../interfaces/product";
+import { ProductProvider } from "../../../pages/Product";
 import RadioButton from "../RadioButton";
 
 interface IProps {
@@ -8,6 +10,7 @@ interface IProps {
 }
 
 const SingleSelectOption = ({ option }: IProps) => {
+  const { formValues, setFormValues } = useContext(ProductProvider);
   const {
     i18n: { language },
   } = useTranslation();
@@ -17,9 +20,17 @@ const SingleSelectOption = ({ option }: IProps) => {
         return (
           <Container>
             <RadioButton
-              onChange={() => {}}
+              onChange={() => {
+                setFormValues?.((prev) => ({
+                  ...prev,
+                  options: {
+                    ...prev.options,
+                    [option.id]: value.id,
+                  },
+                }));
+              }}
               label={value.name[language]}
-              checked={true}
+              checked={formValues?.options[option.id] === value.id}
             />
           </Container>
         );

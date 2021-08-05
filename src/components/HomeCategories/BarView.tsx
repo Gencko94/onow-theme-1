@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { Category } from "../../interfaces/categories";
+import { Category, CATEGORY_WITH_PRODUCTS } from "../../interfaces/categories";
 import { Swiper, SwiperSlide } from "swiper/react";
 import SwiperCore, { Navigation } from "swiper";
 import HomeProduct from "./HomeProduct";
@@ -10,7 +10,7 @@ import { useState } from "react";
 import Grid from "../reusables/Grid";
 SwiperCore.use([Navigation]);
 interface IProps {
-  categories: Category[];
+  categories: CATEGORY_WITH_PRODUCTS[];
 }
 const breakpoints = {
   // when window width is >= 320px
@@ -56,7 +56,7 @@ const BarView = ({ categories }: IProps) => {
           slidesPerView={1.5}
           watchSlidesVisibility
         >
-          {categories.map((category: any, index) => {
+          {categories.map((category, index) => {
             return (
               <SwiperSlide key={category.id}>
                 {({ isActive }) => {
@@ -76,7 +76,7 @@ const BarView = ({ categories }: IProps) => {
           })}
         </Swiper>
       </div>
-      <Grid cols="repeat(auto-fit,minmax(250px,1fr))" gap="2rem">
+      <Grid cols="repeat(auto-fill,minmax(250px,1fr))" gap="2rem">
         {categories[activeIndex].products.map((product: any) => (
           <HomeProduct key={product.id} product={product} />
         ))}

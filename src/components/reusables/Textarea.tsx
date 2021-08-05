@@ -7,11 +7,11 @@ import styled from "styled-components";
 interface IProps {
   rows?: number;
   value: string;
-  setValue: Dispatch<SetStateAction<string>>;
+  onChange: (value: string) => void;
   desc?: string;
 }
 
-const Textarea = ({ rows = 4, setValue, value, desc }: IProps) => {
+const Textarea = ({ rows = 4, onChange, value, desc }: IProps) => {
   const {
     i18n: { language },
   } = useTranslation();
@@ -19,7 +19,7 @@ const Textarea = ({ rows = 4, setValue, value, desc }: IProps) => {
     <Container>
       <textarea
         value={value}
-        onChange={(e) => setValue(e.target.value)}
+        onChange={(e) => onChange(e.target.value)}
         rows={rows}
       />
 
